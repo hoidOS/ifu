@@ -14,6 +14,7 @@ function ConstAccel() {
     const handleScreenshot = async (tableId: string, filename: string) => {
         const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
         const tables = document.querySelectorAll(`#${tableId} table`);
+        const containers = document.querySelectorAll(`#${tableId} .p-4`);
         
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'none';
@@ -22,6 +23,10 @@ function ConstAccel() {
         tables.forEach(table => {
             (table as HTMLElement).style.border = 'none';
             (table as HTMLElement).style.boxShadow = 'none';
+        });
+        
+        containers.forEach(container => {
+            (container as HTMLElement).style.backgroundColor = 'transparent';
         });
         
         const element = document.getElementById(tableId);
@@ -53,11 +58,16 @@ function ConstAccel() {
             (table as HTMLElement).style.border = '';
             (table as HTMLElement).style.boxShadow = '';
         });
+        
+        containers.forEach(container => {
+            (container as HTMLElement).style.backgroundColor = '';
+        });
     };
 
     const handleClipboard = async (tableId: string) => {
         const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
         const tables = document.querySelectorAll(`#${tableId} table`);
+        const containers = document.querySelectorAll(`#${tableId} .p-4`);
         
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'none';
@@ -66,6 +76,10 @@ function ConstAccel() {
         tables.forEach(table => {
             (table as HTMLElement).style.border = 'none';
             (table as HTMLElement).style.boxShadow = 'none';
+        });
+        
+        containers.forEach(container => {
+            (container as HTMLElement).style.backgroundColor = 'transparent';
         });
         
         const element = document.getElementById(tableId);
@@ -123,6 +137,10 @@ function ConstAccel() {
         tables.forEach(table => {
             (table as HTMLElement).style.border = '';
             (table as HTMLElement).style.boxShadow = '';
+        });
+        
+        containers.forEach(container => {
+            (container as HTMLElement).style.backgroundColor = '';
         });
     };
 

@@ -28,6 +28,7 @@ function Stop() {
   const handleScreenshot = async () => {
     const buttons = document.querySelectorAll('#screenshot-button, #clipboard-button');
     const tables = document.querySelectorAll('#results-print table');
+    const containers = document.querySelectorAll('#results-print .p-4');
     
     buttons.forEach(button => {
       (button as HTMLElement).style.display = 'none';
@@ -36,6 +37,10 @@ function Stop() {
     tables.forEach(table => {
       (table as HTMLElement).style.border = 'none';
       (table as HTMLElement).style.boxShadow = 'none';
+    });
+    
+    containers.forEach(container => {
+      (container as HTMLElement).style.backgroundColor = 'transparent';
     });
     
     const element = document.getElementById('results-print');
@@ -70,11 +75,16 @@ function Stop() {
       (table as HTMLElement).style.border = '';
       (table as HTMLElement).style.boxShadow = '';
     });
+    
+    containers.forEach(container => {
+      (container as HTMLElement).style.backgroundColor = '';
+    });
   };
 
   const handleClipboard = async () => {
     const buttons = document.querySelectorAll('#screenshot-button, #clipboard-button');
     const tables = document.querySelectorAll('#results-print table');
+    const containers = document.querySelectorAll('#results-print .p-4');
     
     buttons.forEach(button => {
       (button as HTMLElement).style.display = 'none';
@@ -83,6 +93,10 @@ function Stop() {
     tables.forEach(table => {
       (table as HTMLElement).style.border = 'none';
       (table as HTMLElement).style.boxShadow = 'none';
+    });
+    
+    containers.forEach(container => {
+      (container as HTMLElement).style.backgroundColor = 'transparent';
     });
     
     const element = document.getElementById('results-print');
@@ -161,6 +175,10 @@ function Stop() {
     tables.forEach(table => {
       (table as HTMLElement).style.border = '';
       (table as HTMLElement).style.boxShadow = '';
+    });
+    
+    containers.forEach(container => {
+      (container as HTMLElement).style.backgroundColor = '';
     });
   };
 
