@@ -5,7 +5,7 @@
 @layer base {
   html,
   body {
-    @apply bg-[#e6e8eb] font-sans tracking-wide grid scroll-smooth scroll-mt-12;
+    @apply font-sans tracking-wide grid scroll-smooth scroll-mt-12 bg-gradient-to-b from-slate-50 to-slate-100 text-slate-700;
   }
   * {
     @apply box-border;
@@ -17,17 +17,17 @@
     @apply font-bold text-[1.75rem];
   }
   table {
-    @apply font-sans border-collapse w-full;
+    @apply w-full border-collapse text-sm md:text-base;
   }
   td,
   th {
-    @apply border-[1px] border-solid border-[#787a7b] p-2 text-center;
+    @apply border border-slate-200 p-3 text-left align-middle;
   }
   tr:nth-child(odd) {
-    @apply bg-[#dddddd];
+    @apply bg-white;
   }
   tr:nth-child(even) {
-    @apply bg-[#ffffff];
+    @apply bg-slate-50;
   }
   input {
     @apply rounded border-[1px] border-solid border-[#ccc] h-8 max-w-[110px] text-right px-2 py-[10px];
@@ -38,6 +38,13 @@
 }
 
 @layer utilities {
+  .table-compact {
+    @apply text-sm;
+  }
+  .table-compact td,
+  .table-compact th {
+    @apply p-2;
+  }
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;

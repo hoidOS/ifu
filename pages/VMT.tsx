@@ -29,7 +29,7 @@ function VMT() {
 
     return (
 
-        <div className="grid xl:grid-cols-2 m-0 gap-5 p-4">
+        <div className="grid gap-6 mx-auto max-w-7xl px-4 py-8 lg:grid-cols-2">
             <Head>
                 <title>VMT | ESO</title>
                 <link rel="icon" href="/favicon.ico" />
@@ -37,8 +37,8 @@ function VMT() {
             </Head>
 
 
-            <div className="flex  bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
-                <h1 className="pr-4 text-center text-[#fff] self-center">ESO</h1>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h2 className="pr-4 text-left text-primary-700 mb-2">ESO</h2>
                 <table>
                     <tbody>
                         <tr>
@@ -60,7 +60,7 @@ function VMT() {
                 </table>
             </div>
 
-            <div className="flex  bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <table>
                     <tbody>
                         <tr>
@@ -83,8 +83,8 @@ function VMT() {
                 </table>
             </div>
 
-            <div className="flex  bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
-                <h1 className="pr-4 text-center text-[#fff] self-center">Riegl</h1>
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <h2 className="pr-4 text-left text-primary-700 mb-2">Riegl</h2>
                 <table>
                     <tbody>
                         <tr>
@@ -106,7 +106,7 @@ function VMT() {
                 </table>
             </div>
 
-            <div className="flex  bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
+            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                 <table>
                     <tbody>
                         <tr>

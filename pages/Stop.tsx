@@ -41,11 +41,14 @@ function Stop() {
         <meta name="viewport" content="width=device-width" />
       </Head>
 
-      <div className="grid 2xl:grid-cols-2 m-0 gap-5 p-4">
+      <div className="grid gap-6 mx-auto max-w-screen-2xl px-4 py-6 md:grid-cols-2">
 
-        <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
-          <h1 className="pr-6 text-center text-[#fff] self-center">Anhaltevorgang</h1>
-          <table className="self-center">
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-[#0059a9] text-white px-4 py-2">
+            <h2 className="text-base font-semibold">Anhaltevorgang</h2>
+          </div>
+          <div className="p-4">
+          <table className="self-center table-compact">
             <tbody>
               <tr className="text-[#0059a9]">
                 <th>Art</th>
@@ -106,10 +109,15 @@ function Stop() {
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
 
-        <div className="bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
-          <table>
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-[#0059a9] text-white px-4 py-2">
+            <h2 className="text-base font-semibold">Ergebnisse</h2>
+          </div>
+          <div className="p-4">
+          <table className="table-compact">
             <tbody>
               <tr className="text-[#0059a9]">
                 <th>Art</th>
@@ -197,6 +205,7 @@ function Stop() {
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
 
       </div>

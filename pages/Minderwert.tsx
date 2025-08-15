@@ -12,7 +12,7 @@ function Minderwert() {
 
     return (
         <>
-            <div className="grid m:grid-cols-2 m-20 gap-5 p-10">
+            <div className="grid gap-6 mx-auto max-w-7xl px-4 py-8 md:grid-cols-2">
                 <Head>
                     <title>Minderwert</title>
                     <link rel="icon" href="/favicon.ico" />
@@ -25,8 +25,8 @@ function Minderwert() {
 
 
 
-                <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
-                    <h1 className="pr-6 text-center text-[#fff] self-center">BVSK</h1>
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h2 className="pr-6 text-left text-primary-700 mb-2">BVSK</h2>
                     <table>
                         <tbody>
                             <tr>
@@ -68,8 +68,8 @@ function Minderwert() {
                     </table>
                 </div>
 
-                <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
-                    <h1 className="pr-6 text-center text-[#fff] self-center">MFM</h1>
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                    <h2 className="pr-6 text-left text-primary-700 mb-2">MFM</h2>
                     <table>
                         <tbody>
                             <tr>
@@ -151,7 +151,7 @@ function Minderwert() {
                         </tbody>
                     </table>
                 </div>
-                <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
+                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
                     <table>
                         <tbody>
                             <tr>

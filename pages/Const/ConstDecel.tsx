@@ -171,8 +171,11 @@ function ConstDecel() {
 
     return (
         <>
-            <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
-                <h1 className="pr-6 text-center text-[#fff] self-center">konstante Verzögerung</h1>
+            <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                <div className="bg-[#0059a9] text-white px-6 py-3">
+                    <h2 className="text-lg font-semibold">konstante Verzögerung</h2>
+                </div>
+                <div className="p-6">
                 <table>
                     <tbody>
                         <tr>
@@ -233,9 +236,14 @@ function ConstDecel() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
-            <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
+            <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                <div className="bg-[#0059a9] text-white px-6 py-3">
+                    <h2 className="text-lg font-semibold">Berechnungen</h2>
+                </div>
+                <div className="p-6">
                 <table>
                     <tbody>
                         <tr>
@@ -276,6 +284,7 @@ function ConstDecel() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
         </>
     )
