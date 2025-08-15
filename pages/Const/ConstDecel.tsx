@@ -23,7 +23,6 @@ function ConstDecel() {
                 const canvas = await html2canvas(element, {
                     useCORS: true,
                     allowTaint: true,
-                    scale: 2,
                     logging: false,
                     foreignObjectRendering: false,
                     imageTimeout: 15000,
@@ -56,7 +55,6 @@ function ConstDecel() {
                 const canvas = await html2canvas(element, {
                     useCORS: true,
                     allowTaint: true,
-                    scale: 2,
                     logging: false,
                     foreignObjectRendering: false,
                     imageTimeout: 15000,

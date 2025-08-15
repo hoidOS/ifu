@@ -37,7 +37,6 @@ function Stop() {
         const canvas = await html2canvas(element, {
           useCORS: true,
           allowTaint: true,
-          scale: 2,
           logging: false,
           foreignObjectRendering: false,
           imageTimeout: 15000,
@@ -70,7 +69,6 @@ function Stop() {
         const canvas = await html2canvas(element, {
           useCORS: true,
           allowTaint: true,
-          scale: 2,
           logging: false,
           foreignObjectRendering: false,
           imageTimeout: 15000,
