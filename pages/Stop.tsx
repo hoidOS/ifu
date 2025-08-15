@@ -37,8 +37,7 @@ function Stop() {
         const canvas = await html2canvas(element, {
           useCORS: true,
           allowTaint: true,
-          width: element.scrollWidth * 2,
-          height: element.scrollHeight * 2
+          scale: 2
         } as any);
         
         const link = document.createElement('a');
@@ -67,8 +66,7 @@ function Stop() {
         const canvas = await html2canvas(element, {
           useCORS: true,
           allowTaint: true,
-          width: element.scrollWidth * 2,
-          height: element.scrollHeight * 2
+          scale: 2
         } as any);
         
         canvas.toBlob(async (blob) => {
