@@ -133,23 +133,29 @@ function VMT() {
                 <div className="bg-[#0059a9] text-white px-6 py-3">
                     <h2 className="text-lg font-semibold">ESO</h2>
                 </div>
-                <div className="p-6">
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>ESO Strahlaufweitung</th>
-                            <th><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
-                            <th>Einheit</th>
-
+                <div className="p-4">
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="border-b-2 border-[#0059a9]">
+                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
                         </tr>
-                        <tr>
-                            <th>Messentfernung</th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="m" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => sSet(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.m} alt="kmh"></Image></th>
+                    </thead>
+                    <tbody>
+                        <tr className="hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="m" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => sSet(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -176,24 +182,25 @@ function VMT() {
                         </button>
                     </div>
                 </div>
-                <div className="p-6">
-                <table>
+                <div className="p-4">
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="border-b-2 border-[#0059a9]">
+                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <th>ESO Strahlaufweitung</th>
-                            <th><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
-                            <th>Einheit</th>
-
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{s.toFixed(1).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Messentfernung</th>
-                            <th className="text-[#0059a9]">{s.toFixed(1).replace(".", ",")}</th>
-                            <th><Image unoptimized src={SVG.m} alt="m"></Image></th>
-                        </tr>
-                        <tr>
-                            <th>Durchmesser</th>
-                            <th>{solveMax()}</th>
-                            <th><Image unoptimized src={SVG.m} alt="s"></Image></th>
+                        <tr className="hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Durchmesser</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{solveMax()}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -204,23 +211,29 @@ function VMT() {
                 <div className="bg-[#0059a9] text-white px-6 py-3">
                     <h2 className="text-lg font-semibold">Riegl</h2>
                 </div>
-                <div className="p-6">
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>Riegl Strahlaufweitung</th>
-                            <th><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
-                            <th>Einheit</th>
-
+                <div className="p-4">
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="border-b-2 border-[#0059a9]">
+                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Riegl Strahlaufweitung</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
                         </tr>
-                        <tr>
-                            <th>Messentfernung</th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="m" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => sRSet(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.m} alt="kmh"></Image></th>
+                    </thead>
+                    <tbody>
+                        <tr className="hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="m" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => sRSet(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -247,33 +260,35 @@ function VMT() {
                         </button>
                     </div>
                 </div>
-                <div className="p-6">
-                <table>
+                <div className="p-4">
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="border-b-2 border-[#0059a9]">
+                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Riegl Strahlaufweitung</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <th>ESO Strahlaufweitung</th>
-                            <th><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
-                            <th>Einheit</th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{sR.toFixed(1).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Messentfernung</th>
-                            <th className="text-[#0059a9]">{sR.toFixed(1).replace(".", ",")}</th>
-                            <th><Image unoptimized src={SVG.m} alt="m"></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Pointer 1 mRad</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(sR * 0.001).toFixed(3).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Pointer 1 mRad</th>
-                            <th>{(sR * 0.001).toFixed(3).replace(".", ",")}</th>
-                            <th><Image unoptimized src={SVG.m} alt="m"></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Strahlaufweitung 3 mRad</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(sR * 0.003).toFixed(3).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Strahlaufweitung 3 mRad</th>
-                            <th>{(sR * 0.003).toFixed(3).replace(".", ",")}</th>
-                            <th><Image unoptimized src={SVG.m} alt="s"></Image></th>
-                        </tr>
-                        <tr>
-                            <th>Zielerfassungsbereich 5 mRad</th>
-                            <th>{(sR * 0.005).toFixed(3).replace(".", ",")}</th>
-                            <th><Image unoptimized src={SVG.m} alt="s"></Image></th>
+                        <tr className="hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Zielerfassungsbereich 5 mRad</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(sR * 0.005).toFixed(3).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
                         </tr>
                     </tbody>
                 </table>

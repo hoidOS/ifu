@@ -266,64 +266,91 @@ function ConstAccel() {
                 <div className="bg-[#0059a9] text-white px-6 py-3">
                     <h2 className="text-lg font-semibold">konstante Beschleunigung</h2>
                 </div>
-                <div className="p-6">
-                <table>
+                <div className="p-4">
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="border-b-2 border-[#0059a9]">
+                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <th>Art</th>
-                            <th>Var</th>
-                            <th>Eingabe</th>
-                            <th>Einheit</th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="v in km/h" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => vAset(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="absolute z-0"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Anfangsgeschwindigkeit</th>
-                            <th><Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image></th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="v in km/h" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => vAset(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.kmh} alt="vA" className="absolute z-0"></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="v in km/h" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => vEset(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="absolute z-0"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Endgeschwindigkeit</th>
-                            <th><Image unoptimized src={SVG.vE} alt="vA" className="absolute z-0"></Image></th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="v in km/h" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => vEset(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.kmh} alt="vA" className="absolute z-0"></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Beschleunigung</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="a in m/s²" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => aset(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="absolute z-0"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Beschleunigung</th>
-                            <th><Image unoptimized src={SVG.a} alt="vA" className="absolute z-0"></Image></th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="a in m/s²" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => aset(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.ms2} alt="vA" className="absolute z-0"></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsstrecke</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="s in Meter" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => sset(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="absolute z-0"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Beschleunigungsstrecke</th>
-                            <th><Image unoptimized src={SVG.s} alt="vA" className="absolute z-0"></Image></th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="s in Meter" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => sset(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.m} alt="vA" className="absolute z-0"></Image></th>
-                        </tr>
-                        <tr>
-                            <th>Beschleunigungsdauer</th>
-                            <th><Image unoptimized src={SVG.t} alt="vA" className="absolute z-0"></Image></th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="t in Sekunden" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => tset(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.s} alt="vA" className="absolute z-0"></Image></th>
+                        <tr className="hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsdauer</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="t in Sekunden" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => tset(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="absolute z-0"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -350,44 +377,46 @@ function ConstAccel() {
                         </button>
                     </div>
                 </div>
-                <div className="p-6">
-                <table>
+                <div className="p-4">
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="border-b-2 border-[#0059a9]">
+                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <th>Art</th>
-                            <th>Var</th>
-                            <th><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
-                            <th>Formel</th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveVA() ? solveVA() : <p className="text-[#0059a9]">{vA.toFixed(2).replace(".", ",")} km/h</p>)}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={formVA()} alt="vA" className="absolute z-0"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Anfangsgeschwindigkeit</th>
-                            <th><Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image></th>
-                            <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveVA() ? solveVA() : <p className="text-[#0059a9]">{vA.toFixed(2).replace(".", ",")} km/h</p>)}</th>
-                            <th><Image src={formVA()} alt="vA" className="absolute z-0"></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveVE() ? solveVE() : <p className="text-[#0059a9]">{vE.toFixed(2).replace(".", ",")} km/h</p>)}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={formVE()} alt="vE" className="absolute z-0"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Endgeschwindigkeit</th>
-                            <th><Image unoptimized src={SVG.vE} alt="vA" className="absolute z-0"></Image></th>
-                            <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveVE() ? solveVE() : <p className="text-[#0059a9]">{vE.toFixed(2).replace(".", ",")} km/h</p>)}</th>
-                            <th><Image src={formVE()} alt="vA" className="absolute z-0"></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Beschleunigung</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveA() ? solveA() : <p className="text-[#0059a9]">{a.toFixed(2).replace(".", ",")} m/s²</p>)}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={formA()} alt="a" className="absolute z-0"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Beschleunigung</th>
-                            <th><Image unoptimized src={SVG.a} alt="vA" className="absolute z-0"></Image></th>
-                            <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveA() ? solveA() : <p className="text-[#0059a9]">{a.toFixed(2).replace(".", ",")} m/s²</p>)}</th>
-                            <th><Image src={formA()} alt="vA" className="absolute z-0"></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsstrecke</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveS() ? solveS() : <p className="text-[#0059a9]">{s.toFixed(2).replace(".", ",")} m</p>)}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={formS()} alt="s" className="absolute z-0"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Beschleunigungsstrecke</th>
-                            <th><Image unoptimized src={SVG.s} alt="vA" className="absolute z-0"></Image></th>
-                            <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveS() ? solveS() : <p className="text-[#0059a9]">{s.toFixed(2).replace(".", ",")} m</p>)}</th>
-                            <th><Image src={formS()} alt="vA" className="absolute z-0"></Image></th>
-                        </tr>
-                        <tr>
-                            <th>Beschleunigungsdauer</th>
-                            <th><Image unoptimized src={SVG.t} alt="vA" className="absolute z-0"></Image></th>
-                            <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveT() ? solveT() : <p className="text-[#0059a9]">{t.toFixed(2).replace(".", ",")} s</p>)}</th>
-                            <th><Image src={formT()} alt="vA" className="absolute z-0"></Image></th>
+                        <tr className="hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsdauer</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="absolute z-0"></Image></td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveT() ? solveT() : <p className="text-[#0059a9]">{t.toFixed(2).replace(".", ",")} s</p>)}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={formT()} alt="t" className="absolute z-0"></Image></td>
                         </tr>
                     </tbody>
                 </table>

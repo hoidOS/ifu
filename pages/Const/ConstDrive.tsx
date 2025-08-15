@@ -116,44 +116,61 @@ function ConstAccel() {
                 <div className="bg-[#0059a9] text-white px-6 py-3">
                     <h2 className="text-lg font-semibold">Konstantfahrt</h2>
                 </div>
-                <div className="p-6">
-                <table>
+                <div className="p-4">
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="border-b-2 border-[#0059a9]">
+                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <th>Art</th>
-                            <th>Var</th>
-                            <th>Eingabe</th>
-                            <th>Einheit</th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v"></Image></td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="v in km/h" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => setV(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Geschwindigkeit</th>
-                            <th><Image unoptimized src={SVG.v} alt="v"></Image></th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="v in km/h" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => setV(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.kmh} alt="kmh"></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Strecke</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s"></Image></td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="s in Meter" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => setS(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
                         </tr>
-                        <tr>
-                            <th>Strecke</th>
-                            <th><Image unoptimized src={SVG.s} alt="s"></Image></th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="s in Meter" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => setS(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.m} alt="m"></Image></th>
-                        </tr>
-                        <tr>
-                            <th>Dauer</th>
-                            <th><Image unoptimized src={SVG.t} alt="t"></Image></th>
-                            <th>
-                                <div>
-                                    <input type="number" placeholder="t in Sekunden" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => setT(e.target.valueAsNumber)} />
-                                </div>
-                            </th>
-                            <th><Image unoptimized src={SVG.s} alt="s"></Image></th>
+                        <tr className="hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Dauer</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t"></Image></td>
+                            <td className="py-2 px-2 text-center">
+                                <input 
+                                    type="number" 
+                                    placeholder="t in Sekunden" 
+                                    defaultValue={''} 
+                                    onWheel={e => e.currentTarget.blur()} 
+                                    onChange={(e) => setT(e.target.valueAsNumber)}
+                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                />
+                            </td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -180,32 +197,34 @@ function ConstAccel() {
                         </button>
                     </div>
                 </div>
-                <div className="p-6">
-                <table>
+                <div className="p-4">
+                <table className="w-full text-sm">
+                    <thead>
+                        <tr className="border-b-2 border-[#0059a9]">
+                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <tr>
-                            <th>Art</th>
-                            <th>Var</th>
-                            <th><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
-                            <th>Formel</th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" ></Image></td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!vIsSet ? <p>{vO}</p> : <p className="text-[#0059a9]">{v.toFixed(2).replace(".", ",")} km/h</p>)}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dvF} alt="dvF" ></Image></td>
                         </tr>
-                        <tr>
-                            <th>Geschwindigkeit</th>
-                            <th><Image unoptimized src={SVG.v} alt="v" ></Image></th>
-                            <th>{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!vIsSet ? <p>{vO}</p> : <p className="text-[#0059a9]">{v.toFixed(2).replace(".", ",")} km/h</p>)}</th>
-                            <th><Image unoptimized src={SVG.dvF} alt="dvF" ></Image></th>
+                        <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Strecke</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" ></Image></td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!sIsSet ? <p>{sO}</p> : <p className="text-[#0059a9]">{s.toFixed(2).replace(".", ",")} m</p>)}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dsF} alt="dsF" ></Image></td>
                         </tr>
-                        <tr>
-                            <th>Strecke</th>
-                            <th><Image unoptimized src={SVG.s} alt="vA" ></Image></th>
-                            <th>{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!sIsSet ? <p>{sO}</p> : <p className="text-[#0059a9]">{s.toFixed(2).replace(".", ",")} m</p>)}</th>
-                            <th><Image unoptimized src={SVG.dsF} alt="dsF" ></Image></th>
-                        </tr>
-                        <tr>
-                            <th>Dauer</th>
-                            <th><Image unoptimized src={SVG.t} alt="vA" ></Image></th>
-                            <th>{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!tIsSet ? <p>{tO}</p> : <p className="text-[#0059a9]">{t.toFixed(2).replace(".", ",")} s</p>)}</th>
-                            <th><Image unoptimized src={SVG.dtF} alt="dtF" ></Image></th>
+                        <tr className="hover:bg-blue-50 transition-colors">
+                            <td className="py-2 px-2 font-medium text-gray-700">Dauer</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" ></Image></td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!tIsSet ? <p>{tO}</p> : <p className="text-[#0059a9]">{t.toFixed(2).replace(".", ",")} s</p>)}</td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dtF} alt="dtF" ></Image></td>
                         </tr>
                     </tbody>
                 </table>
