@@ -34,6 +34,17 @@ function Stop() {
     const element = document.getElementById('results-print');
     if (element) {
       try {
+        // Add inline styles to fix SVG sizing for production
+        const svgImages = element.querySelectorAll('img');
+        const originalStyles = [];
+        svgImages.forEach((img, index) => {
+          originalStyles[index] = img.style.cssText;
+          img.style.maxWidth = '100px';
+          img.style.maxHeight = '50px';
+          img.style.width = 'auto';
+          img.style.height = 'auto';
+        });
+
         const canvas = await html2canvas(element, {
           useCORS: true,
           allowTaint: true,
@@ -42,6 +53,11 @@ function Stop() {
           imageTimeout: 15000,
           removeContainer: true
         } as any);
+
+        // Restore original styles
+        svgImages.forEach((img, index) => {
+          img.style.cssText = originalStyles[index];
+        });
         
         const link = document.createElement('a');
         link.download = 'ergebnisse-anhaltevorgang.png';
@@ -66,6 +82,17 @@ function Stop() {
     const element = document.getElementById('results-print');
     if (element) {
       try {
+        // Add inline styles to fix SVG sizing for production
+        const svgImages = element.querySelectorAll('img');
+        const originalStyles = [];
+        svgImages.forEach((img, index) => {
+          originalStyles[index] = img.style.cssText;
+          img.style.maxWidth = '100px';
+          img.style.maxHeight = '50px';
+          img.style.width = 'auto';
+          img.style.height = 'auto';
+        });
+
         const canvas = await html2canvas(element, {
           useCORS: true,
           allowTaint: true,
@@ -74,6 +101,11 @@ function Stop() {
           imageTimeout: 15000,
           removeContainer: true
         } as any);
+
+        // Restore original styles
+        svgImages.forEach((img, index) => {
+          img.style.cssText = originalStyles[index];
+        });
         
         canvas.toBlob(async (blob) => {
           if (blob) {
