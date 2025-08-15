@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from 'next/head'
 import Image from 'next/image'
 import SVG from '../assets/svg'
@@ -24,6 +24,24 @@ function Stop() {
   }
 
   const [input, setInput] = useState<InputInterface>(data)
+
+  // Load saved values from sessionStorage on component mount
+  useEffect(() => {
+    const savedVA = sessionStorage.getItem('stop_vA');
+    const savedVE = sessionStorage.getItem('stop_vE');
+    const savedTR = sessionStorage.getItem('stop_tR');
+    const savedTS = sessionStorage.getItem('stop_tS');
+    const savedAM = sessionStorage.getItem('stop_am');
+    
+    const updatedInput = { ...data };
+    if (savedVA && !isNaN(parseFloat(savedVA))) updatedInput.vA = parseFloat(savedVA);
+    if (savedVE && !isNaN(parseFloat(savedVE))) updatedInput.vE = parseFloat(savedVE);
+    if (savedTR && !isNaN(parseFloat(savedTR))) updatedInput.tR = parseFloat(savedTR);
+    if (savedTS && !isNaN(parseFloat(savedTS))) updatedInput.tS = parseFloat(savedTS);
+    if (savedAM && !isNaN(parseFloat(savedAM))) updatedInput.am = parseFloat(savedAM);
+    
+    setInput(updatedInput);
+  }, []);
 
   const handleScreenshot = async () => {
     const buttons = document.querySelectorAll('#screenshot-button, #clipboard-button');
@@ -224,7 +242,15 @@ function Stop() {
                     type="number" 
                     placeholder="v in km/h" 
                     defaultValue={input.vA || ''} 
-                    onChange={(e) => setInput({ ...input, vA: e.target.valueAsNumber })}
+                    onChange={(e) => {
+                      const value = e.target.valueAsNumber;
+                      setInput({ ...input, vA: value });
+                      if (!isNaN(value)) {
+                        sessionStorage.setItem('stop_vA', value.toString());
+                      } else {
+                        sessionStorage.removeItem('stop_vA');
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
@@ -238,7 +264,15 @@ function Stop() {
                     type="number" 
                     placeholder="v in km/h" 
                     value={input.vE} 
-                    onChange={(e) => setInput({ ...input, vE: e.target.valueAsNumber })}
+                    onChange={(e) => {
+                      const value = e.target.valueAsNumber;
+                      setInput({ ...input, vE: value });
+                      if (!isNaN(value)) {
+                        sessionStorage.setItem('stop_vE', value.toString());
+                      } else {
+                        sessionStorage.removeItem('stop_vE');
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
@@ -252,7 +286,15 @@ function Stop() {
                     type="number" 
                     placeholder="s in Sekunden" 
                     value={input.tR} 
-                    onChange={(e) => setInput({ ...input, tR: e.target.valueAsNumber })}
+                    onChange={(e) => {
+                      const value = e.target.valueAsNumber;
+                      setInput({ ...input, tR: value });
+                      if (!isNaN(value)) {
+                        sessionStorage.setItem('stop_tR', value.toString());
+                      } else {
+                        sessionStorage.removeItem('stop_tR');
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
@@ -266,7 +308,15 @@ function Stop() {
                     type="number" 
                     placeholder="s in Sekunden" 
                     value={input.tS} 
-                    onChange={(e) => setInput({ ...input, tS: e.target.valueAsNumber })}
+                    onChange={(e) => {
+                      const value = e.target.valueAsNumber;
+                      setInput({ ...input, tS: value });
+                      if (!isNaN(value)) {
+                        sessionStorage.setItem('stop_tS', value.toString());
+                      } else {
+                        sessionStorage.removeItem('stop_tS');
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
@@ -280,7 +330,15 @@ function Stop() {
                     type="number" 
                     placeholder="a in m/s²" 
                     value={input.am} 
-                    onChange={(e) => setInput({ ...input, am: e.target.valueAsNumber })}
+                    onChange={(e) => {
+                      const value = e.target.valueAsNumber;
+                      setInput({ ...input, am: value });
+                      if (!isNaN(value)) {
+                        sessionStorage.setItem('stop_am', value.toString());
+                      } else {
+                        sessionStorage.removeItem('stop_am');
+                      }
+                    }}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>

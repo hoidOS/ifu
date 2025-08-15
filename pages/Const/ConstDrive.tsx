@@ -1,6 +1,6 @@
 
 import * as util from '../../components/utilConst'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from 'next/image'
 import SVG from '../../assets/svg'
 import html2canvas from 'html2canvas'
@@ -10,6 +10,17 @@ function ConstAccel() {
     const [v, setV] = useState<number>(NaN)
     const [s, setS] = useState<number>(NaN)
     const [t, setT] = useState<number>(NaN)
+
+    // Load saved values from sessionStorage on component mount
+    useEffect(() => {
+        const savedV = sessionStorage.getItem('constDrive_v');
+        const savedS = sessionStorage.getItem('constDrive_s');
+        const savedT = sessionStorage.getItem('constDrive_t');
+        
+        if (savedV && !isNaN(parseFloat(savedV))) setV(parseFloat(savedV));
+        if (savedS && !isNaN(parseFloat(savedS))) setS(parseFloat(savedS));
+        if (savedT && !isNaN(parseFloat(savedT))) setT(parseFloat(savedT));
+    }, []);
 
     const handleScreenshot = async (tableId: string, filename: string) => {
         const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
@@ -178,7 +189,15 @@ function ConstAccel() {
                                     placeholder="v in km/h" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => setV(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        setV(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('constDrive_v', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('constDrive_v');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
@@ -193,7 +212,15 @@ function ConstAccel() {
                                     placeholder="s in Meter" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => setS(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        setS(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('constDrive_s', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('constDrive_s');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
@@ -208,7 +235,15 @@ function ConstAccel() {
                                     placeholder="t in Sekunden" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => setT(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        setT(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('constDrive_t', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('constDrive_t');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>

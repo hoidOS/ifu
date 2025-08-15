@@ -1,5 +1,5 @@
 import * as util from '../../components/utilConst'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from 'next/image'
 import SVG from '../../assets/svg'
 import html2canvas from 'html2canvas'
@@ -10,6 +10,21 @@ function ConstAccel() {
     const [a, aset] = useState<number>(NaN)
     const [s, sset] = useState<number>(NaN)
     const [t, tset] = useState<number>(NaN)
+
+    // Load saved values from sessionStorage on component mount
+    useEffect(() => {
+        const savedVA = sessionStorage.getItem('constAccel_vA');
+        const savedVE = sessionStorage.getItem('constAccel_vE');
+        const savedA = sessionStorage.getItem('constAccel_a');
+        const savedS = sessionStorage.getItem('constAccel_s');
+        const savedT = sessionStorage.getItem('constAccel_t');
+        
+        if (savedVA && !isNaN(parseFloat(savedVA))) vAset(parseFloat(savedVA));
+        if (savedVE && !isNaN(parseFloat(savedVE))) vEset(parseFloat(savedVE));
+        if (savedA && !isNaN(parseFloat(savedA))) aset(parseFloat(savedA));
+        if (savedS && !isNaN(parseFloat(savedS))) sset(parseFloat(savedS));
+        if (savedT && !isNaN(parseFloat(savedT))) tset(parseFloat(savedT));
+    }, []);
 
     const handleScreenshot = async (tableId: string, filename: string) => {
         const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
@@ -328,7 +343,15 @@ function ConstAccel() {
                                     placeholder="v in km/h" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => vAset(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        vAset(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('constAccel_vA', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('constAccel_vA');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
@@ -343,7 +366,15 @@ function ConstAccel() {
                                     placeholder="v in km/h" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => vEset(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        vEset(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('constAccel_vE', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('constAccel_vE');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
@@ -358,7 +389,15 @@ function ConstAccel() {
                                     placeholder="a in m/s²" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => aset(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        aset(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('constAccel_a', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('constAccel_a');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
@@ -373,7 +412,15 @@ function ConstAccel() {
                                     placeholder="s in Meter" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => sset(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        sset(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('constAccel_s', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('constAccel_s');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
@@ -388,7 +435,15 @@ function ConstAccel() {
                                     placeholder="t in Sekunden" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => tset(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        tset(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('constAccel_t', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('constAccel_t');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>

@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from 'next/image'
 import Head from 'next/head'
 import SVG from '../assets/svg'
@@ -8,6 +8,15 @@ import html2canvas from 'html2canvas'
 function VMT() {
     const [s, sSet] = useState<number>(NaN)
     const [sR, sRSet] = useState<number>(NaN)
+
+    // Load saved values from sessionStorage on component mount
+    useEffect(() => {
+        const savedS = sessionStorage.getItem('vmt_s');
+        const savedSR = sessionStorage.getItem('vmt_sR');
+        
+        if (savedS && !isNaN(parseFloat(savedS))) sSet(parseFloat(savedS));
+        if (savedSR && !isNaN(parseFloat(savedSR))) sRSet(parseFloat(savedSR));
+    }, []);
     // const [sMax, sMaxSet] = useState<number>(NaN)
     // const [dMax, dMaxSet] = useState<number>(NaN)
 
@@ -193,7 +202,15 @@ function VMT() {
                                     placeholder="m" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => sSet(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        sSet(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('vmt_s', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('vmt_s');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
@@ -271,7 +288,15 @@ function VMT() {
                                     placeholder="m" 
                                     defaultValue={''} 
                                     onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => sRSet(e.target.valueAsNumber)}
+                                    onChange={(e) => {
+                                        const value = e.target.valueAsNumber;
+                                        sRSet(value);
+                                        if (!isNaN(value)) {
+                                            sessionStorage.setItem('vmt_sR', value.toString());
+                                        } else {
+                                            sessionStorage.removeItem('vmt_sR');
+                                        }
+                                    }}
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
