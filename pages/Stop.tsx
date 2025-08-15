@@ -176,7 +176,7 @@ function Stop() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.vA} alt="vA" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input 
                     type="number" 
@@ -186,11 +186,11 @@ function Stop() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.kmh} alt="kmh" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="absolute z-0"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input 
                     type="number" 
@@ -200,11 +200,11 @@ function Stop() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.kmh} alt="kmh" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="absolute z-0"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Reaktionsdauer</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.tR} alt="tR" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tR} alt="tR" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input 
                     type="number" 
@@ -214,11 +214,11 @@ function Stop() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.s} alt="s" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="absolute z-0"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Bremsschwelldauer</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.tS} alt="tS" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tS} alt="tS" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input 
                     type="number" 
@@ -228,11 +228,11 @@ function Stop() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.s} alt="s" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="absolute z-0"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Mittlere Verzögerung</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.am} alt="am" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.am} alt="am" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input 
                     type="number" 
@@ -242,7 +242,7 @@ function Stop() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.ms2} alt="ms2" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="absolute z-0"></Image></td>
               </tr>
             </tbody>
           </table>
@@ -284,31 +284,31 @@ function Stop() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.vA} alt="vA" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.vA.toString().replace(".", ",")} km/h</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.vAvE} alt="vAvE" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vAvE} alt="vAvE" className="absolute z-0"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.vE.toString().replace(".", ",")} km/h</td>
                 <td className="py-2 px-2 text-center text-sm text-gray-600">0 für Bremsung bis zum Stillstand</td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Reaktionsdauer</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.tR} alt="tR" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tR} alt="tR" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.tR.toString().replace(".", ",")} s</td>
                 <td className="py-2 px-2 text-center text-sm text-gray-600">Reaktionspunkt bis Bremspunkt</td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Bremsschwelldauer</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.tS} alt="tS" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tS} alt="tS" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.tS.toString().replace(".", ",")} s</td>
                 <td className="py-2 px-2 text-center text-sm text-gray-600">Fahrzeugabhängig</td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Mittlere Verzögerung</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.am} alt="am" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.am} alt="am" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.am.toString().replace(".", ",")} m/s²</td>
                 <td className="py-2 px-2 text-center text-sm text-gray-600">Abhängig von der Reibpaarung</td>
               </tr>
@@ -320,45 +320,45 @@ function Stop() {
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Reaktionsstrecke</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.sR} alt="sR" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sR} alt="sR" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{reaction}</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.sRF} alt="sRF" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sRF} alt="sRF" className="absolute z-0"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Schwellstrecke</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.sS} alt="sS" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sS} alt="sS" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{breakDelay}</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.sSF} alt="sSF" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sSF} alt="sSF" className="absolute z-0"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Geschw. Vollverzögerung</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.vV} alt="vV" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vV} alt="vV" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{fullSend}</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.vVF} alt="vVF" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vVF} alt="vVF" className="absolute z-0"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Bremsstrecke</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.sB} alt="sB" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sB} alt="sB" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{breakDistance}</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.sBF} alt="sBF" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sBF} alt="sBF" className="absolute z-0"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Bremsdauer</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.tB} alt="tB" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tB} alt="tB" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{breakDuration}</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.tBF} alt="tBF" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tBF} alt="tBF" className="absolute z-0"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
-                <td className="py-2 px-2 font-medium text-gray-700">Gesamtstrecke von <Image src={SVG.vA} alt="vA" className="absolute z-0"></Image> bis <Image src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.sges} alt="sges" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 font-medium text-gray-700">Gesamtstrecke von <Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image> bis <Image unoptimized src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sges} alt="sges" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{fullDistance}</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.sgesF} alt="sgesF" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sgesF} alt="sgesF" className="absolute z-0"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
-                <td className="py-2 px-2 font-medium text-gray-700">Gesamtdauer von <Image src={SVG.vA} alt="vA" className="absolute z-0"></Image> bis <Image src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.tges} alt="tges" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 font-medium text-gray-700">Gesamtdauer von <Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image> bis <Image unoptimized src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tges} alt="tges" className="absolute z-0"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{fullTime}</td>
-                <td className="py-2 px-2 text-center"><Image src={SVG.tgesF} alt="tgesF" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tgesF} alt="tgesF" className="absolute z-0"></Image></td>
               </tr>
             </tbody>
           </table>
