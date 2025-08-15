@@ -10,8 +10,15 @@ function Sonst() {
   const [p, pset] = useState<number>(NaN)
   const [alpha, alphaset] = useState<number>(NaN)
 
-  //FIXME: 
   const convP = (): string | boolean => {
+    if (isNaN(p) || p < 0) {
+      return false;
+    }
+
+    if (p === 0) {
+      return "0,00°";
+    }
+
     // Tangent of the angle is the percent incline divided by 100
     const tangentOfAngle = p / 100;
 
@@ -21,20 +28,17 @@ function Sonst() {
     // Convert radians to degrees
     const alpha = angleInRadians * (180 / Math.PI);
 
-    if (p > 0) {
-      // Return the angle in degrees as a string, rounded to a reasonable precision if needed
-      return alpha.toFixed(2).replace(".", ",") + '°';
-
-    } else {
-      return false
-    }
+    // Return the angle in degrees as a string, rounded to a reasonable precision
+    return alpha.toFixed(2).replace(".", ",") + '°';
   }
 
-  //FIXME: 
   const convAlpha = (): string | boolean => {
-    // Ensure the angle is within the valid range for this calculation (0 to 90 degrees)
-    if (alpha < 0 || alpha > 90) {
-      return "Angle must be between 0 and 90 degrees";
+    if (isNaN(alpha) || alpha < 0 || alpha > 90) {
+      return false;
+    }
+
+    if (alpha === 0) {
+      return "0,00%";
     }
 
     // Calculate the tangent of the angle
@@ -43,38 +47,29 @@ function Sonst() {
     // Convert tangent to percentage
     const percentIncline = tangentOfAngle * 100;
 
-    if (alpha > 0 && alpha <= 90) {
-      // Return the percent incline rounded to a reasonable precision
-      return percentIncline.toFixed(2).replace(".", ",") + '%';
-    } else {
-      return false
-    }
-
+    // Return the percent incline rounded to a reasonable precision
+    return percentIncline.toFixed(2).replace(".", ",") + '%';
   }
 
-  //FIXME: 
-  const accel = (): string => {
-    if (alpha > 0) {
-      const out = 9.81 * Math.sin(alpha * (Math.PI / 180.0));
-      return out.toFixed(2).replace(".", ",") + " m/s²";
-    }
-    if (p > 0) {
+  const accel = (): string | boolean => {
+    let angleToUse = 0;
+    
+    if (!isNaN(alpha) && alpha >= 0 && alpha <= 90) {
+      angleToUse = alpha;
+    } else if (!isNaN(p) && p >= 0) {
       const tangentOfAngle = p / 100;
       const angleInRadians = Math.atan(tangentOfAngle);
-      const temp = angleInRadians * (180 / Math.PI);
-
-      const out = 9.81 * Math.sin(temp * (Math.PI / 180.0));
-      return out.toFixed(2).replace(".", ",") + " m/s²";
+      angleToUse = angleInRadians * (180 / Math.PI);
+    } else {
+      return false;
     }
-    return "ERROR"
+
+    const out = 9.81 * Math.sin(angleToUse * (Math.PI / 180.0));
+    return out.toFixed(2).replace(".", ",") + " m/s²";
   }
 
-  //FIXME: 
   const isError = (): boolean => {
-    if (p > 0 && alpha > 0) {
-      return true
-    }
-    return false
+    return (!isNaN(p) && p > 0) && (!isNaN(alpha) && alpha > 0);
   }
 
 
@@ -170,7 +165,7 @@ function Sonst() {
               <tr>
                 <th>Steigungsverzögerung</th>
                 <th><Image src={SVG.a} alt="vA"></Image></th>
-                <th>{isError() ? <p className="text-red-500">ERROR</p> : (accel() ? accel() : <p className="text-[#0059a9]">{p.toFixed(2).replace(".", ",")} %</p>)}</th>
+                <th>{isError() ? <p className="text-red-500">ERROR</p> : (accel() || <p className="text-gray-400">-</p>)}</th>
                 <th><Image src={SVG.asteig} alt="asteig" ></Image></th>
               </tr>
             </tbody>
