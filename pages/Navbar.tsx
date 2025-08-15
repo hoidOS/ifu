@@ -1,13 +1,61 @@
 import Link from 'next/link';
 import { FaBars, FaWindowClose, FaCarCrash, FaCar, FaCamera, FaMoneyBill } from 'react-icons/fa'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 function Navbar() {
 
     const [nav, setNav] = useState(false)
+    const [touchStart, setTouchStart] = useState(0)
+    const [touchEnd, setTouchEnd] = useState(0)
+
     const handleNav = () => {
         setNav(!nav)
     }
+
+    // Handle swipe to close
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStart(e.targetTouches[0].clientX)
+    }
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        setTouchEnd(e.targetTouches[0].clientX)
+    }
+
+    const handleTouchEnd = () => {
+        if (!touchStart || !touchEnd) return
+        const distance = touchStart - touchEnd
+        const isLeftSwipe = distance > 50
+        const isRightSwipe = distance < -50
+
+        if (isLeftSwipe && nav) {
+            setNav(false)
+        }
+    }
+
+    // Prevent body scroll when menu is open
+    useEffect(() => {
+        if (nav) {
+            document.body.style.overflow = 'hidden'
+        } else {
+            document.body.style.overflow = 'unset'
+        }
+        
+        return () => {
+            document.body.style.overflow = 'unset'
+        }
+    }, [nav])
+
+    // Close menu on escape key
+    useEffect(() => {
+        const handleEscape = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && nav) {
+                setNav(false)
+            }
+        }
+
+        document.addEventListener('keydown', handleEscape)
+        return () => document.removeEventListener('keydown', handleEscape)
+    }, [nav])
 
     return (
         <>
@@ -31,29 +79,107 @@ function Navbar() {
                 </div>
             </nav>
 
-            <div className={nav ? "fixed z-10 right-0 top-0 w-[100%] h-[100%] bg-slate-900/70" : ''} onClick={handleNav}>
-                <div className={nav ? "fixed z-10 left-0 top-0 w-[80%] sm:w-[60%] md:w-[60%] h-[100%] bg-gradient-to-b from-primary-700 to-primary-400 px-4 py-10 ease-in-out duration-500" :
-                    "fixed z-10 left-[-100%] top-0 h-[100%] bg-gradient-to-b from-primary-700 to-primary-400 p-10 ease-in-out duration-500"}>
-                    <div className="flex-cols p-2">
-                        <div className="flex justify-between">
-                            <h1 className="text-white cursor-pointer text-3xl pb-4"><Link href="/">STEINACKER</Link></h1>
-                            <FaWindowClose className="text-white h-5 w-5 cursor-pointer hover:scale-110" onClick={handleNav} />
-                        </div>
-                        <hr className="mt-1" />
-                        <div className="p-2">
-                            <div className="flex space-x-2 py-4 justify-left">
-                                <p className="text-white text-2xl cursor-pointer flex space-x-2 m-0"><FaCarCrash size={30} className="flex text-white self-center"/><Link href="/Stop">Anhaltevorgang</Link></p>
-                            </div>
-                            <div className="flex space-x-2 py-4 justify-left">
-                                <p className="text-white text-2xl cursor-pointer flex space-x-2 m-0"><FaCar size={30} className="flex text-white self-center"/><Link href="/Const">Konstantfahrt</Link></p>
-                            </div>
-                            <div className="flex space-x-2 py-4 justify-left">
-                                <p className="text-white text-2xl cursor-pointer flex space-x-2 m-0"><FaCamera size={30} className="flex text-white self-center"/><Link href="/VMT">VMT</Link></p>
-                            </div>
-                            <div className="flex space-x-2 py-4 justify-left">
-                                <p className="text-white text-2xl cursor-pointer flex space-x-2 m-0"><FaMoneyBill size={30} className="flex text-white self-center"/><Link href="/Minderwert">Minderwert</Link></p>
-                            </div>
-                        </div>
+            {/* Mobile Menu Backdrop */}
+            <div 
+                className={nav ? "fixed z-30 inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" : 'opacity-0 pointer-events-none'} 
+                onClick={handleNav}
+                aria-hidden="true"
+            >
+                {/* Mobile Menu Panel */}
+                <div 
+                    className={nav ? 
+                        "fixed z-30 left-0 top-0 w-[85%] sm:w-[400px] h-full bg-white/95 backdrop-blur-xl border-r border-white/20 shadow-2xl transform transition-transform duration-500 ease-out" :
+                        "fixed z-30 left-0 top-0 w-[85%] sm:w-[400px] h-full bg-white/95 backdrop-blur-xl border-r border-white/20 shadow-2xl transform -translate-x-full transition-transform duration-500 ease-out"
+                    }
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                    role="dialog"
+                    aria-modal="true"
+                    aria-labelledby="mobile-menu-title"
+                >
+                    {/* Header */}
+                    <div className="flex items-center justify-between p-6 border-b border-slate-200/50">
+                        <Link href="/" onClick={handleNav}>
+                            <h1 
+                                id="mobile-menu-title"
+                                className="text-2xl font-bold text-slate-900 hover:text-primary-600 transition-colors"
+                            >
+                                STEINACKER
+                            </h1>
+                        </Link>
+                        <button 
+                            onClick={handleNav}
+                            className="p-2 rounded-full bg-slate-100/50 hover:bg-slate-200/50 transition-colors duration-200"
+                            aria-label="Close menu"
+                        >
+                            <FaWindowClose className="w-5 h-5 text-slate-600" />
+                        </button>
+                    </div>
+
+                    {/* Navigation Menu */}
+                    <nav className="px-6 py-8">
+                        <ul className="space-y-2">
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-100" : "opacity-0 transform -translate-x-4"}>
+                                <Link href="/Stop" onClick={handleNav}>
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95">
+                                        <div className="p-3 rounded-xl bg-red-100 text-red-600 group-hover:bg-red-200 transition-colors">
+                                            <FaCarCrash size={20} />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">Anhaltevorgang</h3>
+                                            <p className="text-sm text-slate-500">Crash analysis tools</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </li>
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-200" : "opacity-0 transform -translate-x-4"}>
+                                <Link href="/Const" onClick={handleNav}>
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95">
+                                        <div className="p-3 rounded-xl bg-blue-100 text-blue-600 group-hover:bg-blue-200 transition-colors">
+                                            <FaCar size={20} />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">Konstantfahrt</h3>
+                                            <p className="text-sm text-slate-500">Constant speed analysis</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </li>
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-300" : "opacity-0 transform -translate-x-4"}>
+                                <Link href="/VMT" onClick={handleNav}>
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95">
+                                        <div className="p-3 rounded-xl bg-green-100 text-green-600 group-hover:bg-green-200 transition-colors">
+                                            <FaCamera size={20} />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">VMT</h3>
+                                            <p className="text-sm text-slate-500">Video measurement tools</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </li>
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-500" : "opacity-0 transform -translate-x-4"}>
+                                <Link href="/Minderwert" onClick={handleNav}>
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95">
+                                        <div className="p-3 rounded-xl bg-amber-100 text-amber-600 group-hover:bg-amber-200 transition-colors">
+                                            <FaMoneyBill size={20} />
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">Minderwert</h3>
+                                            <p className="text-sm text-slate-500">Value assessment</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </li>
+                        </ul>
+                    </nav>
+
+                    {/* Footer */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-slate-200/50">
+                        <p className="text-xs text-slate-400 text-center">
+                            © 2024 STEINACKER
+                        </p>
                     </div>
                 </div>
             </div>
