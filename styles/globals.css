@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    @apply bg-[#e6e8eb] font-sans tracking-wide grid scroll-smooth scroll-mt-12;
+  }
+  * {
+    @apply box-border;
+  }
+  /* Image {
+    @apply absolute z-0;
+  } */
+  h1 {
+    @apply font-bold text-[1.75rem];
+  }
+  table {
+    @apply font-sans border-collapse w-full;
+  }
+  td,
+  th {
+    @apply border-[1px] border-solid border-[#787a7b] p-2 text-center;
+  }
+  tr:nth-child(odd) {
+    @apply bg-[#dddddd];
+  }
+  tr:nth-child(even) {
+    @apply bg-[#ffffff];
+  }
+  input {
+    @apply rounded border-[1px] border-solid border-[#ccc] h-8 max-w-[110px] text-right px-2 py-[10px];
+  }
+  input::placeholder {
+    @apply text-center text-sm;
+  }
+}
+
+@layer utilities {
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    border-radius: 100vh;
+    background: #edf2f7;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #cbd5e0;
+    border-radius: 100vh;
+    border: 3px solid #edf2f7;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #a0aec0;
+  }
+}
