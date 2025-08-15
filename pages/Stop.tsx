@@ -13,15 +13,15 @@ interface InputInterface {
   am: number,
 }
 
-function Stop() {
+const data: InputInterface = {
+  vA: 50,
+  vE: 0,
+  tR: 0.8,
+  tS: 0.2,
+  am: 7.5,
+}
 
-  const data: InputInterface = {
-    vA: 50,
-    vE: 0,
-    tR: 0.8,
-    tS: 0.2,
-    am: 7.5,
-  }
+function Stop() {
 
   const [input, setInput] = useState<InputInterface>(data)
 

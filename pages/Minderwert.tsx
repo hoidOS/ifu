@@ -19,23 +19,24 @@ interface MFMInput {
   fv: number; // Faktor Vorschaden (Prior damage factor)
 }
 
-function Minderwert() {
-  const bvskDefaults: BVSKInput = {
-    wbw: 0,
-    kFaktor: 1.0,
-    prozentWert: 0,
-    mWert: 0
-  }
+const bvskDefaults: BVSKInput = {
+  wbw: 0,
+  kFaktor: 1.0,
+  prozentWert: 0,
+  mWert: 0
+}
 
-  const mfmDefaults: MFMInput = {
-    vw: 0,
-    np: 0,
-    rk: 0,
-    su: 0.4,
-    ak: 0.2,
-    fm: 1.0,
-    fv: 1.0
-  }
+const mfmDefaults: MFMInput = {
+  vw: 0,
+  np: 0,
+  rk: 0,
+  su: 0.4,
+  ak: 0.2,
+  fm: 1.0,
+  fv: 1.0
+}
+
+function Minderwert() {
 
   const [bvskInput, setBvskInput] = useState<BVSKInput>(bvskDefaults)
   const [mfmInput, setMfmInput] = useState<MFMInput>(mfmDefaults)
