@@ -80,22 +80,35 @@ function Sonst() {
 
   return (
 
-    <div className="grid xl:grid-cols-2 m-0 gap-5 p-4">
+    <div className="grid gap-6 mx-auto max-w-7xl px-4 py-8 xl:grid-cols-2">
       <Head>
         <title>PPCAVS | Sonstiges</title>
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width" />
       </Head>
       <>
-        <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl justify-center items-center">
-          <h1 className="text-rose-600">IN BEARBEITUNG</h1>
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-[#0059a9] text-white px-6 py-3">
+            <h2 className="text-lg font-semibold">Status</h2>
+          </div>
+          <div className="p-6 flex justify-center items-center">
+            <h2 className="text-rose-600">IN BEARBEITUNG</h2>
+          </div>
         </div>
-        <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl justify-center items-center">
-          <h1 className="text-rose-600">IN BEARBEITUNG</h1>
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-[#0059a9] text-white px-6 py-3">
+            <h2 className="text-lg font-semibold">Status</h2>
+          </div>
+          <div className="p-6 flex justify-center items-center">
+            <h2 className="text-rose-600">IN BEARBEITUNG</h2>
+          </div>
         </div>
 
-        <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
-          <h1 className="pr-6 text-center text-[#fff] self-center">Steigungsverzögerung</h1>
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-[#0059a9] text-white px-6 py-3">
+            <h2 className="text-lg font-semibold">Steigungsverzögerung</h2>
+          </div>
+          <div className="p-6">
           <table>
             <tbody>
               <tr>
@@ -106,29 +119,34 @@ function Sonst() {
               </tr>
               <tr>
                 <th>Steigung</th>
-                <th><Image src={SVG.p} alt="vA" className="absolute z-0"></Image></th>
+                <th><Image src={SVG.p} alt="vA"></Image></th>
                 <th>
                   <div>
                     <input type="number" placeholder="%" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => pset(e.target.valueAsNumber)} />
                   </div>
                 </th>
-                <th><Image src={SVG.percent} alt="vA" className="absolute z-0"></Image></th>
+                <th><Image src={SVG.percent} alt="vA"></Image></th>
               </tr>
               <tr>
                 <th>Steigungswinkel</th>
-                <th><Image src={SVG.alpha} alt="vA" className="absolute z-0"></Image></th>
+                <th><Image src={SVG.alpha} alt="vA"></Image></th>
                 <th>
                   <div>
                     <input type="number" placeholder="°" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => alphaset(e.target.valueAsNumber)} />
                   </div>
                 </th>
-                <th><Image src={SVG.degree} alt="vA" className="absolute z-0"></Image></th>
+                <th><Image src={SVG.degree} alt="vA"></Image></th>
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
 
-        <div className="flex bg-[#0059a9] border-[1.25rem] border-[#0059a9] rounded-xl">
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-[#0059a9] text-white px-6 py-3">
+            <h2 className="text-lg font-semibold">Ergebnisse</h2>
+          </div>
+          <div className="p-6">
           <table>
             <tbody>
               <tr>
@@ -139,24 +157,25 @@ function Sonst() {
               </tr>
               <tr>
                 <th>Steigung</th>
-                <th><Image src={SVG.p} alt="vA" className="absolute z-0"></Image></th>
+                <th><Image src={SVG.p} alt="vA"></Image></th>
                 <th>{isError() ? <p className="text-red-500">ERROR</p> : (convAlpha() ? convAlpha() : <p className="text-[#0059a9]">{p.toFixed(2).replace(".", ",")} %</p>)}</th>
                 <th><Image src={SVG.alphaToP} alt="dtF" ></Image></th>
               </tr>
               <tr>
                 <th>Steigungswinkel</th>
-                <th><Image src={SVG.alpha} alt="vA" className="absolute z-0"></Image></th>
+                <th><Image src={SVG.alpha} alt="vA"></Image></th>
                 <th>{isError() ? <p className="text-red-500">ERROR</p> : (convP() ? convP() : <p className="text-[#0059a9]">{alpha.toFixed(2).replace(".", ",")} °</p>)}</th>
                 <th><Image src={SVG.pToAlpha} alt="dtF" ></Image></th>
               </tr>
               <tr>
                 <th>Steigungsverzögerung</th>
-                <th><Image src={SVG.a} alt="vA" className="absolute z-0"></Image></th>
+                <th><Image src={SVG.a} alt="vA"></Image></th>
                 <th>{isError() ? <p className="text-red-500">ERROR</p> : (accel() ? accel() : <p className="text-[#0059a9]">{p.toFixed(2).replace(".", ",")} %</p>)}</th>
                 <th><Image src={SVG.asteig} alt="asteig" ></Image></th>
               </tr>
             </tbody>
           </table>
+          </div>
         </div>
 
       </>

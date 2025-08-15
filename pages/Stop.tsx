@@ -43,8 +43,8 @@ function Stop() {
 
       <div className="grid gap-6 mx-auto max-w-screen-2xl px-4 py-6 md:grid-cols-2">
 
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-[#0059a9] text-white px-4 py-2">
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
+          <div className="bg-[#0059a9] text-white px-4 py-2 card-header">
             <h2 className="text-base font-semibold">Anhaltevorgang</h2>
           </div>
           <div className="p-4">
@@ -112,8 +112,8 @@ function Stop() {
           </div>
         </div>
 
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-[#0059a9] text-white px-4 py-2">
+        <div id="results-print" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-[#0059a9] text-white px-4 py-2 card-header">
             <h2 className="text-base font-semibold">Ergebnisse</h2>
           </div>
           <div className="p-4">

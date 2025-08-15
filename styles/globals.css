@@ -77,4 +77,24 @@
   ::-webkit-scrollbar-thumb:hover {
     background: #a0aec0;
   }
+
+  /* Print helpers for clean table export */
+  @media print {
+    @page { size: A4 portrait; margin: 10mm; }
+    nav, footer, .no-print { display: none !important; }
+    html, body { background: #ffffff !important; }
+    #results-print {
+      display: block !important;
+      border: none !important;
+      box-shadow: none !important;
+      width: 100% !important;
+      max-width: none !important;
+    }
+    #results-print .card-header {
+      background: #0059a9 !important;
+      color: #ffffff !important;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+  }
 }

@@ -37,8 +37,11 @@ function VMT() {
             </Head>
 
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h2 className="pr-4 text-left text-primary-700 mb-2">ESO</h2>
+            <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                <div className="bg-[#0059a9] text-white px-6 py-3">
+                    <h2 className="text-lg font-semibold">ESO</h2>
+                </div>
+                <div className="p-6">
                 <table>
                     <tbody>
                         <tr>
@@ -58,9 +61,14 @@ function VMT() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                <div className="bg-[#0059a9] text-white px-6 py-3">
+                    <h2 className="text-lg font-semibold">ESO Ergebnisse</h2>
+                </div>
+                <div className="p-6">
                 <table>
                     <tbody>
                         <tr>
@@ -81,10 +89,14 @@ function VMT() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                <h2 className="pr-4 text-left text-primary-700 mb-2">Riegl</h2>
+            <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                <div className="bg-[#0059a9] text-white px-6 py-3">
+                    <h2 className="text-lg font-semibold">Riegl</h2>
+                </div>
+                <div className="p-6">
                 <table>
                     <tbody>
                         <tr>
@@ -104,9 +116,14 @@ function VMT() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
-            <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                <div className="bg-[#0059a9] text-white px-6 py-3">
+                    <h2 className="text-lg font-semibold">Riegl Ergebnisse</h2>
+                </div>
+                <div className="p-6">
                 <table>
                     <tbody>
                         <tr>
@@ -136,6 +153,7 @@ function VMT() {
                         </tr>
                     </tbody>
                 </table>
+                </div>
             </div>
 
         </div>

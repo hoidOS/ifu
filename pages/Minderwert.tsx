@@ -1,8 +1,6 @@
 import Head from 'next/head'
-import Link from 'next/link';
 import { useState } from 'react'
 import NavEval from './NavEval';
-import ValueCalc from './Minderwert/ValueCalc';
 
 function Minderwert() {
 
@@ -25,8 +23,11 @@ function Minderwert() {
 
 
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <h2 className="pr-6 text-left text-primary-700 mb-2">BVSK</h2>
+                <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                    <div className="bg-[#0059a9] text-white px-6 py-3">
+                        <h2 className="text-lg font-semibold">BVSK</h2>
+                    </div>
+                    <div className="p-6">
                     <table>
                         <tbody>
                             <tr>
@@ -66,10 +67,14 @@ function Minderwert() {
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-                    <h2 className="pr-6 text-left text-primary-700 mb-2">MFM</h2>
+                <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                    <div className="bg-[#0059a9] text-white px-6 py-3">
+                        <h2 className="text-lg font-semibold">MFM</h2>
+                    </div>
+                    <div className="p-6">
                     <table>
                         <tbody>
                             <tr>
@@ -150,8 +155,13 @@ function Minderwert() {
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
-                <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+                <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                    <div className="bg-[#0059a9] text-white px-6 py-3">
+                        <h2 className="text-lg font-semibold">Berechnung</h2>
+                    </div>
+                    <div className="p-6">
                     <table>
                         <tbody>
                             <tr>
@@ -190,6 +200,7 @@ function Minderwert() {
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
 
                 <NavEval />

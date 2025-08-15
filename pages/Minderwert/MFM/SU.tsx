@@ -1,7 +1,6 @@
 function SU() {
   return (
-    <div className="mx-10 pt-10 pb-4">
-      <h1 className="pb-2">SU-Faktor: Schadenumfang</h1>
+    <div>
       <p className="mb-2">
         Es ist ein Faktor zwischen 0,2 und 1,0 zu bestimmen.
       </p>

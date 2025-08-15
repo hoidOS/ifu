@@ -1,7 +1,6 @@
 function Params() {
   return (
-    <div className="mx-10 pt-10 pb-4">
-      <h1 className="pb-2">Parameter</h1>
+    <div>
       <table>
         <tbody>
           <tr>
