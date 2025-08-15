@@ -36,7 +36,7 @@ function Stop() {
       try {
         // Add inline styles to fix SVG sizing for production
         const svgImages = element.querySelectorAll('img');
-        const originalStyles = [];
+        const originalStyles: string[] = [];
         svgImages.forEach((img, index) => {
           originalStyles[index] = img.style.cssText;
           img.style.maxWidth = '100px';
@@ -84,7 +84,7 @@ function Stop() {
       try {
         // Add inline styles to fix SVG sizing for production
         const svgImages = element.querySelectorAll('img');
-        const originalStyles = [];
+        const originalStyles: string[] = [];
         svgImages.forEach((img, index) => {
           originalStyles[index] = img.style.cssText;
           img.style.maxWidth = '100px';
