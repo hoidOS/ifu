@@ -67,11 +67,23 @@ function Navbar() {
                         </Link>
                     </div>
                     <div className="hidden lg:flex items-center gap-6">
-                        <ul className="flex justify-between space-x-6 m-auto uppercase text-slate-700">
-                            <li className="text-base hover:text-primary-600"><Link href="/Stop">Anhalt</Link></li>
-                            <li className="text-base hover:text-primary-600"><Link href="/Const">Konstant</Link></li>
-                            <li className="text-base hover:text-primary-600"><Link href="/VMT">VMT</Link></li>
-                            <li className="text-base hover:text-primary-600"><Link href="/Minderwert">Minderwert</Link></li>
+                        <ul className="flex items-center space-x-6 m-auto text-slate-700">
+                            <li className="flex items-center gap-3 text-base font-medium hover:text-primary-600 transition-colors">
+                                <FaCarCrash className="text-red-500" size={20} />
+                                <Link href="/Stop">Anhalt</Link>
+                            </li>
+                            <li className="flex items-center gap-3 text-base font-medium hover:text-primary-600 transition-colors">
+                                <FaCar className="text-blue-500" size={20} />
+                                <Link href="/Const">Konstant</Link>
+                            </li>
+                            <li className="flex items-center gap-3 text-base font-medium hover:text-primary-600 transition-colors">
+                                <FaCamera className="text-green-500" size={20} />
+                                <Link href="/VMT">VMT</Link>
+                            </li>
+                            <li className="flex items-center gap-3 text-base font-medium hover:text-primary-600 transition-colors">
+                                <FaMoneyBill className="text-amber-500" size={20} />
+                                <Link href="/Minderwert">Minderwert</Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="flex lg:hidden items-center gap-3">
