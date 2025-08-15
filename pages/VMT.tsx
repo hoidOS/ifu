@@ -23,7 +23,11 @@ function VMT() {
                 const canvas = await html2canvas(element, {
                     useCORS: true,
                     allowTaint: true,
-                    scale: 2
+                    scale: 2,
+                    logging: false,
+                    foreignObjectRendering: false,
+                    imageTimeout: 15000,
+                    removeContainer: true
                 } as any);
                 
                 const link = document.createElement('a');
@@ -52,7 +56,11 @@ function VMT() {
                 const canvas = await html2canvas(element, {
                     useCORS: true,
                     allowTaint: true,
-                    scale: 2
+                    scale: 2,
+                    logging: false,
+                    foreignObjectRendering: false,
+                    imageTimeout: 15000,
+                    removeContainer: true
                 } as any);
                 
                 canvas.toBlob(async (blob) => {
