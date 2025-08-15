@@ -15,7 +15,7 @@ const Home: NextPage = () => {
       <main>
           <div className="grid grid-cols-1 gap-6 mx-auto max-w-7xl px-4 py-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.ccvision.de/de/car-special-cloud/#index"
               rel="noopener noreferrer"
               target="_blank"
@@ -25,7 +25,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://maps.google.de"
               rel="noopener noreferrer"
               target="_blank"
@@ -35,7 +35,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.openstreetmap.org/"
               rel="noopener noreferrer"
               target="_blank"
@@ -45,7 +45,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.geoportal.rlp.de/mapbender/frames/index.php?gui_id=Geoportal-RLP&zoomToLayer=0"
               rel="noopener noreferrer"
               target="_blank"
@@ -55,7 +55,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.tim-online.nrw.de/tim-online2/"
               rel="noopener noreferrer"
               target="_blank"
@@ -65,7 +65,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.google.com/maps/d/viewer?mid=1ecs7MpOBn1O-2OLDH1hVonpIQQk&ll=50.283341968039565%2C7.6348235146059995&z=8"
               rel="noopener noreferrer"
               target="_blank"
@@ -75,7 +75,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://maptool-dipul.dfs.de/?language=de&zoom=11.0"
               rel="noopener noreferrer"
               target="_blank"
@@ -85,7 +85,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.nwsib-online.nrw.de/"
               rel="noopener noreferrer"
               target="_blank"
@@ -95,7 +95,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.mapillary.com/app/"
               rel="noopener noreferrer"
               target="_blank"
@@ -105,7 +105,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="http://www.autobahnatlas-online.de/"
               rel="noopener noreferrer"
               target="_blank"
@@ -115,7 +115,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.colliseum.eu/wiki/R%C3%B6srather_Crashtage"
               rel="noopener noreferrer"
               target="_blank"
@@ -125,7 +125,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://crashdb.agu.ch/"
               rel="noopener noreferrer"
               target="_blank"
@@ -135,7 +135,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://shop.crashtest-service.com/login"
               rel="noopener noreferrer"
               target="_blank"
@@ -145,7 +145,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.carsized.com/de/"
               rel="noopener noreferrer"
               target="_blank"
@@ -155,7 +155,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.adac.de/verkehr/recht/verkehrszeichen/"
               rel="noopener noreferrer"
               target="_blank"
@@ -165,7 +165,7 @@ const Home: NextPage = () => {
             </a>
 
             <a
-              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40"
+              className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-slate-500/25 hover:border-primary-300 focus:outline-none focus:ring-2 focus:ring-primary-500/40 transform"
               href="https://www.autoscout24.de/auto/"
               rel="noopener noreferrer"
               target="_blank"
