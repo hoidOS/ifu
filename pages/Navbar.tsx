@@ -71,6 +71,7 @@ function Navbar() {
                             <li className="text-base hover:text-primary-600"><Link href="/Stop">Anhalt</Link></li>
                             <li className="text-base hover:text-primary-600"><Link href="/Const">Konstant</Link></li>
                             <li className="text-base hover:text-primary-600"><Link href="/VMT">VMT</Link></li>
+                            <li className="text-base hover:text-primary-600"><Link href="/Minderwert">Minderwert</Link></li>
                         </ul>
                     </div>
                     <div className="flex lg:hidden items-center gap-3">
