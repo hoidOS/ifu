@@ -127,33 +127,33 @@ function ConstAccel() {
                         </tr>
                         <tr>
                             <th>Geschwindigkeit</th>
-                            <th><Image src={SVG.v} alt="v"></Image></th>
+                            <th><Image unoptimized src={SVG.v} alt="v"></Image></th>
                             <th>
                                 <div>
                                     <input type="number" placeholder="v in km/h" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => setV(e.target.valueAsNumber)} />
                                 </div>
                             </th>
-                            <th><Image src={SVG.kmh} alt="kmh"></Image></th>
+                            <th><Image unoptimized src={SVG.kmh} alt="kmh"></Image></th>
                         </tr>
                         <tr>
                             <th>Strecke</th>
-                            <th><Image src={SVG.s} alt="s"></Image></th>
+                            <th><Image unoptimized src={SVG.s} alt="s"></Image></th>
                             <th>
                                 <div>
                                     <input type="number" placeholder="s in Meter" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => setS(e.target.valueAsNumber)} />
                                 </div>
                             </th>
-                            <th><Image src={SVG.m} alt="m"></Image></th>
+                            <th><Image unoptimized src={SVG.m} alt="m"></Image></th>
                         </tr>
                         <tr>
                             <th>Dauer</th>
-                            <th><Image src={SVG.t} alt="t"></Image></th>
+                            <th><Image unoptimized src={SVG.t} alt="t"></Image></th>
                             <th>
                                 <div>
                                     <input type="number" placeholder="t in Sekunden" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => setT(e.target.valueAsNumber)} />
                                 </div>
                             </th>
-                            <th><Image src={SVG.s} alt="s"></Image></th>
+                            <th><Image unoptimized src={SVG.s} alt="s"></Image></th>
                         </tr>
                     </tbody>
                 </table>
@@ -191,21 +191,21 @@ function ConstAccel() {
                         </tr>
                         <tr>
                             <th>Geschwindigkeit</th>
-                            <th><Image src={SVG.v} alt="v" ></Image></th>
+                            <th><Image unoptimized src={SVG.v} alt="v" ></Image></th>
                             <th>{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!vIsSet ? <p>{vO}</p> : <p className="text-[#0059a9]">{v.toFixed(2).replace(".", ",")} km/h</p>)}</th>
-                            <th><Image src={SVG.dvF} alt="dvF" ></Image></th>
+                            <th><Image unoptimized src={SVG.dvF} alt="dvF" ></Image></th>
                         </tr>
                         <tr>
                             <th>Strecke</th>
-                            <th><Image src={SVG.s} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.s} alt="vA" ></Image></th>
                             <th>{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!sIsSet ? <p>{sO}</p> : <p className="text-[#0059a9]">{s.toFixed(2).replace(".", ",")} m</p>)}</th>
-                            <th><Image src={SVG.dsF} alt="dsF" ></Image></th>
+                            <th><Image unoptimized src={SVG.dsF} alt="dsF" ></Image></th>
                         </tr>
                         <tr>
                             <th>Dauer</th>
-                            <th><Image src={SVG.t} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.t} alt="vA" ></Image></th>
                             <th>{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!tIsSet ? <p>{tO}</p> : <p className="text-[#0059a9]">{t.toFixed(2).replace(".", ",")} s</p>)}</th>
-                            <th><Image src={SVG.dtF} alt="dtF" ></Image></th>
+                            <th><Image unoptimized src={SVG.dtF} alt="dtF" ></Image></th>
                         </tr>
                     </tbody>
                 </table>

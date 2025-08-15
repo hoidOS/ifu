@@ -277,53 +277,53 @@ function ConstDecel() {
                         </tr>
                         <tr>
                             <th>Anfangsgeschwindigkeit</th>
-                            <th><Image src={SVG.vA} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.vA} alt="vA" ></Image></th>
                             <th>
                                 <div>
                                     <input type="number" placeholder="v in km/h" defaultValue={''} onWheel={ e => e.currentTarget.blur()} onChange={(e) => vAset(e.target.valueAsNumber)} />
                                 </div>
                             </th>
-                            <th><Image src={SVG.kmh} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.kmh} alt="vA" ></Image></th>
                         </tr>
                         <tr>
                             <th>Endgeschwindigkeit</th>
-                            <th><Image src={SVG.vE} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.vE} alt="vA" ></Image></th>
                             <th>
                                 <div>
                                     <input type="number" placeholder="v in km/h" defaultValue={''} onWheel={ e => e.currentTarget.blur()} onChange={(e) => vEset(e.target.valueAsNumber)} />
                                 </div>
                             </th>
-                            <th><Image src={SVG.kmh} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.kmh} alt="vA" ></Image></th>
                         </tr>
                         <tr>
                             <th>Verzögerung</th>
-                            <th><Image src={SVG.a} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.a} alt="vA" ></Image></th>
                             <th>
                                 <div>
                                     <input type="number" placeholder="a in m/s²" defaultValue={''} onWheel={ e => e.currentTarget.blur()} onChange={(e) => aset(e.target.valueAsNumber)} />
                                 </div>
                             </th>
-                            <th><Image src={SVG.ms2} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.ms2} alt="vA" ></Image></th>
                         </tr>
                         <tr>
                             <th>Verzögerungsstrecke</th>
-                            <th><Image src={SVG.s} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.s} alt="vA" ></Image></th>
                             <th>
                                 <div>
                                     <input type="number" placeholder="s in Meter" defaultValue={''} onWheel={ e => e.currentTarget.blur()} onChange={(e) => sset(e.target.valueAsNumber)} />
                                 </div>
                             </th>
-                            <th><Image src={SVG.m} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.m} alt="vA" ></Image></th>
                         </tr>
                         <tr>
                             <th>Verzögerungsdauer</th>
-                            <th><Image src={SVG.t} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.t} alt="vA" ></Image></th>
                             <th>
                                 <div>
                                     <input type="number" placeholder="t in Sekunden" defaultValue={''} onWheel={ e => e.currentTarget.blur()} onChange={(e) => tset(e.target.valueAsNumber)} />
                                 </div>
                             </th>
-                            <th><Image src={SVG.s} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.s} alt="vA" ></Image></th>
                         </tr>
                     </tbody>
                 </table>
@@ -361,31 +361,31 @@ function ConstDecel() {
                         </tr>
                         <tr>
                             <th>Anfangsgeschwindigkeit</th>
-                            <th><Image src={SVG.vA} alt="vA"></Image></th>
+                            <th><Image unoptimized src={SVG.vA} alt="vA"></Image></th>
                             <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveVA() ? solveVA() : <p className="text-[#0059a9]">{vA.toFixed(2).replace(".", ",")} km/h</p>)}</th>
                             <th><Image src={formVA()} alt="vA" ></Image></th>
                         </tr>
                         <tr>
                             <th>Endgeschwindigkeit</th>
-                            <th><Image src={SVG.vE} alt="vA"></Image></th>
+                            <th><Image unoptimized src={SVG.vE} alt="vA"></Image></th>
                             <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveVE() ? solveVE() : <p className="text-[#0059a9]">{vE.toFixed(2).replace(".", ",")} km/h</p>)}</th>
                             <th><Image src={formVE()} alt="vE"></Image></th>
                         </tr>
                         <tr>
                             <th>Verzögerung</th>
-                            <th><Image src={SVG.a} alt="vA"></Image></th>
+                            <th><Image unoptimized src={SVG.a} alt="vA"></Image></th>
                             <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveA() ? solveA() : <p className="text-[#0059a9]">{a.toFixed(2).replace(".", ",")} m/s²</p>)}</th>
                             <th><Image src={formA()} alt="a"></Image></th>
                         </tr>
                         <tr>
                             <th>Verzögerungsstrecke</th>
-                            <th><Image src={SVG.s} alt="vA"></Image></th>
+                            <th><Image unoptimized src={SVG.s} alt="vA"></Image></th>
                             <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveS() ? solveS() : <p className="text-[#0059a9]">{s.toFixed(2).replace(".", ",")} m</p>)}</th>
                             <th><Image src={formS()} alt="s" ></Image></th>
                         </tr>
                         <tr>
                             <th>Verzögerungsdauer</th>
-                            <th><Image src={SVG.t} alt="vA" ></Image></th>
+                            <th><Image unoptimized src={SVG.t} alt="vA" ></Image></th>
                             <th>{isError() ? <p className="text-red-500">ERROR</p> : (solveT() ? solveT() : <p className="text-[#0059a9]">{t.toFixed(2).replace(".", ",")} s</p>)}</th>
                             <th><Image src={formT()} alt="t" ></Image></th>
                         </tr>
