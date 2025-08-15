@@ -103,7 +103,7 @@ function Navbar() {
                         <Link href="/" onClick={handleNav}>
                             <h1 
                                 id="mobile-menu-title"
-                                className="text-2xl font-bold text-slate-900 hover:text-primary-600 transition-colors"
+                                className="text-2xl font-bold text-slate-900 hover:text-primary-600 transition-colors cursor-pointer"
                             >
                                 STEINACKER
                             </h1>
@@ -122,7 +122,7 @@ function Navbar() {
                         <ul className="space-y-2">
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-100" : "opacity-0 transform -translate-x-4"}>
                                 <Link href="/Stop" onClick={handleNav}>
-                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95">
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-red-100 text-red-600 group-hover:bg-red-200 transition-colors">
                                             <FaCarCrash size={20} />
                                         </div>
@@ -135,7 +135,7 @@ function Navbar() {
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-200" : "opacity-0 transform -translate-x-4"}>
                                 <Link href="/Const" onClick={handleNav}>
-                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95">
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-blue-100 text-blue-600 group-hover:bg-blue-200 transition-colors">
                                             <FaCar size={20} />
                                         </div>
@@ -148,7 +148,7 @@ function Navbar() {
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-300" : "opacity-0 transform -translate-x-4"}>
                                 <Link href="/VMT" onClick={handleNav}>
-                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95">
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-green-100 text-green-600 group-hover:bg-green-200 transition-colors">
                                             <FaCamera size={20} />
                                         </div>
@@ -161,7 +161,7 @@ function Navbar() {
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-500" : "opacity-0 transform -translate-x-4"}>
                                 <Link href="/Minderwert" onClick={handleNav}>
-                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95">
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-amber-100 text-amber-600 group-hover:bg-amber-200 transition-colors">
                                             <FaMoneyBill size={20} />
                                         </div>
