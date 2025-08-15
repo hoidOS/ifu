@@ -40,7 +40,10 @@ function Stop() {
           logging: false,
           foreignObjectRendering: false,
           imageTimeout: 15000,
-          removeContainer: true
+          removeContainer: true,
+          scale: 1,
+          width: element.scrollWidth,
+          height: element.scrollHeight
         } as any);
         
         const link = document.createElement('a');
@@ -72,7 +75,10 @@ function Stop() {
           logging: false,
           foreignObjectRendering: false,
           imageTimeout: 15000,
-          removeContainer: true
+          removeContainer: true,
+          scale: 1,
+          width: element.scrollWidth,
+          height: element.scrollHeight
         } as any);
         
         canvas.toBlob(async (blob) => {
