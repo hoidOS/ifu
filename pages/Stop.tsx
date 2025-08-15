@@ -3,6 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import SVG from '../assets/svg'
 import * as util from '../components/utilStop'
+import html2canvas from 'html2canvas'
 
 interface InputInterface {
   vA: number,
@@ -23,6 +24,73 @@ function Stop() {
   }
 
   const [input, setInput] = useState<InputInterface>(data)
+
+  const handleScreenshot = async () => {
+    const buttons = document.querySelectorAll('#screenshot-button, #clipboard-button');
+    buttons.forEach(button => {
+      (button as HTMLElement).style.display = 'none';
+    });
+    
+    const element = document.getElementById('results-print');
+    if (element) {
+      try {
+        const canvas = await html2canvas(element, {
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          scale: 2
+        });
+        
+        const link = document.createElement('a');
+        link.download = 'ergebnisse-anhaltevorgang.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      } catch (error) {
+        console.error('Screenshot failed:', error);
+      }
+    }
+    
+    buttons.forEach(button => {
+      (button as HTMLElement).style.display = 'block';
+    });
+  };
+
+  const handleClipboard = async () => {
+    const buttons = document.querySelectorAll('#screenshot-button, #clipboard-button');
+    buttons.forEach(button => {
+      (button as HTMLElement).style.display = 'none';
+    });
+    
+    const element = document.getElementById('results-print');
+    if (element) {
+      try {
+        const canvas = await html2canvas(element, {
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#ffffff',
+          scale: 2
+        });
+        
+        canvas.toBlob(async (blob) => {
+          if (blob) {
+            try {
+              await navigator.clipboard.write([
+                new ClipboardItem({ 'image/png': blob })
+              ]);
+            } catch (error) {
+              console.error('Clipboard copy failed:', error);
+            }
+          }
+        });
+      } catch (error) {
+        console.error('Screenshot failed:', error);
+      }
+    }
+    
+    buttons.forEach(button => {
+      (button as HTMLElement).style.display = 'block';
+    });
+  };
 
   const reaction: string = util.getReaction(input.vA, input.tR)
   const breakDelay: string = util.getBreakDelay(input.vA, input.tS, input.am)
@@ -113,8 +181,26 @@ function Stop() {
         </div>
 
         <div id="results-print" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-[#0059a9] text-white px-4 py-2 card-header">
+          <div className="bg-[#0059a9] text-white px-4 py-2 card-header flex justify-between items-center">
             <h2 className="text-base font-semibold">Ergebnisse</h2>
+            <div className="flex gap-2">
+              <button 
+                id="clipboard-button"
+                onClick={handleClipboard}
+                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                title="In Zwischenablage kopieren"
+              >
+                Kopieren
+              </button>
+              <button 
+                id="screenshot-button"
+                onClick={handleScreenshot}
+                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white"
+                title="Als PNG herunterladen"
+              >
+                Download
+              </button>
+            </div>
           </div>
           <div className="p-4">
           <table className="table-compact">

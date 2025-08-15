@@ -3,12 +3,80 @@ import { useState } from "react";
 import Image from 'next/image'
 import Head from 'next/head'
 import SVG from '../assets/svg'
+import html2canvas from 'html2canvas'
 
 function VMT() {
     const [s, sSet] = useState<number>(NaN)
     const [sR, sRSet] = useState<number>(NaN)
     // const [sMax, sMaxSet] = useState<number>(NaN)
     // const [dMax, dMaxSet] = useState<number>(NaN)
+
+    const handleScreenshot = async (tableId: string, filename: string) => {
+        const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
+        buttons.forEach(button => {
+            (button as HTMLElement).style.display = 'none';
+        });
+        
+        const element = document.getElementById(tableId);
+        if (element) {
+            try {
+                const canvas = await html2canvas(element, {
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    scale: 2
+                });
+                
+                const link = document.createElement('a');
+                link.download = filename;
+                link.href = canvas.toDataURL();
+                link.click();
+            } catch (error) {
+                console.error('Screenshot failed:', error);
+            }
+        }
+        
+        buttons.forEach(button => {
+            (button as HTMLElement).style.display = 'flex';
+        });
+    };
+
+    const handleClipboard = async (tableId: string) => {
+        const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
+        buttons.forEach(button => {
+            (button as HTMLElement).style.display = 'none';
+        });
+        
+        const element = document.getElementById(tableId);
+        if (element) {
+            try {
+                const canvas = await html2canvas(element, {
+                    useCORS: true,
+                    allowTaint: true,
+                    backgroundColor: '#ffffff',
+                    scale: 2
+                });
+                
+                canvas.toBlob(async (blob) => {
+                    if (blob) {
+                        try {
+                            await navigator.clipboard.write([
+                                new ClipboardItem({ 'image/png': blob })
+                            ]);
+                        } catch (error) {
+                            console.error('Clipboard copy failed:', error);
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Screenshot failed:', error);
+            }
+        }
+        
+        buttons.forEach(button => {
+            (button as HTMLElement).style.display = 'flex';
+        });
+    };
 
     const d = () => {
         return ((0.45 * s) / 18) + 0.05
@@ -64,9 +132,25 @@ function VMT() {
                 </div>
             </div>
 
-            <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-[#0059a9] text-white px-6 py-3">
+            <div id="eso-ergebnisse" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">ESO Ergebnisse</h2>
+                    <div className="screenshot-buttons flex gap-2">
+                        <button 
+                            onClick={() => handleClipboard('eso-ergebnisse')}
+                            className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                            title="In Zwischenablage kopieren"
+                        >
+                            Kopieren
+                        </button>
+                        <button 
+                            onClick={() => handleScreenshot('eso-ergebnisse', 'eso-ergebnisse.png')}
+                            className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white"
+                            title="Als PNG herunterladen"
+                        >
+                            Download
+                        </button>
+                    </div>
                 </div>
                 <div className="p-6">
                 <table>
@@ -119,9 +203,25 @@ function VMT() {
                 </div>
             </div>
 
-            <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-[#0059a9] text-white px-6 py-3">
+            <div id="riegl-ergebnisse" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+                <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">Riegl Ergebnisse</h2>
+                    <div className="screenshot-buttons flex gap-2">
+                        <button 
+                            onClick={() => handleClipboard('riegl-ergebnisse')}
+                            className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                            title="In Zwischenablage kopieren"
+                        >
+                            Kopieren
+                        </button>
+                        <button 
+                            onClick={() => handleScreenshot('riegl-ergebnisse', 'riegl-ergebnisse.png')}
+                            className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white"
+                            title="Als PNG herunterladen"
+                        >
+                            Download
+                        </button>
+                    </div>
                 </div>
                 <div className="p-6">
                 <table>
