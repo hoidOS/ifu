@@ -71,7 +71,7 @@ function Stop() {
           foreignObjectRendering: false,
           imageTimeout: 15000,
           removeContainer: true,
-          scale: 2,
+          scale: 4,
           width: element.scrollWidth,
           height: element.scrollHeight
         } as any);
@@ -127,7 +127,7 @@ function Stop() {
           foreignObjectRendering: false,
           imageTimeout: 15000,
           removeContainer: true,
-          scale: 2,
+          scale: 4,
           width: element.scrollWidth,
           height: element.scrollHeight
         } as any);

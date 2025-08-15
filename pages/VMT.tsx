@@ -59,7 +59,7 @@ function VMT() {
                     foreignObjectRendering: false,
                     imageTimeout: 15000,
                     removeContainer: true,
-                    scale: 2
+                    scale: 4
                 } as any);
                 
                 const link = document.createElement('a');
@@ -113,7 +113,7 @@ function VMT() {
                     foreignObjectRendering: false,
                     imageTimeout: 15000,
                     removeContainer: true,
-                    scale: 2
+                    scale: 4
                 } as any);
                 
                 canvas.toBlob(async (blob) => {
