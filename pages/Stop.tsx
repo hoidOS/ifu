@@ -241,7 +241,7 @@ function Stop() {
                   <input 
                     type="number" 
                     placeholder="v in km/h" 
-                    defaultValue={input.vA || ''} 
+                    value={isNaN(input.vA) ? '' : input.vA} 
                     onChange={(e) => {
                       const value = e.target.valueAsNumber;
                       setInput({ ...input, vA: value });
@@ -263,7 +263,7 @@ function Stop() {
                   <input 
                     type="number" 
                     placeholder="v in km/h" 
-                    value={input.vE} 
+                    value={isNaN(input.vE) ? '' : input.vE} 
                     onChange={(e) => {
                       const value = e.target.valueAsNumber;
                       setInput({ ...input, vE: value });
@@ -285,7 +285,7 @@ function Stop() {
                   <input 
                     type="number" 
                     placeholder="s in Sekunden" 
-                    value={input.tR} 
+                    value={isNaN(input.tR) ? '' : input.tR} 
                     onChange={(e) => {
                       const value = e.target.valueAsNumber;
                       setInput({ ...input, tR: value });
@@ -307,7 +307,7 @@ function Stop() {
                   <input 
                     type="number" 
                     placeholder="s in Sekunden" 
-                    value={input.tS} 
+                    value={isNaN(input.tS) ? '' : input.tS} 
                     onChange={(e) => {
                       const value = e.target.valueAsNumber;
                       setInput({ ...input, tS: value });
@@ -329,7 +329,7 @@ function Stop() {
                   <input 
                     type="number" 
                     placeholder="a in m/s²" 
-                    value={input.am} 
+                    value={isNaN(input.am) ? '' : input.am} 
                     onChange={(e) => {
                       const value = e.target.valueAsNumber;
                       setInput({ ...input, am: value });

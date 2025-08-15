@@ -200,7 +200,7 @@ function VMT() {
                                 <input 
                                     type="number" 
                                     placeholder="m" 
-                                    defaultValue={''} 
+                                    value={isNaN(s) ? '' : s} 
                                     onWheel={e => e.currentTarget.blur()} 
                                     onChange={(e) => {
                                         const value = e.target.valueAsNumber;
@@ -286,7 +286,7 @@ function VMT() {
                                 <input 
                                     type="number" 
                                     placeholder="m" 
-                                    defaultValue={''} 
+                                    value={isNaN(sR) ? '' : sR} 
                                     onWheel={e => e.currentTarget.blur()} 
                                     onChange={(e) => {
                                         const value = e.target.valueAsNumber;

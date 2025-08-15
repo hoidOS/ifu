@@ -341,7 +341,7 @@ function ConstDecel() {
                                 <input 
                                     type="number" 
                                     placeholder="v in km/h" 
-                                    defaultValue={''} 
+                                    value={isNaN(vA) ? '' : vA} 
                                     onWheel={e => e.currentTarget.blur()} 
                                     onChange={(e) => {
                                         const value = e.target.valueAsNumber;
@@ -364,7 +364,7 @@ function ConstDecel() {
                                 <input 
                                     type="number" 
                                     placeholder="v in km/h" 
-                                    defaultValue={''} 
+                                    value={isNaN(vE) ? '' : vE} 
                                     onWheel={e => e.currentTarget.blur()} 
                                     onChange={(e) => {
                                         const value = e.target.valueAsNumber;
@@ -387,7 +387,7 @@ function ConstDecel() {
                                 <input 
                                     type="number" 
                                     placeholder="a in m/s²" 
-                                    defaultValue={''} 
+                                    value={isNaN(a) ? '' : a} 
                                     onWheel={e => e.currentTarget.blur()} 
                                     onChange={(e) => {
                                         const value = e.target.valueAsNumber;
@@ -410,7 +410,7 @@ function ConstDecel() {
                                 <input 
                                     type="number" 
                                     placeholder="s in Meter" 
-                                    defaultValue={''} 
+                                    value={isNaN(s) ? '' : s} 
                                     onWheel={e => e.currentTarget.blur()} 
                                     onChange={(e) => {
                                         const value = e.target.valueAsNumber;
@@ -433,7 +433,7 @@ function ConstDecel() {
                                 <input 
                                     type="number" 
                                     placeholder="t in Sekunden" 
-                                    defaultValue={''} 
+                                    value={isNaN(t) ? '' : t} 
                                     onWheel={e => e.currentTarget.blur()} 
                                     onChange={(e) => {
                                         const value = e.target.valueAsNumber;
