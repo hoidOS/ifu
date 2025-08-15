@@ -5,7 +5,8 @@
       "Bash(npm run build:*)",
       "WebFetch(domain:minderwert.de)",
       "Bash(npm outdated)",
-      "Bash(npm run lint)"
+      "Bash(npm run lint)",
+      "WebSearch"
     ],
     "deny": [],
     "ask": []
