@@ -14,11 +14,17 @@ function Navbar() {
 
     // Handle swipe to close
     const handleTouchStart = (e: React.TouchEvent) => {
-        setTouchStart(e.targetTouches[0].clientX)
+        const touch = e.targetTouches[0];
+        if (touch) {
+            setTouchStart(touch.clientX);
+        }
     }
 
     const handleTouchMove = (e: React.TouchEvent) => {
-        setTouchEnd(e.targetTouches[0].clientX)
+        const touch = e.targetTouches[0];
+        if (touch) {
+            setTouchEnd(touch.clientX);
+        }
     }
 
     const handleTouchEnd = () => {
