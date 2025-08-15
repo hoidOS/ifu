@@ -361,7 +361,7 @@ function ConstDecel() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input
                     type="number"
@@ -380,11 +380,11 @@ function ConstDecel() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input
                     type="number"
@@ -403,11 +403,11 @@ function ConstDecel() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Verzögerung</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input
                     type="number"
@@ -426,11 +426,11 @@ function ConstDecel() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Verzögerungsstrecke</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input
                     type="number"
@@ -449,11 +449,11 @@ function ConstDecel() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Verzögerungsdauer</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input
                     type="number"
@@ -472,7 +472,7 @@ function ConstDecel() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
             </tbody>
           </table>
@@ -512,25 +512,25 @@ function ConstDecel() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveVA() ? solveVA() : <p className="text-[#0059a9]">{vA.toFixed(2).replace(".", ",")} km/h</p>)}</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={formVA()} alt="vA" ></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveVE() ? solveVE() : <p className="text-[#0059a9]">{vE.toFixed(2).replace(".", ",")} km/h</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formVE()} alt="vE" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formVE()} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Verzögerung</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveA() ? solveA() : <p className="text-[#0059a9]">{a.toFixed(2).replace(".", ",")} m/s²</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formA()} alt="a" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formA()} alt="a" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Verzögerungsstrecke</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="absolute z-0"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveS() ? solveS() : <p className="text-[#0059a9]">{s.toFixed(2).replace(".", ",")} m</p>)}</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={formS()} alt="s" ></Image></td>
               </tr>
