@@ -23,9 +23,9 @@ function VMT() {
                 const canvas = await html2canvas(element, {
                     useCORS: true,
                     allowTaint: true,
-                    backgroundColor: '#ffffff',
-                    scale: 2
-                });
+                    width: element.scrollWidth * 2,
+                    height: element.scrollHeight * 2
+                } as any);
                 
                 const link = document.createElement('a');
                 link.download = filename;
@@ -53,18 +53,38 @@ function VMT() {
                 const canvas = await html2canvas(element, {
                     useCORS: true,
                     allowTaint: true,
-                    backgroundColor: '#ffffff',
-                    scale: 2
-                });
+                    width: element.scrollWidth * 2,
+                    height: element.scrollHeight * 2
+                } as any);
                 
                 canvas.toBlob(async (blob) => {
                     if (blob) {
                         try {
-                            await navigator.clipboard.write([
-                                new ClipboardItem({ 'image/png': blob })
-                            ]);
+                            // Try modern clipboard API first
+                            if (navigator.clipboard && navigator.clipboard.write) {
+                                await navigator.clipboard.write([
+                                    new ClipboardItem({ 'image/png': blob })
+                                ]);
+                            } else {
+                                // Fallback: convert to data URL and show download for unsupported browsers
+                                const dataUrl = canvas.toDataURL('image/png');
+                                const link = document.createElement('a');
+                                link.download = `${tableId}.png`;
+                                link.href = dataUrl;
+                                link.click();
+                                
+                                alert('Clipboard not supported on this browser. Image has been downloaded instead.');
+                            }
                         } catch (error) {
-                            console.error('Clipboard copy failed:', error);
+                            console.error('Clipboard copy failed, trying fallback:', error);
+                            // Fallback: download the image instead
+                            const dataUrl = canvas.toDataURL('image/png');
+                            const link = document.createElement('a');
+                            link.download = `${tableId}.png`;
+                            link.href = dataUrl;
+                            link.click();
+                            
+                            alert('Clipboard copy failed. Image has been downloaded instead.');
                         }
                     }
                 });

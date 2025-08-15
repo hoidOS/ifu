@@ -37,9 +37,9 @@ function Stop() {
         const canvas = await html2canvas(element, {
           useCORS: true,
           allowTaint: true,
-          backgroundColor: '#ffffff',
-          scale: 2
-        });
+          width: element.scrollWidth * 2,
+          height: element.scrollHeight * 2
+        } as any);
         
         const link = document.createElement('a');
         link.download = 'ergebnisse-anhaltevorgang.png';
@@ -67,18 +67,56 @@ function Stop() {
         const canvas = await html2canvas(element, {
           useCORS: true,
           allowTaint: true,
-          backgroundColor: '#ffffff',
-          scale: 2
-        });
+          width: element.scrollWidth * 2,
+          height: element.scrollHeight * 2
+        } as any);
         
         canvas.toBlob(async (blob) => {
           if (blob) {
             try {
-              await navigator.clipboard.write([
-                new ClipboardItem({ 'image/png': blob })
-              ]);
+              // Check for clipboard support more thoroughly
+              if (navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) {
+                // Additional check for secure context (HTTPS requirement)
+                if (window.isSecureContext || location.protocol === 'https:' || 
+                    location.hostname === 'localhost' || location.hostname === '127.0.0.1' ||
+                    location.hostname.startsWith('192.168.') || location.hostname.endsWith('.local')) {
+                  
+                  // Test clipboard permissions first
+                  const permission = await navigator.permissions.query({ name: 'clipboard-write' as PermissionName });
+                  if (permission.state === 'denied') {
+                    throw new Error('Clipboard permission denied');
+                  }
+                  
+                  await navigator.clipboard.write([
+                    new ClipboardItem({ 'image/png': blob })
+                  ]);
+                  return; // Success, exit early
+                } else {
+                  throw new Error('Clipboard requires secure context (HTTPS)');
+                }
+              } else {
+                throw new Error('Clipboard API not supported');
+              }
             } catch (error) {
               console.error('Clipboard copy failed:', error);
+              // Fallback: download the image instead
+              const dataUrl = canvas.toDataURL('image/png');
+              const link = document.createElement('a');
+              link.download = 'ergebnisse-anhaltevorgang.png';
+              link.href = dataUrl;
+              link.click();
+              
+              // More specific error message
+              const errorMessage = error instanceof Error ? error.message : String(error);
+              if (errorMessage.includes('secure context')) {
+                alert('Clipboard requires HTTPS. Image has been downloaded instead.');
+              } else if (errorMessage.includes('permission denied')) {
+                alert('Clipboard permission denied. Image has been downloaded instead.\n\nTip: Allow clipboard access in browser settings or use the Download button.');
+              } else if (errorMessage.includes('not supported')) {
+                alert('Clipboard not supported on this browser/OS. Image has been downloaded instead.\n\nTip: Use the Download button for reliable saving.');
+              } else {
+                alert('Clipboard copy failed. Image has been downloaded instead.');
+              }
             }
           }
         });
