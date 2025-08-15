@@ -203,7 +203,7 @@ function ConstAccel() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input
                     type="number"
@@ -222,11 +222,11 @@ function ConstAccel() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Strecke</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input
                     type="number"
@@ -245,11 +245,11 @@ function ConstAccel() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Dauer</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center">
                   <input
                     type="number"
@@ -268,7 +268,7 @@ function ConstAccel() {
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                   />
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
             </tbody>
           </table>
@@ -308,21 +308,21 @@ function ConstAccel() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!vIsSet ? <p>{vO}</p> : <p className="text-[#0059a9]">{v.toFixed(2).replace(".", ",")} km/h</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dvF} alt="dvF" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dvF} alt="dvF" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Strecke</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!sIsSet ? <p>{sO}</p> : <p className="text-[#0059a9]">{s.toFixed(2).replace(".", ",")} m</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dsF} alt="dsF" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dsF} alt="dsF" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Dauer</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!tIsSet ? <p>{tO}</p> : <p className="text-[#0059a9]">{t.toFixed(2).replace(".", ",")} s</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dtF} alt="dtF" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dtF} alt="dtF" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
             </tbody>
           </table>

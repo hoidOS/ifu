@@ -234,7 +234,7 @@ function VMT() {
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -274,12 +274,12 @@ function VMT() {
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
                             <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{s.toFixed(1).replace(".", ",")}</td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Durchmesser</td>
                             <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{solveMax()}</td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -327,7 +327,7 @@ function VMT() {
                                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                                 />
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -367,22 +367,22 @@ function VMT() {
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
                             <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{sR.toFixed(1).replace(".", ",")}</td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Pointer 1 mRad</td>
                             <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(sR * 0.001).toFixed(3).replace(".", ",")}</td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Strahlaufweitung 3 mRad</td>
                             <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(sR * 0.003).toFixed(3).replace(".", ",")}</td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Zielerfassungsbereich 5 mRad</td>
                             <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(sR * 0.005).toFixed(3).replace(".", ",")}</td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                     </tbody>
                 </table>

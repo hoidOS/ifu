@@ -114,23 +114,23 @@ function Sonst() {
               </tr>
               <tr>
                 <th>Steigung</th>
-                <th><Image src={SVG.p} alt="vA"></Image></th>
+                <th><Image src={SVG.p} alt="vA" className="inline-block max-w-full h-auto"></Image></th>
                 <th>
                   <div>
                     <input type="number" placeholder="%" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => pset(e.target.valueAsNumber)} />
                   </div>
                 </th>
-                <th><Image src={SVG.percent} alt="vA"></Image></th>
+                <th><Image src={SVG.percent} alt="vA" className="inline-block max-w-full h-auto"></Image></th>
               </tr>
               <tr>
                 <th>Steigungswinkel</th>
-                <th><Image src={SVG.alpha} alt="vA"></Image></th>
+                <th><Image src={SVG.alpha} alt="vA" className="inline-block max-w-full h-auto"></Image></th>
                 <th>
                   <div>
                     <input type="number" placeholder="°" defaultValue={''} onWheel={e => e.currentTarget.blur()} onChange={(e) => alphaset(e.target.valueAsNumber)} />
                   </div>
                 </th>
-                <th><Image src={SVG.degree} alt="vA"></Image></th>
+                <th><Image src={SVG.degree} alt="vA" className="inline-block max-w-full h-auto"></Image></th>
               </tr>
             </tbody>
           </table>
@@ -152,21 +152,21 @@ function Sonst() {
               </tr>
               <tr>
                 <th>Steigung</th>
-                <th><Image src={SVG.p} alt="vA"></Image></th>
+                <th><Image src={SVG.p} alt="vA" className="inline-block max-w-full h-auto"></Image></th>
                 <th>{isError() ? <p className="text-red-500">ERROR</p> : (convAlpha() ? convAlpha() : <p className="text-[#0059a9]">{p.toFixed(2).replace(".", ",")} %</p>)}</th>
-                <th><Image src={SVG.alphaToP} alt="dtF" ></Image></th>
+                <th><Image src={SVG.alphaToP} alt="dtF" className="inline-block max-w-full h-auto"></Image></th>
               </tr>
               <tr>
                 <th>Steigungswinkel</th>
-                <th><Image src={SVG.alpha} alt="vA"></Image></th>
+                <th><Image src={SVG.alpha} alt="vA" className="inline-block max-w-full h-auto"></Image></th>
                 <th>{isError() ? <p className="text-red-500">ERROR</p> : (convP() ? convP() : <p className="text-[#0059a9]">{alpha.toFixed(2).replace(".", ",")} °</p>)}</th>
-                <th><Image src={SVG.pToAlpha} alt="dtF" ></Image></th>
+                <th><Image src={SVG.pToAlpha} alt="dtF" className="inline-block max-w-full h-auto"></Image></th>
               </tr>
               <tr>
                 <th>Steigungsverzögerung</th>
-                <th><Image src={SVG.a} alt="vA"></Image></th>
+                <th><Image src={SVG.a} alt="vA" className="inline-block max-w-full h-auto"></Image></th>
                 <th>{isError() ? <p className="text-red-500">ERROR</p> : (accel() || <p className="text-gray-400">-</p>)}</th>
-                <th><Image src={SVG.asteig} alt="asteig" ></Image></th>
+                <th><Image src={SVG.asteig} alt="asteig" className="inline-block max-w-full h-auto"></Image></th>
               </tr>
             </tbody>
           </table>

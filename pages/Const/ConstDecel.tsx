@@ -514,7 +514,7 @@ function ConstDecel() {
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveVA() ? solveVA() : <p className="text-[#0059a9]">{vA.toFixed(2).replace(".", ",")} km/h</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formVA()} alt="vA" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formVA()} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
@@ -532,13 +532,13 @@ function ConstDecel() {
                 <td className="py-2 px-2 font-medium text-gray-700">Verzögerungsstrecke</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveS() ? solveS() : <p className="text-[#0059a9]">{s.toFixed(2).replace(".", ",")} m</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formS()} alt="s" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formS()} alt="s" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Verzögerungsdauer</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (solveT() ? solveT() : <p className="text-[#0059a9]">{t.toFixed(2).replace(".", ",")} s</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formT()} alt="t" ></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formT()} alt="t" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
             </tbody>
           </table>
