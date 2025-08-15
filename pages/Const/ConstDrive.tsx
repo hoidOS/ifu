@@ -61,7 +61,8 @@ function ConstAccel() {
                     logging: false,
                     foreignObjectRendering: false,
                     imageTimeout: 15000,
-                    removeContainer: true
+                    removeContainer: true,
+                    scale: 2
                 } as any);
                 
                 const link = document.createElement('a');
@@ -114,7 +115,8 @@ function ConstAccel() {
                     logging: false,
                     foreignObjectRendering: false,
                     imageTimeout: 15000,
-                    removeContainer: true
+                    removeContainer: true,
+                    scale: 2
                 } as any);
                 
                 canvas.toBlob(async (blob) => {
