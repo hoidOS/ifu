@@ -13,8 +13,15 @@ function VMT() {
 
     const handleScreenshot = async (tableId: string, filename: string) => {
         const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
+        const tables = document.querySelectorAll(`#${tableId} table`);
+        
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'none';
+        });
+        
+        tables.forEach(table => {
+            (table as HTMLElement).style.border = 'none';
+            (table as HTMLElement).style.boxShadow = 'none';
         });
         
         const element = document.getElementById(tableId);
@@ -41,12 +48,24 @@ function VMT() {
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'flex';
         });
+        
+        tables.forEach(table => {
+            (table as HTMLElement).style.border = '';
+            (table as HTMLElement).style.boxShadow = '';
+        });
     };
 
     const handleClipboard = async (tableId: string) => {
         const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
+        const tables = document.querySelectorAll(`#${tableId} table`);
+        
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'none';
+        });
+        
+        tables.forEach(table => {
+            (table as HTMLElement).style.border = 'none';
+            (table as HTMLElement).style.boxShadow = 'none';
         });
         
         const element = document.getElementById(tableId);
@@ -100,6 +119,11 @@ function VMT() {
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'flex';
         });
+        
+        tables.forEach(table => {
+            (table as HTMLElement).style.border = '';
+            (table as HTMLElement).style.boxShadow = '';
+        });
     };
 
     const d = () => {
@@ -134,7 +158,7 @@ function VMT() {
                     <h2 className="text-lg font-semibold">ESO</h2>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
                         <tr className="border-b-2 border-[#0059a9]">
                             <th className="text-[#0059a9] font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
@@ -183,7 +207,7 @@ function VMT() {
                     </div>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
                         <tr className="border-b-2 border-[#0059a9]">
                             <th className="text-[#0059a9] font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
@@ -212,7 +236,7 @@ function VMT() {
                     <h2 className="text-lg font-semibold">Riegl</h2>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
                         <tr className="border-b-2 border-[#0059a9]">
                             <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Riegl Strahlaufweitung</th>
@@ -261,7 +285,7 @@ function VMT() {
                     </div>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
                         <tr className="border-b-2 border-[#0059a9]">
                             <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Riegl Strahlaufweitung</th>

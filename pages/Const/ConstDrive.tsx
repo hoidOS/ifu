@@ -13,8 +13,15 @@ function ConstAccel() {
 
     const handleScreenshot = async (tableId: string, filename: string) => {
         const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
+        const tables = document.querySelectorAll(`#${tableId} table`);
+        
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'none';
+        });
+        
+        tables.forEach(table => {
+            (table as HTMLElement).style.border = 'none';
+            (table as HTMLElement).style.boxShadow = 'none';
         });
         
         const element = document.getElementById(tableId);
@@ -41,12 +48,24 @@ function ConstAccel() {
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'flex';
         });
+        
+        tables.forEach(table => {
+            (table as HTMLElement).style.border = '';
+            (table as HTMLElement).style.boxShadow = '';
+        });
     };
 
     const handleClipboard = async (tableId: string) => {
         const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
+        const tables = document.querySelectorAll(`#${tableId} table`);
+        
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'none';
+        });
+        
+        tables.forEach(table => {
+            (table as HTMLElement).style.border = 'none';
+            (table as HTMLElement).style.boxShadow = 'none';
         });
         
         const element = document.getElementById(tableId);
@@ -100,6 +119,11 @@ function ConstAccel() {
         buttons.forEach(button => {
             (button as HTMLElement).style.display = 'flex';
         });
+        
+        tables.forEach(table => {
+            (table as HTMLElement).style.border = '';
+            (table as HTMLElement).style.boxShadow = '';
+        });
     };
 
     const vIsSet = v >= 0 || !isNaN
@@ -117,7 +141,7 @@ function ConstAccel() {
                     <h2 className="text-lg font-semibold">Konstantfahrt</h2>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
                         <tr className="border-b-2 border-[#0059a9]">
                             <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
@@ -198,7 +222,7 @@ function ConstAccel() {
                     </div>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm">
+                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
                         <tr className="border-b-2 border-[#0059a9]">
                             <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>

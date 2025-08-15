@@ -27,8 +27,15 @@ function Stop() {
 
   const handleScreenshot = async () => {
     const buttons = document.querySelectorAll('#screenshot-button, #clipboard-button');
+    const tables = document.querySelectorAll('#results-print table');
+    
     buttons.forEach(button => {
       (button as HTMLElement).style.display = 'none';
+    });
+    
+    tables.forEach(table => {
+      (table as HTMLElement).style.border = 'none';
+      (table as HTMLElement).style.boxShadow = 'none';
     });
     
     const element = document.getElementById('results-print');
@@ -58,12 +65,24 @@ function Stop() {
     buttons.forEach(button => {
       (button as HTMLElement).style.display = 'block';
     });
+    
+    tables.forEach(table => {
+      (table as HTMLElement).style.border = '';
+      (table as HTMLElement).style.boxShadow = '';
+    });
   };
 
   const handleClipboard = async () => {
     const buttons = document.querySelectorAll('#screenshot-button, #clipboard-button');
+    const tables = document.querySelectorAll('#results-print table');
+    
     buttons.forEach(button => {
       (button as HTMLElement).style.display = 'none';
+    });
+    
+    tables.forEach(table => {
+      (table as HTMLElement).style.border = 'none';
+      (table as HTMLElement).style.boxShadow = 'none';
     });
     
     const element = document.getElementById('results-print');
@@ -138,6 +157,11 @@ function Stop() {
     buttons.forEach(button => {
       (button as HTMLElement).style.display = 'block';
     });
+    
+    tables.forEach(table => {
+      (table as HTMLElement).style.border = '';
+      (table as HTMLElement).style.boxShadow = '';
+    });
   };
 
   const reaction: string = util.getReaction(input.vA, input.tR)
@@ -164,7 +188,7 @@ function Stop() {
             <h2 className="text-base font-semibold">Anhaltevorgang</h2>
           </div>
           <div className="p-4">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
             <thead>
               <tr className="border-b-2 border-[#0059a9]">
                 <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
@@ -272,7 +296,7 @@ function Stop() {
             </div>
           </div>
           <div className="p-4">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
             <thead>
               <tr className="border-b-2 border-[#0059a9]">
                 <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
