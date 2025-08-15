@@ -26,6 +26,22 @@ function ConstDecel() {
         if (savedT && !isNaN(parseFloat(savedT))) tset(parseFloat(savedT));
     }, []);
 
+    // Reset function to clear all input fields and sessionStorage
+    const handleReset = () => {
+        vAset(NaN);
+        vEset(NaN);
+        aset(NaN);
+        sset(NaN);
+        tset(NaN);
+        
+        // Clear from sessionStorage
+        sessionStorage.removeItem('constDecel_vA');
+        sessionStorage.removeItem('constDecel_vE');
+        sessionStorage.removeItem('constDecel_a');
+        sessionStorage.removeItem('constDecel_s');
+        sessionStorage.removeItem('constDecel_t');
+    };
+
     const handleScreenshot = async (tableId: string, filename: string) => {
         const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
         const tables = document.querySelectorAll(`#${tableId} table`);
@@ -320,8 +336,15 @@ function ConstDecel() {
     return (
         <>
             <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-[#0059a9] text-white px-6 py-3">
+                <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">konstante Verzögerung</h2>
+                    <button 
+                        onClick={handleReset}
+                        className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                        title="Alle Eingaben zurücksetzen"
+                    >
+                        Reset
+                    </button>
                 </div>
                 <div className="p-4">
                 <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">

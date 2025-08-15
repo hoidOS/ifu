@@ -17,6 +17,17 @@ function VMT() {
         if (savedS && !isNaN(parseFloat(savedS))) sSet(parseFloat(savedS));
         if (savedSR && !isNaN(parseFloat(savedSR))) sRSet(parseFloat(savedSR));
     }, []);
+
+    // Reset function to clear all input fields and sessionStorage
+    const handleResetESO = () => {
+        sSet(NaN);
+        sessionStorage.removeItem('vmt_s');
+    };
+
+    const handleResetRiegl = () => {
+        sRSet(NaN);
+        sessionStorage.removeItem('vmt_sR');
+    };
     // const [sMax, sMaxSet] = useState<number>(NaN)
     // const [dMax, dMaxSet] = useState<number>(NaN)
 
@@ -181,8 +192,15 @@ function VMT() {
 
 
             <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-[#0059a9] text-white px-6 py-3">
+                <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">ESO</h2>
+                    <button 
+                        onClick={handleResetESO}
+                        className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                        title="ESO Eingaben zurücksetzen"
+                    >
+                        Reset
+                    </button>
                 </div>
                 <div className="p-4">
                 <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
@@ -267,8 +285,15 @@ function VMT() {
             </div>
 
             <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-[#0059a9] text-white px-6 py-3">
+                <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">Riegl</h2>
+                    <button 
+                        onClick={handleResetRiegl}
+                        className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                        title="Riegl Eingaben zurücksetzen"
+                    >
+                        Reset
+                    </button>
                 </div>
                 <div className="p-4">
                 <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
