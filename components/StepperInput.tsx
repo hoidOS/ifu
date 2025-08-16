@@ -37,7 +37,7 @@ const StepperInput: React.FC<StepperInputProps> = ({
   };
 
   return (
-    <div className="flex items-center">
+    <div className="relative flex items-center">
       {/* Minus Button */}
       <button
         onClick={handleDecrement}
@@ -55,7 +55,7 @@ const StepperInput: React.FC<StepperInputProps> = ({
         onChange={(e) => onChange(e.target.valueAsNumber)}
         onWheel={onWheel}
         placeholder={placeholder}
-        className={`flex-1 px-3 py-2 border-t border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center ${className}`}
+        className={`flex-1 px-3 py-2 border-t border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent focus:z-10 text-center ${className}`}
         step={step}
         min={min}
         max={max}
