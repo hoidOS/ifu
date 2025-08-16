@@ -169,9 +169,9 @@ function ConstAccel() {
     });
   };
 
-  const vIsSet = v >= 0 || !isNaN
-  const sIsSet = s >= 0 || !isNaN
-  const tIsSet = t >= 0 || !isNaN
+  const vIsSet = !isNaN(v) && v >= 0
+  const sIsSet = !isNaN(s) && s >= 0
+  const tIsSet = !isNaN(t) && t >= 0
 
   const vO = util.getSpeed(s, t)
   const sO = util.getDistance(v, t)
