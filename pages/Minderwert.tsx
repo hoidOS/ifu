@@ -709,6 +709,90 @@ function Minderwert() {
                 </tbody>
               </table>
             </div>
+            
+            {/* Calculation Breakdown Cards */}
+            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {/* BVSK Breakdown */}
+              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-3 h-3 rounded-full bg-[#0059a9]"></div>
+                  <h3 className="font-semibold text-gray-800">BVSK Berechnung</h3>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">WBW:</span>
+                    <span className="font-medium">{bvskInput.wbw.toFixed(2).replace(".", ",")} €</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">K-Faktor:</span>
+                    <span className="font-medium">{bvskInput.kFaktor.toFixed(3).replace(".", ",")}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">%-Wert:</span>
+                    <span className="font-medium">{bvskInput.prozentWert.toFixed(1).replace(".", ",")}%</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">M-Wert:</span>
+                    <span className="font-medium">{bvskInput.mWert.toFixed(1).replace(".", ",")}%</span>
+                  </div>
+                  <div className="border-t border-blue-300 pt-2 mt-2">
+                    <div className="flex justify-between font-semibold">
+                      <span className="text-gray-700">Ergebnis:</span>
+                      <span className="text-[#0059a9]">{bvskResult.toFixed(2).replace(".", ",")} €</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* MFM Breakdown */}
+              <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                  <h3 className="font-semibold text-gray-800">MFM Berechnung</h3>
+                </div>
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">VW:</span>
+                    <span className="font-medium">{mfmInput.vw.toFixed(2).replace(".", ",")} €</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">NP:</span>
+                    <span className="font-medium">{mfmInput.np.toFixed(2).replace(".", ",")} €</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Alter (Monate):</span>
+                    <span className="font-medium">{mfmInput.ageMonths} Monate</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">AK-Faktor:</span>
+                    <span className="font-medium">{mfmInput.ak.toFixed(4).replace(".", ",")}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">RK:</span>
+                    <span className="font-medium">{mfmInput.rk.toFixed(2).replace(".", ",")}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">SU:</span>
+                    <span className="font-medium">{mfmInput.su.toFixed(2).replace(".", ",")}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">FM:</span>
+                    <span className="font-medium">{mfmInput.fm.toFixed(2).replace(".", ",")}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">FV:</span>
+                    <span className="font-medium">{mfmInput.fv.toFixed(2).replace(".", ",")}</span>
+                  </div>
+                  <div className="border-t border-orange-300 pt-2 mt-2">
+                    <div className="flex justify-between font-semibold">
+                      <span className="text-gray-700">Ergebnis:</span>
+                      <span className="text-orange-600">{mfmResult.toFixed(2).replace(".", ",")} €</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
 
