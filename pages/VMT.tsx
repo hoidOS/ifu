@@ -63,7 +63,7 @@ function VMT() {
 
 
             <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">ESO</h2>
                     <button 
                         onClick={handleResetESO}
@@ -111,7 +111,7 @@ function VMT() {
             </div>
 
             <div id="eso-ergebnisse" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">ESO Ergebnisse</h2>
                     <div className="screenshot-buttons flex gap-2">
                         <button 
@@ -158,7 +158,7 @@ function VMT() {
             </div>
 
             <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">Riegl</h2>
                     <button 
                         onClick={handleResetRiegl}
@@ -206,7 +206,7 @@ function VMT() {
             </div>
 
             <div id="riegl-ergebnisse" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">Riegl Ergebnisse</h2>
                     <div className="screenshot-buttons flex gap-2">
                         <button 
