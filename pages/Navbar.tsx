@@ -1,9 +1,10 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { FaBars, FaWindowClose, FaCarCrash, FaCar, FaCamera, FaMoneyBill } from 'react-icons/fa'
 import { useState, useEffect } from 'react'
 
 function Navbar() {
-
+    const router = useRouter();
     const [nav, setNav] = useState(false)
     const [touchStart, setTouchStart] = useState(0)
     const [touchEnd, setTouchEnd] = useState(0)
@@ -72,23 +73,83 @@ function Navbar() {
                             <h1 className="bold cursor-pointer text-2xl md:text-3xl text-primary-700">STEINACKER</h1>
                         </Link>
                     </div>
-                    <div className="hidden lg:flex items-center gap-6">
-                        <ul className="flex items-center space-x-6 m-auto text-slate-700">
-                            <li className="flex items-center gap-3 text-base font-medium hover:text-primary-600 transition-colors">
-                                <FaCarCrash className="text-red-500" size={20} />
-                                <Link href="/Stop">Anhalt</Link>
+                    <div className="hidden lg:flex items-center gap-2">
+                        <ul className="flex items-center gap-2 m-auto text-slate-700">
+                            <li>
+                                <Link href="/Stop">
+                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer ${
+                                        router.pathname === '/Stop' 
+                                            ? 'bg-gradient-to-r from-red-50 to-red-100 text-red-700 shadow-lg shadow-red-100/50' 
+                                            : 'hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 hover:text-red-700 hover:shadow-lg hover:shadow-red-100/50'
+                                    }`}>
+                                        <FaCarCrash className={`transition-transform duration-300 ${
+                                            router.pathname === '/Stop' ? 'text-red-600 scale-110' : 'text-red-500 group-hover:scale-110'
+                                        }`} size={18} />
+                                        <span className="relative">
+                                            Anhalt
+                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-red-400 to-red-600 transform transition-transform duration-300 origin-left ${
+                                                router.pathname === '/Stop' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                                            }`}></span>
+                                        </span>
+                                    </div>
+                                </Link>
                             </li>
-                            <li className="flex items-center gap-3 text-base font-medium hover:text-primary-600 transition-colors">
-                                <FaCar className="text-blue-500" size={20} />
-                                <Link href="/Const">Konstant</Link>
+                            <li>
+                                <Link href="/Const">
+                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer ${
+                                        router.pathname === '/Const' 
+                                            ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 shadow-lg shadow-blue-100/50' 
+                                            : 'hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-blue-700 hover:shadow-lg hover:shadow-blue-100/50'
+                                    }`}>
+                                        <FaCar className={`transition-transform duration-300 ${
+                                            router.pathname === '/Const' ? 'text-blue-600 scale-110' : 'text-blue-500 group-hover:scale-110'
+                                        }`} size={18} />
+                                        <span className="relative">
+                                            Konstant
+                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-blue-400 to-blue-600 transform transition-transform duration-300 origin-left ${
+                                                router.pathname === '/Const' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                                            }`}></span>
+                                        </span>
+                                    </div>
+                                </Link>
                             </li>
-                            <li className="flex items-center gap-3 text-base font-medium hover:text-primary-600 transition-colors">
-                                <FaCamera className="text-green-500" size={20} />
-                                <Link href="/VMT">VMT</Link>
+                            <li>
+                                <Link href="/VMT">
+                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer ${
+                                        router.pathname === '/VMT' 
+                                            ? 'bg-gradient-to-r from-green-50 to-green-100 text-green-700 shadow-lg shadow-green-100/50' 
+                                            : 'hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 hover:text-green-700 hover:shadow-lg hover:shadow-green-100/50'
+                                    }`}>
+                                        <FaCamera className={`transition-transform duration-300 ${
+                                            router.pathname === '/VMT' ? 'text-green-600 scale-110' : 'text-green-500 group-hover:scale-110'
+                                        }`} size={18} />
+                                        <span className="relative">
+                                            VMT
+                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-green-400 to-green-600 transform transition-transform duration-300 origin-left ${
+                                                router.pathname === '/VMT' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                                            }`}></span>
+                                        </span>
+                                    </div>
+                                </Link>
                             </li>
-                            <li className="flex items-center gap-3 text-base font-medium hover:text-primary-600 transition-colors">
-                                <FaMoneyBill className="text-amber-500" size={20} />
-                                <Link href="/Minderwert">Minderwert</Link>
+                            <li>
+                                <Link href="/Minderwert">
+                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer ${
+                                        router.pathname === '/Minderwert' 
+                                            ? 'bg-gradient-to-r from-amber-50 to-amber-100 text-amber-700 shadow-lg shadow-amber-100/50' 
+                                            : 'hover:bg-gradient-to-r hover:from-amber-50 hover:to-amber-100 hover:text-amber-700 hover:shadow-lg hover:shadow-amber-100/50'
+                                    }`}>
+                                        <FaMoneyBill className={`transition-transform duration-300 ${
+                                            router.pathname === '/Minderwert' ? 'text-amber-600 scale-110' : 'text-amber-500 group-hover:scale-110'
+                                        }`} size={18} />
+                                        <span className="relative">
+                                            Minderwert
+                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600 transform transition-transform duration-300 origin-left ${
+                                                router.pathname === '/Minderwert' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                                            }`}></span>
+                                        </span>
+                                    </div>
+                                </Link>
                             </li>
                         </ul>
                     </div>
