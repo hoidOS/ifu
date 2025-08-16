@@ -140,6 +140,16 @@ const Home: NextPage = () => {
                 <h2 className="py-1 text-lg font-semibold text-slate-900 flex items-center gap-2">cardetektiv <span className="transition-transform translate-x-0 group-hover:translate-x-0.5">→</span></h2>
                 <p className="text-slate-600 leading-relaxed">Wiederbeschaffungswert Preisanalyse</p>
               </a>
+
+              <a
+                className="group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] hover:shadow-2xl hover:shadow-green-500/25 hover:border-green-300 focus:outline-none focus:ring-2 focus:ring-green-500/40 transform"
+                href="https://www.dat.de/reparaturkostenkalkulation/"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <h2 className="py-1 text-lg font-semibold text-slate-900 flex items-center gap-2">DAT <span className="transition-transform translate-x-0 group-hover:translate-x-0.5">→</span></h2>
+                <p className="text-slate-600 leading-relaxed">Reparaturkostenkalkulation</p>
+              </a>
             </div>
           </section>
 
