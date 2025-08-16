@@ -56,7 +56,8 @@ interface MFMInput {
   np: number; // Neupreis (New price)
   rk: number; // Reparaturkosten
   su: number; // Schadensumfang
-  ak: number; // Alterskorrektur (Age correction)
+  ageMonths: number; // Vehicle age in months
+  ak: number; // Alterskorrektur (Age correction) - calculated
   fm: number; // Faktor Marktgängigkeit
   fv: number; // Faktor Vorschaden (Prior damage factor)
 }
@@ -73,7 +74,8 @@ const mfmDefaults: MFMInput = {
   np: 0,
   rk: 0,
   su: 0.4,
-  ak: 0.2,
+  ageMonths: 0,
+  ak: 0.25, // Will be calculated based on ageMonths
   fm: 1.0,
   fv: 1.0
 }
@@ -92,7 +94,41 @@ const mfmTooltips = {
   su: "Schadensumfang (SU)\n\nFaktor zwischen 0.2 und 1.0 für das Ausmaß der Beschädigung:\n• 0.2: Ersatz/Reparatur von anbaubaren Teilen\n• 0.4: Ersatz/Reparatur von \"geschraubten\" Karosserieteilen\n• 0.6: Geringfügige Reparaturen an tragenden Karosserieteilen\n• 0.8: Erhebliche Reparaturen an tragenden Karosserieteilen\n• 1.0: Ersatz/Großreparatur tragender Karosserieteile",
   ak: "Alterskorrektur (AK)\n\nNichtlinearer Faktor basierend auf dem Fahrzeugalter (0-120 Monate), Bereich von 0.25 bis 0. Höhere Werte bedeuten größere Wertminderung.",
   fm: "Faktor Marktgängigkeit (FM)\n\nFaktor zwischen 0.6 und 1.4 für die Marktnachfrage:\n• 0.6: Sehr gut (Nachfrage übersteigt Angebot deutlich)\n• 0.8: Gut (Erhöhte Nachfrage)\n• 1.0: Normal (Ausgeglichenes Angebot und Nachfrage)\n• 1.2: Schlecht (Erhöhtes Angebot)\n• 1.4: Sehr schlecht (Fahrzeug schwer verkäuflich)",
-  fv: "Faktor Vorschaden (FV)\n\nFaktor zwischen 0.2 und 1.0 für vorherige Schäden:\n• 0.2: Erhebliche Vorschäden\n• 0.4: Hohe Vorschäden\n• 0.6: Mittlere Vorschäden\n• 0.8: Geringe Vorschäden\n• 1.0: Keine Vorschäden"
+  fv: "Faktor Vorschaden (FV)\n\nFaktor zwischen 0.2 und 1.0 für vorherige Schäden:\n• 0.2: Erhebliche Vorschäden\n• 0.4: Hohe Vorschäden\n• 0.6: Mittlere Vorschäden\n• 0.8: Geringe Vorschäden\n• 1.0: Keine Vorschäden",
+  ageMonths: "Fahrzeugalter (Monate)\n\nGeben Sie das Alter des Fahrzeugs in Monaten ein (0-120 Monate).\nDer AK-Faktor wird automatisch berechnet:\n• 0 Monate → AK 0.25\n• 6 Monate → AK 0.2417\n• 12 Monate → AK 0.2236\n• 24 Monate → AK 0.1734\n• 60 Monate → AK 0.0638\n• 96 Monate → AK 0.0535\n• 114 Monate → AK 0.0206\n• 120 Monate → AK 0.00"
+}
+
+// Calculate AK factor based on vehicle age in months (0-120 months)
+function calculateAKFactor(ageMonths: number): number {
+  // Clamp age between 0 and 120 months
+  const clampedAge = Math.max(0, Math.min(120, ageMonths));
+  
+  // Key points from the AK table
+  const akTable = [
+    { months: 0, ak: 0.25 },
+    { months: 6, ak: 0.2417 },
+    { months: 12, ak: 0.2236 },
+    { months: 24, ak: 0.1734 },
+    { months: 60, ak: 0.0638 },
+    { months: 96, ak: 0.0535 },
+    { months: 114, ak: 0.0206 },
+    { months: 120, ak: 0.00 }
+  ];
+
+  // Find the appropriate range for interpolation
+  for (let i = 0; i < akTable.length - 1; i++) {
+    const currentPoint = akTable[i];
+    const nextPoint = akTable[i + 1];
+    
+    if (currentPoint && nextPoint && clampedAge <= nextPoint.months) {
+      // Linear interpolation between the two points
+      const ratio = (clampedAge - currentPoint.months) / (nextPoint.months - currentPoint.months);
+      return currentPoint.ak + ratio * (nextPoint.ak - currentPoint.ak);
+    }
+  }
+  
+  // If age is exactly 120 or higher, return 0
+  return 0.00;
 }
 
 function Minderwert() {
@@ -116,6 +152,7 @@ function Minderwert() {
       np: sessionStorage.getItem('minderwert_mfm_np'),
       rk: sessionStorage.getItem('minderwert_mfm_rk'),
       su: sessionStorage.getItem('minderwert_mfm_su'),
+      ageMonths: sessionStorage.getItem('minderwert_mfm_ageMonths'),
       ak: sessionStorage.getItem('minderwert_mfm_ak'),
       fm: sessionStorage.getItem('minderwert_mfm_fm'),
       fv: sessionStorage.getItem('minderwert_mfm_fv')
@@ -135,7 +172,10 @@ function Minderwert() {
     if (savedMFM.np && !isNaN(parseFloat(savedMFM.np))) updatedMFM.np = parseFloat(savedMFM.np)
     if (savedMFM.rk && !isNaN(parseFloat(savedMFM.rk))) updatedMFM.rk = parseFloat(savedMFM.rk)
     if (savedMFM.su && !isNaN(parseFloat(savedMFM.su))) updatedMFM.su = parseFloat(savedMFM.su)
-    if (savedMFM.ak && !isNaN(parseFloat(savedMFM.ak))) updatedMFM.ak = parseFloat(savedMFM.ak)
+    if (savedMFM.ageMonths && !isNaN(parseFloat(savedMFM.ageMonths))) {
+      updatedMFM.ageMonths = parseFloat(savedMFM.ageMonths)
+      updatedMFM.ak = calculateAKFactor(updatedMFM.ageMonths)
+    }
     if (savedMFM.fm && !isNaN(parseFloat(savedMFM.fm))) updatedMFM.fm = parseFloat(savedMFM.fm)
     if (savedMFM.fv && !isNaN(parseFloat(savedMFM.fv))) updatedMFM.fv = parseFloat(savedMFM.fv)
 
@@ -453,8 +493,8 @@ function Minderwert() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
-                      <span>Alterskorrektur (AK)</span>
-                      <Tooltip content={mfmTooltips.ak}>
+                      <span>Fahrzeugalter</span>
+                      <Tooltip content={mfmTooltips.ageMonths}>
                         <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
@@ -464,22 +504,45 @@ function Minderwert() {
                   <td className="py-2 px-2 text-center">
                     <input 
                       type="number" 
-                      step="0.01"
-                      placeholder="0.2"
-                      value={isNaN(mfmInput.ak) ? '' : mfmInput.ak} 
+                      min="0"
+                      max="120"
+                      placeholder="0"
+                      value={isNaN(mfmInput.ageMonths) ? '' : mfmInput.ageMonths} 
                       onChange={(e) => {
                         const value = e.target.valueAsNumber;
-                        setMfmInput({ ...mfmInput, ak: value });
+                        const akValue = isNaN(value) ? 0.25 : calculateAKFactor(value);
+                        setMfmInput({ ...mfmInput, ageMonths: value, ak: akValue });
                         if (!isNaN(value)) {
-                          sessionStorage.setItem('minderwert_mfm_ak', value.toString());
+                          sessionStorage.setItem('minderwert_mfm_ageMonths', value.toString());
                         } else {
-                          sessionStorage.removeItem('minderwert_mfm_ak');
+                          sessionStorage.removeItem('minderwert_mfm_ageMonths');
                         }
                       }}
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
                     />
                   </td>
-                  <td className="py-2 px-2 text-center text-gray-600 text-xs">0-0.25</td>
+                  <td className="py-2 px-2 text-center text-gray-600 text-xs">0-120 Monate</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">
+                    <div className="flex items-center gap-2">
+                      <span>Alterskorrektur (AK)</span>
+                      <Tooltip content="Automatisch berechnet basierend auf dem Fahrzeugalter">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+                        </svg>
+                      </Tooltip>
+                    </div>
+                  </td>
+                  <td className="py-2 px-2 text-center">
+                    <input 
+                      type="text"
+                      value={mfmInput.ak.toFixed(4)}
+                      readOnly
+                      className="w-full px-3 py-2 bg-gray-100 border border-gray-300 rounded-md focus:outline-none text-center text-gray-700 font-medium"
+                    />
+                  </td>
+                  <td className="py-2 px-2 text-center text-gray-600 text-xs">Berechnet</td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
