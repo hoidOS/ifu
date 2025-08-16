@@ -70,22 +70,42 @@ function Navbar() {
                 <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
                     <div className="self-center">
                         <Link href="/">
-                            <h1 className="bold cursor-pointer text-2xl md:text-3xl text-primary-700">STEINACKER</h1>
+                            <div className="group cursor-pointer">
+                                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 via-white to-blue-50 px-4 py-2.5 shadow-lg shadow-blue-200/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-300/40 hover:scale-[1.02] border border-blue-100">
+                                    {/* Subtle shine effect */}
+                                    <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                    
+                                    <div className="relative">
+                                        <h1 className="bold cursor-pointer text-2xl md:text-3xl text-primary-700 relative" style={{
+                                            textShadow: '2px 2px 4px rgba(0, 89, 169, 0.3), 1px 1px 2px rgba(0, 89, 169, 0.2)',
+                                            filter: 'drop-shadow(0 1px 2px rgba(0, 89, 169, 0.1))'
+                                        }}>
+                                            STEINACKER
+                                        </h1>
+                                    </div>
+                                    
+                                    {/* Bottom accent line */}
+                                    <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent"></div>
+                                </div>
+                            </div>
                         </Link>
                     </div>
                     <div className="hidden lg:flex items-center gap-2">
                         <ul className="flex items-center gap-2 m-auto text-slate-700">
                             <li>
                                 <Link href="/Stop">
-                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer ${
+                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
                                         router.pathname === '/Stop' 
-                                            ? 'bg-gradient-to-r from-red-50 to-red-100 text-red-700 shadow-lg shadow-red-100/50' 
-                                            : 'hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 hover:text-red-700 hover:shadow-lg hover:shadow-red-100/50'
+                                            ? 'bg-gradient-to-r from-red-50 to-red-100 text-red-700 shadow-lg shadow-red-200/40 border-red-200' 
+                                            : 'hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 hover:text-red-700 hover:shadow-lg hover:shadow-red-200/40 border-transparent hover:border-red-200'
                                     }`}>
                                         <FaCarCrash className={`transition-transform duration-300 ${
                                             router.pathname === '/Stop' ? 'text-red-600 scale-110' : 'text-red-500 group-hover:scale-110'
                                         }`} size={18} />
-                                        <span className="relative">
+                                        <span className="relative" style={{
+                                            textShadow: router.pathname === '/Stop' ? '1px 1px 2px rgba(185, 28, 28, 0.2)' : '',
+                                            filter: router.pathname === '/Stop' ? 'drop-shadow(0 1px 1px rgba(185, 28, 28, 0.1))' : ''
+                                        }}>
                                             Anhalt
                                             <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-red-400 to-red-600 transform transition-transform duration-300 origin-left ${
                                                 router.pathname === '/Stop' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
@@ -96,15 +116,18 @@ function Navbar() {
                             </li>
                             <li>
                                 <Link href="/Const">
-                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer ${
+                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
                                         router.pathname === '/Const' 
-                                            ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 shadow-lg shadow-blue-100/50' 
-                                            : 'hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-blue-700 hover:shadow-lg hover:shadow-blue-100/50'
+                                            ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 shadow-lg shadow-blue-200/40 border-blue-200' 
+                                            : 'hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-blue-700 hover:shadow-lg hover:shadow-blue-200/40 border-transparent hover:border-blue-200'
                                     }`}>
                                         <FaCar className={`transition-transform duration-300 ${
                                             router.pathname === '/Const' ? 'text-blue-600 scale-110' : 'text-blue-500 group-hover:scale-110'
                                         }`} size={18} />
-                                        <span className="relative">
+                                        <span className="relative" style={{
+                                            textShadow: router.pathname === '/Const' ? '1px 1px 2px rgba(29, 78, 216, 0.2)' : '',
+                                            filter: router.pathname === '/Const' ? 'drop-shadow(0 1px 1px rgba(29, 78, 216, 0.1))' : ''
+                                        }}>
                                             Konstant
                                             <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-blue-400 to-blue-600 transform transition-transform duration-300 origin-left ${
                                                 router.pathname === '/Const' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
@@ -115,15 +138,18 @@ function Navbar() {
                             </li>
                             <li>
                                 <Link href="/VMT">
-                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer ${
+                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
                                         router.pathname === '/VMT' 
-                                            ? 'bg-gradient-to-r from-green-50 to-green-100 text-green-700 shadow-lg shadow-green-100/50' 
-                                            : 'hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 hover:text-green-700 hover:shadow-lg hover:shadow-green-100/50'
+                                            ? 'bg-gradient-to-r from-green-50 to-green-100 text-green-700 shadow-lg shadow-green-200/40 border-green-200' 
+                                            : 'hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 hover:text-green-700 hover:shadow-lg hover:shadow-green-200/40 border-transparent hover:border-green-200'
                                     }`}>
                                         <FaCamera className={`transition-transform duration-300 ${
                                             router.pathname === '/VMT' ? 'text-green-600 scale-110' : 'text-green-500 group-hover:scale-110'
                                         }`} size={18} />
-                                        <span className="relative">
+                                        <span className="relative" style={{
+                                            textShadow: router.pathname === '/VMT' ? '1px 1px 2px rgba(21, 128, 61, 0.2)' : '',
+                                            filter: router.pathname === '/VMT' ? 'drop-shadow(0 1px 1px rgba(21, 128, 61, 0.1))' : ''
+                                        }}>
                                             VMT
                                             <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-green-400 to-green-600 transform transition-transform duration-300 origin-left ${
                                                 router.pathname === '/VMT' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
@@ -134,15 +160,18 @@ function Navbar() {
                             </li>
                             <li>
                                 <Link href="/Minderwert">
-                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer ${
+                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
                                         router.pathname === '/Minderwert' 
-                                            ? 'bg-gradient-to-r from-amber-50 to-amber-100 text-amber-700 shadow-lg shadow-amber-100/50' 
-                                            : 'hover:bg-gradient-to-r hover:from-amber-50 hover:to-amber-100 hover:text-amber-700 hover:shadow-lg hover:shadow-amber-100/50'
+                                            ? 'bg-gradient-to-r from-amber-50 to-amber-100 text-amber-700 shadow-lg shadow-amber-200/40 border-amber-200' 
+                                            : 'hover:bg-gradient-to-r hover:from-amber-50 hover:to-amber-100 hover:text-amber-700 hover:shadow-lg hover:shadow-amber-200/40 border-transparent hover:border-amber-200'
                                     }`}>
                                         <FaMoneyBill className={`transition-transform duration-300 ${
                                             router.pathname === '/Minderwert' ? 'text-amber-600 scale-110' : 'text-amber-500 group-hover:scale-110'
                                         }`} size={18} />
-                                        <span className="relative">
+                                        <span className="relative" style={{
+                                            textShadow: router.pathname === '/Minderwert' ? '1px 1px 2px rgba(180, 83, 9, 0.2)' : '',
+                                            filter: router.pathname === '/Minderwert' ? 'drop-shadow(0 1px 1px rgba(180, 83, 9, 0.1))' : ''
+                                        }}>
                                             Minderwert
                                             <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600 transform transition-transform duration-300 origin-left ${
                                                 router.pathname === '/Minderwert' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
