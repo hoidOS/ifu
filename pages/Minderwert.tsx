@@ -646,115 +646,175 @@ function Minderwert() {
           </div>
         </div>
 
-        {/* Combined Results and Comparison */}
-        <div id="combined-results" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white md:col-span-2">
-          <div className="bg-[#0059a9] text-white px-4 py-2 card-header flex justify-between items-center">
-            <h2 className="text-base font-semibold">Minderwert Auswertung</h2>
+        {/* Results Table */}
+        <div id="results-table" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white relative">
+          {/* Background Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50 opacity-50"></div>
+          
+          <div className="relative bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-4 py-3 card-header flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Minderwert Berechnungen</h2>
             <div className="flex gap-2">
               <button 
                 id="clipboard-button"
-                onClick={() => handleClipboard('combined-results')}
+                onClick={() => handleClipboard('results-table')}
                 disabled={isProcessing}
-                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white/20 hover:shadow-sm transition-all duration-200 border border-white/30 disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button 
                 id="screenshot-button"
-                onClick={() => handleScreenshot('combined-results', 'minderwert-auswertung.png')}
+                onClick={() => handleScreenshot('results-table', 'minderwert-berechnungen.png')}
                 disabled={isProcessing}
-                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
                 {isProcessing ? 'Lade...' : 'Download'}
               </button>
             </div>
           </div>
-          <div className="p-4 grid md:grid-cols-2 gap-6 divide-x-2 divide-gray-200">
-            {/* Left: Calculations Table */}
-            <div className="flex flex-col justify-center items-center pr-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4 text-center">Berechnungen</h3>
-              <table className="text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+          
+          <div className="relative p-6">
+            <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+              <table className="w-full text-sm">
                 <thead>
-                  <tr className="border-b-2 border-[#0059a9]">
-                    <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Modell</th>
-                    <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
-                    <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Ergebnis</th>
+                  <tr className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white">
+                    <th className="font-semibold text-left py-4 px-4">Modell</th>
+                    <th className="font-semibold text-center py-4 px-4">Formel</th>
+                    <th className="font-semibold text-center py-4 px-4">Ergebnis</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
-                    <td className="py-2 px-2 font-medium text-gray-700">BVSK</td>
-                    <td className="py-2 px-2 text-center text-xs text-gray-600">MW = WBW × K-Faktor × (%-Wert + M-Wert) / 100</td>
-                    <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{bvskResult.toFixed(2).replace(".", ",")} €</td>
+                  <tr className="border-b border-gray-100 hover:bg-blue-50/50 transition-colors">
+                    <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-[#0059a9]"></div>
+                      BVSK
+                    </td>
+                    <td className="py-4 px-4 text-center text-xs text-gray-600 font-mono">MW = WBW × K-Faktor × (%-Wert + M-Wert) / 100</td>
+                    <td className="py-4 px-4 text-center">
+                      <span className="font-bold text-lg text-[#0059a9]">{bvskResult.toFixed(2).replace(".", ",")} €</span>
+                    </td>
                   </tr>
-                  <tr className="hover:bg-blue-50 transition-colors">
-                    <td className="py-2 px-2 font-medium text-gray-700">MFM</td>
-                    <td className="py-2 px-2 text-center text-xs text-gray-600">MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV</td>
-                    <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{mfmResult.toFixed(2).replace(".", ",")} €</td>
+                  <tr className="hover:bg-orange-50/50 transition-colors">
+                    <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2">
+                      <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                      MFM
+                    </td>
+                    <td className="py-4 px-4 text-center text-xs text-gray-600 font-mono">MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV</td>
+                    <td className="py-4 px-4 text-center">
+                      <span className="font-bold text-lg text-orange-600">{mfmResult.toFixed(2).replace(".", ",")} €</span>
+                    </td>
                   </tr>
                 </tbody>
               </table>
             </div>
+          </div>
+        </div>
 
-            {/* Right: Visual Comparison */}
-            <div className="pl-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-4">Vergleich</h3>
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
-                    <div className="text-lg font-bold text-[#0059a9]">B</div>
-                  </div>
-                  <h4 className="font-semibold text-gray-700 text-sm mb-1">BVSK</h4>
-                  <p className="text-lg font-bold text-[#0059a9]">{bvskResult.toFixed(2).replace(".", ",")} €</p>
+        {/* Visual Comparison */}
+        <div id="comparison-chart" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white relative">
+          {/* Background Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-white to-green-50 opacity-50"></div>
+          
+          <div className="relative bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-4 py-3 card-header flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Minderwert Vergleich</h2>
+            <div className="flex gap-2">
+              <button 
+                id="clipboard-button"
+                onClick={() => handleClipboard('comparison-chart')}
+                disabled={isProcessing}
+                className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white/20 hover:shadow-sm transition-all duration-200 border border-white/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                title="In Zwischenablage kopieren"
+              >
+                {isProcessing ? 'Kopiere...' : 'Kopieren'}
+              </button>
+              <button 
+                id="screenshot-button"
+                onClick={() => handleScreenshot('comparison-chart', 'minderwert-vergleich.png')}
+                disabled={isProcessing}
+                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Als PNG herunterladen"
+              >
+                {isProcessing ? 'Lade...' : 'Download'}
+              </button>
+            </div>
+          </div>
+          
+          <div className="relative p-6">
+            {/* Enhanced Value Cards */}
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <div className="text-center bg-gradient-to-b from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200 shadow-sm">
+                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-[#0059a9] flex items-center justify-center shadow-lg">
+                  <div className="text-xl font-bold text-white">B</div>
                 </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-2 rounded-full bg-green-100 flex items-center justify-center">
-                    <div className="text-lg font-bold text-green-600">Ø</div>
-                  </div>
-                  <h4 className="font-semibold text-gray-700 text-sm mb-1">Gerundeter Durchschnitt</h4>
-                  <p className="text-lg font-bold text-green-600">{(Math.round(((bvskResult + mfmResult) / 2) / 50) * 50).toFixed(2).replace(".", ",")} €</p>
-                </div>
-                <div className="text-center">
-                  <div className="w-16 h-16 mx-auto mb-2 rounded-full bg-orange-100 flex items-center justify-center">
-                    <div className="text-lg font-bold text-orange-600">M</div>
-                  </div>
-                  <h4 className="font-semibold text-gray-700 text-sm mb-1">MFM</h4>
-                  <p className="text-lg font-bold text-orange-600">{mfmResult.toFixed(2).replace(".", ",")} €</p>
-                </div>
+                <h4 className="font-bold text-gray-700 text-sm mb-2">BVSK</h4>
+                <p className="text-xl font-bold text-[#0059a9]">{bvskResult.toFixed(2).replace(".", ",")} €</p>
               </div>
               
-              {/* Visual Bar Comparison */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 text-xs font-medium text-gray-700">BVSK</div>
-                  <div className="flex-1 bg-gray-200 rounded-full h-5 relative overflow-hidden">
+              <div className="text-center bg-gradient-to-b from-green-50 to-green-100 rounded-xl p-4 border border-green-200 shadow-sm">
+                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-green-600 flex items-center justify-center shadow-lg">
+                  <div className="text-xl font-bold text-white">Ø</div>
+                </div>
+                <h4 className="font-bold text-gray-700 text-sm mb-2">Gerundeter Durchschnitt</h4>
+                <p className="text-xl font-bold text-green-600">{(Math.round(((bvskResult + mfmResult) / 2) / 50) * 50).toFixed(2).replace(".", ",")} €</p>
+              </div>
+              
+              <div className="text-center bg-gradient-to-b from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200 shadow-sm">
+                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-orange-500 flex items-center justify-center shadow-lg">
+                  <div className="text-xl font-bold text-white">M</div>
+                </div>
+                <h4 className="font-bold text-gray-700 text-sm mb-2">MFM</h4>
+                <p className="text-xl font-bold text-orange-600">{mfmResult.toFixed(2).replace(".", ",")} €</p>
+              </div>
+            </div>
+            
+            {/* Enhanced Progress Bars */}
+            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+              <h5 className="text-base font-semibold text-gray-700 mb-6 flex items-center gap-2">
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M3 3a1 1 0 000 2v8a2 2 0 002 2h2.586l-1.293 1.293a1 1 0 101.414 1.414L10 15.414l2.293 2.293a1 1 0 001.414-1.414L12.414 15H15a2 2 0 002-2V5a1 1 0 100-2H3zm11.707 4.707a1 1 0 00-1.414-1.414L10 9.586 8.707 8.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                </svg>
+                Proportionaler Vergleich
+              </h5>
+              <div className="space-y-5">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 text-sm font-bold text-gray-700 flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-[#0059a9]"></div>
+                    BVSK
+                  </div>
+                  <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
                     <div 
-                      className="bg-[#0059a9] h-full rounded-full transition-all duration-500"
-                      style={{ width: `${Math.max(5, (bvskResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
+                      className="bg-gradient-to-r from-[#0059a9] to-blue-500 h-full rounded-full transition-all duration-1000 shadow-sm"
+                      style={{ width: `${Math.max(10, (bvskResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
                     >
                     </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-3">
-                  <div className="w-12 text-xs font-medium text-gray-700">MFM</div>
-                  <div className="flex-1 bg-gray-200 rounded-full h-5 relative overflow-hidden">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 text-sm font-bold text-gray-700 flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                    MFM
+                  </div>
+                  <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
                     <div 
-                      className="bg-orange-500 h-full rounded-full transition-all duration-500"
-                      style={{ width: `${Math.max(5, (mfmResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
+                      className="bg-gradient-to-r from-orange-500 to-orange-400 h-full rounded-full transition-all duration-1000 shadow-sm"
+                      style={{ width: `${Math.max(10, (mfmResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
                     >
                     </div>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-3">
-                  <div className="w-12 text-xs font-medium text-gray-700">Ø</div>
-                  <div className="flex-1 bg-gray-200 rounded-full h-5 relative overflow-hidden">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 text-sm font-bold text-gray-700 flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    Ø
+                  </div>
+                  <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
                     <div 
-                      className="bg-green-500 h-full rounded-full transition-all duration-500"
-                      style={{ width: `${Math.max(5, ((Math.round(((bvskResult + mfmResult) / 2) / 50) * 50) / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
+                      className="bg-gradient-to-r from-green-500 to-green-400 h-full rounded-full transition-all duration-1000 shadow-sm"
+                      style={{ width: `${Math.max(10, ((Math.round(((bvskResult + mfmResult) / 2) / 50) * 50) / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
                     >
                     </div>
                   </div>
