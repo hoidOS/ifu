@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Image from 'next/image'
 import SVG from '../../assets/svg'
 import { useScreenshot } from '../../hooks/useScreenshot'
+import StepperInput from '../../components/StepperInput'
 
 function ConstAccel() {
   const [vA, vAset] = useState<number>(NaN)
@@ -230,14 +231,10 @@ function ConstAccel() {
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center">
-                  <input
-                    type="number"
-                    placeholder="v in km/h"
-                    value={isNaN(vA) ? '' : vA}
-                    onWheel={e => e.currentTarget.blur()}
-                    onChange={(e) => {
-                      const value = e.target.valueAsNumber;
+                <td className="py-2 px-2">
+                  <StepperInput
+                    value={vA}
+                    onChange={(value) => {
                       vAset(value);
                       if (!isNaN(value)) {
                         sessionStorage.setItem('constAccel_vA', value.toString());
@@ -245,7 +242,11 @@ function ConstAccel() {
                         sessionStorage.removeItem('constAccel_vA');
                       }
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                    step={1}
+                    min={0}
+                    max={300}
+                    placeholder="v in km/h"
+                    onWheel={e => e.currentTarget.blur()}
                   />
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
@@ -253,14 +254,10 @@ function ConstAccel() {
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center">
-                  <input
-                    type="number"
-                    placeholder="v in km/h"
-                    value={isNaN(vE) ? '' : vE}
-                    onWheel={e => e.currentTarget.blur()}
-                    onChange={(e) => {
-                      const value = e.target.valueAsNumber;
+                <td className="py-2 px-2">
+                  <StepperInput
+                    value={vE}
+                    onChange={(value) => {
                       vEset(value);
                       if (!isNaN(value)) {
                         sessionStorage.setItem('constAccel_vE', value.toString());
@@ -268,7 +265,11 @@ function ConstAccel() {
                         sessionStorage.removeItem('constAccel_vE');
                       }
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                    step={1}
+                    min={0}
+                    max={300}
+                    placeholder="v in km/h"
+                    onWheel={e => e.currentTarget.blur()}
                   />
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
@@ -276,14 +277,10 @@ function ConstAccel() {
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigung</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center">
-                  <input
-                    type="number"
-                    placeholder="a in m/s²"
-                    value={isNaN(a) ? '' : a}
-                    onWheel={e => e.currentTarget.blur()}
-                    onChange={(e) => {
-                      const value = e.target.valueAsNumber;
+                <td className="py-2 px-2">
+                  <StepperInput
+                    value={a}
+                    onChange={(value) => {
                       aset(value);
                       if (!isNaN(value)) {
                         sessionStorage.setItem('constAccel_a', value.toString());
@@ -291,7 +288,11 @@ function ConstAccel() {
                         sessionStorage.removeItem('constAccel_a');
                       }
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                    step={0.5}
+                    min={0}
+                    max={20}
+                    placeholder="a in m/s²"
+                    onWheel={e => e.currentTarget.blur()}
                   />
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
@@ -299,14 +300,10 @@ function ConstAccel() {
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsstrecke</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center">
-                  <input
-                    type="number"
-                    placeholder="s in Meter"
-                    value={isNaN(s) ? '' : s}
-                    onWheel={e => e.currentTarget.blur()}
-                    onChange={(e) => {
-                      const value = e.target.valueAsNumber;
+                <td className="py-2 px-2">
+                  <StepperInput
+                    value={s}
+                    onChange={(value) => {
                       sset(value);
                       if (!isNaN(value)) {
                         sessionStorage.setItem('constAccel_s', value.toString());
@@ -314,7 +311,11 @@ function ConstAccel() {
                         sessionStorage.removeItem('constAccel_s');
                       }
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                    step={1}
+                    min={0}
+                    max={1000}
+                    placeholder="s in Meter"
+                    onWheel={e => e.currentTarget.blur()}
                   />
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
@@ -322,14 +323,10 @@ function ConstAccel() {
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsdauer</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center">
-                  <input
-                    type="number"
-                    placeholder="t in Sekunden"
-                    value={isNaN(t) ? '' : t}
-                    onWheel={e => e.currentTarget.blur()}
-                    onChange={(e) => {
-                      const value = e.target.valueAsNumber;
+                <td className="py-2 px-2">
+                  <StepperInput
+                    value={t}
+                    onChange={(value) => {
                       tset(value);
                       if (!isNaN(value)) {
                         sessionStorage.setItem('constAccel_t', value.toString());
@@ -337,7 +334,11 @@ function ConstAccel() {
                         sessionStorage.removeItem('constAccel_t');
                       }
                     }}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                    step={0.5}
+                    min={0}
+                    max={60}
+                    placeholder="t in Sekunden"
+                    onWheel={e => e.currentTarget.blur()}
                   />
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
