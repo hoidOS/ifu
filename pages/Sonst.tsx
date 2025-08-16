@@ -12,15 +12,37 @@ function Sonst() {
   const [p, pset] = useState<number>(NaN)
   const [alpha, alphaset] = useState<number>(NaN)
   
+  // Curve radius calculation states
+  const [h, hset] = useState<number>(NaN) // Segmenthöhe
+  const [s, sset] = useState<number>(NaN) // Segmentlänge  
+  const [b, bset] = useState<number>(NaN) // Bogenlänge
+  
+  // Curve speed calculation states
+  const [R, Rset] = useState<number>(NaN) // Kurvenradius
+  const [muR, muRset] = useState<number>(NaN) // Reibwert
+  const [ue, ueset] = useState<number>(NaN) // Überhoehung
+  
   const { isProcessing, handleScreenshot, handleClipboard } = useScreenshot();
 
   // Load saved values from sessionStorage on component mount
   useEffect(() => {
     const savedP = sessionStorage.getItem('sonst_p');
     const savedAlpha = sessionStorage.getItem('sonst_alpha');
+    const savedH = sessionStorage.getItem('sonst_h');
+    const savedS = sessionStorage.getItem('sonst_s');
+    const savedB = sessionStorage.getItem('sonst_b');
+    const savedR = sessionStorage.getItem('sonst_R');
+    const savedMuR = sessionStorage.getItem('sonst_muR');
+    const savedUe = sessionStorage.getItem('sonst_ue');
 
     if (savedP && !isNaN(parseFloat(savedP))) pset(parseFloat(savedP));
     if (savedAlpha && !isNaN(parseFloat(savedAlpha))) alphaset(parseFloat(savedAlpha));
+    if (savedH && !isNaN(parseFloat(savedH))) hset(parseFloat(savedH));
+    if (savedS && !isNaN(parseFloat(savedS))) sset(parseFloat(savedS));
+    if (savedB && !isNaN(parseFloat(savedB))) bset(parseFloat(savedB));
+    if (savedR && !isNaN(parseFloat(savedR))) Rset(parseFloat(savedR));
+    if (savedMuR && !isNaN(parseFloat(savedMuR))) muRset(parseFloat(savedMuR));
+    if (savedUe && !isNaN(parseFloat(savedUe))) ueset(parseFloat(savedUe));
   }, []);
 
   // Reset function to clear all input fields and sessionStorage
@@ -31,6 +53,30 @@ function Sonst() {
     // Clear from sessionStorage
     sessionStorage.removeItem('sonst_p');
     sessionStorage.removeItem('sonst_alpha');
+  };
+
+  // Reset function for curve radius calculations
+  const handleResetCurve = () => {
+    hset(NaN);
+    sset(NaN);
+    bset(NaN);
+
+    // Clear from sessionStorage
+    sessionStorage.removeItem('sonst_h');
+    sessionStorage.removeItem('sonst_s');
+    sessionStorage.removeItem('sonst_b');
+  };
+
+  // Reset function for curve speed calculations
+  const handleResetSpeed = () => {
+    Rset(NaN);
+    muRset(NaN);
+    ueset(NaN);
+
+    // Clear from sessionStorage
+    sessionStorage.removeItem('sonst_R');
+    sessionStorage.removeItem('sonst_muR');
+    sessionStorage.removeItem('sonst_ue');
   };
 
   const convP = (): string | boolean => {
@@ -95,6 +141,74 @@ function Sonst() {
     return (!isNaN(p) && p > 0) && (!isNaN(alpha) && alpha > 0);
   }
 
+  // Curve radius calculation functions
+  const calculateRadius = (): string | boolean => {
+    if (!isNaN(h) && !isNaN(s) && h > 0 && s > 0) {
+      // R = (s²/8h) + (h/2)
+      const radius = (Math.pow(s, 2) / (8 * h)) + (h / 2);
+      return radius.toFixed(2).replace(".", ",") + " m";
+    }
+    return false;
+  }
+
+  const calculateZentriwinkel = (): string | boolean => {
+    const radius = calculateRadius();
+    if (radius && !isNaN(h) && !isNaN(s) && h > 0 && s > 0) {
+      const R = parseFloat(radius.toString().replace(",", ".").replace(" m", ""));
+      // Calculate central angle: θ = 2 * arcsin(s/(2*R))
+      const thetaRadians = 2 * Math.asin(s / (2 * R));
+      // Convert to degrees
+      const thetaDegrees = thetaRadians * (180 / Math.PI);
+      return thetaDegrees.toFixed(2).replace(".", ",") + "°";
+    }
+    return false;
+  }
+
+  const calculateBogenlange = (): string | boolean => {
+    const radius = calculateRadius();
+    if (radius && !isNaN(h) && !isNaN(s) && h > 0 && s > 0) {
+      const R = parseFloat(radius.toString().replace(",", ".").replace(" m", ""));
+      // Calculate central angle: θ = 2 * arcsin(s/(2*R))
+      const theta = 2 * Math.asin(s / (2 * R));
+      // Arc length: b = R * θ
+      const arcLength = R * theta;
+      return arcLength.toFixed(2).replace(".", ",") + " m";
+    }
+    return false;
+  }
+
+  const isCurveError = (): boolean => {
+    let inputCount = 0;
+    if (!isNaN(h) && h > 0) inputCount++;
+    if (!isNaN(s) && s > 0) inputCount++;
+    if (!isNaN(b) && b > 0) inputCount++;
+    return inputCount > 2; // Error if more than 2 inputs are provided
+  }
+
+  // Curve speed calculation functions
+  const calculateCurveSpeed = (): string | boolean => {
+    if (!isNaN(R) && !isNaN(muR) && R > 0 && muR > 0) {
+      // Excel formula: v = 3.6*SQRT((9.81*R*(μR+(e/100)))/(1-μR*(e/100)))
+      // where e is the banking percentage (ue)
+      const bankingDecimal = !isNaN(ue) && ue >= 0 ? ue / 100 : 0;
+      const numerator = 9.81 * R * (muR + bankingDecimal);
+      const denominator = 1 - (muR * bankingDecimal);
+      
+      // Avoid division by zero or negative values
+      if (denominator <= 0) {
+        return false;
+      }
+      
+      const speedKmh = 3.6 * Math.sqrt(numerator / denominator);
+      return speedKmh.toFixed(2).replace(".", ",") + " km/h";
+    }
+    return false;
+  }
+
+  const isSpeedError = (): boolean => {
+    // No specific error conditions for speed calculation
+    return false;
+  }
 
   return (
 
@@ -228,6 +342,310 @@ function Sonst() {
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (accel() || <p className="text-gray-400">-</p>)}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.asteig} alt="asteig" className="inline-block max-w-full h-auto"></Image></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Curve Radius Input Section */}
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Kurvenradius</h2>
+            <button
+              onClick={handleResetCurve}
+              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              title="Alle Eingaben zurücksetzen"
+            >
+              Reset
+            </button>
+          </div>
+          <div className="p-4">
+            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+              <thead>
+                <tr className="border-b-2 border-[#0059a9]">
+                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Segmenthöhe</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">h</td>
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={h}
+                      onChange={(value) => {
+                        hset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('sonst_h', value.toString());
+                        } else {
+                          sessionStorage.removeItem('sonst_h');
+                        }
+                      }}
+                      step={0.01}
+                      min={0}
+                      max={1000}
+                      placeholder="h in m"
+                      onWheel={e => e.currentTarget.blur()}
+                    />
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Segmentlänge</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">s</td>
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={s}
+                      onChange={(value) => {
+                        sset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('sonst_s', value.toString());
+                        } else {
+                          sessionStorage.removeItem('sonst_s');
+                        }
+                      }}
+                      step={0.01}
+                      min={0}
+                      max={1000}
+                      placeholder="s in m"
+                      onWheel={e => e.currentTarget.blur()}
+                    />
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
+                </tr>
+                <tr className="hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Bogenlänge</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">b</td>
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={b}
+                      onChange={(value) => {
+                        bset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('sonst_b', value.toString());
+                        } else {
+                          sessionStorage.removeItem('sonst_b');
+                        }
+                      }}
+                      step={0.01}
+                      min={0}
+                      max={1000}
+                      placeholder="b in m"
+                      onWheel={e => e.currentTarget.blur()}
+                    />
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Curve Radius Results Section */}
+        <div id="berechnungen-kurve" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Kurvenradius Ergebnisse</h2>
+            <div className="screenshot-buttons flex gap-2">
+              <button
+                onClick={() => handleClipboard('berechnungen-kurve')}
+                disabled={isProcessing}
+                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="In Zwischenablage kopieren"
+              >
+                {isProcessing ? 'Kopiere...' : 'Kopieren'}
+              </button>
+              <button
+                onClick={() => handleScreenshot('berechnungen-kurve', 'berechnungen-kurvenradius.png')}
+                disabled={isProcessing}
+                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Als PNG herunterladen"
+              >
+                {isProcessing ? 'Lade...' : 'Download'}
+              </button>
+            </div>
+          </div>
+          <div className="p-4">
+            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+              <thead>
+                <tr className="border-b-2 border-[#0059a9]">
+                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
+                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                    {isCurveError() ? <p className="text-red-500">ERROR</p> : (calculateRadius() || <p className="text-gray-400">-</p>)}
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">R = s²/8h + h/2</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Zentriwinkel</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">θ</td>
+                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                    {isCurveError() ? <p className="text-red-500">ERROR</p> : (calculateZentriwinkel() || <p className="text-gray-400">-</p>)}
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">θ = 2×arcsin(s/2R)</td>
+                </tr>
+                <tr className="hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Errechnete Bogenlänge</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">b<sub>err</sub></td>
+                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                    {isCurveError() ? <p className="text-red-500">ERROR</p> : (calculateBogenlange() || <p className="text-gray-400">-</p>)}
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">b = R × θ</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Curve Speed Input Section */}
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Kurvengrenzgeschwindigkeit</h2>
+            <button
+              onClick={handleResetSpeed}
+              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              title="Alle Eingaben zurücksetzen"
+            >
+              Reset
+            </button>
+          </div>
+          <div className="p-4">
+            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+              <thead>
+                <tr className="border-b-2 border-[#0059a9]">
+                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={R}
+                      onChange={(value) => {
+                        Rset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('sonst_R', value.toString());
+                        } else {
+                          sessionStorage.removeItem('sonst_R');
+                        }
+                      }}
+                      step={1}
+                      min={0}
+                      max={10000}
+                      placeholder="R in m"
+                      onWheel={e => e.currentTarget.blur()}
+                    />
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">μ<sub>R</sub></td>
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={muR}
+                      onChange={(value) => {
+                        muRset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('sonst_muR', value.toString());
+                        } else {
+                          sessionStorage.removeItem('sonst_muR');
+                        }
+                      }}
+                      step={0.01}
+                      min={0}
+                      max={2}
+                      placeholder="μR"
+                      onWheel={e => e.currentTarget.blur()}
+                    />
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">-</td>
+                </tr>
+                <tr className="hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Überhoehung</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">ü</td>
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={ue}
+                      onChange={(value) => {
+                        ueset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('sonst_ue', value.toString());
+                        } else {
+                          sessionStorage.removeItem('sonst_ue');
+                        }
+                      }}
+                      step={0.1}
+                      min={0}
+                      max={15}
+                      placeholder="ü in %"
+                      onWheel={e => e.currentTarget.blur()}
+                    />
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Curve Speed Results Section */}
+        <div id="berechnungen-geschwindigkeit" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Kurvengrenzgeschwindigkeit Ergebnisse</h2>
+            <div className="screenshot-buttons flex gap-2">
+              <button
+                onClick={() => handleClipboard('berechnungen-geschwindigkeit')}
+                disabled={isProcessing}
+                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="In Zwischenablage kopieren"
+              >
+                {isProcessing ? 'Kopiere...' : 'Kopieren'}
+              </button>
+              <button
+                onClick={() => handleScreenshot('berechnungen-geschwindigkeit', 'berechnungen-kurvengeschwindigkeit.png')}
+                disabled={isProcessing}
+                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Als PNG herunterladen"
+              >
+                {isProcessing ? 'Lade...' : 'Download'}
+              </button>
+            </div>
+          </div>
+          <div className="p-4">
+            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+              <thead>
+                <tr className="border-b-2 border-[#0059a9]">
+                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">v</td>
+                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                    {isSpeedError() ? <p className="text-red-500">ERROR</p> : (calculateCurveSpeed() || <p className="text-gray-400">-</p>)}
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">v = 3.6×√((g×R×(μ<sub>R</sub>+e))/(1-μ<sub>R</sub>×e))</td>
                 </tr>
               </tbody>
             </table>
