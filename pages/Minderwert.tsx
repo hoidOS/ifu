@@ -198,6 +198,27 @@ function Minderwert() {
   }
 
 
+  // Reset functions
+  const handleResetBVSK = () => {
+    setBvskInput(bvskDefaults);
+    sessionStorage.removeItem('minderwert_bvsk_wbw');
+    sessionStorage.removeItem('minderwert_bvsk_kFaktor');
+    sessionStorage.removeItem('minderwert_bvsk_prozentWert');
+    sessionStorage.removeItem('minderwert_bvsk_mWert');
+  };
+
+  const handleResetMFM = () => {
+    setMfmInput(mfmDefaults);
+    sessionStorage.removeItem('minderwert_mfm_vw');
+    sessionStorage.removeItem('minderwert_mfm_np');
+    sessionStorage.removeItem('minderwert_mfm_rk');
+    sessionStorage.removeItem('minderwert_mfm_su');
+    sessionStorage.removeItem('minderwert_mfm_ageMonths');
+    sessionStorage.removeItem('minderwert_mfm_ak');
+    sessionStorage.removeItem('minderwert_mfm_fm');
+    sessionStorage.removeItem('minderwert_mfm_fv');
+  };
+
   const bvskResult = calculateBVSK()
   const mfmResult = calculateMFM()
 
@@ -213,8 +234,15 @@ function Minderwert() {
 
         {/* BVSK Calculator */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
-          <div className="bg-[#0059a9] text-white px-4 py-2 card-header">
+          <div className="bg-[#0059a9] text-white px-4 py-2 card-header flex justify-between items-center">
             <h2 className="text-base font-semibold">BVSK</h2>
+            <button
+              onClick={handleResetBVSK}
+              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              title="Alle Eingaben zurücksetzen"
+            >
+              Reset
+            </button>
           </div>
           <div className="p-4">
             <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
@@ -356,8 +384,15 @@ function Minderwert() {
 
         {/* MFM Calculator */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
-          <div className="bg-[#0059a9] text-white px-4 py-2 card-header">
+          <div className="bg-[#0059a9] text-white px-4 py-2 card-header flex justify-between items-center">
             <h2 className="text-base font-semibold">MFM</h2>
+            <button
+              onClick={handleResetMFM}
+              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              title="Alle Eingaben zurücksetzen"
+            >
+              Reset
+            </button>
           </div>
           <div className="p-4">
             <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
