@@ -37,7 +37,7 @@ export function getdVA3(vE: number, s: number, t: number): string {
 // Calculate initial velocity from acceleration, distance and time (deceleration case)
 export function getdVA4(a: number, s: number, t: number): string {
     return (
-        ((s + 0.5 * a * Math.pow(t, 2)) * 3.6).toFixed(2).replace(".", ",") + ' km/h'
+        (((s + 0.5 * a * Math.pow(t, 2)) / t) * 3.6).toFixed(2).replace(".", ",") + ' km/h'
     )
 }
 
