@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import SVG from '../assets/svg'
 import * as util from '../components/utilStop'
-import html2canvas from 'html2canvas'
+import { useScreenshot } from '../hooks/useScreenshot'
 
 interface InputInterface {
   vA: number,
@@ -24,6 +24,7 @@ const data: InputInterface = {
 function Stop() {
 
   const [input, setInput] = useState<InputInterface>(data)
+  const { isProcessing, handleScreenshot, handleClipboard } = useScreenshot();
 
   // Load saved values from sessionStorage on component mount
   useEffect(() => {
@@ -43,158 +44,6 @@ function Stop() {
     setInput(updatedInput);
   }, []);
 
-  const handleScreenshot = async () => {
-    const buttons = document.querySelectorAll('#screenshot-button, #clipboard-button');
-    const tables = document.querySelectorAll('#results-print table');
-    const containers = document.querySelectorAll('#results-print .p-4');
-
-    buttons.forEach(button => {
-      (button as HTMLElement).style.display = 'none';
-    });
-
-    tables.forEach(table => {
-      (table as HTMLElement).style.border = 'none';
-      (table as HTMLElement).style.boxShadow = 'none';
-    });
-
-    containers.forEach(container => {
-      (container as HTMLElement).style.backgroundColor = 'transparent';
-    });
-
-    const element = document.getElementById('results-print');
-    if (element) {
-      try {
-        const canvas = await html2canvas(element, {
-          useCORS: true,
-          allowTaint: true,
-          logging: false,
-          foreignObjectRendering: false,
-          imageTimeout: 15000,
-          removeContainer: true,
-          scale: 4
-        } as any);
-
-        const link = document.createElement('a');
-        link.download = 'ergebnisse-anhaltevorgang.png';
-        link.href = canvas.toDataURL();
-        link.click();
-      } catch (error) {
-        console.error('Screenshot failed:', error);
-      }
-    }
-
-    buttons.forEach(button => {
-      (button as HTMLElement).style.display = 'block';
-    });
-
-    tables.forEach(table => {
-      (table as HTMLElement).style.border = '';
-      (table as HTMLElement).style.boxShadow = '';
-    });
-
-    containers.forEach(container => {
-      (container as HTMLElement).style.backgroundColor = '';
-    });
-  };
-
-  const handleClipboard = async () => {
-    const buttons = document.querySelectorAll('#screenshot-button, #clipboard-button');
-    const tables = document.querySelectorAll('#results-print table');
-    const containers = document.querySelectorAll('#results-print .p-4');
-
-    buttons.forEach(button => {
-      (button as HTMLElement).style.display = 'none';
-    });
-
-    tables.forEach(table => {
-      (table as HTMLElement).style.border = 'none';
-      (table as HTMLElement).style.boxShadow = 'none';
-    });
-
-    containers.forEach(container => {
-      (container as HTMLElement).style.backgroundColor = 'transparent';
-    });
-
-    const element = document.getElementById('results-print');
-    if (element) {
-      try {
-        const canvas = await html2canvas(element, {
-          useCORS: true,
-          allowTaint: true,
-          logging: false,
-          foreignObjectRendering: false,
-          imageTimeout: 15000,
-          removeContainer: true,
-          scale: 4
-        } as any);
-
-        canvas.toBlob(async (blob) => {
-          if (blob) {
-            try {
-              // Check for clipboard support more thoroughly
-              if (navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) {
-                // Additional check for secure context (HTTPS requirement)
-                if (window.isSecureContext || location.protocol === 'https:' ||
-                  location.hostname === 'localhost' || location.hostname === '127.0.0.1' ||
-                  location.hostname.startsWith('192.168.') || location.hostname.endsWith('.local')) {
-
-                  // Test clipboard permissions first
-                  const permission = await navigator.permissions.query({ name: 'clipboard-write' as PermissionName });
-                  if (permission.state === 'denied') {
-                    throw new Error('Clipboard permission denied');
-                  }
-
-                  await navigator.clipboard.write([
-                    new ClipboardItem({ 'image/png': blob })
-                  ]);
-                  return; // Success, exit early
-                } else {
-                  throw new Error('Clipboard requires secure context (HTTPS)');
-                }
-              } else {
-                throw new Error('Clipboard API not supported');
-              }
-            } catch (error) {
-              console.error('Clipboard copy failed:', error);
-              // Fallback: download the image instead
-              const dataUrl = canvas.toDataURL('image/png');
-              const link = document.createElement('a');
-              link.download = 'ergebnisse-anhaltevorgang.png';
-              link.href = dataUrl;
-              link.click();
-
-              // More specific error message
-              const errorMessage = error instanceof Error ? error.message : String(error);
-              if (errorMessage.includes('secure context')) {
-                alert('Clipboard requires HTTPS. Image has been downloaded instead.');
-              } else if (errorMessage.includes('permission denied')) {
-                alert('Clipboard permission denied. Image has been downloaded instead.\n\nTip: Allow clipboard access in browser settings or use the Download button.');
-              } else if (errorMessage.includes('not supported')) {
-                alert('Clipboard not supported on this browser/OS. Image has been downloaded instead.\n\nTip: Use the Download button for reliable saving.');
-              } else {
-                alert('Clipboard copy failed. Image has been downloaded instead.');
-              }
-            }
-          }
-        });
-      } catch (error) {
-        console.error('Screenshot failed:', error);
-      }
-    }
-
-    buttons.forEach(button => {
-      (button as HTMLElement).style.display = 'block';
-    });
-
-    tables.forEach(table => {
-      (table as HTMLElement).style.border = '';
-      (table as HTMLElement).style.boxShadow = '';
-    });
-
-    containers.forEach(container => {
-      (container as HTMLElement).style.backgroundColor = '';
-    });
-  };
 
   const reaction: string = util.getReaction(input.vA, input.tR)
   const breakDelay: string = util.getBreakDelay(input.vA, input.tS, input.am)
@@ -351,19 +200,21 @@ function Stop() {
             <div className="flex gap-2">
               <button
                 id="clipboard-button"
-                onClick={handleClipboard}
-                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                onClick={() => handleClipboard('results-print')}
+                disabled={isProcessing}
+                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
-                Kopieren
+                {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button
                 id="screenshot-button"
-                onClick={handleScreenshot}
-                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white"
+                onClick={() => handleScreenshot('results-print', 'ergebnisse-anhaltevorgang.png')}
+                disabled={isProcessing}
+                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
-                Download
+                {isProcessing ? 'Lade...' : 'Download'}
               </button>
             </div>
           </div>

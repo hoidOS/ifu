@@ -3,11 +3,13 @@ import { useState, useEffect } from "react";
 import Image from 'next/image'
 import Head from 'next/head'
 import SVG from '../assets/svg'
-import html2canvas from 'html2canvas'
+import { useScreenshot } from '../hooks/useScreenshot'
 
 function VMT() {
     const [s, sSet] = useState<number>(NaN)
     const [sR, sRSet] = useState<number>(NaN)
+    
+    const { isProcessing, handleScreenshot, handleClipboard } = useScreenshot();
 
     // Load saved values from sessionStorage on component mount
     useEffect(() => {
@@ -31,140 +33,6 @@ function VMT() {
     // const [sMax, sMaxSet] = useState<number>(NaN)
     // const [dMax, dMaxSet] = useState<number>(NaN)
 
-    const handleScreenshot = async (tableId: string, filename: string) => {
-        const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
-        const tables = document.querySelectorAll(`#${tableId} table`);
-        const containers = document.querySelectorAll(`#${tableId} .p-4`);
-        
-        buttons.forEach(button => {
-            (button as HTMLElement).style.display = 'none';
-        });
-        
-        tables.forEach(table => {
-            (table as HTMLElement).style.border = 'none';
-            (table as HTMLElement).style.boxShadow = 'none';
-        });
-        
-        containers.forEach(container => {
-            (container as HTMLElement).style.backgroundColor = 'transparent';
-        });
-        
-        const element = document.getElementById(tableId);
-        if (element) {
-            try {
-                const canvas = await html2canvas(element, {
-                    useCORS: true,
-                    allowTaint: true,
-                    logging: false,
-                    foreignObjectRendering: false,
-                    imageTimeout: 15000,
-                    removeContainer: true,
-                    scale: 4
-                } as any);
-                
-                const link = document.createElement('a');
-                link.download = filename;
-                link.href = canvas.toDataURL();
-                link.click();
-            } catch (error) {
-                console.error('Screenshot failed:', error);
-            }
-        }
-        
-        buttons.forEach(button => {
-            (button as HTMLElement).style.display = 'flex';
-        });
-        
-        tables.forEach(table => {
-            (table as HTMLElement).style.border = '';
-            (table as HTMLElement).style.boxShadow = '';
-        });
-        
-        containers.forEach(container => {
-            (container as HTMLElement).style.backgroundColor = '';
-        });
-    };
-
-    const handleClipboard = async (tableId: string) => {
-        const buttons = document.querySelectorAll(`#${tableId} .screenshot-buttons`);
-        const tables = document.querySelectorAll(`#${tableId} table`);
-        const containers = document.querySelectorAll(`#${tableId} .p-4`);
-        
-        buttons.forEach(button => {
-            (button as HTMLElement).style.display = 'none';
-        });
-        
-        tables.forEach(table => {
-            (table as HTMLElement).style.border = 'none';
-            (table as HTMLElement).style.boxShadow = 'none';
-        });
-        
-        containers.forEach(container => {
-            (container as HTMLElement).style.backgroundColor = 'transparent';
-        });
-        
-        const element = document.getElementById(tableId);
-        if (element) {
-            try {
-                const canvas = await html2canvas(element, {
-                    useCORS: true,
-                    allowTaint: true,
-                    logging: false,
-                    foreignObjectRendering: false,
-                    imageTimeout: 15000,
-                    removeContainer: true,
-                    scale: 4
-                } as any);
-                
-                canvas.toBlob(async (blob) => {
-                    if (blob) {
-                        try {
-                            // Try modern clipboard API first
-                            if (navigator.clipboard && navigator.clipboard.write) {
-                                await navigator.clipboard.write([
-                                    new ClipboardItem({ 'image/png': blob })
-                                ]);
-                            } else {
-                                // Fallback: convert to data URL and show download for unsupported browsers
-                                const dataUrl = canvas.toDataURL('image/png');
-                                const link = document.createElement('a');
-                                link.download = `${tableId}.png`;
-                                link.href = dataUrl;
-                                link.click();
-                                
-                                alert('Clipboard not supported on this browser. Image has been downloaded instead.');
-                            }
-                        } catch (error) {
-                            console.error('Clipboard copy failed, trying fallback:', error);
-                            // Fallback: download the image instead
-                            const dataUrl = canvas.toDataURL('image/png');
-                            const link = document.createElement('a');
-                            link.download = `${tableId}.png`;
-                            link.href = dataUrl;
-                            link.click();
-                            
-                            alert('Clipboard copy failed. Image has been downloaded instead.');
-                        }
-                    }
-                });
-            } catch (error) {
-                console.error('Screenshot failed:', error);
-            }
-        }
-        
-        buttons.forEach(button => {
-            (button as HTMLElement).style.display = 'flex';
-        });
-        
-        tables.forEach(table => {
-            (table as HTMLElement).style.border = '';
-            (table as HTMLElement).style.boxShadow = '';
-        });
-        
-        containers.forEach(container => {
-            (container as HTMLElement).style.backgroundColor = '';
-        });
-    };
 
     const d = () => {
         return ((0.45 * s) / 18) + 0.05
@@ -247,17 +115,19 @@ function VMT() {
                     <div className="screenshot-buttons flex gap-2">
                         <button 
                             onClick={() => handleClipboard('eso-ergebnisse')}
-                            className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                            disabled={isProcessing}
+                            className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                             title="In Zwischenablage kopieren"
                         >
-                            Kopieren
+                            {isProcessing ? 'Kopiere...' : 'Kopieren'}
                         </button>
                         <button 
                             onClick={() => handleScreenshot('eso-ergebnisse', 'eso-ergebnisse.png')}
-                            className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white"
+                            disabled={isProcessing}
+                            className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                             title="Als PNG herunterladen"
                         >
-                            Download
+                            {isProcessing ? 'Lade...' : 'Download'}
                         </button>
                     </div>
                 </div>
@@ -340,17 +210,19 @@ function VMT() {
                     <div className="screenshot-buttons flex gap-2">
                         <button 
                             onClick={() => handleClipboard('riegl-ergebnisse')}
-                            className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                            disabled={isProcessing}
+                            className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                             title="In Zwischenablage kopieren"
                         >
-                            Kopieren
+                            {isProcessing ? 'Kopiere...' : 'Kopieren'}
                         </button>
                         <button 
                             onClick={() => handleScreenshot('riegl-ergebnisse', 'riegl-ergebnisse.png')}
-                            className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white"
+                            disabled={isProcessing}
+                            className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                             title="Als PNG herunterladen"
                         >
-                            Download
+                            {isProcessing ? 'Lade...' : 'Download'}
                         </button>
                     </div>
                 </div>
