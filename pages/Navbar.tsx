@@ -137,6 +137,30 @@ function Navbar() {
                                 </Link>
                             </li>
                             <li>
+                                <Link href="/Sonst">
+                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
+                                        router.pathname === '/Sonst' 
+                                            ? 'bg-gradient-to-r from-purple-50 to-purple-100 text-purple-700 shadow-lg shadow-purple-200/40 border-purple-200' 
+                                            : 'hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 hover:text-purple-700 hover:shadow-lg hover:shadow-purple-200/40 border-transparent hover:border-purple-200'
+                                    }`}>
+                                        <svg className={`transition-transform duration-300 ${
+                                            router.pathname === '/Sonst' ? 'text-purple-600 scale-110' : 'text-purple-500 group-hover:scale-110'
+                                        }`} width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                        </svg>
+                                        <span className="relative" style={{
+                                            textShadow: router.pathname === '/Sonst' ? '1px 1px 2px rgba(126, 34, 206, 0.2)' : '',
+                                            filter: router.pathname === '/Sonst' ? 'drop-shadow(0 1px 1px rgba(126, 34, 206, 0.1))' : ''
+                                        }}>
+                                            Sonstiges
+                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 transform transition-transform duration-300 origin-left ${
+                                                router.pathname === '/Sonst' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                                            }`}></span>
+                                        </span>
+                                    </div>
+                                </Link>
+                            </li>
+                            <li>
                                 <Link href="/VMT">
                                     <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
                                         router.pathname === '/VMT' 
@@ -256,6 +280,21 @@ function Navbar() {
                                 </Link>
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-300" : "opacity-0 transform -translate-x-4"}>
+                                <Link href="/Sonst" onClick={handleNav}>
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
+                                        <div className="p-3 rounded-xl bg-purple-100 text-purple-600 group-hover:bg-purple-200 transition-colors">
+                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">Sonstiges</h3>
+                                            <p className="text-sm text-slate-500">Slope calculations</p>
+                                        </div>
+                                    </div>
+                                </Link>
+                            </li>
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-400" : "opacity-0 transform -translate-x-4"}>
                                 <Link href="/VMT" onClick={handleNav}>
                                     <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-green-100 text-green-600 group-hover:bg-green-200 transition-colors">
