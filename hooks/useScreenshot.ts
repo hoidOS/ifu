@@ -30,6 +30,7 @@ export const useScreenshot = (): UseScreenshotReturn => {
     scale: 4
   };
 
+  // Hide UI elements (buttons, borders) before taking screenshot
   const hideElements = (elementId: string) => {
     const buttons = document.querySelectorAll(`#${elementId} .screenshot-buttons, #${elementId} #screenshot-button, #${elementId} #clipboard-button`);
     const tables = document.querySelectorAll(`#${elementId} table`);
@@ -49,6 +50,7 @@ export const useScreenshot = (): UseScreenshotReturn => {
     });
   };
 
+  // Restore UI elements to original state after screenshot
   const restoreElements = (elementId: string) => {
     const buttons = document.querySelectorAll(`#${elementId} .screenshot-buttons, #${elementId} #screenshot-button, #${elementId} #clipboard-button`);
     const tables = document.querySelectorAll(`#${elementId} table`);
@@ -68,6 +70,7 @@ export const useScreenshot = (): UseScreenshotReturn => {
     });
   };
 
+  // Capture screenshot of specified element and download as PNG file
   const handleScreenshot = async (elementId: string, filename: string): Promise<void> => {
     if (isProcessing) return;
     
@@ -97,6 +100,7 @@ export const useScreenshot = (): UseScreenshotReturn => {
     }
   };
 
+  // Capture screenshot of specified element and copy to clipboard (with fallback to download)
   const handleClipboard = async (elementId: string): Promise<void> => {
     if (isProcessing) return;
     

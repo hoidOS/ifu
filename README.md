@@ -1,36 +1,129 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# STEINACKER - Forensic Automotive Analysis Suite
 
-## Getting Started
+A comprehensive Next.js web application for automotive forensic analysis and accident reconstruction calculations. This tool provides specialized calculators for vehicle dynamics, braking analysis, constant speed calculations, and video measurement tools.
 
-First, run the development server:
+## 🚗 Features
 
+### Core Analysis Tools
+- **Braking Analysis (Anhaltevorgang)** - Complete stopping distance calculations including reaction time, brake delay, and braking distance
+- **Constant Speed Analysis (Konstantfahrt)** - Acceleration, deceleration, and constant velocity calculations
+- **Video Measurement Tools (VMT)** - ESO and Riegl laser measurement beam divergence calculations
+- **Value Assessment (Minderwert)** - Vehicle damage value assessment tools
+
+### Additional Features
+- **Screenshot & Export** - Generate high-quality PNG exports and copy results to clipboard
+- **Session Storage** - Automatically saves input values across browser sessions
+- **Responsive Design** - Works on desktop and mobile devices
+- **Resource Links** - Quick access to maps, automotive databases, and crash test resources
+
+## 🛠️ Technology Stack
+
+- **Framework**: Next.js 15 with TypeScript
+- **Styling**: Tailwind CSS
+- **Icons**: React Icons (Font Awesome)
+- **Screenshot**: html2canvas for generating images
+- **State Management**: React useState with sessionStorage persistence
+
+## 📋 Development Commands
+
+### Installation
 ```bash
-npm run dev
-# or
-yarn dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Development
+```bash
+npm run dev
+# Starts development server at http://localhost:3000
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+### Build & Production
+```bash
+npm run build    # Build for production
+npm start        # Start production server
+```
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Code Quality
+```bash
+npm run lint     # Run ESLint
+```
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+## 📁 Project Structure
 
-## Learn More
+```
+nextjs-ifu/
+├── components/           # Utility functions and components
+│   ├── util.tsx         # Generic utilities
+│   ├── utilConst.tsx    # Constant speed calculations
+│   └── utilStop.tsx     # Braking analysis calculations
+├── hooks/
+│   └── useScreenshot.ts # Screenshot and clipboard functionality
+├── pages/               # Next.js pages
+│   ├── index.tsx        # Homepage with resource links
+│   ├── Stop.tsx         # Braking analysis page
+│   ├── Const.tsx        # Constant speed analysis page
+│   ├── VMT.tsx          # Video measurement tools
+│   ├── Minderwert.tsx   # Value assessment page
+│   ├── Navbar.tsx       # Navigation component
+│   └── Layout.tsx       # Page layout wrapper
+├── assets/              # SVG mathematical symbols and images
+└── styles/             # Global styles
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🧮 Calculation Functions
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Braking Analysis (utilStop.tsx)
+- `getReaction()` - Reaction distance calculation
+- `getBreakDelay()` - Brake delay distance
+- `getFullSend()` - Velocity at full braking start
+- `getBreakDistance()` - Actual braking distance
+- `getBreakDuration()` - Braking time duration
+- `getFullDistance()` - Total stopping distance
+- `getFullTime()` - Total stopping time
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+### Constant Speed Analysis (utilConst.tsx)
+- Deceleration functions (`getdVA1-4`, `getdVE1-4`, `getDecel1-4`)
+- Braking functions (`getBD1-4`, `getBT1-4`)
+- Acceleration functions (`getaVA1-4`, `getaVE1-4`, `getAccel1-4`)
+- Distance/time calculations (`getAD1-4`, `getAT1-4`)
 
-## Deploy on Vercel
+### Screenshot Hook (useScreenshot.ts)
+- `handleScreenshot()` - Download element as PNG
+- `handleClipboard()` - Copy element to clipboard with fallback
+- `hideElements()` - Clean UI for screenshots
+- `restoreElements()` - Restore UI after screenshot
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎯 Usage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+1. **Start the development server**: `npm run dev`
+2. **Navigate to analysis tool**: Choose from Braking, Constant Speed, VMT, or Value Assessment
+3. **Enter parameters**: Input vehicle data (speeds, times, distances, acceleration values)
+4. **View results**: Calculations update in real-time
+5. **Export results**: Use screenshot or clipboard buttons to save results
 
-SWITCH GITHUB DEV BRANCH
+## 🔧 Key Dependencies
+
+- `next`: ^15.4.6 - React framework
+- `react`: ^19.1.1 - UI library
+- `typescript`: ^5.9.2 - Type safety
+- `tailwindcss`: ^3.0.24 - Styling
+- `html2canvas`: ^1.4.1 - Screenshot generation
+- `react-icons`: ^5.5.0 - Icon library
+
+## 📝 Notes
+
+- All calculations use metric units (m/s², km/h, meters, seconds)
+- Input values are automatically saved to browser session storage
+- Mathematical formulas are implemented according to forensic automotive standards
+- The application includes German terminology for forensic automotive analysis
+
+## 🚀 Deployment
+
+The application can be deployed on any platform that supports Next.js:
+
+```bash
+npm run build
+npm start
+```
+
+For Vercel deployment, connect your GitHub repository to Vercel for automatic deployments.
