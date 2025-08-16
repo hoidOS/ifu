@@ -943,7 +943,7 @@ function Sonst() {
             <h2 className="text-lg font-semibold">Fahrzeugdaten Übersicht</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
-                onClick={() => handleClipboard('berechnungen-fahrzeug')}
+                onClick={() => handleClipboard('fahrzeugdaten-table-container')}
                 disabled={isProcessing}
                 className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
@@ -951,7 +951,7 @@ function Sonst() {
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button
-                onClick={() => handleScreenshot('berechnungen-fahrzeug', 'fahrzeugdaten.png')}
+                onClick={() => handleScreenshot('fahrzeugdaten-table-container', 'fahrzeugdaten.png')}
                 disabled={isProcessing}
                 className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
@@ -960,8 +960,8 @@ function Sonst() {
               </button>
             </div>
           </div>
-          <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+          <div id="fahrzeugdaten-table-container" className="p-4">
+            <table className="w-full text-base border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-3 px-4 font-medium text-gray-700">amtl. Kennzeichen:</td>
