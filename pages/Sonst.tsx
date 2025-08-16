@@ -754,16 +754,18 @@ function Sonst() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Fahrzeugart:</label>
-                  <input
-                    type="text"
+                  <select
                     value={fahrzeugart}
                     onChange={(e) => {
                       fahrzeugartSet(e.target.value);
                       sessionStorage.setItem('sonst_fahrzeugart', e.target.value);
                     }}
-                    className="w-full max-w-none px-6 py-4 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    placeholder="Fahrzeugart eingeben"
-                  />
+                    className="w-full max-w-none px-6 py-1 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-right"
+                  >
+                    <option value="">Bitte wählen</option>
+                    <option value="Pkw">Pkw</option>
+                    <option value="Lkw">Lkw</option>
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">Fabrikat:</label>
@@ -1006,19 +1008,19 @@ function Sonst() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-3 px-4 font-medium text-gray-700">Hubraum:</td>
                   <td className="py-3 px-4 text-right font-semibold text-[#0059a9]">
-                    {!isNaN(hubraum) ? `${hubraum.toFixed(0)} cm³` : <span className="text-gray-400">-</span>}
+                    {!isNaN(hubraum) ? `${hubraum.toLocaleString('de-DE')} cm³` : <span className="text-gray-400">-</span>}
                   </td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-3 px-4 font-medium text-gray-700">Leermasse inkl. Fahrer:</td>
                   <td className="py-3 px-4 text-right font-semibold text-[#0059a9]">
-                    {!isNaN(leermasse) ? `${leermasse.toFixed(0)} kg` : <span className="text-gray-400">-</span>}
+                    {!isNaN(leermasse) ? `${leermasse.toLocaleString('de-DE')} kg` : <span className="text-gray-400">-</span>}
                   </td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-3 px-4 font-medium text-gray-700">Zul. Gesamtmasse:</td>
                   <td className="py-3 px-4 text-right font-semibold text-[#0059a9]">
-                    {!isNaN(zulGesamtmasse) ? `${zulGesamtmasse.toFixed(0)} kg` : <span className="text-gray-400">-</span>}
+                    {!isNaN(zulGesamtmasse) ? `${zulGesamtmasse.toLocaleString('de-DE')} kg` : <span className="text-gray-400">-</span>}
                   </td>
                 </tr>
               </tbody>
