@@ -661,6 +661,96 @@ function Minderwert() {
           </div>
         </div>
 
+        {/* Visual Comparison Chart */}
+        <div id="comparison-print" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white md:col-span-2">
+          <div className="bg-[#0059a9] text-white px-4 py-2 card-header flex justify-between items-center">
+            <h2 className="text-base font-semibold">Minderwert Vergleich</h2>
+            <div className="flex gap-2">
+              <button 
+                id="clipboard-button"
+                onClick={() => handleClipboard('comparison-print')}
+                disabled={isProcessing}
+                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="In Zwischenablage kopieren"
+              >
+                {isProcessing ? 'Kopiere...' : 'Kopieren'}
+              </button>
+              <button 
+                id="screenshot-button"
+                onClick={() => handleScreenshot('comparison-print', 'minderwert-vergleich.png')}
+                disabled={isProcessing}
+                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Als PNG herunterladen"
+              >
+                {isProcessing ? 'Lade...' : 'Download'}
+              </button>
+            </div>
+          </div>
+          <div className="p-6">
+            <div className="grid grid-cols-3 gap-6">
+              <div className="text-center">
+                <div className="w-20 h-20 mx-auto mb-3 rounded-full bg-blue-100 flex items-center justify-center">
+                  <div className="text-2xl font-bold text-[#0059a9]">B</div>
+                </div>
+                <h3 className="font-semibold text-gray-700 mb-1">BVSK</h3>
+                <p className="text-2xl font-bold text-[#0059a9]">{bvskResult.toFixed(2).replace(".", ",")} €</p>
+              </div>
+              <div className="text-center">
+                <div className="w-20 h-20 mx-auto mb-3 rounded-full bg-green-100 flex items-center justify-center">
+                  <div className="text-2xl font-bold text-green-600">Ø</div>
+                </div>
+                <h3 className="font-semibold text-gray-700 mb-1">Gerundeter Durchschnitt</h3>
+                <p className="text-2xl font-bold text-green-600">{(Math.round(((bvskResult + mfmResult) / 2) / 50) * 50).toFixed(2).replace(".", ",")} €</p>
+              </div>
+              <div className="text-center">
+                <div className="w-20 h-20 mx-auto mb-3 rounded-full bg-orange-100 flex items-center justify-center">
+                  <div className="text-2xl font-bold text-orange-600">M</div>
+                </div>
+                <h3 className="font-semibold text-gray-700 mb-1">MFM</h3>
+                <p className="text-2xl font-bold text-orange-600">{mfmResult.toFixed(2).replace(".", ",")} €</p>
+              </div>
+            </div>
+            
+            {/* Visual Bar Comparison */}
+            <div className="mt-8">
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 text-sm font-medium text-gray-700">BVSK</div>
+                  <div className="flex-1 bg-gray-200 rounded-full h-6 relative overflow-hidden">
+                    <div 
+                      className="bg-[#0059a9] h-full rounded-full transition-all duration-500"
+                      style={{ width: `${Math.max(5, (bvskResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
+                    >
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <div className="w-16 text-sm font-medium text-gray-700">MFM</div>
+                  <div className="flex-1 bg-gray-200 rounded-full h-6 relative overflow-hidden">
+                    <div 
+                      className="bg-orange-500 h-full rounded-full transition-all duration-500"
+                      style={{ width: `${Math.max(5, (mfmResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
+                    >
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                  <div className="w-16 text-sm font-medium text-gray-700">Ø</div>
+                  <div className="flex-1 bg-gray-200 rounded-full h-6 relative overflow-hidden">
+                    <div 
+                      className="bg-green-500 h-full rounded-full transition-all duration-500"
+                      style={{ width: `${Math.max(5, ((Math.round(((bvskResult + mfmResult) / 2) / 50) * 50) / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
+                    >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
   )
