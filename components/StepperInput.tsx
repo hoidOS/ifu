@@ -23,12 +23,16 @@ const StepperInput: React.FC<StepperInputProps> = ({
   onWheel
 }) => {
   const handleDecrement = () => {
-    const newValue = Math.max(min, (value || 0) - step);
+    // Fix floating point precision issues by rounding to appropriate decimal places
+    const decimals = step < 1 ? String(step).split('.')[1]?.length || 0 : 0;
+    const newValue = Math.max(min, parseFloat(((value || 0) - step).toFixed(decimals)));
     onChange(newValue);
   };
   
   const handleIncrement = () => {
-    const newValue = max ? Math.min(max, (value || 0) + step) : (value || 0) + step;
+    // Fix floating point precision issues by rounding to appropriate decimal places
+    const decimals = step < 1 ? String(step).split('.')[1]?.length || 0 : 0;
+    const newValue = max ? Math.min(max, parseFloat(((value || 0) + step).toFixed(decimals))) : parseFloat(((value || 0) + step).toFixed(decimals));
     onChange(newValue);
   };
 

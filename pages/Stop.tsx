@@ -4,6 +4,7 @@ import Image from 'next/image'
 import SVG from '../assets/svg'
 import * as util from '../components/utilStop'
 import { useScreenshot } from '../hooks/useScreenshot'
+import StepperInput from '../components/StepperInput'
 
 interface InputInterface {
   vA: number,
@@ -53,6 +54,18 @@ function Stop() {
   const fullDistance: string = util.getFullDistance(input.vA, input.vE, input.tR, input.tS, input.am)
   const fullTime: string = util.getFullTime(input.vA, input.vE, input.tR, input.tS, input.am)
 
+  // Reset function to clear all input fields and restore defaults
+  const handleReset = () => {
+    setInput(data);
+    
+    // Clear from sessionStorage
+    sessionStorage.removeItem('stop_vA');
+    sessionStorage.removeItem('stop_vE');
+    sessionStorage.removeItem('stop_tR');
+    sessionStorage.removeItem('stop_tS');
+    sessionStorage.removeItem('stop_am');
+  };
+
   return (
     <div>
 
@@ -65,8 +78,15 @@ function Stop() {
       <div className="grid gap-6 mx-auto max-w-screen-2xl px-4 py-6 md:grid-cols-2">
 
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
-          <div className="bg-[#0059a9] text-white px-4 py-2 card-header">
-            <h2 className="text-base font-semibold">Anhaltevorgang</h2>
+          <div className="bg-[#0059a9] text-white px-6 py-3 flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Anhaltevorgang</h2>
+            <button
+              onClick={handleReset}
+              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              title="Alle Eingaben zurücksetzen"
+            >
+              Reset
+            </button>
           </div>
           <div className="p-4">
             <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
@@ -82,13 +102,10 @@ function Stop() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center">
-                    <input
-                      type="number"
-                      placeholder="v in km/h"
-                      value={isNaN(input.vA) ? '' : input.vA}
-                      onChange={(e) => {
-                        const value = e.target.valueAsNumber;
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={input.vA}
+                      onChange={(value) => {
                         setInput({ ...input, vA: value });
                         if (!isNaN(value)) {
                           sessionStorage.setItem('stop_vA', value.toString());
@@ -96,7 +113,10 @@ function Stop() {
                           sessionStorage.removeItem('stop_vA');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                      step={1}
+                      min={0}
+                      max={300}
+                      placeholder="v in km/h"
                     />
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
@@ -104,13 +124,10 @@ function Stop() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center">
-                    <input
-                      type="number"
-                      placeholder="v in km/h"
-                      value={isNaN(input.vE) ? '' : input.vE}
-                      onChange={(e) => {
-                        const value = e.target.valueAsNumber;
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={input.vE}
+                      onChange={(value) => {
                         setInput({ ...input, vE: value });
                         if (!isNaN(value)) {
                           sessionStorage.setItem('stop_vE', value.toString());
@@ -118,7 +135,10 @@ function Stop() {
                           sessionStorage.removeItem('stop_vE');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                      step={1}
+                      min={0}
+                      max={300}
+                      placeholder="v in km/h"
                     />
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
@@ -126,13 +146,10 @@ function Stop() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Reaktionsdauer</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tR} alt="tR" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center">
-                    <input
-                      type="number"
-                      placeholder="s in Sekunden"
-                      value={isNaN(input.tR) ? '' : input.tR}
-                      onChange={(e) => {
-                        const value = e.target.valueAsNumber;
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={input.tR}
+                      onChange={(value) => {
                         setInput({ ...input, tR: value });
                         if (!isNaN(value)) {
                           sessionStorage.setItem('stop_tR', value.toString());
@@ -140,7 +157,10 @@ function Stop() {
                           sessionStorage.removeItem('stop_tR');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                      step={0.1}
+                      min={0}
+                      max={5}
+                      placeholder="s in Sekunden"
                     />
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
@@ -148,13 +168,10 @@ function Stop() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsschwelldauer</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tS} alt="tS" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center">
-                    <input
-                      type="number"
-                      placeholder="s in Sekunden"
-                      value={isNaN(input.tS) ? '' : input.tS}
-                      onChange={(e) => {
-                        const value = e.target.valueAsNumber;
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={input.tS}
+                      onChange={(value) => {
                         setInput({ ...input, tS: value });
                         if (!isNaN(value)) {
                           sessionStorage.setItem('stop_tS', value.toString());
@@ -162,7 +179,10 @@ function Stop() {
                           sessionStorage.removeItem('stop_tS');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                      step={0.1}
+                      min={0}
+                      max={2}
+                      placeholder="s in Sekunden"
                     />
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
@@ -170,13 +190,10 @@ function Stop() {
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Mittlere Verzögerung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.am} alt="am" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center">
-                    <input
-                      type="number"
-                      placeholder="a in m/s²"
-                      value={isNaN(input.am) ? '' : input.am}
-                      onChange={(e) => {
-                        const value = e.target.valueAsNumber;
+                  <td className="py-2 px-2">
+                    <StepperInput
+                      value={input.am}
+                      onChange={(value) => {
                         setInput({ ...input, am: value });
                         if (!isNaN(value)) {
                           sessionStorage.setItem('stop_am', value.toString());
@@ -184,7 +201,10 @@ function Stop() {
                           sessionStorage.removeItem('stop_am');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                      step={0.5}
+                      min={0}
+                      max={20}
+                      placeholder="a in m/s²"
                     />
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
