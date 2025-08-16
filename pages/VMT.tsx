@@ -4,6 +4,7 @@ import Image from 'next/image'
 import Head from 'next/head'
 import SVG from '../assets/svg'
 import { useScreenshot } from '../hooks/useScreenshot'
+import StepperInput from '../components/StepperInput'
 
 function VMT() {
     const [s, sSet] = useState<number>(NaN)
@@ -84,14 +85,10 @@ function VMT() {
                     <tbody>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
-                            <td className="py-2 px-2 text-center">
-                                <input 
-                                    type="number" 
-                                    placeholder="m" 
-                                    value={isNaN(s) ? '' : s} 
-                                    onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => {
-                                        const value = e.target.valueAsNumber;
+                            <td className="py-2 px-2">
+                                <StepperInput
+                                    value={s}
+                                    onChange={(value) => {
                                         sSet(value);
                                         if (!isNaN(value)) {
                                             sessionStorage.setItem('vmt_s', value.toString());
@@ -99,7 +96,11 @@ function VMT() {
                                             sessionStorage.removeItem('vmt_s');
                                         }
                                     }}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                    step={1}
+                                    min={0}
+                                    max={1000}
+                                    placeholder="m"
+                                    onWheel={e => e.currentTarget.blur()}
                                 />
                             </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
@@ -179,14 +180,10 @@ function VMT() {
                     <tbody>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
-                            <td className="py-2 px-2 text-center">
-                                <input 
-                                    type="number" 
-                                    placeholder="m" 
-                                    value={isNaN(sR) ? '' : sR} 
-                                    onWheel={e => e.currentTarget.blur()} 
-                                    onChange={(e) => {
-                                        const value = e.target.valueAsNumber;
+                            <td className="py-2 px-2">
+                                <StepperInput
+                                    value={sR}
+                                    onChange={(value) => {
                                         sRSet(value);
                                         if (!isNaN(value)) {
                                             sessionStorage.setItem('vmt_sR', value.toString());
@@ -194,7 +191,11 @@ function VMT() {
                                             sessionStorage.removeItem('vmt_sR');
                                         }
                                     }}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                                    step={1}
+                                    min={0}
+                                    max={1000}
+                                    placeholder="m"
+                                    onWheel={e => e.currentTarget.blur()}
                                 />
                             </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
