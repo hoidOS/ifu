@@ -6,20 +6,22 @@ USER app
 
 WORKDIR /app
 
+# Copy lockfile and package.json for efficient layer caching
 COPY package*.json ./
 
 USER root
-
 RUN chown -R app:app .
-
 USER app
 
-RUN yarn install
+# Install dependencies with npm
+RUN npm ci
 
+# Copy the rest of the source
 COPY . .
 
-RUN yarn build
+# Build the Next.js application
+RUN npm run build
 
-# EXPOSE 3000
+EXPOSE 3000
 
-# CMD ["yarn", "start"]
+CMD ["npm", "start"]

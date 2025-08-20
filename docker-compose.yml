@@ -2,7 +2,7 @@ services:
   ppcavs:
     container_name: ppcavs
     build: .
-    command: yarn start
+    command: npm start
     ports:
       - 3050:3000
     restart: unless-stopped
