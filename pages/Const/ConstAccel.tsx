@@ -334,7 +334,7 @@ function ConstAccel() {
                         sessionStorage.removeItem('constAccel_t');
                       }
                     }}
-                    step={0.5}
+                    step={0.1}
                     min={0}
                     max={60}
                     placeholder="t in Sekunden"
