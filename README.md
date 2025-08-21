@@ -9,12 +9,15 @@ A comprehensive Next.js web application for automotive forensic analysis and acc
 - **Constant Speed Analysis (Konstantfahrt)** - Acceleration, deceleration, and constant velocity calculations
 - **Video Measurement Tools (VMT)** - ESO and Riegl laser measurement beam divergence calculations
 - **Value Assessment (Minderwert)** - Vehicle damage value assessment tools
+- **Additional Calculations (Sonst)** - Curve radius calculations, percentage/angle conversions, and other utilities
 
 ### Additional Features
 - **Screenshot & Export** - Generate high-quality PNG exports and copy results to clipboard
 - **Session Storage** - Automatically saves input values across browser sessions
 - **Responsive Design** - Works on desktop and mobile devices
 - **Resource Links** - Quick access to maps, automotive databases, and crash test resources
+- **Stepper Inputs** - Enhanced number inputs with increment/decrement buttons for precise value adjustment
+- **Docker Support** - Containerized deployment with Docker and docker-compose
 
 ## 🛠️ Technology Stack
 
@@ -55,18 +58,27 @@ nextjs-ifu/
 ├── components/           # Utility functions and components
 │   ├── util.tsx         # Generic utilities
 │   ├── utilConst.tsx    # Constant speed calculations
-│   └── utilStop.tsx     # Braking analysis calculations
+│   ├── utilStop.tsx     # Braking analysis calculations
+│   └── StepperInput.tsx # Stepper input component with +/- buttons
 ├── hooks/
 │   └── useScreenshot.ts # Screenshot and clipboard functionality
 ├── pages/               # Next.js pages
 │   ├── index.tsx        # Homepage with resource links
 │   ├── Stop.tsx         # Braking analysis page
 │   ├── Const.tsx        # Constant speed analysis page
+│   │   ├── ConstAccel.tsx   # Acceleration calculations
+│   │   ├── ConstDecel.tsx   # Deceleration calculations
+│   │   └── ConstDrive.tsx   # Constant drive calculations
 │   ├── VMT.tsx          # Video measurement tools
 │   ├── Minderwert.tsx   # Value assessment page
+│   ├── Sonst.tsx        # Additional calculations (curves, percentages)
 │   ├── Navbar.tsx       # Navigation component
+│   ├── Footer.tsx       # Footer component
 │   └── Layout.tsx       # Page layout wrapper
 ├── assets/              # SVG mathematical symbols and images
+│   ├── images/          # Mathematical formula SVG files
+│   └── svg.tsx          # SVG component wrapper
+├── public/              # Static assets
 └── styles/             # Global styles
 ```
 
@@ -103,12 +115,19 @@ nextjs-ifu/
 
 ## 🔧 Key Dependencies
 
+### Core Dependencies
 - `next`: ^15.4.6 - React framework
 - `react`: ^19.1.1 - UI library
-- `typescript`: ^5.9.2 - Type safety
-- `tailwindcss`: ^3.0.24 - Styling
+- `react-dom`: ^19.1.1 - React DOM rendering
 - `html2canvas`: ^1.4.1 - Screenshot generation
+
+### Development Dependencies
+- `typescript`: ^5.9.2 - Type safety
+- `tailwindcss`: ^3.0.24 - Styling framework
 - `react-icons`: ^5.5.0 - Icon library
+- `eslint`: ^9.33.0 - Code linting
+- `autoprefixer`: ^10.4.7 - CSS vendor prefixes
+- `postcss`: ^8.4.14 - CSS processing
 
 ## 📝 Notes
 
@@ -119,6 +138,7 @@ nextjs-ifu/
 
 ## 🚀 Deployment
 
+### Standard Deployment
 The application can be deployed on any platform that supports Next.js:
 
 ```bash
@@ -126,4 +146,17 @@ npm run build
 npm start
 ```
 
+### Docker Deployment
+The project includes Docker support for containerized deployment:
+
+```bash
+# Build and run with docker-compose
+docker-compose up --build
+
+# Or build manually
+docker build -t nextjs-ifu .
+docker run -p 3000:3000 nextjs-ifu
+```
+
+### Vercel Deployment
 For Vercel deployment, connect your GitHub repository to Vercel for automatic deployments.
