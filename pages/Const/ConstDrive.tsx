@@ -42,9 +42,9 @@ function ConstDrive() {
   const sIsSet = !isNaN(s) && s >= 0
   const tIsSet = !isNaN(t) && t >= 0
 
-  const vO = util.getSpeed(s, t)
-  const sO = util.getDistance(v, t)
-  const tO = util.getTime(s, v)
+  const vO = (sIsSet && tIsSet) ? util.getSpeed(s, t) : "-"
+  const sO = (vIsSet && tIsSet) ? util.getDistance(v, t) : "-"
+  const tO = (sIsSet && vIsSet) ? util.getTime(s, v) : "-"
 
   return (
     <>
