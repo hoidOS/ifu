@@ -98,37 +98,138 @@ const mfmTooltips = {
   ageMonths: "Fahrzeugalter (Monate)\n\nGeben Sie das Alter des Fahrzeugs in Monaten ein (0-120 Monate).\nDer AK-Faktor wird automatisch berechnet:\n• 0 Monate → AK 0.25\n• 6 Monate → AK 0.2417\n• 12 Monate → AK 0.2236\n• 24 Monate → AK 0.1734\n• 60 Monate → AK 0.0638\n• 96 Monate → AK 0.0535\n• 114 Monate → AK 0.0206\n• 120 Monate → AK 0.00"
 }
 
+const akFactorsByMonth: number[] = [
+  0.2500,
+  0.2495,
+  0.2486,
+  0.2474,
+  0.2458,
+  0.2439,
+  0.2417,
+  0.2393,
+  0.2366,
+  0.2336,
+  0.2305,
+  0.2271,
+  0.2236,
+  0.2199,
+  0.2161,
+  0.2122,
+  0.2081,
+  0.2040,
+  0.1997,
+  0.1954,
+  0.1911,
+  0.1867,
+  0.1823,
+  0.1779,
+  0.1734,
+  0.1690,
+  0.1646,
+  0.1602,
+  0.1558,
+  0.1515,
+  0.1472,
+  0.1430,
+  0.1388,
+  0.1347,
+  0.1307,
+  0.1268,
+  0.1229,
+  0.1192,
+  0.1155,
+  0.1120,
+  0.1085,
+  0.1052,
+  0.1020,
+  0.0989,
+  0.0959,
+  0.0930,
+  0.0902,
+  0.0875,
+  0.0850,
+  0.0826,
+  0.0803,
+  0.0781,
+  0.0761,
+  0.0742,
+  0.0723,
+  0.0706,
+  0.0690,
+  0.0676,
+  0.0662,
+  0.0649,
+  0.0638,
+  0.0627,
+  0.0618,
+  0.0609,
+  0.0601,
+  0.0594,
+  0.0588,
+  0.0583,
+  0.0579,
+  0.0575,
+  0.0572,
+  0.0569,
+  0.0567,
+  0.0566,
+  0.0564,
+  0.0564,
+  0.0563,
+  0.0563,
+  0.0564,
+  0.0564,
+  0.0564,
+  0.0565,
+  0.0565,
+  0.0566,
+  0.0566,
+  0.0566,
+  0.0566,
+  0.0565,
+  0.0564,
+  0.0563,
+  0.0561,
+  0.0558,
+  0.0555,
+  0.0551,
+  0.0547,
+  0.0541,
+  0.0535,
+  0.0528,
+  0.0520,
+  0.0510,
+  0.0500,
+  0.0488,
+  0.0476,
+  0.0461,
+  0.0446,
+  0.0429,
+  0.0411,
+  0.0391,
+  0.0370,
+  0.0347,
+  0.0322,
+  0.0296,
+  0.0268,
+  0.0238,
+  0.0206,
+  0.0173,
+  0.0137,
+  0.0100,
+  0.0061,
+  0.0020,
+  0.0000
+];
+
 // Calculate AK factor based on vehicle age in months (0-120 months)
 function calculateAKFactor(ageMonths: number): number {
-  // Clamp age between 0 and 120 months
-  const clampedAge = Math.max(0, Math.min(120, ageMonths));
-  
-  // Key points from the AK table
-  const akTable = [
-    { months: 0, ak: 0.25 },
-    { months: 6, ak: 0.2417 },
-    { months: 12, ak: 0.2236 },
-    { months: 24, ak: 0.1734 },
-    { months: 60, ak: 0.0638 },
-    { months: 96, ak: 0.0535 },
-    { months: 114, ak: 0.0206 },
-    { months: 120, ak: 0.00 }
-  ];
-
-  // Find the appropriate range for interpolation
-  for (let i = 0; i < akTable.length - 1; i++) {
-    const currentPoint = akTable[i];
-    const nextPoint = akTable[i + 1];
-    
-    if (currentPoint && nextPoint && clampedAge <= nextPoint.months) {
-      // Linear interpolation between the two points
-      const ratio = (clampedAge - currentPoint.months) / (nextPoint.months - currentPoint.months);
-      return currentPoint.ak + ratio * (nextPoint.ak - currentPoint.ak);
-    }
+  if (Number.isNaN(ageMonths)) {
+    return akFactorsByMonth[0] ?? 0;
   }
-  
-  // If age is exactly 120 or higher, return 0
-  return 0.00;
+
+  const clampedAge = Math.max(0, Math.min(120, Math.round(ageMonths)));
+  return akFactorsByMonth[clampedAge] ?? 0;
 }
 
 function Minderwert() {
