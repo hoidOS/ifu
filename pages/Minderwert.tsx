@@ -57,6 +57,8 @@ interface MFMInput {
   rk: number; // Reparaturkosten
   su: number; // Schadensumfang
   ageMonths: number; // Vehicle age in months
+  startDate: string; // Registration/start date (ISO)
+  endDate: string; // Reference/end date (ISO)
   ak: number; // Alterskorrektur (Age correction) - calculated
   fm: number; // Faktor Marktgängigkeit
   fv: number; // Faktor Vorschaden (Prior damage factor)
@@ -75,6 +77,8 @@ const mfmDefaults: MFMInput = {
   rk: 0,
   su: 0.4,
   ageMonths: 0,
+  startDate: '',
+  endDate: '',
   ak: 0.25, // Will be calculated based on ageMonths
   fm: 1.0,
   fv: 1.0
@@ -222,6 +226,30 @@ const akFactorsByMonth: number[] = [
   0.0000
 ];
 
+function calculateVehicleAgeMonths(startDate: string, endDate: string): number {
+  if (!startDate || !endDate) return 0;
+
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) {
+    return 0;
+  }
+
+  if (end < start) {
+    return 0;
+  }
+
+  let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth());
+
+  if (end.getDate() < start.getDate()) {
+    months -= 1;
+  }
+
+  const nonNegativeMonths = Math.max(0, months);
+  return Math.min(120, nonNegativeMonths);
+}
+
 // Calculate AK factor based on vehicle age in months (0-120 months)
 function calculateAKFactor(ageMonths: number): number {
   if (Number.isNaN(ageMonths)) {
@@ -254,6 +282,8 @@ function Minderwert() {
       rk: sessionStorage.getItem('minderwert_mfm_rk'),
       su: sessionStorage.getItem('minderwert_mfm_su'),
       ageMonths: sessionStorage.getItem('minderwert_mfm_ageMonths'),
+      startDate: sessionStorage.getItem('minderwert_mfm_startDate'),
+      endDate: sessionStorage.getItem('minderwert_mfm_endDate'),
       ak: sessionStorage.getItem('minderwert_mfm_ak'),
       fm: sessionStorage.getItem('minderwert_mfm_fm'),
       fv: sessionStorage.getItem('minderwert_mfm_fv')
@@ -273,7 +303,14 @@ function Minderwert() {
     if (savedMFM.np && !isNaN(parseFloat(savedMFM.np))) updatedMFM.np = parseFloat(savedMFM.np)
     if (savedMFM.rk && !isNaN(parseFloat(savedMFM.rk))) updatedMFM.rk = parseFloat(savedMFM.rk)
     if (savedMFM.su && !isNaN(parseFloat(savedMFM.su))) updatedMFM.su = parseFloat(savedMFM.su)
-    if (savedMFM.ageMonths && !isNaN(parseFloat(savedMFM.ageMonths))) {
+    if (savedMFM.startDate) updatedMFM.startDate = savedMFM.startDate
+    if (savedMFM.endDate) updatedMFM.endDate = savedMFM.endDate
+
+    if (updatedMFM.startDate && updatedMFM.endDate) {
+      const derivedAge = calculateVehicleAgeMonths(updatedMFM.startDate, updatedMFM.endDate)
+      updatedMFM.ageMonths = derivedAge
+      updatedMFM.ak = calculateAKFactor(derivedAge)
+    } else if (savedMFM.ageMonths && !isNaN(parseFloat(savedMFM.ageMonths))) {
       updatedMFM.ageMonths = parseFloat(savedMFM.ageMonths)
       updatedMFM.ak = calculateAKFactor(updatedMFM.ageMonths)
     }
@@ -315,6 +352,8 @@ function Minderwert() {
     sessionStorage.removeItem('minderwert_mfm_rk');
     sessionStorage.removeItem('minderwert_mfm_su');
     sessionStorage.removeItem('minderwert_mfm_ageMonths');
+    sessionStorage.removeItem('minderwert_mfm_startDate');
+    sessionStorage.removeItem('minderwert_mfm_endDate');
     sessionStorage.removeItem('minderwert_mfm_ak');
     sessionStorage.removeItem('minderwert_mfm_fm');
     sessionStorage.removeItem('minderwert_mfm_fv');
@@ -628,6 +667,86 @@ function Minderwert() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
+                    <span>Erstzulassung</span>
+                  </td>
+                  <td className="py-2 px-2 text-center">
+                    <input
+                      type="date"
+                      lang="de-DE"
+                      placeholder="TT.MM.JJJJ"
+                      value={mfmInput.startDate}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        const derivedAge = calculateVehicleAgeMonths(value, mfmInput.endDate);
+                        const derivedAk = calculateAKFactor(derivedAge);
+                        setMfmInput({
+                          ...mfmInput,
+                          startDate: value,
+                          ageMonths: derivedAge,
+                          ak: derivedAk
+                        });
+
+                        if (value) {
+                          sessionStorage.setItem('minderwert_mfm_startDate', value);
+                        } else {
+                          sessionStorage.removeItem('minderwert_mfm_startDate');
+                        }
+
+                        if (value && mfmInput.endDate) {
+                          sessionStorage.setItem('minderwert_mfm_ageMonths', derivedAge.toString());
+                          sessionStorage.setItem('minderwert_mfm_ak', derivedAk.toString());
+                        } else {
+                          sessionStorage.removeItem('minderwert_mfm_ageMonths');
+                          sessionStorage.removeItem('minderwert_mfm_ak');
+                        }
+                      }}
+                      className="w-full min-w-[170px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                    />
+                  </td>
+                  <td className="py-2 px-2 text-center text-gray-600 text-xs">TT.MM.JJJJ</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">
+                    <span>Bewertungsdatum</span>
+                  </td>
+                  <td className="py-2 px-2 text-center">
+                    <input
+                      type="date"
+                      lang="de-DE"
+                      placeholder="TT.MM.JJJJ"
+                      value={mfmInput.endDate}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        const derivedAge = calculateVehicleAgeMonths(mfmInput.startDate, value);
+                        const derivedAk = calculateAKFactor(derivedAge);
+                        setMfmInput({
+                          ...mfmInput,
+                          endDate: value,
+                          ageMonths: derivedAge,
+                          ak: derivedAk
+                        });
+
+                        if (value) {
+                          sessionStorage.setItem('minderwert_mfm_endDate', value);
+                        } else {
+                          sessionStorage.removeItem('minderwert_mfm_endDate');
+                        }
+
+                        if (mfmInput.startDate && value) {
+                          sessionStorage.setItem('minderwert_mfm_ageMonths', derivedAge.toString());
+                          sessionStorage.setItem('minderwert_mfm_ak', derivedAk.toString());
+                        } else {
+                          sessionStorage.removeItem('minderwert_mfm_ageMonths');
+                          sessionStorage.removeItem('minderwert_mfm_ak');
+                        }
+                      }}
+                      className="w-full min-w-[170px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                    />
+                  </td>
+                  <td className="py-2 px-2 text-center text-gray-600 text-xs">TT.MM.JJJJ</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Fahrzeugalter</span>
                       <Tooltip content={mfmTooltips.ageMonths}>
@@ -644,17 +763,8 @@ function Minderwert() {
                       max="120"
                       placeholder="0"
                       value={isNaN(mfmInput.ageMonths) ? '' : mfmInput.ageMonths} 
-                      onChange={(e) => {
-                        const value = e.target.valueAsNumber;
-                        const akValue = isNaN(value) ? 0.25 : calculateAKFactor(value);
-                        setMfmInput({ ...mfmInput, ageMonths: value, ak: akValue });
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('minderwert_mfm_ageMonths', value.toString());
-                        } else {
-                          sessionStorage.removeItem('minderwert_mfm_ageMonths');
-                        }
-                      }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent text-center"
+                      readOnly
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md bg-gray-100 text-center text-gray-700 font-medium"
                     />
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">0-120 Monate</td>
