@@ -86,22 +86,25 @@ function VMT() {
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
                             <td className="py-2 px-2">
-                                <StepperInput
-                                    value={s}
-                                    onChange={(value) => {
-                                        sSet(value);
-                                        if (!isNaN(value)) {
-                                            sessionStorage.setItem('vmt_s', value.toString());
-                                        } else {
-                                            sessionStorage.removeItem('vmt_s');
-                                        }
-                                    }}
-                                    step={1}
-                                    min={0}
-                                    max={1000}
-                                    placeholder="m"
-                                    onWheel={e => e.currentTarget.blur()}
-                                />
+                                <div className="flex justify-center">
+                                    <StepperInput
+                                        value={s}
+                                        onChange={(value) => {
+                                            sSet(value);
+                                            if (!isNaN(value)) {
+                                                sessionStorage.setItem('vmt_s', value.toString());
+                                            } else {
+                                                sessionStorage.removeItem('vmt_s');
+                                            }
+                                        }}
+                                        step={1}
+                                        min={0}
+                                        max={1000}
+                                        placeholder="m"
+                                        onWheel={e => e.currentTarget.blur()}
+                                        className="w-32"
+                                    />
+                                </div>
                             </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
@@ -181,22 +184,25 @@ function VMT() {
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
                             <td className="py-2 px-2">
-                                <StepperInput
-                                    value={sR}
-                                    onChange={(value) => {
-                                        sRSet(value);
-                                        if (!isNaN(value)) {
-                                            sessionStorage.setItem('vmt_sR', value.toString());
-                                        } else {
-                                            sessionStorage.removeItem('vmt_sR');
-                                        }
-                                    }}
-                                    step={1}
-                                    min={0}
-                                    max={1000}
-                                    placeholder="m"
-                                    onWheel={e => e.currentTarget.blur()}
-                                />
+                                <div className="flex justify-center">
+                                    <StepperInput
+                                        value={sR}
+                                        onChange={(value) => {
+                                            sRSet(value);
+                                            if (!isNaN(value)) {
+                                                sessionStorage.setItem('vmt_sR', value.toString());
+                                            } else {
+                                                sessionStorage.removeItem('vmt_sR');
+                                            }
+                                        }}
+                                        step={1}
+                                        min={0}
+                                        max={1000}
+                                        placeholder="m"
+                                        onWheel={e => e.currentTarget.blur()}
+                                        className="w-32"
+                                    />
+                                </div>
                             </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>

@@ -103,21 +103,24 @@ function Stop() {
                   <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={input.vA}
-                      onChange={(value) => {
-                        setInput({ ...input, vA: value });
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('stop_vA', value.toString());
-                        } else {
-                          sessionStorage.removeItem('stop_vA');
-                        }
-                      }}
-                      step={1}
-                      min={0}
-                      max={300}
-                      placeholder="v in km/h"
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={input.vA}
+                        onChange={(value) => {
+                          setInput({ ...input, vA: value });
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('stop_vA', value.toString());
+                          } else {
+                            sessionStorage.removeItem('stop_vA');
+                          }
+                        }}
+                        step={1}
+                        min={0}
+                        max={300}
+                        placeholder="v in km/h"
+                        className="w-32"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
@@ -125,21 +128,24 @@ function Stop() {
                   <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={input.vE}
-                      onChange={(value) => {
-                        setInput({ ...input, vE: value });
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('stop_vE', value.toString());
-                        } else {
-                          sessionStorage.removeItem('stop_vE');
-                        }
-                      }}
-                      step={1}
-                      min={0}
-                      max={300}
-                      placeholder="v in km/h"
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={input.vE}
+                        onChange={(value) => {
+                          setInput({ ...input, vE: value });
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('stop_vE', value.toString());
+                          } else {
+                            sessionStorage.removeItem('stop_vE');
+                          }
+                        }}
+                        step={1}
+                        min={0}
+                        max={300}
+                        placeholder="v in km/h"
+                        className="w-32"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
@@ -147,21 +153,24 @@ function Stop() {
                   <td className="py-2 px-2 font-medium text-gray-700">Reaktionsdauer</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tR} alt="tR" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={input.tR}
-                      onChange={(value) => {
-                        setInput({ ...input, tR: value });
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('stop_tR', value.toString());
-                        } else {
-                          sessionStorage.removeItem('stop_tR');
-                        }
-                      }}
-                      step={0.1}
-                      min={0}
-                      max={5}
-                      placeholder="s in Sekunden"
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={input.tR}
+                        onChange={(value) => {
+                          setInput({ ...input, tR: value });
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('stop_tR', value.toString());
+                          } else {
+                            sessionStorage.removeItem('stop_tR');
+                          }
+                        }}
+                        step={0.1}
+                        min={0}
+                        max={5}
+                        placeholder="s in Sekunden"
+                        className="w-28"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
@@ -169,21 +178,24 @@ function Stop() {
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsschwelldauer</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tS} alt="tS" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={input.tS}
-                      onChange={(value) => {
-                        setInput({ ...input, tS: value });
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('stop_tS', value.toString());
-                        } else {
-                          sessionStorage.removeItem('stop_tS');
-                        }
-                      }}
-                      step={0.1}
-                      min={0}
-                      max={2}
-                      placeholder="s in Sekunden"
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={input.tS}
+                        onChange={(value) => {
+                          setInput({ ...input, tS: value });
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('stop_tS', value.toString());
+                          } else {
+                            sessionStorage.removeItem('stop_tS');
+                          }
+                        }}
+                        step={0.1}
+                        min={0}
+                        max={2}
+                        placeholder="s in Sekunden"
+                        className="w-28"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
@@ -191,21 +203,24 @@ function Stop() {
                   <td className="py-2 px-2 font-medium text-gray-700">Mittlere Verzögerung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.am} alt="am" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={input.am}
-                      onChange={(value) => {
-                        setInput({ ...input, am: value });
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('stop_am', value.toString());
-                        } else {
-                          sessionStorage.removeItem('stop_am');
-                        }
-                      }}
-                      step={0.5}
-                      min={0}
-                      max={20}
-                      placeholder="a in m/s²"
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={input.am}
+                        onChange={(value) => {
+                          setInput({ ...input, am: value });
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('stop_am', value.toString());
+                          } else {
+                            sessionStorage.removeItem('stop_am');
+                          }
+                        }}
+                        step={0.5}
+                        min={0}
+                        max={20}
+                        placeholder="a in m/s²"
+                        className="w-32"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
