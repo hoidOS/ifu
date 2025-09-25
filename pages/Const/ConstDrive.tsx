@@ -74,22 +74,25 @@ function ConstDrive() {
                 <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2">
-                  <StepperInput
-                    value={v}
-                    onChange={(value) => {
-                      setV(value);
-                      if (!isNaN(value)) {
-                        sessionStorage.setItem('constDrive_v', value.toString());
-                      } else {
-                        sessionStorage.removeItem('constDrive_v');
-                      }
-                    }}
-                    step={1}
-                    min={0}
-                    max={300}
-                    placeholder="v in km/h"
-                    onWheel={e => e.currentTarget.blur()}
-                  />
+                  <div className="flex justify-center">
+                    <StepperInput
+                      value={v}
+                      onChange={(value) => {
+                        setV(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('constDrive_v', value.toString());
+                        } else {
+                          sessionStorage.removeItem('constDrive_v');
+                        }
+                      }}
+                      step={1}
+                      min={0}
+                      max={300}
+                      placeholder="v in km/h"
+                      onWheel={e => e.currentTarget.blur()}
+                      className="w-32"
+                    />
+                  </div>
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
@@ -97,22 +100,25 @@ function ConstDrive() {
                 <td className="py-2 px-2 font-medium text-gray-700">Strecke</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2">
-                  <StepperInput
-                    value={s}
-                    onChange={(value) => {
-                      setS(value);
-                      if (!isNaN(value)) {
-                        sessionStorage.setItem('constDrive_s', value.toString());
-                      } else {
-                        sessionStorage.removeItem('constDrive_s');
-                      }
-                    }}
-                    step={1}
-                    min={0}
-                    max={1000}
-                    placeholder="s in Meter"
-                    onWheel={e => e.currentTarget.blur()}
-                  />
+                  <div className="flex justify-center">
+                    <StepperInput
+                      value={s}
+                      onChange={(value) => {
+                        setS(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('constDrive_s', value.toString());
+                        } else {
+                          sessionStorage.removeItem('constDrive_s');
+                        }
+                      }}
+                      step={1}
+                      min={0}
+                      max={1000}
+                      placeholder="s in Meter"
+                      onWheel={e => e.currentTarget.blur()}
+                      className="w-32"
+                    />
+                  </div>
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
@@ -120,22 +126,25 @@ function ConstDrive() {
                 <td className="py-2 px-2 font-medium text-gray-700">Dauer</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2">
-                  <StepperInput
-                    value={t}
-                    onChange={(value) => {
-                      setT(value);
-                      if (!isNaN(value)) {
-                        sessionStorage.setItem('constDrive_t', value.toString());
-                      } else {
-                        sessionStorage.removeItem('constDrive_t');
-                      }
-                    }}
-                    step={0.1}
-                    min={0}
-                    max={60}
-                    placeholder="t in Sekunden"
-                    onWheel={e => e.currentTarget.blur()}
-                  />
+                  <div className="flex justify-center">
+                    <StepperInput
+                      value={t}
+                      onChange={(value) => {
+                        setT(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('constDrive_t', value.toString());
+                        } else {
+                          sessionStorage.removeItem('constDrive_t');
+                        }
+                      }}
+                      step={0.1}
+                      min={0}
+                      max={60}
+                      placeholder="t in Sekunden"
+                      onWheel={e => e.currentTarget.blur()}
+                      className="w-32"
+                    />
+                  </div>
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
               </tr>

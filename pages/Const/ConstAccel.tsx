@@ -232,22 +232,25 @@ function ConstAccel() {
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2">
-                  <StepperInput
-                    value={vA}
-                    onChange={(value) => {
-                      vAset(value);
-                      if (!isNaN(value)) {
-                        sessionStorage.setItem('constAccel_vA', value.toString());
-                      } else {
-                        sessionStorage.removeItem('constAccel_vA');
-                      }
-                    }}
-                    step={1}
-                    min={0}
-                    max={300}
-                    placeholder="v in km/h"
-                    onWheel={e => e.currentTarget.blur()}
-                  />
+                  <div className="flex justify-center">
+                    <StepperInput
+                      value={vA}
+                      onChange={(value) => {
+                        vAset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('constAccel_vA', value.toString());
+                        } else {
+                          sessionStorage.removeItem('constAccel_vA');
+                        }
+                      }}
+                      step={1}
+                      min={0}
+                      max={300}
+                      placeholder="v in km/h"
+                      onWheel={e => e.currentTarget.blur()}
+                      className="w-32"
+                    />
+                  </div>
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
@@ -255,22 +258,25 @@ function ConstAccel() {
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2">
-                  <StepperInput
-                    value={vE}
-                    onChange={(value) => {
-                      vEset(value);
-                      if (!isNaN(value)) {
-                        sessionStorage.setItem('constAccel_vE', value.toString());
-                      } else {
-                        sessionStorage.removeItem('constAccel_vE');
-                      }
-                    }}
-                    step={1}
-                    min={0}
-                    max={300}
-                    placeholder="v in km/h"
-                    onWheel={e => e.currentTarget.blur()}
-                  />
+                  <div className="flex justify-center">
+                    <StepperInput
+                      value={vE}
+                      onChange={(value) => {
+                        vEset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('constAccel_vE', value.toString());
+                        } else {
+                          sessionStorage.removeItem('constAccel_vE');
+                        }
+                      }}
+                      step={1}
+                      min={0}
+                      max={300}
+                      placeholder="v in km/h"
+                      onWheel={e => e.currentTarget.blur()}
+                      className="w-32"
+                    />
+                  </div>
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
@@ -278,22 +284,25 @@ function ConstAccel() {
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigung</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2">
-                  <StepperInput
-                    value={a}
-                    onChange={(value) => {
-                      aset(value);
-                      if (!isNaN(value)) {
-                        sessionStorage.setItem('constAccel_a', value.toString());
-                      } else {
-                        sessionStorage.removeItem('constAccel_a');
-                      }
-                    }}
-                    step={0.5}
-                    min={0}
-                    max={20}
-                    placeholder="a in m/s²"
-                    onWheel={e => e.currentTarget.blur()}
-                  />
+                  <div className="flex justify-center">
+                    <StepperInput
+                      value={a}
+                      onChange={(value) => {
+                        aset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('constAccel_a', value.toString());
+                        } else {
+                          sessionStorage.removeItem('constAccel_a');
+                        }
+                      }}
+                      step={0.5}
+                      min={0}
+                      max={20}
+                      placeholder="a in m/s²"
+                      onWheel={e => e.currentTarget.blur()}
+                      className="w-32"
+                    />
+                  </div>
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
@@ -301,22 +310,25 @@ function ConstAccel() {
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsstrecke</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2">
-                  <StepperInput
-                    value={s}
-                    onChange={(value) => {
-                      sset(value);
-                      if (!isNaN(value)) {
-                        sessionStorage.setItem('constAccel_s', value.toString());
-                      } else {
-                        sessionStorage.removeItem('constAccel_s');
-                      }
-                    }}
-                    step={1}
-                    min={0}
-                    max={1000}
-                    placeholder="s in Meter"
-                    onWheel={e => e.currentTarget.blur()}
-                  />
+                  <div className="flex justify-center">
+                    <StepperInput
+                      value={s}
+                      onChange={(value) => {
+                        sset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('constAccel_s', value.toString());
+                        } else {
+                          sessionStorage.removeItem('constAccel_s');
+                        }
+                      }}
+                      step={1}
+                      min={0}
+                      max={1000}
+                      placeholder="s in Meter"
+                      onWheel={e => e.currentTarget.blur()}
+                      className="w-32"
+                    />
+                  </div>
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
@@ -324,22 +336,25 @@ function ConstAccel() {
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsdauer</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2">
-                  <StepperInput
-                    value={t}
-                    onChange={(value) => {
-                      tset(value);
-                      if (!isNaN(value)) {
-                        sessionStorage.setItem('constAccel_t', value.toString());
-                      } else {
-                        sessionStorage.removeItem('constAccel_t');
-                      }
-                    }}
-                    step={0.1}
-                    min={0}
-                    max={60}
-                    placeholder="t in Sekunden"
-                    onWheel={e => e.currentTarget.blur()}
-                  />
+                  <div className="flex justify-center">
+                    <StepperInput
+                      value={t}
+                      onChange={(value) => {
+                        tset(value);
+                        if (!isNaN(value)) {
+                          sessionStorage.setItem('constAccel_t', value.toString());
+                        } else {
+                          sessionStorage.removeItem('constAccel_t');
+                        }
+                      }}
+                      step={0.1}
+                      min={0}
+                      max={60}
+                      placeholder="t in Sekunden"
+                      onWheel={e => e.currentTarget.blur()}
+                      className="w-32"
+                    />
+                  </div>
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
