@@ -325,22 +325,25 @@ function Sonst() {
                   <td className="py-2 px-2 font-medium text-gray-700">Steigung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.p} alt="p" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={p}
-                      onChange={(value) => {
-                        pset(value);
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('sonst_p', value.toString());
-                        } else {
-                          sessionStorage.removeItem('sonst_p');
-                        }
-                      }}
-                      step={0.1}
-                      min={0}
-                      max={100}
-                      placeholder="p in %"
-                      onWheel={e => e.currentTarget.blur()}
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={p}
+                        onChange={(value) => {
+                          pset(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_p', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_p');
+                          }
+                        }}
+                        step={0.1}
+                        min={0}
+                        max={100}
+                        placeholder="p in %"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-28"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.percent} alt="%" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
@@ -348,22 +351,25 @@ function Sonst() {
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungswinkel</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={alpha}
-                      onChange={(value) => {
-                        alphaset(value);
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('sonst_alpha', value.toString());
-                        } else {
-                          sessionStorage.removeItem('sonst_alpha');
-                        }
-                      }}
-                      step={0.1}
-                      min={0}
-                      max={90}
-                      placeholder="α in °"
-                      onWheel={e => e.currentTarget.blur()}
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={alpha}
+                        onChange={(value) => {
+                          alphaset(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_alpha', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_alpha');
+                          }
+                        }}
+                        step={0.1}
+                        min={0}
+                        max={90}
+                        placeholder="α in °"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-28"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.degree} alt="°" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
@@ -455,22 +461,25 @@ function Sonst() {
                   <td className="py-2 px-2 font-medium text-gray-700">Segmenthöhe</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">h</td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={h}
-                      onChange={(value) => {
-                        hset(value);
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('sonst_h', value.toString());
-                        } else {
-                          sessionStorage.removeItem('sonst_h');
-                        }
-                      }}
-                      step={0.01}
-                      min={0}
-                      max={1000}
-                      placeholder="h in m"
-                      onWheel={e => e.currentTarget.blur()}
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={h}
+                        onChange={(value) => {
+                          hset(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_h', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_h');
+                          }
+                        }}
+                        step={0.01}
+                        min={0}
+                        max={1000}
+                        placeholder="h in m"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-32"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
                 </tr>
@@ -478,22 +487,25 @@ function Sonst() {
                   <td className="py-2 px-2 font-medium text-gray-700">Segmentlänge</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">s</td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={s}
-                      onChange={(value) => {
-                        sset(value);
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('sonst_s', value.toString());
-                        } else {
-                          sessionStorage.removeItem('sonst_s');
-                        }
-                      }}
-                      step={0.01}
-                      min={0}
-                      max={1000}
-                      placeholder="s in m"
-                      onWheel={e => e.currentTarget.blur()}
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={s}
+                        onChange={(value) => {
+                          sset(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_s', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_s');
+                          }
+                        }}
+                        step={0.01}
+                        min={0}
+                        max={1000}
+                        placeholder="s in m"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-32"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
                 </tr>
@@ -501,22 +513,25 @@ function Sonst() {
                   <td className="py-2 px-2 font-medium text-gray-700">Bogenlänge</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">b</td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={b}
-                      onChange={(value) => {
-                        bset(value);
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('sonst_b', value.toString());
-                        } else {
-                          sessionStorage.removeItem('sonst_b');
-                        }
-                      }}
-                      step={0.01}
-                      min={0}
-                      max={1000}
-                      placeholder="b in m"
-                      onWheel={e => e.currentTarget.blur()}
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={b}
+                        onChange={(value) => {
+                          bset(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_b', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_b');
+                          }
+                        }}
+                        step={0.01}
+                        min={0}
+                        max={1000}
+                        placeholder="b in m"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-32"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
                 </tr>
@@ -625,22 +640,25 @@ function Sonst() {
                   <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={R}
-                      onChange={(value) => {
-                        Rset(value);
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('sonst_R', value.toString());
-                        } else {
-                          sessionStorage.removeItem('sonst_R');
-                        }
-                      }}
-                      step={1}
-                      min={0}
-                      max={10000}
-                      placeholder="R in m"
-                      onWheel={e => e.currentTarget.blur()}
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={R}
+                        onChange={(value) => {
+                          Rset(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_R', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_R');
+                          }
+                        }}
+                        step={1}
+                        min={0}
+                        max={10000}
+                        placeholder="R in m"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-32"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
                 </tr>
@@ -648,22 +666,25 @@ function Sonst() {
                   <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">μ<sub>R</sub></td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={muR}
-                      onChange={(value) => {
-                        muRset(value);
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('sonst_muR', value.toString());
-                        } else {
-                          sessionStorage.removeItem('sonst_muR');
-                        }
-                      }}
-                      step={0.01}
-                      min={0}
-                      max={2}
-                      placeholder="μR"
-                      onWheel={e => e.currentTarget.blur()}
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={muR}
+                        onChange={(value) => {
+                          muRset(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_muR', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_muR');
+                          }
+                        }}
+                        step={0.01}
+                        min={0}
+                        max={2}
+                        placeholder="μR"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-28"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">-</td>
                 </tr>
@@ -671,22 +692,25 @@ function Sonst() {
                   <td className="py-2 px-2 font-medium text-gray-700">Überhoehung</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">ü</td>
                   <td className="py-2 px-2">
-                    <StepperInput
-                      value={ue}
-                      onChange={(value) => {
-                        ueset(value);
-                        if (!isNaN(value)) {
-                          sessionStorage.setItem('sonst_ue', value.toString());
-                        } else {
-                          sessionStorage.removeItem('sonst_ue');
-                        }
-                      }}
-                      step={0.1}
-                      min={0}
-                      max={15}
-                      placeholder="ü in %"
-                      onWheel={e => e.currentTarget.blur()}
-                    />
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={ue}
+                        onChange={(value) => {
+                          ueset(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_ue', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_ue');
+                          }
+                        }}
+                        step={0.1}
+                        min={0}
+                        max={15}
+                        placeholder="ü in %"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-28"
+                      />
+                    </div>
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">%</td>
                 </tr>
