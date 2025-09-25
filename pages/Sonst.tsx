@@ -282,6 +282,14 @@ function Sonst() {
     return false;
   }
 
+  const percentFromAlpha = convAlpha();
+  const angleFromPercent = convP();
+  const accelValue = accel();
+  const radiusResult = calculateRadius();
+  const zentriwinkelResult = calculateZentriwinkel();
+  const bogenlangeResult = calculateBogenlange();
+  const curveSpeedResult = calculateCurveSpeed();
+
   return (
 
     <div className="grid gap-6 mx-auto max-w-7xl px-4 py-8 xl:grid-cols-2">
@@ -392,7 +400,7 @@ function Sonst() {
                 <tr className="border-b-2 border-[#0059a9]">
                   <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
                   <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
                   <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
@@ -400,19 +408,19 @@ function Sonst() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.p} alt="p" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (convAlpha() ? convAlpha() : <p className="text-[#0059a9]">{p.toFixed(2).replace(".", ",")} %</p>)}</td>
+                <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (percentFromAlpha ? <p className="text-[#0059a9]">{percentFromAlpha}</p> : (!isNaN(p) && p >= 0 ? <p className="text-black">{p.toFixed(2).replace(".", ",")} %</p> : <p className="text-[#0059a9]">-</p>))}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alphaToP} alt="alphaToP" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungswinkel</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (convP() ? convP() : <p className="text-[#0059a9]">{alpha.toFixed(2).replace(".", ",")} °</p>)}</td>
+                <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (angleFromPercent ? <p className="text-[#0059a9]">{angleFromPercent}</p> : (!isNaN(alpha) && alpha >= 0 ? <p className="text-black">{alpha.toFixed(2).replace(".", ",")} °</p> : <p className="text-[#0059a9]">-</p>))}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.pToAlpha} alt="pToAlpha" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungsverzögerung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{isError() ? <p className="text-red-500">ERROR</p> : (accel() || <p className="text-gray-400">-</p>)}</td>
+                <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (accelValue ? <p className="text-[#0059a9]">{accelValue}</p> : <p className="text-[#0059a9]">-</p>)}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.asteig} alt="asteig" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
               </tbody>
@@ -546,7 +554,7 @@ function Sonst() {
                 <tr className="border-b-2 border-[#0059a9]">
                   <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
                   <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
                   <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
@@ -554,24 +562,34 @@ function Sonst() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
-                    {isCurveError() ? <p className="text-red-500">ERROR</p> : (calculateRadius() || <p className="text-gray-400">-</p>)}
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {isCurveError()
+                      ? <p className="text-red-500">ERROR</p>
+                      : (radiusResult ? <p className="text-[#0059a9]">{radiusResult}</p> : <p className="text-[#0059a9]">-</p>)}
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">R = s²/8h + h/2</td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Zentriwinkel</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">θ</td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
-                    {isCurveError() ? <p className="text-red-500">ERROR</p> : (calculateZentriwinkel() || <p className="text-gray-400">-</p>)}
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {isCurveError()
+                      ? <p className="text-red-500">ERROR</p>
+                      : (zentriwinkelResult ? <p className="text-[#0059a9]">{zentriwinkelResult}</p> : <p className="text-[#0059a9]">-</p>)}
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">θ = 2×arcsin(s/2R)</td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Errechnete Bogenlänge</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">b<sub>err</sub></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
-                    {isCurveError() ? <p className="text-red-500">ERROR</p> : (calculateBogenlange() || <p className="text-gray-400">-</p>)}
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {isCurveError()
+                      ? <p className="text-red-500">ERROR</p>
+                      : (bogenlangeResult
+                        ? <p className="text-[#0059a9]">{bogenlangeResult}</p>
+                        : (!isNaN(b) && b > 0
+                          ? <p className="text-black">{b.toFixed(2).replace(".", ",")} m</p>
+                          : <p className="text-[#0059a9]">-</p>))}
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">b = R × θ</td>
                 </tr>
@@ -706,7 +724,7 @@ function Sonst() {
                 <tr className="border-b-2 border-[#0059a9]">
                   <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
                   <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
                   <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
@@ -714,8 +732,10 @@ function Sonst() {
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">v</td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
-                    {isSpeedError() ? <p className="text-red-500">ERROR</p> : (calculateCurveSpeed() || <p className="text-gray-400">-</p>)}
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {isSpeedError()
+                      ? <p className="text-red-500">ERROR</p>
+                      : (curveSpeedResult ? <p className="text-[#0059a9]">{curveSpeedResult}</p> : <p className="text-[#0059a9]">-</p>)}
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">v = 3.6×√((g×R×(μ<sub>R</sub>+e))/(1-μ<sub>R</sub>×e))</td>
                 </tr>
