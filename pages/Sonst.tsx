@@ -21,6 +21,13 @@ function Sonst() {
   const [muR, muRset] = useState<number>(NaN) // Reibwert
   const [ue, ueset] = useState<number>(NaN) // Überhoehung
 
+  // Lane change (Ausschervorgänge) states
+  const [ausscherV, ausscherVSet] = useState<number>(NaN) // Geschwindigkeit
+  const [ausscherB, ausscherBSet] = useState<number>(NaN) // Spurwechselbreite
+  const [ausscherKsn, ausscherKsnSet] = useState<number>(2.67) // Spurwechselfaktor
+  const [ausscherAqn, ausscherAqnSet] = useState<number>(NaN) // Querbeschleunigung normal
+  const [ausscherAqs, ausscherAqsSet] = useState<number>(NaN) // Querbeschleunigung scharf
+
   const { isProcessing, handleScreenshot, handleClipboard } = useScreenshot();
 
   // Load saved values from sessionStorage on component mount
@@ -33,6 +40,11 @@ function Sonst() {
     const savedR = sessionStorage.getItem('sonst_R');
     const savedMuR = sessionStorage.getItem('sonst_muR');
     const savedUe = sessionStorage.getItem('sonst_ue');
+    const savedAusscherV = sessionStorage.getItem('sonst_ausscher_v');
+    const savedAusscherB = sessionStorage.getItem('sonst_ausscher_b');
+    const savedAusscherKsn = sessionStorage.getItem('sonst_ausscher_ksn');
+    const savedAusscherAqn = sessionStorage.getItem('sonst_ausscher_aqn');
+    const savedAusscherAqs = sessionStorage.getItem('sonst_ausscher_aqs');
 
     if (savedP && !isNaN(parseFloat(savedP))) pset(parseFloat(savedP));
     if (savedAlpha && !isNaN(parseFloat(savedAlpha))) alphaset(parseFloat(savedAlpha));
@@ -42,6 +54,11 @@ function Sonst() {
     if (savedR && !isNaN(parseFloat(savedR))) Rset(parseFloat(savedR));
     if (savedMuR && !isNaN(parseFloat(savedMuR))) muRset(parseFloat(savedMuR));
     if (savedUe && !isNaN(parseFloat(savedUe))) ueset(parseFloat(savedUe));
+    if (savedAusscherV && !isNaN(parseFloat(savedAusscherV))) ausscherVSet(parseFloat(savedAusscherV));
+    if (savedAusscherB && !isNaN(parseFloat(savedAusscherB))) ausscherBSet(parseFloat(savedAusscherB));
+    if (savedAusscherKsn && !isNaN(parseFloat(savedAusscherKsn))) ausscherKsnSet(parseFloat(savedAusscherKsn));
+    if (savedAusscherAqn && !isNaN(parseFloat(savedAusscherAqn))) ausscherAqnSet(parseFloat(savedAusscherAqn));
+    if (savedAusscherAqs && !isNaN(parseFloat(savedAusscherAqs))) ausscherAqsSet(parseFloat(savedAusscherAqs));
   }, []);
 
   // Reset function to clear all input fields and sessionStorage
@@ -76,6 +93,20 @@ function Sonst() {
     sessionStorage.removeItem('sonst_R');
     sessionStorage.removeItem('sonst_muR');
     sessionStorage.removeItem('sonst_ue');
+  };
+
+  const handleResetAusscher = () => {
+    ausscherVSet(NaN);
+    ausscherBSet(NaN);
+    ausscherKsnSet(NaN);
+    ausscherAqnSet(NaN);
+    ausscherAqsSet(NaN);
+
+    sessionStorage.removeItem('sonst_ausscher_v');
+    sessionStorage.removeItem('sonst_ausscher_b');
+    sessionStorage.removeItem('sonst_ausscher_ksn');
+    sessionStorage.removeItem('sonst_ausscher_aqn');
+    sessionStorage.removeItem('sonst_ausscher_aqs');
   };
 
   const convP = (): string | boolean => {
@@ -216,6 +247,19 @@ function Sonst() {
   const zentriwinkelResult = calculateZentriwinkel();
   const bogenlangeResult = calculateBogenlange();
   const curveSpeedResult = calculateCurveSpeed();
+  const ausscherDurationNormalValue = (!isNaN(ausscherKsn) && ausscherKsn > 0 && !isNaN(ausscherB) && ausscherB > 0 && !isNaN(ausscherAqn) && ausscherAqn > 0)
+    ? ausscherKsn * Math.sqrt(ausscherB / ausscherAqn)
+    : null;
+  const ausscherDurationSharpValue = (!isNaN(ausscherKsn) && ausscherKsn > 0 && !isNaN(ausscherB) && ausscherB > 0 && !isNaN(ausscherAqs) && ausscherAqs > 0)
+    ? ausscherKsn * Math.sqrt(ausscherB / ausscherAqs)
+    : null;
+  const ausscherSpeedMs = !isNaN(ausscherV) && ausscherV >= 0 ? ausscherV / 3.6 : null;
+  const ausscherDistanceNormalValue = (ausscherSpeedMs !== null && ausscherDurationNormalValue !== null)
+    ? ausscherSpeedMs * ausscherDurationNormalValue
+    : null;
+  const ausscherDistanceSharpValue = (ausscherSpeedMs !== null && ausscherDurationSharpValue !== null)
+    ? ausscherSpeedMs * ausscherDurationSharpValue
+    : null;
 
   return (
 
@@ -355,6 +399,243 @@ function Sonst() {
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (accelValue ? <p className="text-[#0059a9]">{accelValue}</p> : <p className="text-[#0059a9]">-</p>)}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.asteig} alt="asteig" className="inline-block max-w-full h-auto"></Image></td>
+                </tr>
+              </tbody>
+            </table>
+        </div>
+      </div>
+
+        {/* Lane Change Input Section */}
+        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Ausschervorgänge</h2>
+            <button
+              onClick={handleResetAusscher}
+              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              title="Alle Eingaben zurücksetzen"
+            >
+              Reset
+            </button>
+          </div>
+          <div className="p-4">
+            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+              <thead>
+                <tr className="border-b-2 border-[#0059a9]">
+                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Ausschergeschwindigkeit</td>
+                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">v</span></td>
+                  <td className="py-2 px-2">
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={ausscherV}
+                        onChange={(value) => {
+                          ausscherVSet(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_ausscher_v', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_ausscher_v');
+                          }
+                        }}
+                        step={1}
+                        min={0}
+                        max={300}
+                        placeholder="v in km/h"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-32"
+                      />
+                    </div>
+                  </td>
+                  <td className="py-2 px-2 text-center">km/h</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Spurwechselbreite</td>
+                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">B</span></td>
+                  <td className="py-2 px-2">
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={ausscherB}
+                        onChange={(value) => {
+                          ausscherBSet(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_ausscher_b', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_ausscher_b');
+                          }
+                        }}
+                        step={0.1}
+                        min={0}
+                        max={10}
+                        placeholder="B in m"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-28"
+                      />
+                    </div>
+                  </td>
+                  <td className="py-2 px-2 text-center">m</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Spurwechselfaktor</td>
+                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">K<sub>sn</sub></span></td>
+                  <td className="py-2 px-2">
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={ausscherKsn}
+                        onChange={(value) => {
+                          ausscherKsnSet(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_ausscher_ksn', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_ausscher_ksn');
+                          }
+                        }}
+                        step={0.01}
+                        min={0}
+                        max={10}
+                        placeholder="Ksn"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-28"
+                      />
+                    </div>
+                  </td>
+                  <td className="py-2 px-2 text-center">-</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung normal</td>
+                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">a<sub>qn</sub></span></td>
+                  <td className="py-2 px-2">
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={ausscherAqn}
+                        onChange={(value) => {
+                          ausscherAqnSet(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_ausscher_aqn', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_ausscher_aqn');
+                          }
+                        }}
+                        step={0.01}
+                        min={0}
+                        max={10}
+                        placeholder="aqn in m/s²"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-28"
+                      />
+                    </div>
+                  </td>
+                  <td className="py-2 px-2 text-center">m/s²</td>
+                </tr>
+                <tr className="hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung scharf</td>
+                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">a<sub>qs</sub></span></td>
+                  <td className="py-2 px-2">
+                    <div className="flex justify-center">
+                      <StepperInput
+                        value={ausscherAqs}
+                        onChange={(value) => {
+                          ausscherAqsSet(value);
+                          if (!isNaN(value)) {
+                            sessionStorage.setItem('sonst_ausscher_aqs', value.toString());
+                          } else {
+                            sessionStorage.removeItem('sonst_ausscher_aqs');
+                          }
+                        }}
+                        step={0.01}
+                        min={0}
+                        max={15}
+                        placeholder="aqs in m/s²"
+                        onWheel={e => e.currentTarget.blur()}
+                        className="w-28"
+                      />
+                    </div>
+                  </td>
+                  <td className="py-2 px-2 text-center">m/s²</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Lane Change Results Section */}
+        <div id="berechnungen-ausscher" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
+          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+            <h2 className="text-lg font-semibold">Ausschervorgänge Ergebnisse</h2>
+            <div className="screenshot-buttons flex gap-2">
+              <button
+                onClick={() => handleClipboard('berechnungen-ausscher')}
+                disabled={isProcessing}
+                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="In Zwischenablage kopieren"
+              >
+                {isProcessing ? 'Kopiere...' : 'Kopieren'}
+              </button>
+              <button
+                onClick={() => handleScreenshot('berechnungen-ausscher', 'berechnungen-ausschervorgaenge.png')}
+                disabled={isProcessing}
+                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Als PNG herunterladen"
+              >
+                {isProcessing ? 'Lade...' : 'Download'}
+              </button>
+            </div>
+          </div>
+          <div className="p-4">
+            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+              <thead>
+                <tr className="border-b-2 border-[#0059a9]">
+                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer normal</td>
+                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">t<sub>n</sub></span></td>
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {ausscherDurationNormalValue !== null
+                      ? <p className="text-[#0059a9]">{ausscherDurationNormalValue.toFixed(2).replace(".", ",")} s</p>
+                      : <p className="text-[#0059a9]">-</p>}
+                  </td>
+                  <td className="py-2 px-2 text-center">t<sub>n</sub> = K<sub>sn</sub> × √(B / a<sub>qn</sub>)</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer scharf</td>
+                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">t<sub>s</sub></span></td>
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {ausscherDurationSharpValue !== null
+                      ? <p className="text-[#0059a9]">{ausscherDurationSharpValue.toFixed(2).replace(".", ",")} s</p>
+                      : <p className="text-[#0059a9]">-</p>}
+                  </td>
+                  <td className="py-2 px-2 text-center">t<sub>s</sub> = K<sub>sn</sub> × √(B / a<sub>qs</sub>)</td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke normal</td>
+                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">s<sub>n</sub></span></td>
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {ausscherDistanceNormalValue !== null
+                      ? <p className="text-[#0059a9]">{ausscherDistanceNormalValue.toFixed(2).replace(".", ",")} m</p>
+                      : <p className="text-[#0059a9]">-</p>}
+                  </td>
+                  <td className="py-2 px-2 text-center">s<sub>n</sub> = (v / 3,6) × t<sub>n</sub></td>
+                </tr>
+                <tr className="hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke scharf</td>
+                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">s<sub>s</sub></span></td>
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {ausscherDistanceSharpValue !== null
+                      ? <p className="text-[#0059a9]">{ausscherDistanceSharpValue.toFixed(2).replace(".", ",")} m</p>
+                      : <p className="text-[#0059a9]">-</p>}
+                  </td>
+                  <td className="py-2 px-2 text-center">s<sub>s</sub> = (v / 3,6) × t<sub>s</sub></td>
                 </tr>
               </tbody>
             </table>
