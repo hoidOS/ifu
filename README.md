@@ -29,6 +29,8 @@ A comprehensive Next.js web application for automotive forensic analysis and acc
 
 ## 📋 Development Commands
 
+Prerequisite: Node.js 22 LTS (or newer within the 22.x line).
+
 ### Installation
 ```bash
 npm install

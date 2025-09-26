@@ -1,33 +1,33 @@
-# Refactor Playbook: Upgrade to Node 24 & Tailwind CSS 4
+# Refactor Playbook: Upgrade to Node 22 & Tailwind CSS 4
 
-This document captures the concrete steps required to move the project from **Node 18 / Tailwind 3.4** to the latest major releases (**Node 24.x** and **Tailwind CSS 4.x**). Follow the steps in order; each section assumes the previous one has completed successfully.
+This document captures the concrete steps required to move the project from **Node 18 / Tailwind 3.4** to the latest major releases (**Node 22.x** and **Tailwind CSS 4.x**). Follow the steps in order; each section assumes the previous one has completed successfully.
 
 ---
 
 ## 0. Prep & Verification
 
-- Ensure local tooling (Node, npm) can run Node 24 builds. Install Node 24 (e.g., via `nvm`) so you can test before pushing.
+- Ensure local tooling (Node, npm) can run Node 22 builds. Install Node 22 (e.g., via `nvm`) so you can test before pushing.
 - Create a feature branch; keep the existing mainline runnable on Node 18 / Tailwind 3 until the migration is complete.
 - Gather baseline outputs: `npm run lint`, `npm run build`, and a few manual screenshots so you can compare after the upgrade.
 
 ---
 
-## 1. Upgrade the Node Runtime (target Node 24.x)
+## 1. Upgrade the Node Runtime (target Node 22.x)
 
 1. **Align runtime images & docs**
-   - Update `Dockerfile` base image from `node:20-alpine` to the latest Node 24 Alpine tag.
-   - If an `.nvmrc`, CI workflow, or deployment config appears later, update it to `24.x` as well.
+   - Update `Dockerfile` base image from `node:20-alpine` to the latest Node 22 Alpine tag.
+   - If an `.nvmrc`, CI workflow, or deployment config appears later, update it to `22.x` as well.
    - Document the new minimum Node version in `README.md` / developer guides so contributors know to upgrade.
 
 2. **Refresh dependencies**
-   - Bump `@types/node` to `^24.x` in `package.json` and regenerate `package-lock.json` (`npm install`).
-   - Confirm that top-level tooling (`next`, `eslint`, `typescript`) still supports Node 24. If any peer warnings appear, upgrade those packages in the same pull request.
+   - Bump `@types/node` to `^22.x` in `package.json` and regenerate `package-lock.json` (`npm install`).
+   - Confirm that top-level tooling (`next`, `eslint`, `typescript`) still supports Node 22. If any peer warnings appear, upgrade those packages in the same pull request.
 
 3. **TypeScript & linting pass**
    - Run `npm run lint` and `tsc --noEmit` (or `npx tsc --noEmit`) to surface new type errors. Expect tighter Node typings (e.g., `fs` APIs return `Buffer` instead of `any`). Fix issues inline.
 
 4. **Runtime verification**
-   - Run `npm run dev` under Node 24 and exercise core flows (calculators, screenshot exports) to ensure nothing depends on Node 18-specific behavior.
+   - Run `npm run dev` under Node 22 and exercise core flows (calculators, screenshot exports) to ensure nothing depends on Node 18-specific behavior.
    - Build the production bundle (`npm run build && npm start`).
    - Update documentation to note the upgrade is done.
 
@@ -66,11 +66,11 @@ Tailwind 4 introduces a new configuration format, bundled PostCSS, and changes t
 
 ## 3. Final Verification Checklist
 
-- [ ] Docker image, local tooling, and docs show Node 24.x.
-- [ ] `@types/node` upgraded; `npm run lint`, `npm run build`, and `npm run dev` succeed under Node 24.
+- [ ] Docker image, local tooling, and docs show Node 22.x.
+- [ ] `@types/node` upgraded; `npm run lint`, `npm run build`, and `npm run dev` succeed under Node 22.
 - [ ] Tailwind 4 config in place; no orphaned Tailwind 3 files remain.
 - [ ] Custom styling (`globals.css`, tables, gradients) renders correctly after the Tailwind upgrade.
 - [ ] PostCSS/Autoprefixer dependencies removed or justified.
 - [ ] README / contributor docs updated with new requirements and migration notes.
 
-Following this sequence minimizes churn: upgrade the runtime first so type checks reflect the target environment, then tackle Tailwind’s configuration overhaul once Node 24 is stable.
+Following this sequence minimizes churn: upgrade the runtime first so type checks reflect the target environment, then tackle Tailwind’s configuration overhaul once Node 22 is stable.
