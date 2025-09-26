@@ -123,53 +123,76 @@ export const useScreenshot = (): UseScreenshotReturn => {
             return;
           }
 
-          try {
-            // Check for clipboard support more thoroughly
-            if (navigator.clipboard && navigator.clipboard.write && window.ClipboardItem) {
-              // Additional check for secure context (HTTPS requirement)
-              if (window.isSecureContext || location.protocol === 'https:' ||
-                location.hostname === 'localhost' || location.hostname === '127.0.0.1' ||
-                location.hostname.startsWith('192.168.') || location.hostname.endsWith('.local')) {
-
-                // Test clipboard permissions first
-                const permission = await navigator.permissions.query({ name: 'clipboard-write' as PermissionName });
-                if (permission.state === 'denied') {
-                  throw new Error('Clipboard permission denied');
-                }
-
-                await navigator.clipboard.write([
-                  new ClipboardItem({ 'image/png': blob })
-                ]);
-                resolve();
-                return;
-              } else {
-                throw new Error('Clipboard requires secure context (HTTPS)');
-              }
-            } else {
-              throw new Error('Clipboard API not supported');
-            }
-          } catch (error) {
-            console.error('Clipboard copy failed:', error);
-            
-            // Fallback: download the image instead
+          const fallbackDownload = (reason: string) => {
             const dataUrl = canvas.toDataURL('image/png');
             const link = document.createElement('a');
             link.download = `berechnungen-${elementId}.png`;
             link.href = dataUrl;
             link.click();
 
-            // More specific error messages
-            const errorMessage = error instanceof Error ? error.message : String(error);
-            if (errorMessage.includes('secure context')) {
+            if (reason === 'secure context') {
               alert('Clipboard requires HTTPS. Image has been downloaded instead.');
-            } else if (errorMessage.includes('permission denied')) {
+            } else if (reason === 'permission denied') {
               alert('Clipboard permission denied. Image has been downloaded instead.\n\nTip: Allow clipboard access in browser settings or use the Download button.');
-            } else if (errorMessage.includes('not supported')) {
+            } else if (reason === 'not supported') {
               alert('Clipboard not supported on this browser/OS. Image has been downloaded instead.\n\nTip: Use the Download button for reliable saving.');
             } else {
               alert('Clipboard copy failed. Image has been downloaded instead.');
             }
-            
+          };
+
+          try {
+            const win = window as typeof window & { ClipboardItem?: typeof ClipboardItem };
+            const isSupported = Boolean(navigator.clipboard && navigator.clipboard.write && win.ClipboardItem);
+            const isSecure = window.isSecureContext || location.protocol === 'https:' ||
+              location.hostname === 'localhost' || location.hostname === '127.0.0.1' ||
+              location.hostname.startsWith('192.168.') || location.hostname.endsWith('.local');
+
+            if (isSupported && isSecure) {
+              if (navigator.permissions && navigator.permissions.query) {
+                try {
+                  const permission = await navigator.permissions.query({ name: 'clipboard-write' as PermissionName });
+                  if (permission.state === 'denied') {
+                    fallbackDownload('permission denied');
+                    resolve();
+                    return;
+                  }
+                } catch (permissionError) {
+                  console.warn('Clipboard permission query failed:', permissionError);
+                }
+              }
+
+              try {
+                await navigator.clipboard.write([
+                  new (win.ClipboardItem as typeof ClipboardItem)({ 'image/png': blob })
+                ]);
+                resolve();
+                return;
+              } catch (clipboardError) {
+                console.error('Clipboard copy failed:', clipboardError);
+                const message = clipboardError instanceof Error ? clipboardError.message : String(clipboardError);
+                fallbackDownload(message.toLowerCase().includes('permission') ? 'permission denied' : 'clipboard error');
+                resolve();
+                return;
+              }
+            } else {
+              const reason = !isSupported ? 'not supported' : 'secure context';
+              fallbackDownload(reason);
+              resolve();
+              return;
+            }
+          } catch (error) {
+            console.error('Clipboard copy failed:', error);
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            if (errorMessage.includes('secure context')) {
+              fallbackDownload('secure context');
+            } else if (errorMessage.includes('permission')) {
+              fallbackDownload('permission denied');
+            } else if (errorMessage.includes('not supported')) {
+              fallbackDownload('not supported');
+            } else {
+              fallbackDownload('clipboard error');
+            }
             resolve(); // Don't reject on fallback
           }
         });
