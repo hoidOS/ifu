@@ -8,6 +8,7 @@
 - `styles/`, `tailwind.config.js`, and `postcss.config.js` define styling.
 
 ## Build, Test, and Development Commands
+- Target runtime: Node.js 22 LTS.
 - `npm install` installs dependencies.
 - `npm run dev` starts the Next.js dev server on `http://localhost:3000`.
 - `npm run build` produces the optimized production bundle.
@@ -33,3 +34,6 @@
 ## Security & Configuration Tips
 - Environment variables belong in `.env.local`; never commit secrets.
 - For Docker workflows, sync `Dockerfile` and `docker-compose.yml` updates with dependency changes.
+
+## Upcoming Work
+- Tailwind CSS upgrade to v4 remains outstanding; expect config rewrite (`tailwind.config.ts`), CSS directive updates, and a full visual regression once executed.

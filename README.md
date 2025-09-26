@@ -137,6 +137,8 @@ nextjs-ifu/
 - Input values are automatically saved to browser session storage
 - Mathematical formulas are implemented according to forensic automotive standards
 - The application includes German terminology for forensic automotive analysis
+- Runtime standardized on Node.js 22 LTS; match local tooling before running builds.
+- Tailwind CSS remains on v3.0.24 with a planned migration to v4 (see `REFACTOR.md`).
 
 ## 🚀 Deployment
 

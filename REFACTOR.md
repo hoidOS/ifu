@@ -2,6 +2,10 @@
 
 This document captures the concrete steps required to move the project from **Node 18 / Tailwind 3.4** to the latest major releases (**Node 22.x** and **Tailwind CSS 4.x**). Follow the steps in order; each section assumes the previous one has completed successfully.
 
+### Current Status
+- ✅ Node runtime updated to Node.js 22 LTS (Docker base image, docs, and `@types/node` refreshed; lint/tsc run clean).
+- ⏳ Tailwind CSS remains on v3.0.24 pending migration to v4.
+
 ---
 
 ## 0. Prep & Verification
@@ -14,19 +18,19 @@ This document captures the concrete steps required to move the project from **No
 
 ## 1. Upgrade the Node Runtime (target Node 22.x)
 
-1. **Align runtime images & docs**
+1. **Align runtime images & docs** *(Completed)*
    - Update `Dockerfile` base image from `node:20-alpine` to the latest Node 22 Alpine tag.
    - If an `.nvmrc`, CI workflow, or deployment config appears later, update it to `22.x` as well.
    - Document the new minimum Node version in `README.md` / developer guides so contributors know to upgrade.
 
-2. **Refresh dependencies**
+2. **Refresh dependencies** *(Completed)*
    - Bump `@types/node` to `^22.x` in `package.json` and regenerate `package-lock.json` (`npm install`).
    - Confirm that top-level tooling (`next`, `eslint`, `typescript`) still supports Node 22. If any peer warnings appear, upgrade those packages in the same pull request.
 
-3. **TypeScript & linting pass**
+3. **TypeScript & linting pass** *(Completed)*
    - Run `npm run lint` and `tsc --noEmit` (or `npx tsc --noEmit`) to surface new type errors. Expect tighter Node typings (e.g., `fs` APIs return `Buffer` instead of `any`). Fix issues inline.
 
-4. **Runtime verification**
+4. **Runtime verification** *(Completed)*
    - Run `npm run dev` under Node 22 and exercise core flows (calculators, screenshot exports) to ensure nothing depends on Node 18-specific behavior.
    - Build the production bundle (`npm run build && npm start`).
    - Update documentation to note the upgrade is done.
@@ -66,8 +70,8 @@ Tailwind 4 introduces a new configuration format, bundled PostCSS, and changes t
 
 ## 3. Final Verification Checklist
 
-- [ ] Docker image, local tooling, and docs show Node 22.x.
-- [ ] `@types/node` upgraded; `npm run lint`, `npm run build`, and `npm run dev` succeed under Node 22.
+- [x] Docker image, local tooling, and docs show Node 22.x.
+- [x] `@types/node` upgraded; `npm run lint`, `npm run build`, and `npm run dev` succeed under Node 22.
 - [ ] Tailwind 4 config in place; no orphaned Tailwind 3 files remain.
 - [ ] Custom styling (`globals.css`, tables, gradients) renders correctly after the Tailwind upgrade.
 - [ ] PostCSS/Autoprefixer dependencies removed or justified.
