@@ -49,24 +49,24 @@ function ConstDrive() {
   return (
     <>
       <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-        <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
           <h2 className="text-lg font-semibold">Konstantfahrt</h2>
           <button
             onClick={handleReset}
-            className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+            className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
             title="Alle Eingaben zurücksetzen"
           >
             Reset
           </button>
         </div>
         <div className="p-4">
-          <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+          <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
             <thead>
-              <tr className="border-b-2 border-[#0059a9]">
-                <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
-                <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+              <tr className="border-b-2 border-primary-700">
+                <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                <th className="text-primary-700 font-semibold text-center py-3 px-2">Eingabe</th>
+                <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
               </tr>
             </thead>
             <tbody>
@@ -154,13 +154,13 @@ function ConstDrive() {
       </div>
 
       <div id="berechnungen-drive" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-        <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
           <h2 className="text-lg font-semibold">Konstantfahrt</h2>
           <div className="screenshot-buttons flex gap-2">
             <button
               onClick={() => handleClipboard('berechnungen-drive')}
               disabled={isProcessing}
-              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
               title="In Zwischenablage kopieren"
             >
               {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -176,32 +176,32 @@ function ConstDrive() {
           </div>
         </div>
         <div className="p-4">
-          <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+          <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
             <thead>
-              <tr className="border-b-2 border-[#0059a9]">
-                <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+              <tr className="border-b-2 border-primary-700">
+                <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
               </tr>
             </thead>
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center font-semibold">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!vIsSet ? <p className="text-[#0059a9]">{vO}</p> : <p className="text-black">{v.toFixed(2).replace(".", ",")} km/h</p>)}</td>
+                <td className="py-2 px-2 text-center font-semibold">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!vIsSet ? <p className="text-primary-700">{vO}</p> : <p className="text-black">{v.toFixed(2).replace(".", ",")} km/h</p>)}</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dvF} alt="dvF" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Strecke</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center font-semibold">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!sIsSet ? <p className="text-[#0059a9]">{sO}</p> : <p className="text-black">{s.toFixed(2).replace(".", ",")} m</p>)}</td>
+                <td className="py-2 px-2 text-center font-semibold">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!sIsSet ? <p className="text-primary-700">{sO}</p> : <p className="text-black">{s.toFixed(2).replace(".", ",")} m</p>)}</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dsF} alt="dsF" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Dauer</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center font-semibold">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!tIsSet ? <p className="text-[#0059a9]">{tO}</p> : <p className="text-black">{t.toFixed(2).replace(".", ",")} s</p>)}</td>
+                <td className="py-2 px-2 text-center font-semibold">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!tIsSet ? <p className="text-primary-700">{tO}</p> : <p className="text-black">{t.toFixed(2).replace(".", ",")} s</p>)}</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dtF} alt="dtF" className="inline-block max-w-full h-auto"></Image></td>
               </tr>
             </tbody>

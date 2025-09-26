@@ -55,7 +55,7 @@ Tailwind 4 introduces a new configuration format, bundled PostCSS, and changes t
    - Remove legacy comments or Tailwind 3-specific utilities if they conflict with the new preset.
 
 4. **Utility sweep**
-   - Audit JSX/TSX files for class names that may have changed semantics (e.g., color tokens, gradient helpers). Validate the gradient headers (`bg-gradient-to-r from-[#0059a9] ...`) still render; Tailwind 4 may warn about arbitrary colors if not enabled.
+   - Audit JSX/TSX files for class names that may have changed semantics (e.g., color tokens, gradient helpers). Validate the gradient headers (`bg-gradient-to-r from-primary-700 ...`) still render; Tailwind 4 may warn about arbitrary colors if not enabled.
    - Confirm `@apply` statements in `globals.css` still work; Tailwind 4 may enforce stricter ordering.
 
 5. **Build & visual regression**

@@ -71,23 +71,23 @@ function VMT() {
 
 
             <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">ESO</h2>
                     <button 
                         onClick={handleResetESO}
-                        className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                        className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
                         title="ESO Eingaben zurücksetzen"
                     >
                         Reset
                     </button>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+                <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
-                        <tr className="border-b-2 border-[#0059a9]">
-                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                        <tr className="border-b-2 border-primary-700">
+                            <th className="text-primary-700 font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
+                            <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                            <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,13 +122,13 @@ function VMT() {
             </div>
 
             <div id="eso-ergebnisse" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">ESO Ergebnisse</h2>
                     <div className="screenshot-buttons flex gap-2">
                         <button 
                             onClick={() => handleClipboard('eso-ergebnisse')}
                             disabled={isProcessing}
-                            className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                             title="In Zwischenablage kopieren"
                         >
                             {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -144,12 +144,12 @@ function VMT() {
                     </div>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+                <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
-                        <tr className="border-b-2 border-[#0059a9]">
-                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                        <tr className="border-b-2 border-primary-700">
+                            <th className="text-primary-700 font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
+                            <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                            <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -158,14 +158,14 @@ function VMT() {
                             <td className="py-2 px-2 text-center font-semibold">
                                 {sIsSet
                                     ? <p className="text-black">{s.toFixed(1).replace(".", ",")}</p>
-                                    : <p className="text-[#0059a9]">-</p>
+                                    : <p className="text-primary-700">-</p>
                                 }
                             </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Durchmesser</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                            <td className="py-2 px-2 text-center font-semibold text-primary-700">
                                 {esoDiameter
                                     ? <p>{esoDiameter}</p>
                                     : <p>-</p>
@@ -179,23 +179,23 @@ function VMT() {
             </div>
 
             <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">Riegl</h2>
                     <button 
                         onClick={handleResetRiegl}
-                        className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+                        className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
                         title="Riegl Eingaben zurücksetzen"
                     >
                         Reset
                     </button>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+                <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
-                        <tr className="border-b-2 border-[#0059a9]">
-                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Riegl Strahlaufweitung</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                        <tr className="border-b-2 border-primary-700">
+                            <th className="text-primary-700 font-semibold text-left py-3 px-2">Riegl Strahlaufweitung</th>
+                            <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                            <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -230,13 +230,13 @@ function VMT() {
             </div>
 
             <div id="riegl-ergebnisse" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-                <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+                <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
                     <h2 className="text-lg font-semibold">Riegl Ergebnisse</h2>
                     <div className="screenshot-buttons flex gap-2">
                         <button 
                             onClick={() => handleClipboard('riegl-ergebnisse')}
                             disabled={isProcessing}
-                            className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                             title="In Zwischenablage kopieren"
                         >
                             {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -252,12 +252,12 @@ function VMT() {
                     </div>
                 </div>
                 <div className="p-4">
-                <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+                <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
                     <thead>
-                        <tr className="border-b-2 border-[#0059a9]">
-                            <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Riegl Strahlaufweitung</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                        <tr className="border-b-2 border-primary-700">
+                            <th className="text-primary-700 font-semibold text-left py-3 px-2">Riegl Strahlaufweitung</th>
+                            <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-primary-700">Ein</span> / Ausgabe</th>
+                            <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -266,14 +266,14 @@ function VMT() {
                             <td className="py-2 px-2 text-center font-semibold">
                                 {sRIsSet
                                     ? <p className="text-black">{sR.toFixed(1).replace(".", ",")}</p>
-                                    : <p className="text-[#0059a9]">-</p>
+                                    : <p className="text-primary-700">-</p>
                                 }
                             </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Pointer 1 mRad</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                            <td className="py-2 px-2 text-center font-semibold text-primary-700">
                                 {rieglPointer1
                                     ? <p>{rieglPointer1}</p>
                                     : <p>-</p>
@@ -283,7 +283,7 @@ function VMT() {
                         </tr>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Strahlaufweitung 3 mRad</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                            <td className="py-2 px-2 text-center font-semibold text-primary-700">
                                 {rieglBeam3
                                     ? <p>{rieglBeam3}</p>
                                     : <p>-</p>
@@ -293,7 +293,7 @@ function VMT() {
                         </tr>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Zielerfassungsbereich 5 mRad</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                            <td className="py-2 px-2 text-center font-semibold text-primary-700">
                                 {rieglTarget5
                                     ? <p>{rieglTarget5}</p>
                                     : <p>-</p>
