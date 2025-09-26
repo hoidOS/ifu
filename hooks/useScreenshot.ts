@@ -143,10 +143,12 @@ export const useScreenshot = (): UseScreenshotReturn => {
 
           try {
             const win = window as typeof window & { ClipboardItem?: typeof ClipboardItem };
-            const isSupported = Boolean(navigator.clipboard && navigator.clipboard.write && win.ClipboardItem);
-            const isSecure = window.isSecureContext || location.protocol === 'https:' ||
-              location.hostname === 'localhost' || location.hostname === '127.0.0.1' ||
-              location.hostname.startsWith('192.168.') || location.hostname.endsWith('.local');
+            const nav = navigator as Navigator & { clipboard?: Clipboard };
+            const hasClipboard = Boolean(nav.clipboard);
+            const hasWrite = hasClipboard && typeof nav.clipboard!.write === 'function';
+            const hasClipboardItem = typeof win.ClipboardItem === 'function';
+            const isSupported = hasWrite && hasClipboardItem;
+            const isSecure = window.isSecureContext || location.protocol === 'https:' || location.hostname === 'localhost';
 
             if (isSupported && isSecure) {
               if (navigator.permissions && navigator.permissions.query) {
