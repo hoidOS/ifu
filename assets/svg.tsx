@@ -29,6 +29,10 @@ import sB from './images/sB.svg'
 import tB from './images/tB.svg'
 import sges from './images/sges.svg'
 import tges from './images/tges.svg'
+import tn from './images/tn.svg'
+import ts from './images/ts.svg'
+import sn from './images/sn.svg'
+import ss from './images/ss.svg'
 
 import vAvE from './images/vAvE.svg'
 
@@ -129,6 +133,10 @@ interface svgInterface {
     tB: string,
     sges: string,
     tges: string,
+    tn: string,
+    ts: string,
+    sn: string,
+    ss: string,
 
     vAvE: string,
 
@@ -229,6 +237,10 @@ const SVG: svgInterface = {
     tB: tB,
     sges: sges,
     tges: tges,
+    tn: tn,
+    ts: ts,
+    sn: sn,
+    ss: ss,
 
     vAvE: vAvE,
 

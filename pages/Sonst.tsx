@@ -21,10 +21,12 @@ function Sonst() {
   const [muR, muRset] = useState<number>(NaN) // Reibwert
   const [ue, ueset] = useState<number>(NaN) // Überhoehung
 
+  const defaultAusscherKsn = 2.67
+
   // Lane change (Ausschervorgänge) states
   const [ausscherV, ausscherVSet] = useState<number>(NaN) // Geschwindigkeit
   const [ausscherB, ausscherBSet] = useState<number>(NaN) // Spurwechselbreite
-  const [ausscherKsn, ausscherKsnSet] = useState<number>(2.67) // Spurwechselfaktor
+  const [ausscherKsn, ausscherKsnSet] = useState<number>(defaultAusscherKsn) // Spurwechselfaktor
   const [ausscherAqn, ausscherAqnSet] = useState<number>(NaN) // Querbeschleunigung normal
   const [ausscherAqs, ausscherAqsSet] = useState<number>(NaN) // Querbeschleunigung scharf
 
@@ -98,13 +100,13 @@ function Sonst() {
   const handleResetAusscher = () => {
     ausscherVSet(NaN);
     ausscherBSet(NaN);
-    ausscherKsnSet(NaN);
+    ausscherKsnSet(defaultAusscherKsn);
     ausscherAqnSet(NaN);
     ausscherAqsSet(NaN);
 
     sessionStorage.removeItem('sonst_ausscher_v');
     sessionStorage.removeItem('sonst_ausscher_b');
-    sessionStorage.removeItem('sonst_ausscher_ksn');
+    sessionStorage.setItem('sonst_ausscher_ksn', defaultAusscherKsn.toString());
     sessionStorage.removeItem('sonst_ausscher_aqn');
     sessionStorage.removeItem('sonst_ausscher_aqs');
   };
@@ -452,7 +454,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center">km/h</td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselbreite</td>
@@ -478,7 +480,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center">m</td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselfaktor</td>
@@ -530,7 +532,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center">m/s²</td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung scharf</td>
@@ -556,7 +558,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center">m/s²</td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -605,7 +607,7 @@ function Sonst() {
                       ? <p className="text-[#0059a9]">{ausscherDurationNormalValue.toFixed(2).replace(".", ",")} s</p>
                       : <p className="text-[#0059a9]">-</p>}
                   </td>
-                  <td className="py-2 px-2 text-center">t<sub>n</sub> = K<sub>sn</sub> × √(B / a<sub>qn</sub>)</td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tn} alt="Formel t_n" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer scharf</td>
@@ -615,7 +617,7 @@ function Sonst() {
                       ? <p className="text-[#0059a9]">{ausscherDurationSharpValue.toFixed(2).replace(".", ",")} s</p>
                       : <p className="text-[#0059a9]">-</p>}
                   </td>
-                  <td className="py-2 px-2 text-center">t<sub>s</sub> = K<sub>sn</sub> × √(B / a<sub>qs</sub>)</td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ts} alt="Formel t_s" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke normal</td>
@@ -625,7 +627,7 @@ function Sonst() {
                       ? <p className="text-[#0059a9]">{ausscherDistanceNormalValue.toFixed(2).replace(".", ",")} m</p>
                       : <p className="text-[#0059a9]">-</p>}
                   </td>
-                  <td className="py-2 px-2 text-center">s<sub>n</sub> = (v / 3,6) × t<sub>n</sub></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sn} alt="Formel s_n" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke scharf</td>
@@ -635,7 +637,7 @@ function Sonst() {
                       ? <p className="text-[#0059a9]">{ausscherDistanceSharpValue.toFixed(2).replace(".", ",")} m</p>
                       : <p className="text-[#0059a9]">-</p>}
                   </td>
-                  <td className="py-2 px-2 text-center">s<sub>s</sub> = (v / 3,6) × t<sub>s</sub></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ss} alt="Formel s_s" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -689,7 +691,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Segmentlänge</td>
@@ -715,7 +717,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bogenlänge</td>
@@ -741,7 +743,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -868,7 +870,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">m</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
@@ -920,7 +922,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">%</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.percent} alt="percent" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
               </tbody>
             </table>
