@@ -41,7 +41,7 @@ const StepperInput: React.FC<StepperInputProps> = ({
       {/* Minus Button */}
       <button
         onClick={handleDecrement}
-        className="w-8 h-8 flex items-center justify-center border border-r-0 border-gray-300 bg-gray-50 hover:bg-gray-100 rounded-l-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:bg-gray-100"
+        className="w-8 h-8 flex items-center justify-center border border-r-0 border-gray-300 bg-gray-50 hover:bg-gray-100 rounded-l-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:bg-gray-100"
         type="button"
         tabIndex={-1}
       >
@@ -55,7 +55,7 @@ const StepperInput: React.FC<StepperInputProps> = ({
         onChange={(e) => onChange(e.target.valueAsNumber)}
         onWheel={onWheel}
         placeholder={placeholder}
-        className={`flex-1 px-3 py-2 border-t border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:border-transparent focus:z-10 text-center ${className}`}
+        className={`flex-1 px-3 py-2 border-t border-b border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent focus:z-10 text-center ${className}`}
         step={step}
         min={min}
         max={max}
@@ -64,7 +64,7 @@ const StepperInput: React.FC<StepperInputProps> = ({
       {/* Plus Button */}
       <button
         onClick={handleIncrement}
-        className="w-8 h-8 flex items-center justify-center border border-l-0 border-gray-300 bg-gray-50 hover:bg-gray-100 rounded-r-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#0059a9] focus:bg-gray-100"
+        className="w-8 h-8 flex items-center justify-center border border-l-0 border-gray-300 bg-gray-50 hover:bg-gray-100 rounded-r-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary-700 focus:bg-gray-100"
         type="button"
         tabIndex={-1}
       >

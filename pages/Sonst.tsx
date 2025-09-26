@@ -273,24 +273,24 @@ function Sonst() {
       </Head>
       <>
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Steigungsverzögerung</h2>
             <button
               onClick={handleReset}
-              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
                 </tr>
               </thead>
               <tbody>
@@ -352,13 +352,13 @@ function Sonst() {
         </div>
 
         <div id="berechnungen-sonst" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Steigungsverzögerung Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-sonst')}
                 disabled={isProcessing}
-                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -374,32 +374,32 @@ function Sonst() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.p} alt="p" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (percentFromAlpha ? <p className="text-[#0059a9]">{percentFromAlpha}</p> : (!isNaN(p) && p >= 0 ? <p className="text-black">{p.toFixed(2).replace(".", ",")} %</p> : <p className="text-[#0059a9]">-</p>))}</td>
+                <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (percentFromAlpha ? <p className="text-primary-700">{percentFromAlpha}</p> : (!isNaN(p) && p >= 0 ? <p className="text-black">{p.toFixed(2).replace(".", ",")} %</p> : <p className="text-primary-700">-</p>))}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alphaToP} alt="alphaToP" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungswinkel</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (angleFromPercent ? <p className="text-[#0059a9]">{angleFromPercent}</p> : (!isNaN(alpha) && alpha >= 0 ? <p className="text-black">{alpha.toFixed(2).replace(".", ",")} °</p> : <p className="text-[#0059a9]">-</p>))}</td>
+                <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (angleFromPercent ? <p className="text-primary-700">{angleFromPercent}</p> : (!isNaN(alpha) && alpha >= 0 ? <p className="text-black">{alpha.toFixed(2).replace(".", ",")} °</p> : <p className="text-primary-700">-</p>))}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.pToAlpha} alt="pToAlpha" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungsverzögerung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
-                <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (accelValue ? <p className="text-[#0059a9]">{accelValue}</p> : <p className="text-[#0059a9]">-</p>)}</td>
+                <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (accelValue ? <p className="text-primary-700">{accelValue}</p> : <p className="text-primary-700">-</p>)}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.asteig} alt="asteig" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
               </tbody>
@@ -409,30 +409,30 @@ function Sonst() {
 
         {/* Lane Change Input Section */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Ausschervorgänge</h2>
             <button
               onClick={handleResetAusscher}
-              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausschergeschwindigkeit</td>
-                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">v</span></td>
+                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">v</span></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -458,7 +458,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselbreite</td>
-                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">B</span></td>
+                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">B</span></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -484,7 +484,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselfaktor</td>
-                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">K<sub>sn</sub></span></td>
+                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">K<sub>sn</sub></span></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -510,7 +510,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung normal</td>
-                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">a<sub>qn</sub></span></td>
+                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">a<sub>qn</sub></span></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -536,7 +536,7 @@ function Sonst() {
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung scharf</td>
-                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">a<sub>qs</sub></span></td>
+                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">a<sub>qs</sub></span></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -567,13 +567,13 @@ function Sonst() {
 
         {/* Lane Change Results Section */}
         <div id="berechnungen-ausscher" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Ausschervorgänge Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-ausscher')}
                 disabled={isProcessing}
-                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -589,53 +589,53 @@ function Sonst() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer normal</td>
-                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">t<sub>n</sub></span></td>
+                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">t<sub>n</sub></span></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {ausscherDurationNormalValue !== null
-                      ? <p className="text-[#0059a9]">{ausscherDurationNormalValue.toFixed(2).replace(".", ",")} s</p>
-                      : <p className="text-[#0059a9]">-</p>}
+                      ? <p className="text-primary-700">{ausscherDurationNormalValue.toFixed(2).replace(".", ",")} s</p>
+                      : <p className="text-primary-700">-</p>}
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tn} alt="Formel t_n" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer scharf</td>
-                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">t<sub>s</sub></span></td>
+                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">t<sub>s</sub></span></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {ausscherDurationSharpValue !== null
-                      ? <p className="text-[#0059a9]">{ausscherDurationSharpValue.toFixed(2).replace(".", ",")} s</p>
-                      : <p className="text-[#0059a9]">-</p>}
+                      ? <p className="text-primary-700">{ausscherDurationSharpValue.toFixed(2).replace(".", ",")} s</p>
+                      : <p className="text-primary-700">-</p>}
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ts} alt="Formel t_s" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke normal</td>
-                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">s<sub>n</sub></span></td>
+                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">s<sub>n</sub></span></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {ausscherDistanceNormalValue !== null
-                      ? <p className="text-[#0059a9]">{ausscherDistanceNormalValue.toFixed(2).replace(".", ",")} m</p>
-                      : <p className="text-[#0059a9]">-</p>}
+                      ? <p className="text-primary-700">{ausscherDistanceNormalValue.toFixed(2).replace(".", ",")} m</p>
+                      : <p className="text-primary-700">-</p>}
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sn} alt="Formel s_n" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke scharf</td>
-                  <td className="py-2 px-2 text-center"><span className="text-[#0059a9] font-semibold">s<sub>s</sub></span></td>
+                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">s<sub>s</sub></span></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {ausscherDistanceSharpValue !== null
-                      ? <p className="text-[#0059a9]">{ausscherDistanceSharpValue.toFixed(2).replace(".", ",")} m</p>
-                      : <p className="text-[#0059a9]">-</p>}
+                      ? <p className="text-primary-700">{ausscherDistanceSharpValue.toFixed(2).replace(".", ",")} m</p>
+                      : <p className="text-primary-700">-</p>}
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ss} alt="Formel s_s" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
@@ -646,24 +646,24 @@ function Sonst() {
 
         {/* Curve Radius Input Section */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Kurvenradius</h2>
             <button
               onClick={handleResetCurve}
-              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
                 </tr>
               </thead>
               <tbody>
@@ -752,13 +752,13 @@ function Sonst() {
 
         {/* Curve Radius Results Section */}
         <div id="berechnungen-kurve" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Kurvenradius Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-kurve')}
                 disabled={isProcessing}
-                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -774,13 +774,13 @@ function Sonst() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
               <tbody>
@@ -790,7 +790,7 @@ function Sonst() {
                   <td className="py-2 px-2 text-center font-semibold">
                     {isCurveError()
                       ? <p className="text-red-500">ERROR</p>
-                      : (radiusResult ? <p className="text-[#0059a9]">{radiusResult}</p> : <p className="text-[#0059a9]">-</p>)}
+                      : (radiusResult ? <p className="text-primary-700">{radiusResult}</p> : <p className="text-primary-700">-</p>)}
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">R = s²/8h + h/2</td>
                 </tr>
@@ -800,7 +800,7 @@ function Sonst() {
                   <td className="py-2 px-2 text-center font-semibold">
                     {isCurveError()
                       ? <p className="text-red-500">ERROR</p>
-                      : (zentriwinkelResult ? <p className="text-[#0059a9]">{zentriwinkelResult}</p> : <p className="text-[#0059a9]">-</p>)}
+                      : (zentriwinkelResult ? <p className="text-primary-700">{zentriwinkelResult}</p> : <p className="text-primary-700">-</p>)}
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">θ = 2×arcsin(s/2R)</td>
                 </tr>
@@ -811,10 +811,10 @@ function Sonst() {
                     {isCurveError()
                       ? <p className="text-red-500">ERROR</p>
                       : (bogenlangeResult
-                        ? <p className="text-[#0059a9]">{bogenlangeResult}</p>
+                        ? <p className="text-primary-700">{bogenlangeResult}</p>
                         : (!isNaN(b) && b > 0
                           ? <p className="text-black">{b.toFixed(2).replace(".", ",")} m</p>
-                          : <p className="text-[#0059a9]">-</p>))}
+                          : <p className="text-primary-700">-</p>))}
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">b = R × θ</td>
                 </tr>
@@ -825,24 +825,24 @@ function Sonst() {
 
         {/* Curve Speed Input Section */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Kurvengrenzgeschwindigkeit</h2>
             <button
               onClick={handleResetSpeed}
-              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
                 </tr>
               </thead>
               <tbody>
@@ -931,13 +931,13 @@ function Sonst() {
 
         {/* Curve Speed Results Section */}
         <div id="berechnungen-geschwindigkeit" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Kurvengrenzgeschwindigkeit Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-geschwindigkeit')}
                 disabled={isProcessing}
-                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -953,13 +953,13 @@ function Sonst() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
               <tbody>
@@ -969,7 +969,7 @@ function Sonst() {
                   <td className="py-2 px-2 text-center font-semibold">
                     {isSpeedError()
                       ? <p className="text-red-500">ERROR</p>
-                      : (curveSpeedResult ? <p className="text-[#0059a9]">{curveSpeedResult}</p> : <p className="text-[#0059a9]">-</p>)}
+                      : (curveSpeedResult ? <p className="text-primary-700">{curveSpeedResult}</p> : <p className="text-primary-700">-</p>)}
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">v = 3.6×√((g×R×(μ<sub>R</sub>+e))/(1-μ<sub>R</sub>×e))</td>
                 </tr>

@@ -125,11 +125,10 @@ nextjs-ifu/
 
 ### Development Dependencies
 - `typescript`: ^5.9.2 - Type safety
-- `tailwindcss`: ^3.0.24 - Styling framework
+- `tailwindcss`: ^4.1.13 - Styling framework
 - `react-icons`: ^5.5.0 - Icon library
 - `eslint`: ^9.33.0 - Code linting
-- `autoprefixer`: ^10.4.7 - CSS vendor prefixes
-- `postcss`: ^8.4.14 - CSS processing
+- `@tailwindcss/postcss`: ^4.1.13 - Tailwind-integrated PostCSS preset
 
 ## 📝 Notes
 
@@ -138,7 +137,7 @@ nextjs-ifu/
 - Mathematical formulas are implemented according to forensic automotive standards
 - The application includes German terminology for forensic automotive analysis
 - Runtime standardized on Node.js 22 LTS; match local tooling before running builds.
-- Tailwind CSS remains on v3.0.24 with a planned migration to v4 (see `REFACTOR.md`).
+- Tailwind CSS upgraded to v4.1.13; see `REFACTOR.md` for the migration playbook.
 
 ## 🚀 Deployment
 

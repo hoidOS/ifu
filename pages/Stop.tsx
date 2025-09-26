@@ -78,24 +78,24 @@ function Stop() {
       <div className="grid gap-6 mx-auto max-w-screen-2xl px-4 py-6 md:grid-cols-2">
 
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
             <h2 className="text-lg font-semibold">Anhaltevorgang</h2>
             <button
               onClick={handleReset}
-              className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Einheit</th>
                 </tr>
               </thead>
               <tbody>
@@ -230,14 +230,14 @@ function Stop() {
         </div>
 
         <div id="results-print" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-[#0059a9] to-[#003d7a] text-white px-4 py-2 card-header flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-4 py-2 card-header flex justify-between items-center">
             <h2 className="text-base font-semibold">Anhaltevorgang</h2>
             <div className="flex gap-2">
               <button
                 id="clipboard-button"
                 onClick={() => handleClipboard('results-print')}
                 disabled={isProcessing}
-                className="bg-white text-[#0059a9] px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -254,92 +254,92 @@ function Stop() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-[#0059a9] rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Eingabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Bemerkungen</th>
+                <tr className="border-b-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Bemerkungen</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.vA.toString().replace(".", ",")} km/h</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.vA.toString().replace(".", ",")} km/h</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vAvE} alt="vAvE" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.vE.toString().replace(".", ",")} km/h</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.vE.toString().replace(".", ",")} km/h</td>
                   <td className="py-2 px-2 text-center text-sm text-gray-600">0 für Bremsung bis zum Stillstand</td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Reaktionsdauer</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tR} alt="tR" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.tR.toString().replace(".", ",")} s</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.tR.toString().replace(".", ",")} s</td>
                   <td className="py-2 px-2 text-center text-sm text-gray-600">Reaktionspunkt bis Bremspunkt</td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsschwelldauer</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tS} alt="tS" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.tS.toString().replace(".", ",")} s</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.tS.toString().replace(".", ",")} s</td>
                   <td className="py-2 px-2 text-center text-sm text-gray-600">Fahrzeugabhängig</td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Mittlere Verzögerung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.am} alt="am" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{input.am.toString().replace(".", ",")} m/s²</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.am.toString().replace(".", ",")} m/s²</td>
                   <td className="py-2 px-2 text-center text-sm text-gray-600">Abhängig von der Reibpaarung</td>
                 </tr>
-                <tr className="bg-blue-50 border-y-2 border-[#0059a9]">
-                  <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Ausgabe</th>
-                  <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Formel</th>
+                <tr className="bg-blue-50 border-y-2 border-primary-700">
+                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Ausgabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Reaktionsstrecke</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sR} alt="sR" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{reaction}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{reaction}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sRF} alt="sRF" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Schwellstrecke</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sS} alt="sS" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{breakDelay}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{breakDelay}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sSF} alt="sSF" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Geschw. Vollverzögerung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vV} alt="vV" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{fullSend}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{fullSend}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vVF} alt="vVF" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsstrecke</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sB} alt="sB" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{breakDistance}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{breakDistance}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sBF} alt="sBF" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsdauer</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tB} alt="tB" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{breakDuration}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{breakDuration}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tBF} alt="tBF" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Gesamtstrecke von <Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image> bis <Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sges} alt="sges" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{fullDistance}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{fullDistance}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sgesF} alt="sgesF" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Gesamtdauer von <Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image> bis <Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tges} alt="tges" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{fullTime}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{fullTime}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tgesF} alt="tgesF" className="inline-block max-w-full h-auto"></Image></td>
                 </tr>
               </tbody>
