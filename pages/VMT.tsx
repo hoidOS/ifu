@@ -9,8 +9,11 @@ import StepperInput from '../components/StepperInput'
 function VMT() {
     const [s, sSet] = useState<number>(NaN)
     const [sR, sRSet] = useState<number>(NaN)
-    
+
     const { isProcessing, handleScreenshot, handleClipboard } = useScreenshot();
+
+    const sIsSet = !isNaN(s)
+    const sRIsSet = !isNaN(sR)
 
     // Load saved values from sessionStorage on component mount
     useEffect(() => {
@@ -52,6 +55,11 @@ function VMT() {
 
     }
 
+    const esoDiameter = solveMax()
+    const rieglPointer1 = sRIsSet ? (sR * 0.001).toFixed(3).replace(".", ",") : null
+    const rieglBeam3 = sRIsSet ? (sR * 0.003).toFixed(3).replace(".", ",") : null
+    const rieglTarget5 = sRIsSet ? (sR * 0.005).toFixed(3).replace(".", ",") : null
+
     return (
 
         <div className="grid gap-6 mx-auto max-w-7xl px-4 py-8 lg:grid-cols-2">
@@ -78,7 +86,7 @@ function VMT() {
                     <thead>
                         <tr className="border-b-2 border-[#0059a9]">
                             <th className="text-[#0059a9] font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
                             <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
                         </tr>
                     </thead>
@@ -140,19 +148,29 @@ function VMT() {
                     <thead>
                         <tr className="border-b-2 border-[#0059a9]">
                             <th className="text-[#0059a9] font-semibold text-left py-3 px-2">ESO Strahlaufweitung</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
                             <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{s.toFixed(1).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center font-semibold">
+                                {sIsSet
+                                    ? <p className="text-black">{s.toFixed(1).replace(".", ",")}</p>
+                                    : <p className="text-[#0059a9]">-</p>
+                                }
+                            </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Durchmesser</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{solveMax()}</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                                {esoDiameter
+                                    ? <p>{esoDiameter}</p>
+                                    : <p>-</p>
+                                }
+                            </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                     </tbody>
@@ -176,7 +194,7 @@ function VMT() {
                     <thead>
                         <tr className="border-b-2 border-[#0059a9]">
                             <th className="text-[#0059a9] font-semibold text-left py-3 px-2">Riegl Strahlaufweitung</th>
-                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-[#0059a9]">Ein</span> / Ausgabe</th>
+                            <th className="text-[#0059a9] font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
                             <th className="text-[#0059a9] font-semibold text-center py-3 px-2">Einheit</th>
                         </tr>
                     </thead>
@@ -245,22 +263,42 @@ function VMT() {
                     <tbody>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Messentfernung</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{sR.toFixed(1).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center font-semibold">
+                                {sRIsSet
+                                    ? <p className="text-black">{sR.toFixed(1).replace(".", ",")}</p>
+                                    : <p className="text-[#0059a9]">-</p>
+                                }
+                            </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Pointer 1 mRad</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(sR * 0.001).toFixed(3).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                                {rieglPointer1
+                                    ? <p>{rieglPointer1}</p>
+                                    : <p>-</p>
+                                }
+                            </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Strahlaufweitung 3 mRad</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(sR * 0.003).toFixed(3).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                                {rieglBeam3
+                                    ? <p>{rieglBeam3}</p>
+                                    : <p>-</p>
+                                }
+                            </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Zielerfassungsbereich 5 mRad</td>
-                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">{(sR * 0.005).toFixed(3).replace(".", ",")}</td>
+                            <td className="py-2 px-2 text-center font-semibold text-[#0059a9]">
+                                {rieglTarget5
+                                    ? <p>{rieglTarget5}</p>
+                                    : <p>-</p>
+                                }
+                            </td>
                             <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
                         </tr>
                     </tbody>
