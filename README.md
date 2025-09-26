@@ -137,7 +137,7 @@ nextjs-ifu/
 - Mathematical formulas are implemented according to forensic automotive standards
 - The application includes German terminology for forensic automotive analysis
 - Runtime standardized on Node.js 22 LTS; match local tooling before running builds.
-- Tailwind CSS upgraded to v4.1.13; see `REFACTOR.md` for the migration playbook.
+- Tailwind CSS upgraded to v4.1.13 with configuration managed in `tailwind.config.ts`.
 
 ## 🚀 Deployment
 

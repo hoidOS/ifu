@@ -5,7 +5,7 @@
 - `components/` hosts shared UI and calculators (e.g., `StepperInput`, `util*`).
 - `hooks/` includes utilities such as `useScreenshot` for exports.
 - `assets/` stores SVG formula renderings; `public/` holds static files.
-- `styles/`, `tailwind.config.js`, and `postcss.config.js` define styling.
+- `styles/`, `tailwind.config.ts`, and `postcss.config.js` define styling.
 
 ## Build, Test, and Development Commands
 - Target runtime: Node.js 22 LTS.
@@ -36,4 +36,4 @@
 - For Docker workflows, sync `Dockerfile` and `docker-compose.yml` updates with dependency changes.
 
 ## Upcoming Work
-- Tailwind CSS upgrade to v4 remains outstanding; expect config rewrite (`tailwind.config.ts`), CSS directive updates, and a full visual regression once executed.
+- None currently scheduled; track new feature requests via issues.
