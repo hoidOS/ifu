@@ -132,16 +132,16 @@ nextjs-ppcavs-ifu/
 ## Key Dependencies
 
 ### Core Dependencies
-- `next`: ^15.4.6 - React framework
-- `react`: ^19.1.1 - UI library
-- `react-dom`: ^19.1.1 - React DOM rendering
-- `html2canvas`: ^1.4.1 - Screenshot generation
+- `next`: 15.5.4 - React framework
+- `react`: 19.2.0 - UI library
+- `react-dom`: 19.2.0 - React DOM rendering
+- `html2canvas`: 1.4.1 - Screenshot generation
 
 ### Development Dependencies
-- `typescript`: ^5.9.2 - Type safety
-- `tailwindcss`: ^4.1.13 - Styling framework
-- `eslint`: ^9.33.0 - Code linting
-- `@tailwindcss/postcss`: ^4.1.13 - Tailwind-integrated PostCSS preset
+- `typescript`: 5.9.3 - Type safety
+- `tailwindcss`: 4.1.14 - Styling framework
+- `eslint`: 9.37.0 - Code linting
+- `@tailwindcss/postcss`: 4.1.14 - Tailwind-integrated PostCSS preset
 
 ## Notes
 
@@ -150,7 +150,7 @@ nextjs-ppcavs-ifu/
 - Mathematical formulas are implemented according to forensic automotive standards
 - The application includes German terminology for forensic automotive analysis
 - Runtime standardized on Node.js 22 LTS; match local tooling before running builds.
-- Tailwind CSS upgraded to v4.1.13 with configuration managed in `tailwind.config.ts`.
+- Tailwind CSS upgraded to v4.1.14 with configuration managed in `tailwind.config.ts`.
 
 ## Deployment
 
