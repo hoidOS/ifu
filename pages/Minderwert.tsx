@@ -1232,7 +1232,7 @@ function Minderwert() {
             <h3 className="text-lg font-semibold">BVSK System – Bewertungsmaßstäbe</h3>
             <div className="screenshot-buttons flex gap-2">
               <button
-                onClick={() => handleClipboard('bvsk-system-card')}
+                onClick={() => handleClipboard('bvsk-system-table')}
                 disabled={isProcessing}
                 className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
@@ -1240,7 +1240,7 @@ function Minderwert() {
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button
-                onClick={() => handleScreenshot('bvsk-system-card', 'bvsk-system.png')}
+                onClick={() => handleScreenshot('bvsk-system-table', 'bvsk-system.png')}
                 disabled={isProcessing}
                 className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
@@ -1250,7 +1250,10 @@ function Minderwert() {
             </div>
           </div>
           <div className="p-6 overflow-x-auto">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(191,219,254,0.35)] border-b-2 border-r-2">
+            <table
+              id="bvsk-system-table"
+              className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(191,219,254,0.35)] border-b-2 border-r-2"
+            >
               <thead>
                 <tr className="text-primary-700 border-b border-primary-200" style={{ backgroundColor: "#e8f3ff" }}>
                   <th className="text-left py-3 px-3 font-semibold">Parameter</th>
@@ -1296,7 +1299,7 @@ function Minderwert() {
             <h3 className="text-lg font-semibold">MFM System – Bewertungsmaßstäbe</h3>
             <div className="screenshot-buttons flex gap-2">
               <button
-                onClick={() => handleClipboard('mfm-system-card')}
+                onClick={() => handleClipboard('mfm-system-table')}
                 disabled={isProcessing}
                 className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
@@ -1304,7 +1307,7 @@ function Minderwert() {
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button
-                onClick={() => handleScreenshot('mfm-system-card', 'mfm-system.png')}
+                onClick={() => handleScreenshot('mfm-system-table', 'mfm-system.png')}
                 disabled={isProcessing}
                 className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
@@ -1314,7 +1317,10 @@ function Minderwert() {
             </div>
           </div>
           <div className="p-6 overflow-x-auto">
-            <table className="w-full text-sm border border-orange-500 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(253,186,116,0.35)] border-b-2 border-r-2">
+            <table
+              id="mfm-system-table"
+              className="w-full text-sm border border-orange-500 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(253,186,116,0.35)] border-b-2 border-r-2"
+            >
               <thead>
                 <tr className="bg-orange-50 text-orange-600 border-b border-orange-200">
                   <th className="text-left py-3 px-3 font-semibold">Parameter</th>
