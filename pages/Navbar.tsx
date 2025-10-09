@@ -1,13 +1,27 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FaBars, FaWindowClose, FaCarCrash, FaCar, FaCamera, FaMoneyBill } from 'react-icons/fa'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
+const NAV_ACCENTS: Record<string, string> = {
+    '/Stop': 'linear-gradient(135deg, rgba(248,113,113,0.18), rgba(248,113,113,0.32))',
+    '/Const': 'linear-gradient(135deg, rgba(59,130,246,0.16), rgba(59,130,246,0.3))',
+    '/Sonst': 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(168,85,247,0.32))',
+    '/VMT': 'linear-gradient(135deg, rgba(34,197,94,0.18), rgba(34,197,94,0.3))',
+    '/Minderwert': 'linear-gradient(135deg, rgba(245,158,11,0.18), rgba(245,158,11,0.3))'
+}
+
+const DEFAULT_ACCENT = 'linear-gradient(135deg, rgba(148,163,184,0.12), rgba(148,163,184,0.24))'
 
 function Navbar() {
     const router = useRouter();
     const [nav, setNav] = useState(false)
     const [touchStart, setTouchStart] = useState(0)
     const [touchEnd, setTouchEnd] = useState(0)
+    const navListRef = useRef<HTMLUListElement | null>(null)
+    const [indicatorStyle, setIndicatorStyle] = useState<{ width: number; left: number }>({ width: 0, left: 0 })
+    const [indicatorColor, setIndicatorColor] = useState<string>(DEFAULT_ACCENT)
+    const [isScrolled, setIsScrolled] = useState(false)
 
     const handleNav = () => {
         setNav(!nav)
@@ -64,10 +78,47 @@ function Navbar() {
         return () => document.removeEventListener('keydown', handleEscape)
     }, [nav])
 
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 12)
+        }
+
+        handleScroll()
+        window.addEventListener('scroll', handleScroll)
+        return () => window.removeEventListener('scroll', handleScroll)
+    }, [])
+
+    useEffect(() => {
+        const updateIndicator = () => {
+            const listElement = navListRef.current
+            if (!listElement) return
+            const activeItem = listElement.querySelector<HTMLLIElement>('li[data-active="true"]')
+
+            if (activeItem) {
+                setIndicatorStyle({
+                    width: activeItem.offsetWidth,
+                    left: activeItem.offsetLeft
+                })
+            } else {
+                setIndicatorStyle({ width: 0, left: 0 })
+            }
+
+            setIndicatorColor(NAV_ACCENTS[router.pathname] ?? DEFAULT_ACCENT)
+        }
+
+        const frame = requestAnimationFrame(updateIndicator)
+        window.addEventListener('resize', updateIndicator)
+
+        return () => {
+            cancelAnimationFrame(frame)
+            window.removeEventListener('resize', updateIndicator)
+        }
+    }, [router.pathname])
+
     return (
         <>
-            <nav className="sticky top-0 z-20 w-full bg-white/70 backdrop-blur border-b border-slate-200 shadow-sm">
-                <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between">
+            <nav className={`sticky top-0 z-20 w-full border-b backdrop-blur transition-all duration-300 ${isScrolled ? 'bg-white/80 shadow-lg border-slate-200/80' : 'bg-white/60 shadow-sm border-slate-200/40'}`}>
+                <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-6">
                     <div className="self-center">
                         <Link href="/">
                             <div className="group cursor-pointer">
@@ -90,121 +141,97 @@ function Navbar() {
                             </div>
                         </Link>
                     </div>
-                    <div className="hidden lg:flex items-center gap-2">
-                        <ul className="flex items-center gap-2 m-auto text-slate-700">
-                            <li>
-                                <Link href="/Stop">
-                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
-                                        router.pathname === '/Stop' 
-                                            ? 'bg-gradient-to-r from-red-50 to-red-100 text-red-700 shadow-lg shadow-red-200/40 border-red-200' 
-                                            : 'hover:bg-gradient-to-r hover:from-red-50 hover:to-red-100 hover:text-red-700 hover:shadow-lg hover:shadow-red-200/40 border-transparent hover:border-red-200'
-                                    }`}>
-                                        <FaCarCrash className={`transition-transform duration-300 ${
-                                            router.pathname === '/Stop' ? 'text-red-600 scale-110' : 'text-red-500 group-hover:scale-110'
-                                        }`} size={18} />
-                                        <span className="relative" style={{
-                                            textShadow: router.pathname === '/Stop' ? '1px 1px 2px rgba(185, 28, 28, 0.2)' : '',
-                                            filter: router.pathname === '/Stop' ? 'drop-shadow(0 1px 1px rgba(185, 28, 28, 0.1))' : ''
-                                        }}>
-                                            Anhalt
-                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-red-400 to-red-600 transform transition-transform duration-300 origin-left ${
-                                                router.pathname === '/Stop' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                                            }`}></span>
-                                        </span>
-                                    </div>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/Const">
-                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
-                                        router.pathname === '/Const' 
-                                            ? 'bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 shadow-lg shadow-blue-200/40 border-blue-200' 
-                                            : 'hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 hover:text-blue-700 hover:shadow-lg hover:shadow-blue-200/40 border-transparent hover:border-blue-200'
-                                    }`}>
-                                        <FaCar className={`transition-transform duration-300 ${
-                                            router.pathname === '/Const' ? 'text-blue-600 scale-110' : 'text-blue-500 group-hover:scale-110'
-                                        }`} size={18} />
-                                        <span className="relative" style={{
-                                            textShadow: router.pathname === '/Const' ? '1px 1px 2px rgba(29, 78, 216, 0.2)' : '',
-                                            filter: router.pathname === '/Const' ? 'drop-shadow(0 1px 1px rgba(29, 78, 216, 0.1))' : ''
-                                        }}>
-                                            Konstant
-                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-blue-400 to-blue-600 transform transition-transform duration-300 origin-left ${
-                                                router.pathname === '/Const' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                                            }`}></span>
-                                        </span>
-                                    </div>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/Sonst">
-                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
-                                        router.pathname === '/Sonst' 
-                                            ? 'bg-gradient-to-r from-purple-50 to-purple-100 text-purple-700 shadow-lg shadow-purple-200/40 border-purple-200' 
-                                            : 'hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 hover:text-purple-700 hover:shadow-lg hover:shadow-purple-200/40 border-transparent hover:border-purple-200'
-                                    }`}>
-                                        <svg className={`transition-transform duration-300 ${
-                                            router.pathname === '/Sonst' ? 'text-purple-600 scale-110' : 'text-purple-500 group-hover:scale-110'
-                                        }`} width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <div className="hidden lg:flex items-center">
+                        <div className="relative rounded-full bg-white/60 backdrop-blur px-1 py-1 ring-1 ring-slate-200/70 shadow-[0_12px_30px_rgba(148,163,184,0.14)]">
+                            <ul
+                                ref={navListRef}
+                                className="relative flex items-center gap-0 text-sm font-medium text-slate-600"
+                            >
+                                <span
+                                    aria-hidden="true"
+                                    className="pointer-events-none absolute inset-y-0 rounded-full shadow-[0_10px_25px_rgba(148,163,184,0.15)] transition-all duration-300 ease-out"
+                                    style={{
+                                        width: indicatorStyle.width ? `${indicatorStyle.width}px` : 0,
+                                        left: indicatorStyle.width ? `${indicatorStyle.left}px` : undefined,
+                                        opacity: indicatorStyle.width ? 1 : 0,
+                                        background: indicatorColor
+                                    }}
+                                ></span>
+                                <li className="relative flex-1" data-route="/Stop" data-active={router.pathname === '/Stop'}>
+                                    <Link
+                                        href="/Stop"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Stop' ? 'text-red-600 font-semibold' : 'hover:text-red-600'}`}
+                                        aria-current={router.pathname === '/Stop' ? 'page' : undefined}
+                                    >
+                                        <FaCarCrash
+                                            className={`transition-transform duration-300 ${router.pathname === '/Stop' ? 'text-red-500 scale-110' : 'text-red-400 group-hover:text-red-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(248,113,113,0.35)]'}`}
+                                            size={18}
+                                            aria-hidden="true"
+                                        />
+                                        <span className="tracking-wide">Anhalt</span>
+                                    </Link>
+                                </li>
+                                <li className="relative flex-1" data-route="/Const" data-active={router.pathname === '/Const'}>
+                                    <Link
+                                        href="/Const"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Const' ? 'text-blue-600 font-semibold' : 'hover:text-blue-600'}`}
+                                        aria-current={router.pathname === '/Const' ? 'page' : undefined}
+                                    >
+                                        <FaCar
+                                            className={`transition-transform duration-300 ${router.pathname === '/Const' ? 'text-blue-500 scale-110' : 'text-blue-400 group-hover:text-blue-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(96,165,250,0.35)]'}`}
+                                            size={18}
+                                            aria-hidden="true"
+                                        />
+                                        <span className="tracking-wide">Konstant</span>
+                                    </Link>
+                                </li>
+                                <li className="relative flex-1" data-route="/Sonst" data-active={router.pathname === '/Sonst'}>
+                                    <Link
+                                        href="/Sonst"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Sonst' ? 'text-purple-600 font-semibold' : 'hover:text-purple-600'}`}
+                                        aria-current={router.pathname === '/Sonst' ? 'page' : undefined}
+                                    >
+                                        <svg
+                                            className={`h-[18px] w-[18px] transition-transform duration-300 ${router.pathname === '/Sonst' ? 'text-purple-500 scale-110' : 'text-purple-400 group-hover:text-purple-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(192,132,252,0.35)]'}`}
+                                            viewBox="0 0 24 24"
+                                            fill="currentColor"
+                                            aria-hidden="true"
+                                        >
                                             <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
                                         </svg>
-                                        <span className="relative" style={{
-                                            textShadow: router.pathname === '/Sonst' ? '1px 1px 2px rgba(126, 34, 206, 0.2)' : '',
-                                            filter: router.pathname === '/Sonst' ? 'drop-shadow(0 1px 1px rgba(126, 34, 206, 0.1))' : ''
-                                        }}>
-                                            Sonstiges
-                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-purple-400 to-purple-600 transform transition-transform duration-300 origin-left ${
-                                                router.pathname === '/Sonst' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                                            }`}></span>
-                                        </span>
-                                    </div>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/VMT">
-                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
-                                        router.pathname === '/VMT' 
-                                            ? 'bg-gradient-to-r from-green-50 to-green-100 text-green-700 shadow-lg shadow-green-200/40 border-green-200' 
-                                            : 'hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 hover:text-green-700 hover:shadow-lg hover:shadow-green-200/40 border-transparent hover:border-green-200'
-                                    }`}>
-                                        <FaCamera className={`transition-transform duration-300 ${
-                                            router.pathname === '/VMT' ? 'text-green-600 scale-110' : 'text-green-500 group-hover:scale-110'
-                                        }`} size={18} />
-                                        <span className="relative" style={{
-                                            textShadow: router.pathname === '/VMT' ? '1px 1px 2px rgba(21, 128, 61, 0.2)' : '',
-                                            filter: router.pathname === '/VMT' ? 'drop-shadow(0 1px 1px rgba(21, 128, 61, 0.1))' : ''
-                                        }}>
-                                            VMT
-                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-green-400 to-green-600 transform transition-transform duration-300 origin-left ${
-                                                router.pathname === '/VMT' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                                            }`}></span>
-                                        </span>
-                                    </div>
-                                </Link>
-                            </li>
-                            <li>
-                                <Link href="/Minderwert">
-                                    <div className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-base font-medium transition-all duration-300 group cursor-pointer border ${
-                                        router.pathname === '/Minderwert' 
-                                            ? 'bg-gradient-to-r from-amber-50 to-amber-100 text-amber-700 shadow-lg shadow-amber-200/40 border-amber-200' 
-                                            : 'hover:bg-gradient-to-r hover:from-amber-50 hover:to-amber-100 hover:text-amber-700 hover:shadow-lg hover:shadow-amber-200/40 border-transparent hover:border-amber-200'
-                                    }`}>
-                                        <FaMoneyBill className={`transition-transform duration-300 ${
-                                            router.pathname === '/Minderwert' ? 'text-amber-600 scale-110' : 'text-amber-500 group-hover:scale-110'
-                                        }`} size={18} />
-                                        <span className="relative" style={{
-                                            textShadow: router.pathname === '/Minderwert' ? '1px 1px 2px rgba(180, 83, 9, 0.2)' : '',
-                                            filter: router.pathname === '/Minderwert' ? 'drop-shadow(0 1px 1px rgba(180, 83, 9, 0.1))' : ''
-                                        }}>
-                                            Minderwert
-                                            <span className={`absolute inset-x-0 -bottom-1 h-0.5 bg-gradient-to-r from-amber-400 to-amber-600 transform transition-transform duration-300 origin-left ${
-                                                router.pathname === '/Minderwert' ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                                            }`}></span>
-                                        </span>
-                                    </div>
-                                </Link>
-                            </li>
-                        </ul>
+                                        <span className="tracking-wide">Sonstiges</span>
+                                    </Link>
+                                </li>
+                                <li className="relative flex-1" data-route="/VMT" data-active={router.pathname === '/VMT'}>
+                                    <Link
+                                        href="/VMT"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/VMT' ? 'text-green-600 font-semibold' : 'hover:text-green-600'}`}
+                                        aria-current={router.pathname === '/VMT' ? 'page' : undefined}
+                                    >
+                                        <FaCamera
+                                            className={`transition-transform duration-300 ${router.pathname === '/VMT' ? 'text-green-500 scale-110' : 'text-green-400 group-hover:text-green-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(74,222,128,0.35)]'}`}
+                                            size={18}
+                                            aria-hidden="true"
+                                        />
+                                        <span className="tracking-wide">VMT</span>
+                                    </Link>
+                                </li>
+                                <li className="relative flex-1" data-route="/Minderwert" data-active={router.pathname === '/Minderwert'}>
+                                    <Link
+                                        href="/Minderwert"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Minderwert' ? 'text-amber-600 font-semibold' : 'hover:text-amber-600'}`}
+                                        aria-current={router.pathname === '/Minderwert' ? 'page' : undefined}
+                                    >
+                                        <FaMoneyBill
+                                            className={`transition-transform duration-300 ${router.pathname === '/Minderwert' ? 'text-amber-500 scale-110' : 'text-amber-400 group-hover:text-amber-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(251,191,36,0.38)]'}`}
+                                            size={18}
+                                            aria-hidden="true"
+                                        />
+                                        <span className="tracking-wide">Minderwert</span>
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                     <div className="flex lg:hidden items-center gap-3">
                         <FaBars size={28} className="self-center cursor-pointer text-slate-700" onClick={handleNav} />
