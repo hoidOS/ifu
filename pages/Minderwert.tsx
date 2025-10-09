@@ -385,7 +385,7 @@ function Minderwert() {
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(191,219,254,0.5)] border-b-2 border-r-2">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Parameter</th>
@@ -535,7 +535,7 @@ function Minderwert() {
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(191,219,254,0.5)] border-b-2 border-r-2">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Parameter</th>
@@ -860,7 +860,10 @@ function Minderwert() {
         {/* Results Table */}
         <div id="results-table" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white relative">
           {/* Background Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-blue-50 opacity-50"></div>
+          <div
+            className="absolute inset-0 opacity-50"
+            style={{ background: "linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #eff6ff 100%)" }}
+          ></div>
           
           <div className="relative bg-gradient-to-r from-primary-700 to-primary-800 text-white px-4 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Minderwert Berechnungen</h2>
@@ -869,7 +872,7 @@ function Minderwert() {
                 id="clipboard-button"
                 onClick={() => handleClipboard('results-table')}
                 disabled={isProcessing}
-                className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white/20 hover:shadow-sm transition-all duration-200 border border-white/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -897,7 +900,7 @@ function Minderwert() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-gray-100 hover:bg-blue-50/50 transition-colors">
+                  <tr className="border-b border-gray-100 transition-colors hover:bg-[rgba(219,234,254,0.5)]">
                     <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-primary-700"></div>
                       BVSK
@@ -907,7 +910,7 @@ function Minderwert() {
                       <span className="font-bold text-lg text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</span>
                     </td>
                   </tr>
-                  <tr className="hover:bg-orange-50/50 transition-colors">
+                  <tr className="transition-colors hover:bg-[rgba(255,237,213,0.5)]">
                     <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full bg-orange-500"></div>
                       MFM
@@ -924,7 +927,10 @@ function Minderwert() {
             {/* Calculation Breakdown Cards */}
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* BVSK Breakdown */}
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200">
+              <div
+                className="rounded-xl p-4 border border-blue-200"
+                style={{ background: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)" }}
+              >
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-3 h-3 rounded-full bg-primary-700"></div>
                   <h3 className="font-semibold text-gray-800">BVSK Berechnung</h3>
@@ -956,7 +962,10 @@ function Minderwert() {
               </div>
 
               {/* MFM Breakdown */}
-              <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200">
+              <div
+                className="rounded-xl p-4 border border-orange-200"
+                style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)" }}
+              >
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-3 h-3 rounded-full bg-orange-500"></div>
                   <h3 className="font-semibold text-gray-800">MFM Berechnung</h3>
@@ -1010,7 +1019,10 @@ function Minderwert() {
         {/* Visual Comparison */}
         <div id="comparison-chart" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white relative">
           {/* Background Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-br from-green-50 via-white to-green-50 opacity-50"></div>
+          <div
+            className="absolute inset-0 opacity-50"
+            style={{ background: "linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #f0fdf4 100%)" }}
+          ></div>
           
           <div className="relative bg-gradient-to-r from-primary-700 to-primary-800 text-white px-4 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Minderwert Vergleich</h2>
@@ -1019,7 +1031,7 @@ function Minderwert() {
                 id="clipboard-button"
                 onClick={() => handleClipboard('comparison-chart')}
                 disabled={isProcessing}
-                className="bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white/20 hover:shadow-sm transition-all duration-200 border border-white/30 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -1039,7 +1051,10 @@ function Minderwert() {
           <div className="relative p-6">
             {/* Enhanced Value Cards */}
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <div className="text-center bg-gradient-to-b from-blue-50 to-blue-100 rounded-xl p-4 border border-blue-200 shadow-sm">
+              <div
+                className="text-center rounded-xl p-4 border border-blue-200 shadow-sm"
+                style={{ background: "linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%)" }}
+              >
                 <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-primary-700 flex items-center justify-center shadow-lg">
                   <div className="text-xl font-bold text-white">B</div>
                 </div>
@@ -1047,7 +1062,10 @@ function Minderwert() {
                 <p className="text-xl font-bold text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</p>
               </div>
               
-              <div className="text-center bg-gradient-to-b from-green-50 to-green-100 rounded-xl p-4 border border-green-200 shadow-sm">
+              <div
+                className="text-center rounded-xl p-4 border border-green-200 shadow-sm"
+                style={{ background: "linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%)" }}
+              >
                 <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-green-600 flex items-center justify-center shadow-lg">
                   <div className="text-xl font-bold text-white">Ø</div>
                 </div>
@@ -1055,7 +1073,10 @@ function Minderwert() {
                 <p className="text-xl font-bold text-green-600">{(Math.round(((bvskResult + mfmResult) / 2) / 50) * 50).toFixed(2).replace(".", ",")} €</p>
               </div>
               
-              <div className="text-center bg-gradient-to-b from-orange-50 to-orange-100 rounded-xl p-4 border border-orange-200 shadow-sm">
+              <div
+                className="text-center rounded-xl p-4 border border-orange-200 shadow-sm"
+                style={{ background: "linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%)" }}
+              >
                 <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-orange-500 flex items-center justify-center shadow-lg">
                   <div className="text-xl font-bold text-white">M</div>
                 </div>
@@ -1080,10 +1101,12 @@ function Minderwert() {
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
                     <div 
-                      className="bg-gradient-to-r from-primary-700 to-blue-500 h-full rounded-full transition-all duration-1000 shadow-sm"
-                      style={{ width: `${Math.max(10, (bvskResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
-                    >
-                    </div>
+                      className="h-full rounded-full transition-all duration-1000 shadow-sm"
+                      style={{
+                        width: `${Math.max(10, (bvskResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%`,
+                        background: "linear-gradient(90deg, #0059a9 0%, #3b82f6 100%)"
+                      }}
+                    ></div>
                   </div>
                 </div>
                 
@@ -1094,10 +1117,12 @@ function Minderwert() {
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
                     <div 
-                      className="bg-gradient-to-r from-orange-500 to-orange-400 h-full rounded-full transition-all duration-1000 shadow-sm"
-                      style={{ width: `${Math.max(10, (mfmResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
-                    >
-                    </div>
+                      className="h-full rounded-full transition-all duration-1000 shadow-sm"
+                      style={{
+                        width: `${Math.max(10, (mfmResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%`,
+                        background: "linear-gradient(90deg, #f97316 0%, #fb923c 100%)"
+                      }}
+                    ></div>
                   </div>
                 </div>
                 
@@ -1108,10 +1133,12 @@ function Minderwert() {
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
                     <div 
-                      className="bg-gradient-to-r from-green-500 to-green-400 h-full rounded-full transition-all duration-1000 shadow-sm"
-                      style={{ width: `${Math.max(10, ((Math.round(((bvskResult + mfmResult) / 2) / 50) * 50) / Math.max(bvskResult, mfmResult, 1)) * 100)}%` }}
-                    >
-                    </div>
+                      className="h-full rounded-full transition-all duration-1000 shadow-sm"
+                      style={{
+                        width: `${Math.max(10, ((Math.round(((bvskResult + mfmResult) / 2) / 50) * 50) / Math.max(bvskResult, mfmResult, 1)) * 100)}%`,
+                        background: "linear-gradient(90deg, #16a34a 0%, #4ade80 100%)"
+                      }}
+                    ></div>
                   </div>
                 </div>
               </div>
