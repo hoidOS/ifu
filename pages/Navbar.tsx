@@ -1,4 +1,6 @@
+import Image from 'next/image';
 import Link from 'next/link';
+import logo from '../assets/logo/logo.png';
 import { useRouter } from 'next/router';
 import { FaBars, FaWindowClose, FaCarCrash, FaCar, FaCamera, FaMoneyBill } from 'react-icons/fa'
 import { useState, useEffect, useRef } from 'react'
@@ -127,10 +129,19 @@ function Navbar() {
                                     {/* Subtle shine effect */}
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     
-                                    <div className="relative">
-                                        <h1 className="text-2xl md:text-[2.2rem] font-semibold tracking-tight text-primary-700 drop-shadow-[0_12px_30px_rgba(59,130,246,0.28)]">
-                                            STEINACKER
-                                        </h1>
+                                    <div className="relative flex items-center justify-center">
+                                        <div className="relative w-44 md:w-52 transition-transform duration-300 group-hover:scale-[1.03] group-hover:drop-shadow-[0_16px_40px_rgba(37,99,235,0.35)]">
+                                            <Image
+                                                src={logo}
+                                                alt="Steinacker"
+                                                width={238}
+                                                height={54}
+                                                className="h-auto w-full object-contain"
+                                                priority
+                                            />
+                                            <span className="pointer-events-none absolute inset-0 rounded-lg border border-white/40"></span>
+                                            <span className="pointer-events-none absolute inset-x-0 -bottom-2 h-2 bg-gradient-to-r from-transparent via-blue-200/50 to-transparent opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100"></span>
+                                        </div>
                                     </div>
                                     
                                     {/* Bottom accent line */}
