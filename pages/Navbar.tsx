@@ -122,15 +122,13 @@ function Navbar() {
                     <div className="self-center">
                         <Link href="/">
                             <div className="group cursor-pointer">
-                                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 via-white to-blue-50 px-4 py-2.5 shadow-lg shadow-blue-200/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-300/40 hover:scale-[1.02] border border-blue-100">
+                                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 via-white to-blue-50 px-5 py-3 shadow-lg shadow-blue-200/30 transition-all duration-300 hover:shadow-xl hover:shadow-blue-300/40 hover:scale-[1.02] border border-blue-100">
+                                    <div className="absolute inset-x-6 top-0 h-[2px] bg-gradient-to-r from-transparent via-primary-300/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
                                     {/* Subtle shine effect */}
                                     <div className="absolute inset-0 bg-gradient-to-br from-blue-100/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                     
                                     <div className="relative">
-                                        <h1 className="bold cursor-pointer text-2xl md:text-3xl text-primary-700 relative" style={{
-                                            textShadow: '2px 2px 4px rgba(0, 89, 169, 0.3), 1px 1px 2px rgba(0, 89, 169, 0.2)',
-                                            filter: 'drop-shadow(0 1px 2px rgba(0, 89, 169, 0.1))'
-                                        }}>
+                                        <h1 className="text-2xl md:text-[2.2rem] font-semibold tracking-tight text-primary-700 drop-shadow-[0_12px_30px_rgba(59,130,246,0.28)]">
                                             STEINACKER
                                         </h1>
                                     </div>
@@ -145,7 +143,7 @@ function Navbar() {
                         <div className="relative rounded-full bg-white/60 backdrop-blur px-1 py-1 ring-1 ring-slate-200/70 shadow-[0_12px_30px_rgba(148,163,184,0.14)]">
                             <ul
                                 ref={navListRef}
-                                className="relative flex items-center gap-0 text-sm font-medium text-slate-600"
+                                className="relative flex items-center gap-0 text-[0.95rem] font-medium text-slate-600"
                             >
                                 <span
                                     aria-hidden="true"
@@ -160,7 +158,7 @@ function Navbar() {
                                 <li className="relative flex-1" data-route="/Stop" data-active={router.pathname === '/Stop'}>
                                     <Link
                                         href="/Stop"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Stop' ? 'text-red-600 font-semibold' : 'hover:text-red-600'}`}
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Stop' ? 'text-red-600 font-semibold' : 'hover:text-red-600'}`}
                                         aria-current={router.pathname === '/Stop' ? 'page' : undefined}
                                     >
                                         <FaCarCrash
@@ -174,7 +172,7 @@ function Navbar() {
                                 <li className="relative flex-1" data-route="/Const" data-active={router.pathname === '/Const'}>
                                     <Link
                                         href="/Const"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Const' ? 'text-blue-600 font-semibold' : 'hover:text-blue-600'}`}
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Const' ? 'text-blue-600 font-semibold' : 'hover:text-blue-600'}`}
                                         aria-current={router.pathname === '/Const' ? 'page' : undefined}
                                     >
                                         <FaCar
@@ -188,7 +186,7 @@ function Navbar() {
                                 <li className="relative flex-1" data-route="/Sonst" data-active={router.pathname === '/Sonst'}>
                                     <Link
                                         href="/Sonst"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Sonst' ? 'text-purple-600 font-semibold' : 'hover:text-purple-600'}`}
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Sonst' ? 'text-purple-600 font-semibold' : 'hover:text-purple-600'}`}
                                         aria-current={router.pathname === '/Sonst' ? 'page' : undefined}
                                     >
                                         <svg
@@ -205,7 +203,7 @@ function Navbar() {
                                 <li className="relative flex-1" data-route="/VMT" data-active={router.pathname === '/VMT'}>
                                     <Link
                                         href="/VMT"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/VMT' ? 'text-green-600 font-semibold' : 'hover:text-green-600'}`}
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/VMT' ? 'text-green-600 font-semibold' : 'hover:text-green-600'}`}
                                         aria-current={router.pathname === '/VMT' ? 'page' : undefined}
                                     >
                                         <FaCamera
@@ -219,7 +217,7 @@ function Navbar() {
                                 <li className="relative flex-1" data-route="/Minderwert" data-active={router.pathname === '/Minderwert'}>
                                     <Link
                                         href="/Minderwert"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-sm text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Minderwert' ? 'text-amber-600 font-semibold' : 'hover:text-amber-600'}`}
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Minderwert' ? 'text-amber-600 font-semibold' : 'hover:text-amber-600'}`}
                                         aria-current={router.pathname === '/Minderwert' ? 'page' : undefined}
                                     >
                                         <FaMoneyBill
