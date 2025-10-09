@@ -1055,33 +1055,39 @@ function Minderwert() {
                 className="text-center rounded-xl p-4 border border-blue-200 shadow-sm"
                 style={{ background: "linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%)" }}
               >
-                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-primary-700 flex items-center justify-center shadow-lg">
-                  <div className="text-xl font-bold text-white">B</div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="circle-badge w-16 h-16 bg-primary-700 shadow-lg text-xl font-bold text-white">
+                    B
+                  </div>
+                  <h4 className="font-bold text-gray-700 text-sm leading-tight">BVSK</h4>
+                  <p className="text-xl font-bold text-primary-700 leading-none">{bvskResult.toFixed(2).replace(".", ",")} €</p>
                 </div>
-                <h4 className="font-bold text-gray-700 text-sm mb-2">BVSK</h4>
-                <p className="text-xl font-bold text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</p>
               </div>
               
               <div
                 className="text-center rounded-xl p-4 border border-green-200 shadow-sm"
                 style={{ background: "linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%)" }}
               >
-                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-green-600 flex items-center justify-center shadow-lg">
-                  <div className="text-xl font-bold text-white">Ø</div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="circle-badge w-16 h-16 bg-green-600 shadow-lg text-xl font-bold text-white">
+                    Ø
+                  </div>
+                  <h4 className="font-bold text-gray-700 text-sm leading-tight">Gerundeter Durchschnitt</h4>
+                  <p className="text-xl font-bold text-green-600 leading-none">{(Math.round(((bvskResult + mfmResult) / 2) / 50) * 50).toFixed(2).replace(".", ",")} €</p>
                 </div>
-                <h4 className="font-bold text-gray-700 text-sm mb-2">Gerundeter Durchschnitt</h4>
-                <p className="text-xl font-bold text-green-600">{(Math.round(((bvskResult + mfmResult) / 2) / 50) * 50).toFixed(2).replace(".", ",")} €</p>
               </div>
               
               <div
                 className="text-center rounded-xl p-4 border border-orange-200 shadow-sm"
                 style={{ background: "linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%)" }}
               >
-                <div className="w-16 h-16 mx-auto mb-3 rounded-full bg-orange-500 flex items-center justify-center shadow-lg">
-                  <div className="text-xl font-bold text-white">M</div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="circle-badge w-16 h-16 bg-orange-500 shadow-lg text-xl font-bold text-white">
+                    M
+                  </div>
+                  <h4 className="font-bold text-gray-700 text-sm leading-tight">MFM</h4>
+                  <p className="text-xl font-bold text-orange-600 leading-none">{mfmResult.toFixed(2).replace(".", ",")} €</p>
                 </div>
-                <h4 className="font-bold text-gray-700 text-sm mb-2">MFM</h4>
-                <p className="text-xl font-bold text-orange-600">{mfmResult.toFixed(2).replace(".", ",")} €</p>
               </div>
             </div>
             
