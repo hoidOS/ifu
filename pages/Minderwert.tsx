@@ -1252,7 +1252,7 @@ function Minderwert() {
           <div className="p-6 overflow-x-auto">
             <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(191,219,254,0.35)] border-b-2 border-r-2">
               <thead>
-                <tr className="bg-primary-50 text-primary-700 border-b border-primary-200">
+                <tr className="text-primary-700 border-b border-primary-200" style={{ backgroundColor: "#e8f3ff" }}>
                   <th className="text-left py-3 px-3 font-semibold">Parameter</th>
                   <th className="text-left py-3 px-3 font-semibold">Wertebereich</th>
                   <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
@@ -1261,11 +1261,11 @@ function Minderwert() {
               <tbody>
                 {bvskTable.map(section => (
                   <Fragment key={section.parameter}>
-                    <tr className="border-t border-primary-200" style={{ backgroundColor: "rgba(238,246,253,0.6)" }}>
-                      <td className="py-3 px-3 align-top font-semibold text-gray-800">
+                    <tr className="border-t border-primary-200" style={{ backgroundColor: "#f1f8ff" }}>
+                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#ebf4ff" }}>
                         {section.parameter}
                       </td>
-                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2}>
+                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2} style={{ backgroundColor: "#f1f8ff" }}>
                         {section.explanation}
                       </td>
                     </tr>
@@ -1278,7 +1278,7 @@ function Minderwert() {
                     ) : (
                       section.rows.map((row, index) => (
                         <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
-                          <td className="py-3 px-3" aria-hidden="true"></td>
+                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#f6fbff" }}></td>
                           <td className="py-3 px-3 font-medium text-gray-700">{row.range}</td>
                           <td className="py-3 px-3 text-gray-600">{row.description}</td>
                         </tr>
