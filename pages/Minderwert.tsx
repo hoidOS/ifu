@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import { useScreenshot } from '../hooks/useScreenshot'
 
 interface TooltipProps {
@@ -224,6 +224,81 @@ const akFactorsByMonth: number[] = [
   0.0061,
   0.0020,
   0.0000
+];
+
+const bvskTable = [
+  {
+    parameter: 'K-Faktor (Vorschadenfaktor)',
+    explanation: 'Korrekturfaktor für vorherige Fahrzeugschäden',
+    rows: [
+      { range: '0,5 – 0,8', description: 'Reparierte / leichte Vorschäden' },
+      { range: '1,0', description: 'Keine Vorschäden' }
+    ]
+  },
+  {
+    parameter: '%-Wert (Schadenintensität)',
+    explanation: 'Prozentsatz zur Bewertung der Schadensschwere',
+    rows: [
+      { range: '0 – 0,5', description: 'Klasse 1: Leichte Schäden; Ersatz von Anbauteilen, Lackierung, ohne Richtarbeiten' },
+      { range: '0,5 – 1,5', description: 'Klasse 2: Leichte Schäden; Ersatz von Anbauteilen und geschraubten Karosserieteilen' },
+      { range: '1,5 – 2,5', description: 'Klasse 3: Ersatz mit Richtarbeiten an geschweißten Teilen' },
+      { range: '2,5 – 3,5', description: 'Klasse 4: Wie Klasse 3, zusätzlich Ersatz geschweißter Karosserieteile' },
+      { range: '3,5 – 4,5', description: 'Klasse 5: Wie Klasse 4, jedoch erhebliche Richtarbeiten' },
+      { range: '4,5 – 6,0', description: 'Klasse 6: Richtbankeinsatz; Richtarbeiten an Rahmen/Bodenblechen' },
+      { range: '6,0 – 8,0', description: 'Klasse 7: Ersatz von Rahmen und Bodenblechen; Schäden vorn und hinten' }
+    ]
+  },
+  {
+    parameter: 'M-Wert (Marktgängigkeitsfaktor)',
+    explanation: 'Korrekturfaktor für Fahrzeugmarkteigenschaften',
+    rows: [
+      { range: '−0,5', description: 'Gute Marktnachfrage' },
+      { range: '0', description: 'Durchschnittliche Marktnachfrage' },
+      { range: '1,0', description: 'Schlechte Marktnachfrage' },
+      { range: '2,0', description: 'Sehr lange Standzeiten, exotische Fahrzeuge' }
+    ]
+  }
+];
+
+const mfmTable = [
+  {
+    parameter: 'SU-Faktor (Schadenumfang)',
+    explanation: 'Bewertung des Schadensumfangs',
+    rows: [
+      { range: '0,2', description: 'Erneuerung/Instandsetzung von Anbauteilen (z. B. Stoßfänger)' },
+      { range: '0,4', description: 'Erneuerung/Instandsetzung geschraubter Karosserieteile' },
+      { range: '0,6', description: 'Geringe Instandsetzungsarbeiten an tragenden oder mittragenden Teilen' },
+      { range: '0,8', description: 'Erhebliche Instandsetzungsarbeiten und/oder Erneuerung tragender Teile' },
+      { range: '1,0', description: 'Erhebliche Instandsetzung/Erneuerung tragender Teile (Richtbank erforderlich)' }
+    ]
+  },
+  {
+    parameter: 'AK-Faktor (Alterskorrektur)',
+    explanation: 'Wird automatisiert aus dem Fahrzeugalter abgeleitet',
+    rows: []
+  },
+  {
+    parameter: 'FM-Faktor (Marktgängigkeit)',
+    explanation: 'Bewertung der Marktposition',
+    rows: [
+      { range: '0,6', description: 'Sehr gut – Nachfrage übersteigt Angebot deutlich' },
+      { range: '0,8', description: 'Gut – erhöhte Nachfrage' },
+      { range: '1,0', description: 'Normal – ausgeglichenes Verhältnis' },
+      { range: '1,2', description: 'Schlecht – erhöhtes Angebot' },
+      { range: '1,4', description: 'Sehr schlecht – Fahrzeug schwer verkäuflich' }
+    ]
+  },
+  {
+    parameter: 'FV-Faktor (Vorschaden)',
+    explanation: 'Bewertung vorhandener Vorschäden',
+    rows: [
+      { range: '0,2', description: 'Erhebliche Vorschäden' },
+      { range: '0,4', description: 'Hoher Vorschaden' },
+      { range: '0,6', description: 'Mittlerer Vorschaden' },
+      { range: '0,8', description: 'Geringer Vorschaden' },
+      { range: '1,0', description: 'Ohne Vorschaden' }
+    ]
+  }
 ];
 
 function calculateVehicleAgeMonths(startDate: string, endDate: string): number {
@@ -1149,6 +1224,134 @@ function Minderwert() {
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div id="bvsk-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-4 py-3 card-header flex justify-between items-center">
+            <h3 className="text-lg font-semibold">BVSK System – Bewertungsmaßstäbe</h3>
+            <div className="screenshot-buttons flex gap-2">
+              <button
+                onClick={() => handleClipboard('bvsk-system-card')}
+                disabled={isProcessing}
+                className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
+                title="In Zwischenablage kopieren"
+              >
+                {isProcessing ? 'Kopiere...' : 'Kopieren'}
+              </button>
+              <button
+                onClick={() => handleScreenshot('bvsk-system-card', 'bvsk-system.png')}
+                disabled={isProcessing}
+                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Als PNG herunterladen"
+              >
+                {isProcessing ? 'Lade...' : 'Download'}
+              </button>
+            </div>
+          </div>
+          <div className="p-6 overflow-x-auto">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(191,219,254,0.35)] border-b-2 border-r-2">
+              <thead>
+                <tr className="bg-primary-50 text-primary-700 border-b border-primary-200">
+                  <th className="text-left py-3 px-3 font-semibold">Parameter</th>
+                  <th className="text-left py-3 px-3 font-semibold">Wertebereich</th>
+                  <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bvskTable.map(section => (
+                  <Fragment key={section.parameter}>
+                    <tr className="border-t border-primary-200" style={{ backgroundColor: "rgba(238,246,253,0.6)" }}>
+                      <td className="py-3 px-3 align-top font-semibold text-gray-800">
+                        {section.parameter}
+                      </td>
+                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2}>
+                        {section.explanation}
+                      </td>
+                    </tr>
+                    {section.rows.length === 0 ? (
+                      <tr className="border-t border-slate-200">
+                        <td className="py-3 px-3 text-gray-500 italic" colSpan={3}>
+                          Keine festen Stufen hinterlegt.
+                        </td>
+                      </tr>
+                    ) : (
+                      section.rows.map((row, index) => (
+                        <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
+                          <td className="py-3 px-3" aria-hidden="true"></td>
+                          <td className="py-3 px-3 font-medium text-gray-700">{row.range}</td>
+                          <td className="py-3 px-3 text-gray-600">{row.description}</td>
+                        </tr>
+                      ))
+                    )}
+                  </Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="mfm-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
+          <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-3 card-header flex justify-between items-center">
+            <h3 className="text-lg font-semibold">MFM System – Bewertungsmaßstäbe</h3>
+            <div className="screenshot-buttons flex gap-2">
+              <button
+                onClick={() => handleClipboard('mfm-system-card')}
+                disabled={isProcessing}
+                className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
+                title="In Zwischenablage kopieren"
+              >
+                {isProcessing ? 'Kopiere...' : 'Kopieren'}
+              </button>
+              <button
+                onClick={() => handleScreenshot('mfm-system-card', 'mfm-system.png')}
+                disabled={isProcessing}
+                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                title="Als PNG herunterladen"
+              >
+                {isProcessing ? 'Lade...' : 'Download'}
+              </button>
+            </div>
+          </div>
+          <div className="p-6 overflow-x-auto">
+            <table className="w-full text-sm border border-orange-500 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(253,186,116,0.35)] border-b-2 border-r-2">
+              <thead>
+                <tr className="bg-orange-50 text-orange-600 border-b border-orange-200">
+                  <th className="text-left py-3 px-3 font-semibold">Parameter</th>
+                  <th className="text-left py-3 px-3 font-semibold">Wertebereich</th>
+                  <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
+                </tr>
+              </thead>
+              <tbody>
+                {mfmTable.map(section => (
+                  <Fragment key={section.parameter}>
+                    <tr className="border-t border-orange-200" style={{ backgroundColor: "rgba(255,237,213,0.6)" }}>
+                      <td className="py-3 px-3 align-top font-semibold text-gray-800">
+                        {section.parameter}
+                      </td>
+                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2}>
+                        {section.explanation}
+                      </td>
+                    </tr>
+                    {section.rows.length === 0 ? (
+                      <tr className="border-t border-slate-200">
+                        <td className="py-3 px-3 text-gray-500 italic" colSpan={3}>
+                          Automatische Ableitung – keine Skalenwerte.
+                        </td>
+                      </tr>
+                    ) : (
+                      section.rows.map((row, index) => (
+                        <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
+                          <td className="py-3 px-3" aria-hidden="true"></td>
+                          <td className="py-3 px-3 font-medium text-gray-700">{row.range}</td>
+                          <td className="py-3 px-3 text-gray-600">{row.description}</td>
+                        </tr>
+                      ))
+                    )}
+                  </Fragment>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
