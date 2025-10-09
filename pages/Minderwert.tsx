@@ -1319,10 +1319,10 @@ function Minderwert() {
           <div className="p-6 overflow-x-auto">
             <table
               id="mfm-system-table"
-              className="w-full text-sm border border-orange-500 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(253,186,116,0.35)] border-b-2 border-r-2"
+              className="w-full text-sm border border-orange-600 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(253,186,116,0.35)] border-b-2 border-r-2"
             >
               <thead>
-                <tr className="bg-orange-50 text-orange-600 border-b border-orange-200">
+                <tr className="text-orange-600 border-b border-orange-200" style={{ backgroundColor: "#fff4e6" }}>
                   <th className="text-left py-3 px-3 font-semibold">Parameter</th>
                   <th className="text-left py-3 px-3 font-semibold">Wertebereich</th>
                   <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
@@ -1331,11 +1331,11 @@ function Minderwert() {
               <tbody>
                 {mfmTable.map(section => (
                   <Fragment key={section.parameter}>
-                    <tr className="border-t border-orange-200" style={{ backgroundColor: "rgba(255,237,213,0.6)" }}>
-                      <td className="py-3 px-3 align-top font-semibold text-gray-800">
+                    <tr className="border-t border-orange-200" style={{ backgroundColor: "#fff7ed" }}>
+                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#fff1e0" }}>
                         {section.parameter}
                       </td>
-                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2}>
+                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2} style={{ backgroundColor: "#fff7ed" }}>
                         {section.explanation}
                       </td>
                     </tr>
@@ -1348,7 +1348,7 @@ function Minderwert() {
                     ) : (
                       section.rows.map((row, index) => (
                         <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
-                          <td className="py-3 px-3" aria-hidden="true"></td>
+                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#fffaf4" }}></td>
                           <td className="py-3 px-3 font-medium text-gray-700">{row.range}</td>
                           <td className="py-3 px-3 text-gray-600">{row.description}</td>
                         </tr>
