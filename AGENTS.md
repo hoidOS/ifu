@@ -20,6 +20,7 @@
 - Components live in PascalCase files (`ConstDecel.tsx`), hooks in camelCase (`useScreenshot`).
 - Follow Tailwind utility classes for layout; avoid inline styles unless necessary.
 - Linting via `next lint`; run before committing to catch style violations.
+- Tailwind defaults use OKLCH colors that break `html2canvas`; extend palettes with hex values in `tailwind.config.ts` and mirror them in `styles/globals.css` whenever you introduce new UI colors.
 
 ## Testing Guidelines
 - Automated tests are not yet defined; validate calculators manually via sample inputs.

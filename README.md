@@ -151,6 +151,7 @@ nextjs-ppcavs-ifu/
 - The application includes German terminology for forensic automotive analysis
 - Runtime standardized on Node.js 22 LTS; match local tooling before running builds.
 - Tailwind CSS upgraded to v4.1.14 with configuration managed in `tailwind.config.ts`.
+- Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new palette entries with hex values in both `tailwind.config.ts` and `styles/globals.css` to keep exports working.
 
 ## Deployment
 

@@ -47,10 +47,9 @@ function Navbar() {
     const handleTouchEnd = () => {
         if (!touchStart || !touchEnd) return
         const distance = touchStart - touchEnd
-        const isLeftSwipe = distance > 50
         const isRightSwipe = distance < -50
 
-        if (isLeftSwipe && nav) {
+        if (isRightSwipe && nav) {
             setNav(false)
         }
     }
@@ -257,9 +256,10 @@ function Navbar() {
                 {/* Mobile Menu Panel */}
                 <div 
                     className={nav ? 
-                        "fixed z-30 left-0 top-0 w-[85%] sm:w-[400px] h-full bg-white/95 backdrop-blur-xl border-r border-white/20 shadow-2xl transform transition-transform duration-500 ease-out" :
-                        "fixed z-30 left-0 top-0 w-[85%] sm:w-[400px] h-full bg-white/95 backdrop-blur-xl border-r border-white/20 shadow-2xl transform -translate-x-full transition-transform duration-500 ease-out"
+                        "fixed z-30 right-0 top-0 w-[85%] sm:w-[400px] h-full bg-white/95 backdrop-blur-xl border-l border-white/20 shadow-2xl transform transition-transform duration-500 ease-out" :
+                        "fixed z-30 right-0 top-0 w-[85%] sm:w-[400px] h-full bg-white/95 backdrop-blur-xl border-l border-white/20 shadow-2xl transform translate-x-full transition-transform duration-500 ease-out"
                     }
+                    onClick={(event) => event.stopPropagation()}
                     onTouchStart={handleTouchStart}
                     onTouchMove={handleTouchMove}
                     onTouchEnd={handleTouchEnd}
@@ -289,9 +289,9 @@ function Navbar() {
                     {/* Navigation Menu */}
                     <nav className="px-6 py-8">
                         <ul className="space-y-2">
-                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-100" : "opacity-0 transform -translate-x-4"}>
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-100" : "opacity-0 transform translate-x-4"}>
                                 <Link href="/Stop" onClick={handleNav}>
-                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-red-100 text-red-600 group-hover:bg-red-200 transition-colors">
                                             <FaCarCrash size={20} />
                                         </div>
@@ -302,9 +302,9 @@ function Navbar() {
                                     </div>
                                 </Link>
                             </li>
-                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-200" : "opacity-0 transform -translate-x-4"}>
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-200" : "opacity-0 transform translate-x-4"}>
                                 <Link href="/Const" onClick={handleNav}>
-                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-blue-100 text-blue-600 group-hover:bg-blue-200 transition-colors">
                                             <FaCar size={20} />
                                         </div>
@@ -315,9 +315,9 @@ function Navbar() {
                                     </div>
                                 </Link>
                             </li>
-                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-300" : "opacity-0 transform -translate-x-4"}>
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-300" : "opacity-0 transform translate-x-4"}>
                                 <Link href="/Sonst" onClick={handleNav}>
-                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-purple-100 text-purple-600 group-hover:bg-purple-200 transition-colors">
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
                                                 <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
@@ -330,9 +330,9 @@ function Navbar() {
                                     </div>
                                 </Link>
                             </li>
-                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-400" : "opacity-0 transform -translate-x-4"}>
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-400" : "opacity-0 transform translate-x-4"}>
                                 <Link href="/VMT" onClick={handleNav}>
-                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-green-100 text-green-600 group-hover:bg-green-200 transition-colors">
                                             <FaCamera size={20} />
                                         </div>
@@ -343,9 +343,9 @@ function Navbar() {
                                     </div>
                                 </Link>
                             </li>
-                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-500" : "opacity-0 transform -translate-x-4"}>
+                            <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-500" : "opacity-0 transform translate-x-4"}>
                                 <Link href="/Minderwert" onClick={handleNav}>
-                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:translate-x-1 group active:scale-95 cursor-pointer">
+                                    <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-amber-100 text-amber-600 group-hover:bg-amber-200 transition-colors">
                                             <FaMoneyBill size={20} />
                                         </div>
