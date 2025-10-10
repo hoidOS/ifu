@@ -152,6 +152,7 @@ nextjs-ppcavs-ifu/
 - Runtime standardized on Node.js 22 LTS; match local tooling before running builds.
 - Tailwind CSS upgraded to v4.1.14 with configuration managed in `tailwind.config.ts`.
 - Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new palette entries with hex values in both `tailwind.config.ts` and `styles/globals.css` to keep exports working.
+- Some calculator tables (e.g. Anhaltevorgang) still overflow on phones; wrap new tables in `<div class="overflow-x-auto">` like the BVSK system block to restore horizontal scrolling.
 
 ## Deployment
 

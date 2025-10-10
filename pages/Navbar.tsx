@@ -269,13 +269,27 @@ function Navbar() {
                 >
                     {/* Header */}
                     <div className="flex items-center justify-between p-6 border-b border-slate-200/50">
-                        <Link href="/" onClick={handleNav}>
-                            <h1 
-                                id="mobile-menu-title"
-                                className="text-2xl font-bold text-slate-900 hover:text-primary-600 transition-colors cursor-pointer"
-                            >
-                                STEINACKER
-                            </h1>
+                        <Link href="/" onClick={handleNav} className="group cursor-pointer" aria-label="Zur STEINACKER Startseite">
+                            <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-50 via-white to-blue-50 px-4 py-3 shadow-lg shadow-blue-200/30 transition-all duration-300 group-active:scale-[0.98] border border-blue-100">
+                                <div className="absolute inset-x-6 top-0 h-[2px] bg-gradient-to-r from-transparent via-primary-300/70 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
+                                <div className="absolute inset-0 bg-gradient-to-br from-blue-100/25 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                <div className="relative flex items-center justify-center">
+                                    <div className="relative w-36 transition-transform duration-300 group-hover:scale-[1.03] group-hover:drop-shadow-[0_16px_40px_rgba(37,99,235,0.35)]">
+                                        <Image
+                                            src={logo}
+                                            alt="STEINACKER"
+                                            width={238}
+                                            height={54}
+                                            className="h-auto w-full object-contain"
+                                            priority
+                                        />
+                                        <span className="pointer-events-none absolute inset-0 rounded-lg border border-white/40"></span>
+                                        <span className="pointer-events-none absolute inset-x-0 -bottom-2 h-2 bg-gradient-to-r from-transparent via-blue-200/50 to-transparent opacity-0 blur-lg transition-opacity duration-300 group-hover:opacity-100"></span>
+                                    </div>
+                                    <span id="mobile-menu-title" className="sr-only">STEINACKER</span>
+                                </div>
+                                <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent"></div>
+                            </div>
                         </Link>
                         <button 
                             onClick={handleNav}
@@ -362,7 +376,7 @@ function Navbar() {
                     {/* Footer */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-slate-200/50">
                         <p className="text-xs text-slate-400 text-center">
-                            © 2024 STEINACKER
+                            © 2025 STEINACKER
                         </p>
                     </div>
                 </div>
