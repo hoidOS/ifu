@@ -1014,7 +1014,7 @@ function Minderwert() {
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">WBW:</span>
+                    <span className="text-gray-600">Wiederbeschaffungswert (WBW):</span>
                     <span className="font-medium">{bvskInput.wbw.toFixed(2).replace(".", ",")} €</span>
                   </div>
                   <div className="flex justify-between">
@@ -1049,35 +1049,35 @@ function Minderwert() {
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">VW:</span>
+                    <span className="text-gray-600">Veräußerungswert (VW):</span>
                     <span className="font-medium">{mfmInput.vw.toFixed(2).replace(".", ",")} €</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">NP:</span>
+                    <span className="text-gray-600">Neupreis (NP):</span>
                     <span className="font-medium">{mfmInput.np.toFixed(2).replace(".", ",")} €</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">Alter (Monate):</span>
+                    <span className="text-gray-600">Fahrzeugalter:</span>
                     <span className="font-medium">{mfmInput.ageMonths} Monate</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">AK-Faktor:</span>
+                    <span className="text-gray-600">Alterskorrektur (AK):</span>
                     <span className="font-medium">{mfmInput.ak.toFixed(4).replace(".", ",")}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">RK:</span>
-                    <span className="font-medium">{mfmInput.rk.toFixed(2).replace(".", ",")}</span>
+                    <span className="text-gray-600">Reparaturkosten (RK):</span>
+                    <span className="font-medium">{mfmInput.rk.toFixed(2).replace(".", ",")} €</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">SU:</span>
+                    <span className="text-gray-600">Schadenumfang (SU):</span>
                     <span className="font-medium">{mfmInput.su.toFixed(2).replace(".", ",")}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">FM:</span>
+                    <span className="text-gray-600">Marktgängigkeit (FM):</span>
                     <span className="font-medium">{mfmInput.fm.toFixed(2).replace(".", ",")}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">FV:</span>
+                    <span className="text-gray-600">Vorschaden (FV):</span>
                     <span className="font-medium">{mfmInput.fv.toFixed(2).replace(".", ",")}</span>
                   </div>
                   <div className="border-t border-orange-300 pt-2 mt-2">
