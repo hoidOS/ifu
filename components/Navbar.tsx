@@ -312,7 +312,6 @@ function Navbar() {
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">Anhaltevorgang</h3>
-                                            <p className="text-sm text-slate-500">Crash analysis tools</p>
                                         </div>
                                     </div>
                                 </Link>
@@ -325,7 +324,6 @@ function Navbar() {
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">Konstantfahrt</h3>
-                                            <p className="text-sm text-slate-500">Constant speed analysis</p>
                                         </div>
                                     </div>
                                 </Link>
@@ -340,7 +338,6 @@ function Navbar() {
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">Sonstiges</h3>
-                                            <p className="text-sm text-slate-500">Slope calculations</p>
                                         </div>
                                     </div>
                                 </Link>
@@ -353,7 +350,6 @@ function Navbar() {
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">VMT</h3>
-                                            <p className="text-sm text-slate-500">Video measurement tools</p>
                                         </div>
                                     </div>
                                 </Link>
@@ -366,7 +362,6 @@ function Navbar() {
                                         </div>
                                         <div>
                                             <h3 className="font-semibold text-slate-900 group-hover:text-primary-600">Minderwert</h3>
-                                            <p className="text-sm text-slate-500">Value assessment</p>
                                         </div>
                                     </div>
                                 </Link>
