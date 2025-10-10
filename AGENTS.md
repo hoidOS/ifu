@@ -22,6 +22,7 @@
 - Linting via `next lint`; run before committing to catch style violations.
 - Tailwind defaults use OKLCH colors that break `html2canvas`; extend palettes with hex values in `tailwind.config.ts` and mirror them in `styles/globals.css` whenever you introduce new UI colors.
 - Some legacy result tables lack horizontal scroll on mobile; match the BVSK system implementation by wrapping future tables in `<div class="overflow-x-auto">` to preserve usability on narrow screens.
+- Layout-related components (`Layout`, `Navbar`, `Footer`) live in `components/`; keep `/pages` reserved for actual routes to avoid accidental public endpoints.
 
 ## Testing Guidelines
 - Automated tests are not yet defined; validate calculators manually via sample inputs.
