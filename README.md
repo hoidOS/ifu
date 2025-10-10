@@ -61,6 +61,9 @@ nextjs-ppcavs-ifu/
 │   ├── images/             # Formula renderings exported as SVG
 │   └── svg.tsx             # Import map for formula assets
 ├── components/
+│   ├── Footer.tsx          # Shared site footer
+│   ├── Layout.tsx          # Page wrapper
+│   ├── Navbar.tsx          # Global navigation
 │   ├── StepperInput.tsx    # Custom numeric input with +/- controls
 │   ├── util.tsx            # DOM helpers
 │   ├── utilConst.tsx       # Konstantfahrt calculation helpers
@@ -69,19 +72,16 @@ nextjs-ppcavs-ifu/
 │   └── useScreenshot.ts    # html2canvas export + clipboard fallback
 ├── pages/
 │   ├── _app.tsx            # Global layout wrapper
-│   ├── Const/              # Konstantfahrt sub-pages
-│   │   ├── ConstAccel.tsx
-│   │   ├── ConstDecel.tsx
-│   │   └── ConstDrive.tsx
-│   ├── Const.tsx
-│   ├── Footer.tsx
+│   ├── const/              # Konstantfahrt sub-pages
+│   │   ├── const-accel.tsx
+│   │   ├── const-decel.tsx
+│   │   └── const-drive.tsx
+│   ├── const/index.tsx
 │   ├── index.tsx
-│   ├── Layout.tsx
-│   ├── Minderwert.tsx
-│   ├── Navbar.tsx
-│   ├── Sonst.tsx
-│   ├── Stop.tsx
-│   └── VMT.tsx
+│   ├── minderwert.tsx
+│   ├── sonst.tsx
+│   ├── stop.tsx
+│   └── vmt.tsx
 ├── public/
 │   ├── favicon.ico
 │   ├── vA.svg

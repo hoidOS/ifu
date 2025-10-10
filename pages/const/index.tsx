@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import ConstDecl from './Const/ConstDecel'
-import ConstAccel from './Const/ConstAccel'
-import ConstDrive from './Const/ConstDrive'
+import ConstDecel from './const-decel'
+import ConstAccel from './const-accel'
+import ConstDrive from './const-drive'
 
 function Konst() {
 
@@ -14,7 +14,7 @@ function Konst() {
                 <meta name="viewport" content="width=device-width" />
             </Head>
 
-            <ConstDecl />
+            <ConstDecel />
 
             <ConstAccel />
 

@@ -6,11 +6,11 @@ import { FaBars, FaWindowClose, FaCarCrash, FaCar, FaCamera, FaMoneyBill } from 
 import { useState, useEffect, useRef } from 'react'
 
 const NAV_ACCENTS: Record<string, string> = {
-    '/Stop': 'linear-gradient(135deg, rgba(248,113,113,0.18), rgba(248,113,113,0.32))',
-    '/Const': 'linear-gradient(135deg, rgba(59,130,246,0.16), rgba(59,130,246,0.3))',
-    '/Sonst': 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(168,85,247,0.32))',
-    '/VMT': 'linear-gradient(135deg, rgba(34,197,94,0.18), rgba(34,197,94,0.3))',
-    '/Minderwert': 'linear-gradient(135deg, rgba(245,158,11,0.18), rgba(245,158,11,0.3))'
+    '/stop': 'linear-gradient(135deg, rgba(248,113,113,0.18), rgba(248,113,113,0.32))',
+    '/const': 'linear-gradient(135deg, rgba(59,130,246,0.16), rgba(59,130,246,0.3))',
+    '/sonst': 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(168,85,247,0.32))',
+    '/vmt': 'linear-gradient(135deg, rgba(34,197,94,0.18), rgba(34,197,94,0.3))',
+    '/minderwert': 'linear-gradient(135deg, rgba(245,158,11,0.18), rgba(245,158,11,0.3))'
 }
 
 const DEFAULT_ACCENT = 'linear-gradient(135deg, rgba(148,163,184,0.12), rgba(148,163,184,0.24))'
@@ -104,7 +104,8 @@ function Navbar() {
                 setIndicatorStyle({ width: 0, left: 0 })
             }
 
-            setIndicatorColor(NAV_ACCENTS[router.pathname] ?? DEFAULT_ACCENT)
+            const accentKey = router.pathname.startsWith('/const') ? '/const' : router.pathname
+            setIndicatorColor(NAV_ACCENTS[accentKey] ?? DEFAULT_ACCENT)
         }
 
         const frame = requestAnimationFrame(updateIndicator)
@@ -165,42 +166,42 @@ function Navbar() {
                                         background: indicatorColor
                                     }}
                                 ></span>
-                                <li className="relative flex-1" data-route="/Stop" data-active={router.pathname === '/Stop'}>
+                                <li className="relative flex-1" data-route="/stop" data-active={router.pathname === '/stop'}>
                                     <Link
-                                        href="/Stop"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Stop' ? 'text-red-600 font-semibold' : 'hover:text-red-600'}`}
-                                        aria-current={router.pathname === '/Stop' ? 'page' : undefined}
+                                        href="/stop"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/stop' ? 'text-red-600 font-semibold' : 'hover:text-red-600'}`}
+                                        aria-current={router.pathname === '/stop' ? 'page' : undefined}
                                     >
                                         <FaCarCrash
-                                            className={`transition-transform duration-300 ${router.pathname === '/Stop' ? 'text-red-500 scale-110' : 'text-red-400 group-hover:text-red-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(248,113,113,0.35)]'}`}
+                                            className={`transition-transform duration-300 ${router.pathname === '/stop' ? 'text-red-500 scale-110' : 'text-red-400 group-hover:text-red-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(248,113,113,0.35)]'}`}
                                             size={18}
                                             aria-hidden="true"
                                         />
                                         <span className="tracking-wide">Anhalt</span>
                                     </Link>
                                 </li>
-                                <li className="relative flex-1" data-route="/Const" data-active={router.pathname === '/Const'}>
+                                <li className="relative flex-1" data-route="/const" data-active={router.pathname.startsWith('/const')}>
                                     <Link
-                                        href="/Const"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Const' ? 'text-blue-600 font-semibold' : 'hover:text-blue-600'}`}
-                                        aria-current={router.pathname === '/Const' ? 'page' : undefined}
+                                        href="/const"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname.startsWith('/const') ? 'text-blue-600 font-semibold' : 'hover:text-blue-600'}`}
+                                        aria-current={router.pathname.startsWith('/const') ? 'page' : undefined}
                                     >
                                         <FaCar
-                                            className={`transition-transform duration-300 ${router.pathname === '/Const' ? 'text-blue-500 scale-110' : 'text-blue-400 group-hover:text-blue-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(96,165,250,0.35)]'}`}
+                                            className={`transition-transform duration-300 ${router.pathname.startsWith('/const') ? 'text-blue-500 scale-110' : 'text-blue-400 group-hover:text-blue-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(96,165,250,0.35)]'}`}
                                             size={18}
                                             aria-hidden="true"
                                         />
                                         <span className="tracking-wide">Konstant</span>
                                     </Link>
                                 </li>
-                                <li className="relative flex-1" data-route="/Sonst" data-active={router.pathname === '/Sonst'}>
+                                <li className="relative flex-1" data-route="/sonst" data-active={router.pathname === '/sonst'}>
                                     <Link
-                                        href="/Sonst"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Sonst' ? 'text-purple-600 font-semibold' : 'hover:text-purple-600'}`}
-                                        aria-current={router.pathname === '/Sonst' ? 'page' : undefined}
+                                        href="/sonst"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/sonst' ? 'text-purple-600 font-semibold' : 'hover:text-purple-600'}`}
+                                        aria-current={router.pathname === '/sonst' ? 'page' : undefined}
                                     >
                                         <svg
-                                            className={`h-[18px] w-[18px] transition-transform duration-300 ${router.pathname === '/Sonst' ? 'text-purple-500 scale-110' : 'text-purple-400 group-hover:text-purple-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(192,132,252,0.35)]'}`}
+                                            className={`h-[18px] w-[18px] transition-transform duration-300 ${router.pathname === '/sonst' ? 'text-purple-500 scale-110' : 'text-purple-400 group-hover:text-purple-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(192,132,252,0.35)]'}`}
                                             viewBox="0 0 24 24"
                                             fill="currentColor"
                                             aria-hidden="true"
@@ -210,28 +211,28 @@ function Navbar() {
                                         <span className="tracking-wide">Sonstiges</span>
                                     </Link>
                                 </li>
-                                <li className="relative flex-1" data-route="/VMT" data-active={router.pathname === '/VMT'}>
+                                <li className="relative flex-1" data-route="/vmt" data-active={router.pathname === '/vmt'}>
                                     <Link
-                                        href="/VMT"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/VMT' ? 'text-green-600 font-semibold' : 'hover:text-green-600'}`}
-                                        aria-current={router.pathname === '/VMT' ? 'page' : undefined}
+                                        href="/vmt"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/vmt' ? 'text-green-600 font-semibold' : 'hover:text-green-600'}`}
+                                        aria-current={router.pathname === '/vmt' ? 'page' : undefined}
                                     >
                                         <FaCamera
-                                            className={`transition-transform duration-300 ${router.pathname === '/VMT' ? 'text-green-500 scale-110' : 'text-green-400 group-hover:text-green-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(74,222,128,0.35)]'}`}
+                                            className={`transition-transform duration-300 ${router.pathname === '/vmt' ? 'text-green-500 scale-110' : 'text-green-400 group-hover:text-green-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(74,222,128,0.35)]'}`}
                                             size={18}
                                             aria-hidden="true"
                                         />
                                         <span className="tracking-wide">VMT</span>
                                     </Link>
                                 </li>
-                                <li className="relative flex-1" data-route="/Minderwert" data-active={router.pathname === '/Minderwert'}>
+                                <li className="relative flex-1" data-route="/minderwert" data-active={router.pathname === '/minderwert'}>
                                     <Link
-                                        href="/Minderwert"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/Minderwert' ? 'text-amber-600 font-semibold' : 'hover:text-amber-600'}`}
-                                        aria-current={router.pathname === '/Minderwert' ? 'page' : undefined}
+                                        href="/minderwert"
+                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/minderwert' ? 'text-amber-600 font-semibold' : 'hover:text-amber-600'}`}
+                                        aria-current={router.pathname === '/minderwert' ? 'page' : undefined}
                                     >
                                         <FaMoneyBill
-                                            className={`transition-transform duration-300 ${router.pathname === '/Minderwert' ? 'text-amber-500 scale-110' : 'text-amber-400 group-hover:text-amber-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(251,191,36,0.38)]'}`}
+                                            className={`transition-transform duration-300 ${router.pathname === '/minderwert' ? 'text-amber-500 scale-110' : 'text-amber-400 group-hover:text-amber-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(251,191,36,0.38)]'}`}
                                             size={18}
                                             aria-hidden="true"
                                         />
@@ -304,7 +305,7 @@ function Navbar() {
                     <nav className="px-6 py-8">
                         <ul className="space-y-2">
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-100" : "opacity-0 transform translate-x-4"}>
-                                <Link href="/Stop" onClick={handleNav}>
+                                <Link href="/stop" onClick={handleNav}>
                                     <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-red-100 text-red-600 group-hover:bg-red-200 transition-colors">
                                             <FaCarCrash size={20} />
@@ -317,7 +318,7 @@ function Navbar() {
                                 </Link>
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-200" : "opacity-0 transform translate-x-4"}>
-                                <Link href="/Const" onClick={handleNav}>
+                                <Link href="/const" onClick={handleNav}>
                                     <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-blue-100 text-blue-600 group-hover:bg-blue-200 transition-colors">
                                             <FaCar size={20} />
@@ -330,7 +331,7 @@ function Navbar() {
                                 </Link>
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-300" : "opacity-0 transform translate-x-4"}>
-                                <Link href="/Sonst" onClick={handleNav}>
+                                <Link href="/sonst" onClick={handleNav}>
                                     <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-purple-100 text-purple-600 group-hover:bg-purple-200 transition-colors">
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -345,7 +346,7 @@ function Navbar() {
                                 </Link>
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-400" : "opacity-0 transform translate-x-4"}>
-                                <Link href="/VMT" onClick={handleNav}>
+                                <Link href="/vmt" onClick={handleNav}>
                                     <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-green-100 text-green-600 group-hover:bg-green-200 transition-colors">
                                             <FaCamera size={20} />
@@ -358,7 +359,7 @@ function Navbar() {
                                 </Link>
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-500" : "opacity-0 transform translate-x-4"}>
-                                <Link href="/Minderwert" onClick={handleNav}>
+                                <Link href="/minderwert" onClick={handleNav}>
                                     <div className="flex items-center gap-4 p-4 rounded-2xl hover:bg-slate-100/50 transition-all duration-200 hover:transform hover:-translate-x-1 group active:scale-95 cursor-pointer">
                                         <div className="p-3 rounded-xl bg-amber-100 text-amber-600 group-hover:bg-amber-200 transition-colors">
                                             <FaMoneyBill size={20} />

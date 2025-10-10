@@ -1,8 +1,8 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `pages/` contains Next.js routes for analysis tools (`Stop`, `Const`, `VMT`, `Sonst`).
-- `components/` hosts shared UI and calculators (e.g., `StepperInput`, `util*`).
+- `pages/` contains Next.js routes for analysis tools (`stop`, `const`, `vmt`, `sonst`, `minderwert`).
+- `components/` hosts shared UI (layout, navbar, footer) and calculators (e.g., `StepperInput`, `util*`).
 - `hooks/` includes utilities such as `useScreenshot` for exports.
 - `assets/` stores SVG formula renderings; `public/` holds static files.
 - `styles/`, `tailwind.config.ts`, and `postcss.config.js` define styling.
@@ -17,7 +17,7 @@
 
 ## Coding Style & Naming Conventions
 - TypeScript throughout; prefer explicit types for props and exports.
-- Components live in PascalCase files (`ConstDecel.tsx`), hooks in camelCase (`useScreenshot`).
+- Components live in PascalCase files (`ConstDecel.tsx`), hooks in camelCase (`useScreenshot`), and route files stay lowercase for clean URLs.
 - Follow Tailwind utility classes for layout; avoid inline styles unless necessary.
 - Linting via `next lint`; run before committing to catch style violations.
 - Tailwind defaults use OKLCH colors that break `html2canvas`; extend palettes with hex values in `tailwind.config.ts` and mirror them in `styles/globals.css` whenever you introduce new UI colors.
