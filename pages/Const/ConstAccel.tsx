@@ -207,7 +207,7 @@ function ConstAccel() {
   return (
     <>
       <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-        <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
           <h2 className="text-lg font-semibold">konstante Beschleunigung</h2>
           <button
             onClick={handleReset}
@@ -364,7 +364,7 @@ function ConstAccel() {
       </div>
 
       <div id="berechnungen-accel" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-        <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+        <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
           <h2 className="text-lg font-semibold">konstante Beschleunigung</h2>
           <div className="screenshot-buttons flex gap-2">
             <button

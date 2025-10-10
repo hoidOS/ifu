@@ -78,7 +78,7 @@ function Stop() {
       <div className="grid gap-6 mx-auto max-w-screen-2xl px-4 py-6 md:grid-cols-2">
 
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Anhaltevorgang</h2>
             <button
               onClick={handleReset}

@@ -273,7 +273,7 @@ function Sonst() {
       </Head>
       <>
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Steigungsverzögerung</h2>
             <button
               onClick={handleReset}
@@ -352,7 +352,7 @@ function Sonst() {
         </div>
 
         <div id="berechnungen-sonst" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Steigungsverzögerung Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
@@ -409,7 +409,7 @@ function Sonst() {
 
         {/* Lane Change Input Section */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Ausschervorgänge</h2>
             <button
               onClick={handleResetAusscher}
@@ -567,7 +567,7 @@ function Sonst() {
 
         {/* Lane Change Results Section */}
         <div id="berechnungen-ausscher" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Ausschervorgänge Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
@@ -646,7 +646,7 @@ function Sonst() {
 
         {/* Curve Radius Input Section */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Kurvenradius</h2>
             <button
               onClick={handleResetCurve}
@@ -752,7 +752,7 @@ function Sonst() {
 
         {/* Curve Radius Results Section */}
         <div id="berechnungen-kurve" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Kurvenradius Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
@@ -825,7 +825,7 @@ function Sonst() {
 
         {/* Curve Speed Input Section */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Kurvengrenzgeschwindigkeit</h2>
             <button
               onClick={handleResetSpeed}
@@ -931,7 +931,7 @@ function Sonst() {
 
         {/* Curve Speed Results Section */}
         <div id="berechnungen-geschwindigkeit" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 flex justify-between items-center">
+          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
             <h2 className="text-lg font-semibold">Kurvengrenzgeschwindigkeit Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
