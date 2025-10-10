@@ -977,22 +977,22 @@ function Minderwert() {
                 </thead>
                 <tbody>
                   <tr className="border-b border-gray-100 transition-colors hover:bg-[rgba(219,234,254,0.5)]">
-                    <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2">
+                    <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2 border-0">
                       <div className="w-3 h-3 rounded-full bg-primary-700"></div>
                       BVSK
                     </td>
-                    <td className="py-4 px-4 text-center text-xs text-gray-600 font-mono">MW = WBW × K-Faktor × (%-Wert + M-Wert) / 100</td>
-                    <td className="py-4 px-4 text-center">
+                    <td className="py-4 px-4 text-center text-xs text-gray-600 font-mono border-0">MW = WBW × K-Faktor × (%-Wert + M-Wert) / 100</td>
+                    <td className="py-4 px-4 text-center border-0">
                       <span className="font-bold text-lg text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</span>
                     </td>
                   </tr>
                   <tr className="transition-colors hover:bg-[rgba(255,237,213,0.5)]">
-                    <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2">
+                    <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2 border-0">
                       <div className="w-3 h-3 rounded-full bg-orange-500"></div>
                       MFM
                     </td>
-                    <td className="py-4 px-4 text-center text-xs text-gray-600 font-mono">MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV</td>
-                    <td className="py-4 px-4 text-center">
+                    <td className="py-4 px-4 text-center text-xs text-gray-600 font-mono border-0">MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV</td>
+                    <td className="py-4 px-4 text-center border-0">
                       <span className="font-bold text-lg text-orange-600">{mfmResult.toFixed(2).replace(".", ",")} €</span>
                     </td>
                   </tr>
