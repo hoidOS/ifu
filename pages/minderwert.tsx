@@ -87,7 +87,7 @@ const mfmDefaults: MFMInput = {
 const bvskTooltips = {
   wbw: "Wiederbeschaffungswert (WBW)\n\nDer Wiederbeschaffungswert des Fahrzeugs zum Unfallzeitpunkt, inklusive Mehrwertsteuer.",
   kFaktor: "K-Faktor (Vorschadenfaktor)\n\nKorrekturfaktor für vorherige Fahrzeugschäden:\n• 0.5-0.8: Reparierte Vorschäden\n• 0.8: Leichte Nutzfahrzeuge\n• 1.0: Keine Vorschäden",
-  prozentWert: "%-Wert (Schadensintensität)\n\nProzentsatz zwischen 0% und 8% zur Bewertung der Schadensschwere:\n• 0-0.5%: Klasse 1 (Leichte Schäden)\n• 0.5-1.5%: Klasse 2 (Leichte Schäden)\n• 1.5-2.5%: Klasse 3 (Teileersatz und Richten)\n• 2.5-3.5%: Klasse 4 (Umfangreicher Teileersatz)\n• 3.5-4.5%: Klasse 5 (Erheblicher Teileersatz)\n• 4.5-6.0%: Klasse 6 (Größere Strukturreparaturen)\n• 6.0-8.0%: Klasse 7 (Umfassende Strukturschäden)",
+  prozentWert: "%-Wert (Schadensintensität)\n\nProzentsatz zwischen 0% und 8% zur Bewertung der Schadensschwere:\n• 0-0.5%: Klasse 1 (leichte Schäden mit Ersatz von Anbauteilen und Lackierarbeiten, keine Richtarbeiten)\n• 0.5-1.5%: Klasse 2 (wie Klasse 1, zusätzlich Ersatz geschraubter Karosserieteile ohne Richtarbeiten)\n• 1.5-2.5%: Klasse 3 (wie Klasse 2, zusätzlich Richtarbeiten an geschweißten Karosserieteilen)\n• 2.5-3.5%: Klasse 4 (wie Klasse 3, zusätzlich Ersatz geschweißter Karosserieteile und Achsteile)\n• 3.5-4.5%: Klasse 5 (wie Klasse 4, jedoch mit erheblichen Richtarbeiten an geschweißten Karosserieteilen)\n• 4.5-6.0%: Klasse 6 (wie Klasse 5, zusätzlich Richtbankeinsatz mit Richtarbeiten an Rahmen/Bodenblechen sowie Ersatz dieser Bauteile und Achsteile)\n• 6.0-8.0%: Klasse 7 (wie Klasse 6, zusätzlich Ersatz von Rahmen/Bodenblechen und Schäden vorn und hinten)",
   mWert: "M-Wert (Marktgängigkeitsfaktor)\n\nKorrekturfaktor für Fahrzeugmarkteigenschaften:\n• -0.5%: Gute Marktnachfrage\n• 0%: Durchschnittliche Marktnachfrage\n• 1.0%: Schlechte Marktnachfrage\n• 2.0%: Sehr lange Standzeiten, exotische Fahrzeuge"
 }
 
@@ -231,26 +231,27 @@ const bvskTable = [
     parameter: 'K-Faktor (Vorschadenfaktor)',
     explanation: 'Korrekturfaktor für vorherige Fahrzeugschäden',
     rows: [
-      { range: '0,5 – 0,8', description: 'Reparierte / leichte Vorschäden' },
-      { range: '1,0', description: 'Keine Vorschäden' }
+      { range: '0,5 – 0,8', description: 'Reparierter Vorschaden vorhanden' },
+      { range: '0,8', description: 'Leichte Nutzfahrzeuge' },
+      { range: '1,0', description: 'Ohne Vorschäden' }
     ]
   },
   {
     parameter: '%-Wert (Schadenintensität)',
-    explanation: 'Prozentsatz zur Bewertung der Schadensschwere',
+    explanation: 'Klassifizierung des Schadens',
     rows: [
-      { range: '0 – 0,5', description: 'Klasse 1: Leichte Schäden; Ersatz von Anbauteilen, Lackierung, ohne Richtarbeiten' },
-      { range: '0,5 – 1,5', description: 'Klasse 2: Leichte Schäden; Ersatz von Anbauteilen und geschraubten Karosserieteilen' },
-      { range: '1,5 – 2,5', description: 'Klasse 3: Ersatz mit Richtarbeiten an geschweißten Teilen' },
-      { range: '2,5 – 3,5', description: 'Klasse 4: Wie Klasse 3, zusätzlich Ersatz geschweißter Karosserieteile' },
-      { range: '3,5 – 4,5', description: 'Klasse 5: Wie Klasse 4, jedoch erhebliche Richtarbeiten' },
-      { range: '4,5 – 6,0', description: 'Klasse 6: Richtbankeinsatz; Richtarbeiten an Rahmen/Bodenblechen' },
-      { range: '6,0 – 8,0', description: 'Klasse 7: Ersatz von Rahmen und Bodenblechen; Schäden vorn und hinten' }
+      { range: '0 – 0,5', description: 'Klasse 1: Leichte Schäden mit Ersatz von Anbauteilen (Stoßstangen u.ä.) und Lackierarbeiten ohne Richtarbeiten' },
+      { range: '0,5 – 1,5', description: 'Klasse 2: Wie Klasse 1, zusätzlich Ersatz geschraubter Karosserieteile ohne Richtarbeiten' },
+      { range: '1,5 – 2,5', description: 'Klasse 3: Wie Klasse 2, zusätzlich Richtarbeiten an geschweißten Karosserieteilen' },
+      { range: '2,5 – 3,5', description: 'Klasse 4: Wie Klasse 3, zusätzlich Ersatz geschweißter Karosserieteile und Achsteile' },
+      { range: '3,5 – 4,5', description: 'Klasse 5: Wie Klasse 4, jedoch mit erheblichen Richtarbeiten an geschweißten Karosserieteilen' },
+      { range: '4,5 – 6,0', description: 'Klasse 6: Wie Klasse 5, zusätzlich Richtbankeinsatz mit Richtarbeiten an Rahmen/Bodenblechen sowie Ersatz dieser Bauteile und Achsteile' },
+      { range: '6,0 – 8,0', description: 'Klasse 7: Wie Klasse 6, zusätzlich Ersatz von Rahmen/Bodenblechen und Schäden vorn und hinten' }
     ]
   },
   {
     parameter: 'M-Wert (Marktgängigkeitsfaktor)',
-    explanation: 'Korrekturfaktor für Fahrzeugmarkteigenschaften',
+    explanation: 'Korrekturfaktor Marktgängigkeit',
     rows: [
       { range: '−0,5', description: 'Gute Marktnachfrage' },
       { range: '0', description: 'Durchschnittliche Marktnachfrage' },
@@ -1257,7 +1258,7 @@ function Minderwert() {
               <thead>
                 <tr className="text-primary-700 border-b border-primary-200" style={{ backgroundColor: "#e8f3ff" }}>
                   <th className="text-left py-3 px-3 font-semibold">Parameter</th>
-                  <th className="text-left py-3 px-3 font-semibold">Wertebereich</th>
+                  <th className="text-center py-3 px-3 font-semibold">Wertebereich</th>
                   <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
                 </tr>
               </thead>
@@ -1282,7 +1283,7 @@ function Minderwert() {
                       section.rows.map((row, index) => (
                         <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
                           <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#f6fbff" }}></td>
-                          <td className="py-3 px-3 font-medium text-gray-700">{row.range}</td>
+                          <td className="py-3 px-3 font-medium text-gray-700 text-center">{row.range}</td>
                           <td className="py-3 px-3 text-gray-600">{row.description}</td>
                         </tr>
                       ))
@@ -1324,7 +1325,7 @@ function Minderwert() {
               <thead>
                 <tr className="text-orange-600 border-b border-orange-200" style={{ backgroundColor: "#fff4e6" }}>
                   <th className="text-left py-3 px-3 font-semibold">Parameter</th>
-                  <th className="text-left py-3 px-3 font-semibold">Wertebereich</th>
+                  <th className="text-center py-3 px-3 font-semibold">Wertebereich</th>
                   <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
                 </tr>
               </thead>
@@ -1349,7 +1350,7 @@ function Minderwert() {
                       section.rows.map((row, index) => (
                         <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
                           <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#fffaf4" }}></td>
-                          <td className="py-3 px-3 font-medium text-gray-700">{row.range}</td>
+                          <td className="py-3 px-3 font-medium text-gray-700 text-center">{row.range}</td>
                           <td className="py-3 px-3 text-gray-600">{row.description}</td>
                         </tr>
                       ))
