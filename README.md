@@ -132,7 +132,7 @@ nextjs-ppcavs-ifu/
 ## Key Dependencies
 
 ### Core Dependencies
-- `next`: 15.5.4 - React framework
+- `next`: 15.5.5 - React framework
 - `react`: 19.2.0 - UI library
 - `react-dom`: 19.2.0 - React DOM rendering
 - `html2canvas`: 1.4.1 - Screenshot generation
