@@ -86,14 +86,14 @@ const mfmDefaults: MFMInput = {
 }
 
 const bvskTooltips = {
-  wbw: "Wiederbeschaffungswert (WBW)\n\nDer Wiederbeschaffungswert des Fahrzeugs zum Unfallzeitpunkt, inklusive Mehrwertsteuer.",
+  wbw: "Wiederbeschaffungswert (WBW)\n\nDer Wiederbeschaffungswert des Fahrzeugs zum Unfallzeitpunkt, inklusive Mehrwertsteuer.\n\nDAT Händlerverkaufswert",
   kFaktor: "K-Faktor (Vorschadenfaktor)\n\nKorrekturfaktor für vorherige Fahrzeugschäden:\n• 0.5-0.8: Reparierte Vorschäden\n• 0.8: Leichte Nutzfahrzeuge\n• 1.0: Keine Vorschäden",
   prozentWert: "%-Wert (Schadensintensität)\n\nProzentsatz zwischen 0% und 8% zur Bewertung der Schadensschwere:\n• 0-0.5%: Klasse 1 (leichte Schäden mit Ersatz von Anbauteilen und Lackierarbeiten, keine Richtarbeiten)\n• 0.5-1.5%: Klasse 2 (wie Klasse 1, zusätzlich Ersatz geschraubter Karosserieteile ohne Richtarbeiten)\n• 1.5-2.5%: Klasse 3 (wie Klasse 2, zusätzlich Richtarbeiten an geschweißten Karosserieteilen)\n• 2.5-3.5%: Klasse 4 (wie Klasse 3, zusätzlich Ersatz geschweißter Karosserieteile und Achsteile)\n• 3.5-4.5%: Klasse 5 (wie Klasse 4, jedoch mit erheblichen Richtarbeiten an geschweißten Karosserieteilen)\n• 4.5-6.0%: Klasse 6 (wie Klasse 5, zusätzlich Richtbankeinsatz mit Richtarbeiten an Rahmen/Bodenblechen sowie Ersatz dieser Bauteile und Achsteile)\n• 6.0-8.0%: Klasse 7 (wie Klasse 6, zusätzlich Ersatz von Rahmen/Bodenblechen und Schäden vorn und hinten)",
   mWert: "M-Wert (Marktgängigkeitsfaktor)\n\nKorrekturfaktor für Fahrzeugmarkteigenschaften:\n• -0.5%: Gute Marktnachfrage\n• 0%: Durchschnittliche Marktnachfrage\n• 1.0%: Schlechte Marktnachfrage\n• 2.0%: Sehr lange Standzeiten, exotische Fahrzeuge"
 }
 
 const mfmTooltips = {
-  vw: "Veräußerungswert (VW)\n\nDer Verkaufspreis des Fahrzeugs inklusive Mehrwertsteuer.",
+  vw: "Veräußerungswert (VW)\n\nDer Verkaufspreis des Fahrzeugs inklusive Mehrwertsteuer.\n\nDAT Händlereinkaufswert",
   np: "Neupreis (NP)\n\nDer ursprüngliche Neuwagenpreis inklusive Mehrwertsteuer.",
   rk: "Reparaturkosten (RK)\n\nGesamte Reparaturkosten inklusive Mehrwertsteuer.",
   su: "Schadensumfang (SU)\n\nFaktor zwischen 0.2 und 1.0 für das Ausmaß der Beschädigung:\n• 0.2: Ersatz/Reparatur von anbaubaren Teilen\n• 0.4: Ersatz/Reparatur von \"geschraubten\" Karosserieteilen\n• 0.6: Geringfügige Reparaturen an tragenden Karosserieteilen\n• 0.8: Erhebliche Reparaturen an tragenden Karosserieteilen\n• 1.0: Ersatz/Großreparatur tragender Karosserieteile",
