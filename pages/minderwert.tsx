@@ -1013,9 +1013,12 @@ function Minderwert() {
                   <h3 className="font-semibold text-gray-800">BVSK Berechnung</h3>
                 </div>
                 <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Wiederbeschaffungswert (WBW):</span>
-                    <span className="font-medium">{bvskInput.wbw.toFixed(2).replace(".", ",")} €</span>
+                  <div className="text-gray-600">
+                    <span className="block">Wiederbeschaffungswert</span>
+                    <div className="mt-1 flex items-baseline justify-between">
+                      <span>(WBW):</span>
+                      <span className="font-medium text-gray-800 whitespace-nowrap">{bvskInput.wbw.toFixed(2).replace(".", ",")} €</span>
+                    </div>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">K-Faktor:</span>
