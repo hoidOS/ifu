@@ -22,17 +22,19 @@ A comprehensive Next.js web application for automotive forensic analysis and acc
 
 ## Technology Stack
 
-- **Framework**: Next.js 15 with TypeScript
-- **Styling**: Tailwind CSS
-- **Screenshot**: html2canvas for generating images
-- **State Management**: React useState with sessionStorage persistence
+- **Framework**: Next.js 16 with React 19 and TypeScript
+- **Styling**: Tailwind CSS 4
+- **Linting**: ESLint flat config via `eslint-config-next/core-web-vitals`
+- **Screenshot**: `html2canvas` for PNG exports with clipboard-to-download fallback
+- **State Management**: React `useState` with sessionStorage persistence
 
 ## Development Commands
 
-Prerequisite: Node.js 22 LTS (or newer within the 22.x line).
+Prerequisite: Node.js 24 LTS (or newer within the 24.x line).
 
 ### Installation
 ```bash
+nvm use
 npm install
 ```
 
@@ -44,7 +46,7 @@ npm run dev
 
 ### Build & Production
 ```bash
-npm run build    # Build for production
+npm run build    # Build for production (Next.js 16 / Turbopack)
 npm start        # Start production server
 ```
 
@@ -93,6 +95,7 @@ nextjs-ppcavs-ifu/
 ├── Dockerfile
 ├── eslint.config.mjs       # Flat ESLint configuration
 ├── next.config.js
+├── .nvmrc                  # Local Node.js runtime pin (24)
 ├── tailwind.config.ts
 ├── tsconfig.json
 └── README.md
@@ -117,7 +120,7 @@ nextjs-ppcavs-ifu/
 
 ### Screenshot Hook (useScreenshot.ts)
 - `handleScreenshot()` - Download element as PNG
-- `handleClipboard()` - Copy element to clipboard with fallback
+- `handleClipboard()` - Copy element to clipboard with automatic download fallback
 - `hideElements()` - Clean UI for screenshots
 - `restoreElements()` - Restore UI after screenshot
 
@@ -132,16 +135,18 @@ nextjs-ppcavs-ifu/
 ## Key Dependencies
 
 ### Core Dependencies
-- `next`: 15.5.5 - React framework
-- `react`: 19.2.0 - UI library
-- `react-dom`: 19.2.0 - React DOM rendering
+- `next`: 16.1.6 - React framework
+- `react`: 19.2.4 - UI library
+- `react-dom`: 19.2.4 - React DOM rendering
 - `html2canvas`: 1.4.1 - Screenshot generation
 
 ### Development Dependencies
 - `typescript`: 5.9.3 - Type safety
-- `tailwindcss`: 4.1.14 - Styling framework
-- `eslint`: 9.37.0 - Code linting
-- `@tailwindcss/postcss`: 4.1.14 - Tailwind-integrated PostCSS preset
+- `tailwindcss`: 4.2.1 - Styling framework
+- `eslint`: 9.39.4 - Code linting
+- `eslint-config-next`: 16.1.6 - Next.js flat-config preset
+- `@tailwindcss/postcss`: 4.2.1 - Tailwind-integrated PostCSS preset
+- `@types/node`: 24.12.0 - Node.js 24 type definitions
 
 ## Notes
 
@@ -149,9 +154,14 @@ nextjs-ppcavs-ifu/
 - Input values are automatically saved to browser session storage
 - Mathematical formulas are implemented according to forensic automotive standards
 - The application includes German terminology for forensic automotive analysis
-- Runtime standardized on Node.js 22 LTS; match local tooling before running builds.
-- Tailwind CSS upgraded to v4.1.14 with configuration managed in `tailwind.config.ts`.
+- Runtime standardized on Node.js 24 LTS; match local tooling before running builds.
+- `.nvmrc` pins local development to Node 24 for parity with Docker and team tooling.
+- Production builds use Next.js 16's default Turbopack pipeline.
+- ESLint is configured through `eslint.config.mjs` using `eslint-config-next/core-web-vitals`.
+- The flat ESLint config includes a targeted `react-hooks/set-state-in-effect` override to preserve the existing sessionStorage restore pattern used by calculators.
+- Tailwind CSS upgraded to v4.2.1 with configuration managed in `tailwind.config.ts`.
 - Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new palette entries with hex values in both `tailwind.config.ts` and `styles/globals.css` to keep exports working.
+- The screenshot/export flow still depends on `html2canvas@1.4.1`; runtime alignment changes should not replace it without manual browser verification.
 - Some calculator tables (e.g. Anhaltevorgang) still overflow on phones; wrap new tables in `<div class="overflow-x-auto">` like the BVSK system block to restore horizontal scrolling.
 - Layout, navbar, and footer now live under `components/` so they can be shared without accidentally creating extra pages in the `/pages` router.
 
@@ -176,6 +186,8 @@ docker-compose up --build
 docker build -t nextjs-ifu .
 docker run -p 3000:3000 nextjs-ifu
 ```
+
+The Docker image now targets Node 24 LTS via `node:24-alpine`.
 
 ### Vercel Deployment
 For Vercel deployment, connect your GitHub repository to Vercel for automatic deployments.

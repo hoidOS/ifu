@@ -8,19 +8,22 @@
 - `styles/`, `tailwind.config.ts`, and `postcss.config.js` define styling.
 
 ## Build, Test, and Development Commands
-- Target runtime: Node.js 22 LTS.
+- Target runtime: Node.js 24 LTS.
+- `.nvmrc` pins the local runtime to Node 24 for environment parity.
 - `npm install` installs dependencies.
 - `npm run dev` starts the Next.js dev server on `http://localhost:3000`.
-- `npm run build` produces the optimized production bundle.
+- `npm run build` produces the optimized production bundle with Next.js 16's default Turbopack build pipeline.
 - `npm start` serves the production build.
-- `npm run lint` executes ESLint with the Next.js configuration.
+- `npm run lint` executes ESLint through the flat config in `eslint.config.mjs`.
 
 ## Coding Style & Naming Conventions
 - TypeScript throughout; prefer explicit types for props and exports.
 - Components live in PascalCase files (`ConstDecel.tsx`), hooks in camelCase (`useScreenshot`), and route files stay lowercase for clean URLs.
 - Follow Tailwind utility classes for layout; avoid inline styles unless necessary.
-- Linting via `next lint`; run before committing to catch style violations.
+- Linting runs through `eslint .` with `eslint-config-next/core-web-vitals`; run `npm run lint` before committing.
+- Next.js 16 uses the React automatic runtime; keep `tsconfig.json` aligned with `jsx: "react-jsx"`.
 - Tailwind defaults use OKLCH colors that break `html2canvas`; extend palettes with hex values in `tailwind.config.ts` and mirror them in `styles/globals.css` whenever you introduce new UI colors.
+- The flat ESLint config intentionally disables `react-hooks/set-state-in-effect` to preserve the current sessionStorage restore pattern used across calculators; avoid re-enabling it without refactoring those pages.
 - Some legacy result tables lack horizontal scroll on mobile; match the BVSK system implementation by wrapping future tables in `<div class="overflow-x-auto">` to preserve usability on narrow screens.
 - Layout-related components (`Layout`, `Navbar`, `Footer`) live in `components/`; keep `/pages` reserved for actual routes to avoid accidental public endpoints.
 
