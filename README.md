@@ -135,17 +135,17 @@ nextjs-ppcavs-ifu/
 ## Key Dependencies
 
 ### Core Dependencies
-- `next`: 16.1.6 - React framework
+- `next`: 16.2.0 - React framework
 - `react`: 19.2.4 - UI library
 - `react-dom`: 19.2.4 - React DOM rendering
 - `html2canvas`: 1.4.1 - Screenshot generation
 
 ### Development Dependencies
 - `typescript`: 5.9.3 - Type safety
-- `tailwindcss`: 4.2.1 - Styling framework
+- `tailwindcss`: 4.2.2 - Styling framework
 - `eslint`: 9.39.4 - Code linting
-- `eslint-config-next`: 16.1.6 - Next.js flat-config preset
-- `@tailwindcss/postcss`: 4.2.1 - Tailwind-integrated PostCSS preset
+- `eslint-config-next`: 16.2.0 - Next.js flat-config preset
+- `@tailwindcss/postcss`: 4.2.2 - Tailwind-integrated PostCSS preset
 - `@types/node`: 24.12.0 - Node.js 24 type definitions
 
 ## Notes
@@ -159,7 +159,7 @@ nextjs-ppcavs-ifu/
 - Production builds use Next.js 16's default Turbopack pipeline.
 - ESLint is configured through `eslint.config.mjs` using `eslint-config-next/core-web-vitals`.
 - The flat ESLint config includes a targeted `react-hooks/set-state-in-effect` override to preserve the existing sessionStorage restore pattern used by calculators.
-- Tailwind CSS upgraded to v4.2.1 with configuration managed in `tailwind.config.ts`.
+- Tailwind CSS upgraded to v4.2.2 with configuration managed in `tailwind.config.ts`.
 - Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new palette entries with hex values in both `tailwind.config.ts` and `styles/globals.css` to keep exports working.
 - The screenshot/export flow still depends on `html2canvas@1.4.1`; runtime alignment changes should not replace it without manual browser verification.
 - Some calculator tables (e.g. Anhaltevorgang) still overflow on phones; wrap new tables in `<div class="overflow-x-auto">` like the BVSK system block to restore horizontal scrolling.
