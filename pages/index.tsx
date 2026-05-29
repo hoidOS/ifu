@@ -17,7 +17,7 @@ interface ResourceSection {
 }
 
 const BASE_CARD_CLASSES =
-  'group min-h-32 rounded-lg border border-slate-200 bg-white p-5 text-left shadow-sm transition-colors duration-200 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-2'
+  'group flex h-full min-h-32 flex-col rounded-lg border border-slate-200 bg-white p-5 text-left shadow-sm transition-colors duration-200 hover:bg-slate-50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50'
 
 const ACCENT_CLASSES: Record<Accent, string> = {
   blue: 'hover:border-blue-400 focus:ring-blue-500/40',
@@ -36,7 +36,7 @@ const ACCENT_BAR_CLASSES: Record<Accent, string> = {
 const RESOURCE_SECTIONS: ResourceSection[] = [
   {
     id: 'maps-navigation',
-    title: 'Maps & Navigation',
+    title: 'Karten und Navigation',
     accent: 'blue',
     links: [
       {
@@ -73,7 +73,7 @@ const RESOURCE_SECTIONS: ResourceSection[] = [
   },
   {
     id: 'automotive-data',
-    title: 'Automotive Data & Resources',
+    title: 'Fahrzeugdaten und Ressourcen',
     accent: 'green',
     links: [
       {
@@ -110,7 +110,7 @@ const RESOURCE_SECTIONS: ResourceSection[] = [
   },
   {
     id: 'crash-testing',
-    title: 'Crash Testing & Safety',
+    title: 'Crashtests und Sicherheit',
     accent: 'red',
     links: [
       {
@@ -132,7 +132,7 @@ const RESOURCE_SECTIONS: ResourceSection[] = [
   },
   {
     id: 'infrastructure-traffic',
-    title: 'Infrastructure & Traffic',
+    title: 'Infrastruktur und Verkehr',
     accent: 'purple',
     links: [
       {
@@ -166,15 +166,15 @@ const Home: NextPage = () => {
       </Head>
 
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <h1 className="sr-only">STEINACKER Ressourcen</h1>
+        <h1 className="sr-only">STEINACKER Ressourcenübersicht</h1>
 
         {RESOURCE_SECTIONS.map((section) => (
-          <section key={section.id} className="mb-12">
-            <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+          <section key={section.id} className="mb-10 last:mb-0 md:mb-12">
+            <h2 className="mb-5 flex items-center gap-3 text-2xl font-bold text-slate-900 md:mb-6">
               <div className={`w-3 h-8 rounded-full ${ACCENT_BAR_CLASSES[section.accent]}`}></div>
               {section.title}
             </h2>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
               {section.links.map((link) => (
                 <a
                   key={link.href}
