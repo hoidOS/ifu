@@ -17,7 +17,7 @@ interface ResourceSection {
 }
 
 const BASE_CARD_CLASSES =
-  'group flex h-full min-h-32 flex-col rounded-lg border border-slate-200 bg-white p-5 text-left shadow-sm transition-colors duration-200 hover:bg-slate-50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50'
+  'group flex h-full min-h-32 flex-col rounded-lg border border-slate-200 bg-white p-5 text-left tracking-normal shadow-sm transition-colors duration-200 hover:bg-slate-50 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-50'
 
 const ACCENT_CLASSES: Record<Accent, string> = {
   blue: 'hover:border-blue-400 focus:ring-blue-500/40',
@@ -165,12 +165,12 @@ const Home: NextPage = () => {
         <meta name="mobile-web-app-capable" content="yes" />
       </Head>
 
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 tracking-normal">
         <h1 className="sr-only">STEINACKER Ressourcenübersicht</h1>
 
         {RESOURCE_SECTIONS.map((section) => (
           <section key={section.id} className="mb-10 last:mb-0 md:mb-12">
-            <h2 className="mb-5 flex items-center gap-3 text-2xl font-bold text-slate-900 md:mb-6">
+            <h2 className="mb-5 flex items-center gap-3 text-xl font-bold leading-snug text-slate-900 md:mb-6 md:text-2xl">
               <div className={`w-3 h-8 rounded-full ${ACCENT_BAR_CLASSES[section.accent]}`}></div>
               {section.title}
             </h2>
@@ -183,13 +183,13 @@ const Home: NextPage = () => {
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <h3 className="py-1 text-lg font-semibold text-slate-900 flex items-center gap-2">
+                  <h3 className="flex items-center gap-2 py-1 text-lg font-semibold leading-snug text-slate-900">
                     {link.title}
                     <span className="transition-transform translate-x-0 group-hover:translate-x-0.5" aria-hidden="true">
                       →
                     </span>
                   </h3>
-                  <p className="text-slate-600 leading-relaxed">{link.description}</p>
+                  <p className="leading-normal text-slate-600">{link.description}</p>
                 </a>
               ))}
             </div>
