@@ -74,6 +74,7 @@ nextjs-ppcavs-ifu/
 │   └── useScreenshot.ts    # html2canvas export + clipboard fallback
 ├── pages/
 │   ├── _app.tsx            # Global layout wrapper
+│   ├── _document.tsx       # Root document attributes for Next.js/browser behavior
 │   ├── const/              # Konstantfahrt sub-pages
 │   │   ├── const-accel.tsx
 │   │   ├── const-decel.tsx
@@ -135,18 +136,18 @@ nextjs-ppcavs-ifu/
 ## Key Dependencies
 
 ### Core Dependencies
-- `next`: 16.2.0 - React framework
-- `react`: 19.2.4 - UI library
-- `react-dom`: 19.2.4 - React DOM rendering
+- `next`: 16.2.6 - React framework
+- `react`: 19.2.6 - UI library
+- `react-dom`: 19.2.6 - React DOM rendering
 - `html2canvas`: 1.4.1 - Screenshot generation
 
 ### Development Dependencies
 - `typescript`: 5.9.3 - Type safety
-- `tailwindcss`: 4.2.2 - Styling framework
+- `tailwindcss`: 4.3.0 - Styling framework
 - `eslint`: 9.39.4 - Code linting
-- `eslint-config-next`: 16.2.0 - Next.js flat-config preset
-- `@tailwindcss/postcss`: 4.2.2 - Tailwind-integrated PostCSS preset
-- `@types/node`: 24.12.0 - Node.js 24 type definitions
+- `eslint-config-next`: 16.2.6 - Next.js flat-config preset
+- `@tailwindcss/postcss`: 4.3.0 - Tailwind-integrated PostCSS preset
+- `@types/node`: 24.12.4 - Node.js 24 type definitions
 
 ## Notes
 
@@ -159,9 +160,11 @@ nextjs-ppcavs-ifu/
 - Production builds use Next.js 16's default Turbopack pipeline.
 - ESLint is configured through `eslint.config.mjs` using `eslint-config-next/core-web-vitals`.
 - The flat ESLint config includes a targeted `react-hooks/set-state-in-effect` override to preserve the existing sessionStorage restore pattern used by calculators.
-- Tailwind CSS upgraded to v4.2.2 with configuration managed in `tailwind.config.ts`.
+- Tailwind CSS upgraded to v4.3.0 with configuration managed in `tailwind.config.ts`.
 - Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new palette entries with hex values in both `tailwind.config.ts` and `styles/globals.css` to keep exports working.
 - The screenshot/export flow still depends on `html2canvas@1.4.1`; runtime alignment changes should not replace it without manual browser verification.
+- `pages/_document.tsx` sets `data-scroll-behavior="smooth"` on `<Html>` to acknowledge intentional global smooth scrolling in Next.js 16.
+- Formula SVGs rendered through `next/image` should keep both dimensions automatic (`h-auto w-auto`) when constrained with `max-w-full` to avoid browser aspect-ratio warnings.
 - Some calculator tables (e.g. Anhaltevorgang) still overflow on phones; wrap new tables in `<div class="overflow-x-auto">` like the BVSK system block to restore horizontal scrolling.
 - Layout, navbar, and footer now live under `components/` so they can be shared without accidentally creating extra pages in the `/pages` router.
 
