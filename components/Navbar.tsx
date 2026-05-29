@@ -243,20 +243,31 @@ function Navbar() {
                         </div>
                     </div>
                     <div className="flex lg:hidden items-center gap-3">
-                        <FaBars size={28} className="self-center cursor-pointer text-slate-700" onClick={handleNav} />
+                        <button
+                            type="button"
+                            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+                            onClick={handleNav}
+                            aria-label={nav ? 'Menü schließen' : 'Menü öffnen'}
+                            aria-expanded={nav}
+                            aria-controls="mobile-navigation-menu"
+                        >
+                            <FaBars size={28} aria-hidden="true" focusable="false" />
+                        </button>
                     </div>
                 </div>
             </nav>
 
             {/* Mobile Menu Backdrop */}
-            <div 
-                className={nav ? "fixed z-30 inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" : 'opacity-0 pointer-events-none'} 
+            <div
+                className={nav ? "fixed z-30 inset-0 bg-black/60 backdrop-blur-sm opacity-100 transition-opacity duration-300" : "fixed z-30 inset-0 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300"}
                 onClick={handleNav}
-                aria-hidden="true"
+                aria-hidden={!nav}
+                inert={!nav}
             >
                 {/* Mobile Menu Panel */}
-                <div 
-                    className={nav ? 
+                <div
+                    id="mobile-navigation-menu"
+                    className={nav ?
                         "fixed z-30 right-0 top-0 w-[85%] sm:w-[400px] h-full bg-white/95 backdrop-blur-xl border-l border-white/20 shadow-2xl transform transition-transform duration-500 ease-out" :
                         "fixed z-30 right-0 top-0 w-[85%] sm:w-[400px] h-full bg-white/95 backdrop-blur-xl border-l border-white/20 shadow-2xl transform translate-x-full transition-transform duration-500 ease-out"
                     }
@@ -292,12 +303,13 @@ function Navbar() {
                                 <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-400/40 to-transparent"></div>
                             </div>
                         </Link>
-                        <button 
+                        <button
+                            type="button"
                             onClick={handleNav}
                             className="p-2 rounded-full bg-slate-100/50 hover:bg-slate-200/50 transition-colors duration-200"
-                            aria-label="Close menu"
+                            aria-label="Menü schließen"
                         >
-                            <FaWindowClose className="w-5 h-5 text-slate-600" />
+                            <FaWindowClose className="w-5 h-5 text-slate-600" aria-hidden="true" focusable="false" />
                         </button>
                     </div>
 
@@ -372,7 +384,7 @@ function Navbar() {
                     {/* Footer */}
                     <div className="absolute bottom-0 left-0 right-0 p-6 border-t border-slate-200/50">
                         <p className="text-xs text-slate-400 text-center">
-                            © 2025 STEINACKER
+                            &copy; {new Date().getFullYear()} STEINACKER
                         </p>
                     </div>
                 </div>
