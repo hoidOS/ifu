@@ -17,13 +17,13 @@ interface ResourceSection {
 }
 
 const BASE_CARD_CLASSES =
-  'group rounded-2xl border border-slate-200 bg-white p-6 text-left shadow-md transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02] transform focus:outline-none focus:ring-2'
+  'group min-h-32 rounded-lg border border-slate-200 bg-white p-5 text-left shadow-sm transition-colors duration-200 hover:bg-slate-50 hover:shadow-md focus:outline-none focus:ring-2'
 
 const ACCENT_CLASSES: Record<Accent, string> = {
-  blue: 'hover:shadow-2xl hover:shadow-blue-500/25 hover:border-blue-300 focus:ring-blue-500/40',
-  green: 'hover:shadow-2xl hover:shadow-green-500/25 hover:border-green-300 focus:ring-green-500/40',
-  red: 'hover:shadow-2xl hover:shadow-red-500/25 hover:border-red-300 focus:ring-red-500/40',
-  purple: 'hover:shadow-2xl hover:shadow-purple-500/25 hover:border-purple-300 focus:ring-purple-500/40',
+  blue: 'hover:border-blue-400 focus:ring-blue-500/40',
+  green: 'hover:border-green-400 focus:ring-green-500/40',
+  red: 'hover:border-red-400 focus:ring-red-500/40',
+  purple: 'hover:border-purple-400 focus:ring-purple-500/40',
 }
 
 const ACCENT_BAR_CLASSES: Record<Accent, string> = {
