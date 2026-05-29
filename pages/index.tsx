@@ -165,37 +165,37 @@ const Home: NextPage = () => {
         <meta name="mobile-web-app-capable" content="yes" />
       </Head>
 
-      <main>
-        <div className="mx-auto max-w-7xl px-4 py-8">
-          {RESOURCE_SECTIONS.map((section) => (
-            <section key={section.id} className="mb-12">
-              <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
-                <div className={`w-3 h-8 rounded-full ${ACCENT_BAR_CLASSES[section.accent]}`}></div>
-                {section.title}
-              </h2>
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                {section.links.map((link) => (
-                  <a
-                    key={link.href}
-                    className={`${BASE_CARD_CLASSES} ${ACCENT_CLASSES[section.accent]}`}
-                    href={link.href}
-                    rel="noopener noreferrer"
-                    target="_blank"
-                  >
-                    <h3 className="py-1 text-lg font-semibold text-slate-900 flex items-center gap-2">
-                      {link.title}
-                      <span className="transition-transform translate-x-0 group-hover:translate-x-0.5" aria-hidden="true">
-                        →
-                      </span>
-                    </h3>
-                    <p className="text-slate-600 leading-relaxed">{link.description}</p>
-                  </a>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-      </main>
+      <div className="mx-auto max-w-7xl px-4 py-8">
+        <h1 className="sr-only">STEINACKER Ressourcen</h1>
+
+        {RESOURCE_SECTIONS.map((section) => (
+          <section key={section.id} className="mb-12">
+            <h2 className="text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+              <div className={`w-3 h-8 rounded-full ${ACCENT_BAR_CLASSES[section.accent]}`}></div>
+              {section.title}
+            </h2>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {section.links.map((link) => (
+                <a
+                  key={link.href}
+                  className={`${BASE_CARD_CLASSES} ${ACCENT_CLASSES[section.accent]}`}
+                  href={link.href}
+                  rel="noopener noreferrer"
+                  target="_blank"
+                >
+                  <h3 className="py-1 text-lg font-semibold text-slate-900 flex items-center gap-2">
+                    {link.title}
+                    <span className="transition-transform translate-x-0 group-hover:translate-x-0.5" aria-hidden="true">
+                      →
+                    </span>
+                  </h3>
+                  <p className="text-slate-600 leading-relaxed">{link.description}</p>
+                </a>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
     </div>
   )
 }
