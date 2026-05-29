@@ -296,7 +296,7 @@ function Sonst() {
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigung</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.p} alt="p" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.p} alt="p" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -318,11 +318,11 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.percent} alt="%" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.percent} alt="%" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungswinkel</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -344,7 +344,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.degree} alt="°" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.degree} alt="°" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -386,21 +386,21 @@ function Sonst() {
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigung</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.p} alt="p" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.p} alt="p" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (percentFromAlpha ? <p className="text-primary-700">{percentFromAlpha}</p> : (!isNaN(p) && p >= 0 ? <p className="text-black">{p.toFixed(2).replace(".", ",")} %</p> : <p className="text-primary-700">-</p>))}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alphaToP} alt="alphaToP" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alphaToP} alt="alphaToP" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungswinkel</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (angleFromPercent ? <p className="text-primary-700">{angleFromPercent}</p> : (!isNaN(alpha) && alpha >= 0 ? <p className="text-black">{alpha.toFixed(2).replace(".", ",")} °</p> : <p className="text-primary-700">-</p>))}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.pToAlpha} alt="pToAlpha" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.pToAlpha} alt="pToAlpha" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungsverzögerung</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (accelValue ? <p className="text-primary-700">{accelValue}</p> : <p className="text-primary-700">-</p>)}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.asteig} alt="asteig" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.asteig} alt="asteig" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -454,7 +454,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselbreite</td>
@@ -480,7 +480,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselfaktor</td>
@@ -532,7 +532,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung scharf</td>
@@ -558,7 +558,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -607,7 +607,7 @@ function Sonst() {
                       ? <p className="text-primary-700">{ausscherDurationNormalValue.toFixed(2).replace(".", ",")} s</p>
                       : <p className="text-primary-700">-</p>}
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tn} alt="Formel t_n" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tn} alt="Formel t_n" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer scharf</td>
@@ -617,7 +617,7 @@ function Sonst() {
                       ? <p className="text-primary-700">{ausscherDurationSharpValue.toFixed(2).replace(".", ",")} s</p>
                       : <p className="text-primary-700">-</p>}
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ts} alt="Formel t_s" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ts} alt="Formel t_s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke normal</td>
@@ -627,7 +627,7 @@ function Sonst() {
                       ? <p className="text-primary-700">{ausscherDistanceNormalValue.toFixed(2).replace(".", ",")} m</p>
                       : <p className="text-primary-700">-</p>}
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sn} alt="Formel s_n" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sn} alt="Formel s_n" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke scharf</td>
@@ -637,7 +637,7 @@ function Sonst() {
                       ? <p className="text-primary-700">{ausscherDistanceSharpValue.toFixed(2).replace(".", ",")} m</p>
                       : <p className="text-primary-700">-</p>}
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ss} alt="Formel s_s" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ss} alt="Formel s_s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -691,7 +691,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Segmentlänge</td>
@@ -717,7 +717,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bogenlänge</td>
@@ -743,7 +743,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -870,7 +870,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
@@ -922,7 +922,7 @@ function Sonst() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.percent} alt="percent" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.percent} alt="percent" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
               </tbody>
             </table>

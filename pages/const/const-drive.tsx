@@ -72,7 +72,7 @@ function ConstDrive() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
                   <div className="flex justify-center">
                     <StepperInput
@@ -94,11 +94,11 @@ function ConstDrive() {
                     />
                   </div>
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Strecke</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
                   <div className="flex justify-center">
                     <StepperInput
@@ -120,11 +120,11 @@ function ConstDrive() {
                     />
                   </div>
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Dauer</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
                   <div className="flex justify-center">
                     <StepperInput
@@ -146,7 +146,7 @@ function ConstDrive() {
                     />
                   </div>
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
             </tbody>
           </table>
@@ -188,21 +188,21 @@ function ConstDrive() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.v} alt="v" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!vIsSet ? <p className="text-primary-700">{vO}</p> : <p className="text-black">{v.toFixed(2).replace(".", ",")} km/h</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dvF} alt="dvF" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dvF} alt="dvF" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Strecke</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!sIsSet ? <p className="text-primary-700">{sO}</p> : <p className="text-black">{s.toFixed(2).replace(".", ",")} m</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dsF} alt="dsF" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dsF} alt="dsF" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Dauer</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{(vIsSet && sIsSet && tIsSet) ? <p className="text-red-600">ERROR</p> : (!tIsSet ? <p className="text-primary-700">{tO}</p> : <p className="text-black">{t.toFixed(2).replace(".", ",")} s</p>)}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dtF} alt="dtF" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.dtF} alt="dtF" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
             </tbody>
           </table>

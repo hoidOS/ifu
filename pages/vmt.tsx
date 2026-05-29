@@ -114,7 +114,7 @@ function VMT() {
                                     />
                                 </div>
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -161,7 +161,7 @@ function VMT() {
                                     : <p className="text-primary-700">-</p>
                                 }
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                         </tr>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Durchmesser</td>
@@ -171,7 +171,7 @@ function VMT() {
                                     : <p>-</p>
                                 }
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -222,7 +222,7 @@ function VMT() {
                                     />
                                 </div>
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                         </tr>
                     </tbody>
                 </table>
@@ -269,7 +269,7 @@ function VMT() {
                                     : <p className="text-primary-700">-</p>
                                 }
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                         </tr>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Pointer 1 mRad</td>
@@ -279,7 +279,7 @@ function VMT() {
                                     : <p>-</p>
                                 }
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                         </tr>
                         <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Strahlaufweitung 3 mRad</td>
@@ -289,7 +289,7 @@ function VMT() {
                                     : <p>-</p>
                                 }
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                         </tr>
                         <tr className="hover:bg-blue-50 transition-colors">
                             <td className="py-2 px-2 font-medium text-gray-700">Zielerfassungsbereich 5 mRad</td>
@@ -299,7 +299,7 @@ function VMT() {
                                     : <p>-</p>
                                 }
                             </td>
-                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                            <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                         </tr>
                     </tbody>
                 </table>

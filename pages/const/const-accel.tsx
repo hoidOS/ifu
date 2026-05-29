@@ -230,7 +230,7 @@ function ConstAccel() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
                   <div className="flex justify-center">
                     <StepperInput
@@ -252,11 +252,11 @@ function ConstAccel() {
                     />
                   </div>
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
                   <div className="flex justify-center">
                     <StepperInput
@@ -278,11 +278,11 @@ function ConstAccel() {
                     />
                   </div>
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigung</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
                   <div className="flex justify-center">
                     <StepperInput
@@ -304,11 +304,11 @@ function ConstAccel() {
                     />
                   </div>
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsstrecke</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
                   <div className="flex justify-center">
                     <StepperInput
@@ -330,11 +330,11 @@ function ConstAccel() {
                     />
                   </div>
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsdauer</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
                   <div className="flex justify-center">
                     <StepperInput
@@ -356,7 +356,7 @@ function ConstAccel() {
                     />
                   </div>
                 </td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
             </tbody>
           </table>
@@ -398,33 +398,33 @@ function ConstAccel() {
             <tbody>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveVA() ? <p className="text-primary-700">{solveVA()}</p> : (vA >= 0 ? <p className="text-black">{vA.toFixed(2).replace(".", ",")} km/h</p> : <p className="text-primary-700">-</p>))}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formVA()} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formVA()} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveVE() ? <p className="text-primary-700">{solveVE()}</p> : (vE >= 0 ? <p className="text-black">{vE.toFixed(2).replace(".", ",")} km/h</p> : <p className="text-primary-700">-</p>))}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formVE()} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formVE()} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigung</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveA() ? <p className="text-primary-700">{solveA()}</p> : (a >= 0 ? <p className="text-black">{a.toFixed(2).replace(".", ",")} m/s²</p> : <p className="text-primary-700">-</p>))}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formA()} alt="a" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formA()} alt="a" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsstrecke</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveS() ? <p className="text-primary-700">{solveS()}</p> : (s >= 0 ? <p className="text-black">{s.toFixed(2).replace(".", ",")} m</p> : <p className="text-primary-700">-</p>))}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formS()} alt="s" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formS()} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
               <tr className="hover:bg-blue-50 transition-colors">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsdauer</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveT() ? <p className="text-primary-700">{solveT()}</p> : (t >= 0 ? <p className="text-black">{t.toFixed(2).replace(".", ",")} s</p> : <p className="text-primary-700">-</p>))}</td>
-                <td className="py-2 px-2 text-center"><Image unoptimized src={formT()} alt="t" className="inline-block max-w-full h-auto"></Image></td>
+                <td className="py-2 px-2 text-center"><Image unoptimized src={formT()} alt="t" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
             </tbody>
           </table>

@@ -101,7 +101,7 @@ function Stop() {
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -122,11 +122,11 @@ function Stop() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -147,11 +147,11 @@ function Stop() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Reaktionsdauer</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tR} alt="tR" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tR} alt="tR" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -172,11 +172,11 @@ function Stop() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsschwelldauer</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tS} alt="tS" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tS} alt="tS" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -197,11 +197,11 @@ function Stop() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Mittlere Verzögerung</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.am} alt="am" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.am} alt="am" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -222,7 +222,7 @@ function Stop() {
                       />
                     </div>
                   </td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -266,31 +266,31 @@ function Stop() {
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.vA.toString().replace(".", ",")} km/h</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vAvE} alt="vAvE" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vAvE} alt="vAvE" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.vE.toString().replace(".", ",")} km/h</td>
                   <td className="py-2 px-2 text-center text-sm text-gray-600">0 für Bremsung bis zum Stillstand</td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Reaktionsdauer</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tR} alt="tR" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tR} alt="tR" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.tR.toString().replace(".", ",")} s</td>
                   <td className="py-2 px-2 text-center text-sm text-gray-600">Reaktionspunkt bis Bremspunkt</td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsschwelldauer</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tS} alt="tS" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tS} alt="tS" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.tS.toString().replace(".", ",")} s</td>
                   <td className="py-2 px-2 text-center text-sm text-gray-600">Fahrzeugabhängig</td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Mittlere Verzögerung</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.am} alt="am" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.am} alt="am" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{input.am.toString().replace(".", ",")} m/s²</td>
                   <td className="py-2 px-2 text-center text-sm text-gray-600">Abhängig von der Reibpaarung</td>
                 </tr>
@@ -302,45 +302,45 @@ function Stop() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Reaktionsstrecke</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sR} alt="sR" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sR} alt="sR" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{reaction}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sRF} alt="sRF" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sRF} alt="sRF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Schwellstrecke</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sS} alt="sS" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sS} alt="sS" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{breakDelay}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sSF} alt="sSF" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sSF} alt="sSF" loading="eager" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Geschw. Vollverzögerung</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vV} alt="vV" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vV} alt="vV" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{fullSend}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vVF} alt="vVF" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vVF} alt="vVF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsstrecke</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sB} alt="sB" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sB} alt="sB" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{breakDistance}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sBF} alt="sBF" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sBF} alt="sBF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsdauer</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tB} alt="tB" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tB} alt="tB" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{breakDuration}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tBF} alt="tBF" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tBF} alt="tBF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
-                  <td className="py-2 px-2 font-medium text-gray-700">Gesamtstrecke von <Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image> bis <Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sges} alt="sges" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 font-medium text-gray-700">Gesamtstrecke von <Image unoptimized src={SVG.vA} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image> bis <Image unoptimized src={SVG.vE} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sges} alt="sges" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{fullDistance}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sgesF} alt="sgesF" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sgesF} alt="sgesF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
-                  <td className="py-2 px-2 font-medium text-gray-700">Gesamtdauer von <Image unoptimized src={SVG.vA} alt="vA" className="inline-block max-w-full h-auto"></Image> bis <Image unoptimized src={SVG.vE} alt="vE" className="inline-block max-w-full h-auto"></Image></td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tges} alt="tges" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 font-medium text-gray-700">Gesamtdauer von <Image unoptimized src={SVG.vA} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image> bis <Image unoptimized src={SVG.vE} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tges} alt="tges" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold text-primary-700">{fullTime}</td>
-                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tgesF} alt="tgesF" className="inline-block max-w-full h-auto"></Image></td>
+                  <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tgesF} alt="tgesF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
               </tbody>
             </table>

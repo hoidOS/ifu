@@ -5,26 +5,13 @@ import { useRouter } from 'next/router';
 import { FaBars, FaTimes, FaCarCrash, FaCar, FaCamera, FaMoneyBill } from 'react-icons/fa'
 import { useState, useEffect, useRef } from 'react'
 
-const NAV_ACCENTS: Record<string, string> = {
-    '/stop': 'linear-gradient(135deg, rgba(248,113,113,0.18), rgba(248,113,113,0.32))',
-    '/const': 'linear-gradient(135deg, rgba(59,130,246,0.16), rgba(59,130,246,0.3))',
-    '/sonst': 'linear-gradient(135deg, rgba(168,85,247,0.18), rgba(168,85,247,0.32))',
-    '/vmt': 'linear-gradient(135deg, rgba(34,197,94,0.18), rgba(34,197,94,0.3))',
-    '/minderwert': 'linear-gradient(135deg, rgba(245,158,11,0.18), rgba(245,158,11,0.3))'
-}
-
-const DEFAULT_ACCENT = 'linear-gradient(135deg, rgba(148,163,184,0.12), rgba(148,163,184,0.24))'
-
 function Navbar() {
     const router = useRouter();
     const [nav, setNav] = useState(false)
     const [touchStart, setTouchStart] = useState(0)
     const [touchEnd, setTouchEnd] = useState(0)
-    const navListRef = useRef<HTMLUListElement | null>(null)
     const mobileMenuRef = useRef<HTMLDivElement | null>(null)
     const mobileCloseButtonRef = useRef<HTMLButtonElement | null>(null)
-    const [indicatorStyle, setIndicatorStyle] = useState<{ width: number; left: number }>({ width: 0, left: 0 })
-    const [indicatorColor, setIndicatorColor] = useState<string>(DEFAULT_ACCENT)
     const [isScrolled, setIsScrolled] = useState(false)
 
     const handleNav = () => {
@@ -131,34 +118,6 @@ function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    useEffect(() => {
-        const updateIndicator = () => {
-            const listElement = navListRef.current
-            if (!listElement) return
-            const activeItem = listElement.querySelector<HTMLLIElement>('li[data-active="true"]')
-
-            if (activeItem) {
-                setIndicatorStyle({
-                    width: activeItem.offsetWidth,
-                    left: activeItem.offsetLeft
-                })
-            } else {
-                setIndicatorStyle({ width: 0, left: 0 })
-            }
-
-            const accentKey = router.pathname.startsWith('/const') ? '/const' : router.pathname
-            setIndicatorColor(NAV_ACCENTS[accentKey] ?? DEFAULT_ACCENT)
-        }
-
-        const frame = requestAnimationFrame(updateIndicator)
-        window.addEventListener('resize', updateIndicator)
-
-        return () => {
-            cancelAnimationFrame(frame)
-            window.removeEventListener('resize', updateIndicator)
-        }
-    }, [router.pathname])
-
     const isStopActive = router.pathname === '/stop'
     const isConstActive = router.pathname.startsWith('/const')
     const isSonstActive = router.pathname === '/sonst'
@@ -168,10 +127,13 @@ function Navbar() {
     const mobileLinkClasses = (isActive: boolean, activeClasses: string) =>
         `group flex items-center gap-4 rounded-lg p-4 transition-colors duration-200 active:scale-[0.98] ${isActive ? activeClasses : 'hover:bg-slate-100/60'}`
 
+    const desktopLinkClasses = (isActive: boolean, activeClasses: string, hoverClasses: string) =>
+        `group relative flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-[0.95rem] font-medium transition-colors duration-200 after:absolute after:bottom-0 after:left-1/2 after:h-1.5 after:w-1.5 after:-translate-x-1/2 after:rounded-full after:opacity-0 after:transition-opacity after:duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2 ${isActive ? activeClasses : `text-slate-600 ${hoverClasses}`}`
+
     return (
         <>
             <nav
-                className={`sticky top-0 z-20 w-full border-b backdrop-blur transition-all duration-300 ${isScrolled ? 'bg-white/80 shadow-lg border-slate-200/80' : 'bg-white/60 shadow-sm border-slate-200/40'}`}
+                className={`sticky top-0 z-20 w-full border-b backdrop-blur transition-all duration-300 ${isScrolled ? 'bg-white/80 shadow-md border-slate-200/80' : 'bg-white/60 shadow-sm border-slate-200/40'}`}
                 aria-label="Hauptnavigation"
             >
                 <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-6">
@@ -181,7 +143,7 @@ function Navbar() {
                             className="inline-flex rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2"
                             aria-label="Zur STEINACKER Startseite"
                         >
-                            <span className="inline-flex items-center rounded-lg border border-slate-200/80 bg-white/70 px-3 py-2 shadow-[0_1px_2px_rgba(15,23,42,0.06)] backdrop-blur transition-colors duration-200 hover:bg-white">
+                            <span className="inline-flex items-center rounded-lg border border-slate-200/70 bg-white/60 px-3 py-2 backdrop-blur transition-colors duration-200 hover:border-slate-300 hover:bg-white/80">
                                 <Image
                                     src={logo}
                                     alt="Steinacker"
@@ -194,107 +156,92 @@ function Navbar() {
                         </Link>
                     </div>
                     <div className="hidden lg:flex items-center">
-                        <div className="relative rounded-full bg-white/60 backdrop-blur px-1 py-1 ring-1 ring-slate-200/70 shadow-[0_12px_30px_rgba(148,163,184,0.14)]">
-                            <ul
-                                ref={navListRef}
-                                className="relative flex items-center gap-0 text-[0.95rem] font-medium text-slate-600"
-                            >
-                                <span
-                                    aria-hidden="true"
-                                    className="pointer-events-none absolute inset-y-0 rounded-full shadow-[0_10px_25px_rgba(148,163,184,0.15)] transition-all duration-300 ease-out"
-                                    style={{
-                                        width: indicatorStyle.width ? `${indicatorStyle.width}px` : 0,
-                                        left: indicatorStyle.width ? `${indicatorStyle.left}px` : undefined,
-                                        opacity: indicatorStyle.width ? 1 : 0,
-                                        background: indicatorColor
-                                    }}
-                                ></span>
-                                <li className="relative flex-1" data-route="/stop" data-active={router.pathname === '/stop'}>
-                                    <Link
-                                        href="/stop"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/stop' ? 'text-red-600 font-semibold' : 'hover:text-red-600'}`}
-                                        aria-current={router.pathname === '/stop' ? 'page' : undefined}
+                        <ul className="flex items-center gap-1 text-slate-600">
+                            <li>
+                                <Link
+                                    href="/stop"
+                                    className={desktopLinkClasses(isStopActive, 'font-semibold text-red-700 after:bg-red-500 after:opacity-100', 'hover:bg-white/70 hover:text-red-600')}
+                                    aria-current={isStopActive ? 'page' : undefined}
+                                >
+                                    <FaCarCrash
+                                        className={`${isStopActive ? 'text-red-600' : 'text-red-400 group-hover:text-red-500'}`}
+                                        size={18}
+                                        aria-hidden="true"
+                                    />
+                                    <span>Anhalt</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/const"
+                                    className={desktopLinkClasses(isConstActive, 'font-semibold text-blue-700 after:bg-blue-500 after:opacity-100', 'hover:bg-white/70 hover:text-blue-600')}
+                                    aria-current={isConstActive ? 'page' : undefined}
+                                >
+                                    <FaCar
+                                        className={`${isConstActive ? 'text-blue-600' : 'text-blue-400 group-hover:text-blue-500'}`}
+                                        size={18}
+                                        aria-hidden="true"
+                                    />
+                                    <span>Konstant</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/sonst"
+                                    className={desktopLinkClasses(isSonstActive, 'font-semibold text-purple-700 after:bg-purple-500 after:opacity-100', 'hover:bg-white/70 hover:text-purple-600')}
+                                    aria-current={isSonstActive ? 'page' : undefined}
+                                >
+                                    <svg
+                                        className={`h-[18px] w-[18px] ${isSonstActive ? 'text-purple-600' : 'text-purple-400 group-hover:text-purple-500'}`}
+                                        viewBox="0 0 24 24"
+                                        fill="currentColor"
+                                        aria-hidden="true"
                                     >
-                                        <FaCarCrash
-                                            className={`transition-transform duration-300 ${router.pathname === '/stop' ? 'text-red-500 scale-110' : 'text-red-400 group-hover:text-red-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(248,113,113,0.35)]'}`}
-                                            size={18}
-                                            aria-hidden="true"
-                                        />
-                                        <span className="tracking-wide">Anhalt</span>
-                                    </Link>
-                                </li>
-                                <li className="relative flex-1" data-route="/const" data-active={router.pathname.startsWith('/const')}>
-                                    <Link
-                                        href="/const"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname.startsWith('/const') ? 'text-blue-600 font-semibold' : 'hover:text-blue-600'}`}
-                                        aria-current={router.pathname.startsWith('/const') ? 'page' : undefined}
-                                    >
-                                        <FaCar
-                                            className={`transition-transform duration-300 ${router.pathname.startsWith('/const') ? 'text-blue-500 scale-110' : 'text-blue-400 group-hover:text-blue-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(96,165,250,0.35)]'}`}
-                                            size={18}
-                                            aria-hidden="true"
-                                        />
-                                        <span className="tracking-wide">Konstant</span>
-                                    </Link>
-                                </li>
-                                <li className="relative flex-1" data-route="/sonst" data-active={router.pathname === '/sonst'}>
-                                    <Link
-                                        href="/sonst"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/sonst' ? 'text-purple-600 font-semibold' : 'hover:text-purple-600'}`}
-                                        aria-current={router.pathname === '/sonst' ? 'page' : undefined}
-                                    >
-                                        <svg
-                                            className={`h-[18px] w-[18px] transition-transform duration-300 ${router.pathname === '/sonst' ? 'text-purple-500 scale-110' : 'text-purple-400 group-hover:text-purple-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(192,132,252,0.35)]'}`}
-                                            viewBox="0 0 24 24"
-                                            fill="currentColor"
-                                            aria-hidden="true"
-                                        >
-                                            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
-                                        </svg>
-                                        <span className="tracking-wide">Sonstiges</span>
-                                    </Link>
-                                </li>
-                                <li className="relative flex-1" data-route="/vmt" data-active={router.pathname === '/vmt'}>
-                                    <Link
-                                        href="/vmt"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/vmt' ? 'text-green-600 font-semibold' : 'hover:text-green-600'}`}
-                                        aria-current={router.pathname === '/vmt' ? 'page' : undefined}
-                                    >
-                                        <FaCamera
-                                            className={`transition-transform duration-300 ${router.pathname === '/vmt' ? 'text-green-500 scale-110' : 'text-green-400 group-hover:text-green-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(74,222,128,0.35)]'}`}
-                                            size={18}
-                                            aria-hidden="true"
-                                        />
-                                        <span className="tracking-wide">VMT</span>
-                                    </Link>
-                                </li>
-                                <li className="relative flex-1" data-route="/minderwert" data-active={router.pathname === '/minderwert'}>
-                                    <Link
-                                        href="/minderwert"
-                                        className={`relative z-10 group flex w-full items-center justify-center gap-2 rounded-full px-5 py-2 text-[0.95rem] text-slate-600 transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-slate-200 ${router.pathname === '/minderwert' ? 'text-amber-600 font-semibold' : 'hover:text-amber-600'}`}
-                                        aria-current={router.pathname === '/minderwert' ? 'page' : undefined}
-                                    >
-                                        <FaMoneyBill
-                                            className={`transition-transform duration-300 ${router.pathname === '/minderwert' ? 'text-amber-500 scale-110' : 'text-amber-400 group-hover:text-amber-500 group-hover:scale-[1.08] group-hover:drop-shadow-[0_8px_20px_rgba(251,191,36,0.38)]'}`}
-                                            size={18}
-                                            aria-hidden="true"
-                                        />
-                                        <span className="tracking-wide">Minderwert</span>
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
+                                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+                                    </svg>
+                                    <span>Sonstiges</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/vmt"
+                                    className={desktopLinkClasses(isVmtActive, 'font-semibold text-teal-800 after:bg-teal-500 after:opacity-100', 'hover:bg-white/70 hover:text-teal-700')}
+                                    aria-current={isVmtActive ? 'page' : undefined}
+                                >
+                                    <FaCamera
+                                        className={`${isVmtActive ? 'text-teal-700' : 'text-teal-600 group-hover:text-teal-700'}`}
+                                        size={18}
+                                        aria-hidden="true"
+                                    />
+                                    <span>VMT</span>
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/minderwert"
+                                    className={desktopLinkClasses(isMinderwertActive, 'font-semibold text-indigo-800 after:bg-indigo-500 after:opacity-100', 'hover:bg-white/70 hover:text-indigo-700')}
+                                    aria-current={isMinderwertActive ? 'page' : undefined}
+                                >
+                                    <FaMoneyBill
+                                        className={`${isMinderwertActive ? 'text-indigo-700' : 'text-indigo-600 group-hover:text-indigo-700'}`}
+                                        size={18}
+                                        aria-hidden="true"
+                                    />
+                                    <span>Minderwert</span>
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
                     <div className="flex lg:hidden items-center gap-3">
                         <button
                             type="button"
-                            className="inline-flex h-11 w-11 items-center justify-center rounded-full text-slate-700 transition-colors hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+                            className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-transparent text-slate-700 transition-colors hover:border-slate-200 hover:bg-white/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2"
                             onClick={handleNav}
                             aria-label={nav ? 'Menü schließen' : 'Menü öffnen'}
                             aria-expanded={nav}
                             aria-controls="mobile-navigation-menu"
                         >
-                            <FaBars size={28} aria-hidden="true" focusable="false" />
+                            <FaBars size={24} aria-hidden="true" focusable="false" />
                         </button>
                     </div>
                 </div>
@@ -331,13 +278,13 @@ function Navbar() {
                             className="inline-flex rounded-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2"
                             aria-label="Zur STEINACKER Startseite"
                         >
-                            <span className="inline-flex items-center rounded-lg border border-slate-200/80 bg-white/70 px-3 py-2 shadow-[0_1px_2px_rgba(15,23,42,0.06)] backdrop-blur transition-colors duration-200 active:bg-white">
+                            <span className="inline-flex items-center rounded-lg border border-slate-200/70 bg-white/60 px-3 py-2 backdrop-blur transition-colors duration-200 active:bg-white/80">
                                 <Image
                                     src={logo}
                                     alt="STEINACKER"
                                     width={238}
                                     height={54}
-                                    className="h-auto w-34 object-contain"
+                                    className="h-auto w-36 object-contain"
                                     priority
                                 />
                                 <span id="mobile-menu-title" className="sr-only">STEINACKER</span>
@@ -347,7 +294,7 @@ function Navbar() {
                             type="button"
                             ref={mobileCloseButtonRef}
                             onClick={closeNav}
-                            className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-slate-100/70 text-slate-600 transition-colors duration-200 hover:bg-slate-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300"
+                            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-transparent bg-slate-100/60 text-slate-600 transition-colors duration-200 hover:border-slate-200 hover:bg-slate-200/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-offset-2"
                             aria-label="Menü schließen"
                         >
                             <FaTimes className="h-5 w-5" aria-hidden="true" focusable="false" />
@@ -361,7 +308,7 @@ function Navbar() {
                                 <Link
                                     href="/stop"
                                     onClick={closeNav}
-                                    className={mobileLinkClasses(isStopActive, 'bg-red-50 text-red-700 ring-1 ring-red-100')}
+                                    className={mobileLinkClasses(isStopActive, 'bg-red-50 text-red-700')}
                                     aria-current={isStopActive ? 'page' : undefined}
                                 >
                                     <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isStopActive ? 'bg-red-100 text-red-700' : 'bg-red-100 text-red-600 group-hover:bg-red-200'}`}>
@@ -374,7 +321,7 @@ function Navbar() {
                                 <Link
                                     href="/const"
                                     onClick={closeNav}
-                                    className={mobileLinkClasses(isConstActive, 'bg-blue-50 text-blue-700 ring-1 ring-blue-100')}
+                                    className={mobileLinkClasses(isConstActive, 'bg-blue-50 text-blue-700')}
                                     aria-current={isConstActive ? 'page' : undefined}
                                 >
                                     <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isConstActive ? 'bg-blue-100 text-blue-700' : 'bg-blue-100 text-blue-600 group-hover:bg-blue-200'}`}>
@@ -387,7 +334,7 @@ function Navbar() {
                                 <Link
                                     href="/sonst"
                                     onClick={closeNav}
-                                    className={mobileLinkClasses(isSonstActive, 'bg-purple-50 text-purple-700 ring-1 ring-purple-100')}
+                                    className={mobileLinkClasses(isSonstActive, 'bg-purple-50 text-purple-700')}
                                     aria-current={isSonstActive ? 'page' : undefined}
                                 >
                                     <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isSonstActive ? 'bg-purple-100 text-purple-700' : 'bg-purple-100 text-purple-600 group-hover:bg-purple-200'}`}>
@@ -402,26 +349,26 @@ function Navbar() {
                                 <Link
                                     href="/vmt"
                                     onClick={closeNav}
-                                    className={mobileLinkClasses(isVmtActive, 'bg-green-50 text-green-700 ring-1 ring-green-100')}
+                                    className={mobileLinkClasses(isVmtActive, 'bg-teal-50 text-teal-800')}
                                     aria-current={isVmtActive ? 'page' : undefined}
                                 >
-                                    <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isVmtActive ? 'bg-green-100 text-green-700' : 'bg-green-100 text-green-600 group-hover:bg-green-200'}`}>
+                                    <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isVmtActive ? 'bg-teal-100 text-teal-800' : 'bg-teal-50 text-teal-700 group-hover:bg-teal-100'}`}>
                                         <FaCamera size={20} aria-hidden="true" />
                                     </span>
-                                    <span className={`font-semibold ${isVmtActive ? 'text-green-700' : 'text-slate-900 group-hover:text-green-600'}`}>VMT</span>
+                                    <span className={`font-semibold ${isVmtActive ? 'text-teal-800' : 'text-slate-900 group-hover:text-teal-700'}`}>VMT</span>
                                 </Link>
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-500" : "opacity-0 transform translate-x-4"}>
                                 <Link
                                     href="/minderwert"
                                     onClick={closeNav}
-                                    className={mobileLinkClasses(isMinderwertActive, 'bg-amber-50 text-amber-700 ring-1 ring-amber-100')}
+                                    className={mobileLinkClasses(isMinderwertActive, 'bg-indigo-50 text-indigo-800')}
                                     aria-current={isMinderwertActive ? 'page' : undefined}
                                 >
-                                    <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isMinderwertActive ? 'bg-amber-100 text-amber-700' : 'bg-amber-100 text-amber-600 group-hover:bg-amber-200'}`}>
+                                    <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isMinderwertActive ? 'bg-indigo-100 text-indigo-800' : 'bg-indigo-50 text-indigo-700 group-hover:bg-indigo-100'}`}>
                                         <FaMoneyBill size={20} aria-hidden="true" />
                                     </span>
-                                    <span className={`font-semibold ${isMinderwertActive ? 'text-amber-700' : 'text-slate-900 group-hover:text-amber-600'}`}>Minderwert</span>
+                                    <span className={`font-semibold ${isMinderwertActive ? 'text-indigo-800' : 'text-slate-900 group-hover:text-indigo-700'}`}>Minderwert</span>
                                 </Link>
                             </li>
                         </ul>
