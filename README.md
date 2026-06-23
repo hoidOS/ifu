@@ -67,6 +67,10 @@ nextjs-ppcavs-ifu/
 │   ├── Layout.tsx          # Page wrapper
 │   ├── Navbar.tsx          # Global navigation
 │   ├── StepperInput.tsx    # Custom numeric input with +/- controls
+│   ├── const/              # Konstantfahrt calculator sections
+│   │   ├── ConstAccel.tsx
+│   │   ├── ConstDecel.tsx
+│   │   └── ConstDrive.tsx
 │   ├── util.tsx            # DOM helpers
 │   ├── utilConst.tsx       # Konstantfahrt calculation helpers
 │   └── utilStop.tsx        # Braking distance calculations
@@ -74,11 +78,7 @@ nextjs-ppcavs-ifu/
 │   └── useScreenshot.ts    # html2canvas export + clipboard fallback
 ├── pages/
 │   ├── _app.tsx            # Global layout wrapper
-│   ├── const/              # Konstantfahrt sub-pages
-│   │   ├── const-accel.tsx
-│   │   ├── const-decel.tsx
-│   │   └── const-drive.tsx
-│   ├── const/index.tsx
+│   ├── const/index.tsx     # Konstantfahrt route
 │   ├── index.tsx
 │   ├── minderwert.tsx
 │   ├── sonst.tsx

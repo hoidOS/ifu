@@ -1,7 +1,7 @@
 import Head from 'next/head'
-import ConstDecel from './const-decel'
-import ConstAccel from './const-accel'
-import ConstDrive from './const-drive'
+import ConstDecel from '../../components/const/ConstDecel'
+import ConstAccel from '../../components/const/ConstAccel'
+import ConstDrive from '../../components/const/ConstDrive'
 
 function Konst() {
 

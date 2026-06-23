@@ -60,11 +60,6 @@ const RESOURCE_SECTIONS: ResourceSection[] = [
         href: 'https://www.tim-online.nrw.de/tim-online2/',
       },
       {
-        title: 'DIE Karte',
-        description: 'Google Maps Unfallstellen Karte',
-        href: 'https://www.google.com/maps/d/viewer?mid=1ecs7MpOBn1O-2OLDH1hVonpIQQk&ll=50.283341968039565%2C7.6348235146059995&z=8',
-      },
-      {
         title: 'dipul',
         description: 'Drohnen Karte',
         href: 'https://maptool-dipul.dfs.de/?language=de&zoom=11.0',

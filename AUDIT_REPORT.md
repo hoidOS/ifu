@@ -42,10 +42,10 @@ The UI accepts zero as a valid value in many places, and the solve logic uses `>
 Evidence:
 
 - `components/utilConst.tsx:2-13` divides by `t` and `v` in constant-drive formulas.
-- `pages/const/const-drive.tsx:41-47` treats `v`, `s`, and `t` as set when they are `>= 0`.
-- `pages/const/const-drive.tsx:89-142` permits `v=0`, `s=0`, and `t=0`.
+- `components/const/ConstDrive.tsx:40-47` treats `v`, `s`, and `t` as set when they are `>= 0`.
+- `components/const/ConstDrive.tsx:88-142` permits `v=0`, `s=0`, and `t=0`.
 - `components/utilConst.tsx:73-166` and `components/utilConst.tsx:227-320` contain multiple divisions by `s`, `t`, and `a`.
-- `pages/const/const-decel.tsx:49-205` and `pages/const/const-accel.tsx:49-205` use `>= 0` as the domain gate.
+- `components/const/ConstDecel.tsx:49-205` and `components/const/ConstAccel.tsx:49-205` use `>= 0` as the domain gate.
 - `components/utilStop.tsx:17-52` divides by `am`.
 - `pages/stop.tsx:48-55` calculates all stop outputs unconditionally.
 - `pages/stop.tsx:132-144` permits an end speed greater than the initial speed.
@@ -149,9 +149,9 @@ The README already documents this risk:
 Most current calculator tables are direct children of `.p-4` wrappers, for example:
 
 - `pages/stop.tsx:91-92`
-- `pages/const/const-drive.tsx:62-63`
-- `pages/const/const-decel.tsx:220-221`
-- `pages/const/const-accel.tsx:220-221`
+- `components/const/ConstDrive.tsx:61-62`
+- `components/const/ConstDecel.tsx:223-224`
+- `components/const/ConstAccel.tsx:223-224`
 - `pages/sonst.tsx:660-777`
 - `pages/vmt.tsx:85-255`
 
