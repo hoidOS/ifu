@@ -4,13 +4,15 @@ Date: 2026-06-23
 
 Scope: Next.js Pages Router application, shared components, calculation helpers, screenshot/export hook, styling, package metadata, Docker setup, local build/lint/type checks, npm advisory check, and dependency freshness check.
 
-Constraint followed: no repository files were changed except this report.
+Original audit constraint followed: no repository files were changed except this report during the audit pass.
 
 ## Executive Summary
 
 The project is in good baseline shape for tooling: ESLint passes, TypeScript passes, and a production build succeeds when run from a temporary copy outside the repository. The main risk is not build health. The main risk is calculation correctness: several calculators accept zero, contradictory, or physically impossible inputs and then render `Infinity`, `-Infinity`, `NaN`, negative distances/times, or plausible-looking values for impossible scenarios.
 
 The formula layer is also not covered by automated tests. For a forensic automotive calculator, this is the largest quality gap.
+
+Post-audit implementation work has resolved F-02 and clarified the F-04 Kurvenradius behavior for the current UI requirement. F-01 remains open as the broader formula-domain validation issue.
 
 ## Verification Performed
 
@@ -22,6 +24,12 @@ The formula layer is also not covered by automated tests. For a forensic automot
 - `npm outdated --json`: completed and identified available patch/minor package updates.
 
 The first sandboxed temp-copy build failed because Turbopack tried to spawn/bind an internal process and the sandbox returned `Operation not permitted`. The same temp-copy build passed when rerun with elevated execution. Build output stayed under `/tmp`.
+
+## Post-Audit Updates
+
+- 2026-06-23: F-02 is resolved in the current worktree. `components/utilConst.tsx:1-10` now formats square-root helper results through a shared guard that returns `ERROR` for negative radicands and non-finite outputs, and `components/utilConst.tsx:173-176` no longer masks the acceleration `vA` radicand with `Math.abs`. The const result tables render helper-level `ERROR` in red.
+- 2026-06-23: F-04 is resolved for the clarified UI requirement. `Kurvenradius Ergebnisse` now shows the three entered values above the calculated outputs, and `isCurveError()` no longer rejects the table merely because `b` is present. The block remains an `h`/`s`-driven calculation; implementing all two-value solve combinations involving `b` would be a separate feature.
+- Verification after the F-02 implementation: `npm run lint` passed and `./node_modules/.bin/tsc --noEmit --incremental false` passed.
 
 ## Findings
 
@@ -41,7 +49,7 @@ Evidence:
 - `pages/stop.tsx:132-144` permits an end speed greater than the initial speed.
 - `pages/stop.tsx:207-219` permits `am=0`.
 
-Observed representative output:
+Original observed representative output:
 
 ```json
 {"speed":"Infinity","time":"Infinity","bd":"-Infinity","masked":"113.40","unmasked":"NaN"}
@@ -51,18 +59,20 @@ Impact: users can receive apparently formatted forensic outputs that are mathema
 
 Recommendation: add explicit domain validation before every formula path. Require positive denominators, enforce physical relationships such as `vA >= vE` for braking, reject negative radicands, and render a specific validation message instead of formatting non-finite numbers. Add a shared result type such as `{ ok: true, value, unit } | { ok: false, reason }` and block formatting unless `Number.isFinite(value)`.
 
-### F-02 High: Acceleration formulas hide impossible radicands with `Math.abs`
+### F-02 High: Acceleration formulas hide impossible radicands with `Math.abs` - resolved in current worktree
 
-The acceleration helper uses `Math.abs` inside square roots:
+Status: resolved on 2026-06-23. The acceleration helper now rejects negative radicands with `ERROR` instead of using `Math.abs`, and the const tables render that state in red.
+
+Original evidence: the acceleration helper used `Math.abs` inside square roots:
 
 - `components/utilConst.tsx:171-174`
 - `components/utilConst.tsx:199-202`
 
-Example: an initial velocity solve from `vE=10 km/h`, `a=5 m/s^2`, `s=100 m` has a negative radicand and should be invalid. With the current `Math.abs`, it formats a plausible-looking `113.40 km/h`.
+Example: an initial velocity solve from `vE=10 km/h`, `a=5 m/s^2`, `s=100 m` has a negative radicand and should be invalid. Before the fix, `Math.abs` formatted a plausible-looking `113.40 km/h`.
 
 Impact: impossible inputs are converted into plausible results instead of being rejected.
 
-Recommendation: remove `Math.abs` from kinematic radicands. Validate radicand `>= 0`; otherwise return an invalid-state result with a clear reason.
+Recommendation: complete for the identified `Math.abs` masking. Keep this behavior covered when automated formula tests are added under F-03.
 
 ### F-03 High: No automated tests cover the formula layer
 
@@ -75,27 +85,27 @@ Impact: formula regressions, unit mistakes, and edge-case behavior are currently
 
 Recommendation: add focused unit tests for every helper and for representative UI solve paths. Include edge cases for zero denominators, impossible radicands, equal speeds, end speed greater than initial speed, negative monetary factors, and expected valid examples from known forensic reference calculations.
 
-### F-04 Medium: Kurvenradius exposes `b` input but does not solve from it
+### F-04 Medium: Kurvenradius `b` behavior was ambiguous - resolved for current UI requirement
 
-The Kurvenradius UI asks for Segmenthoehe `h`, Segmentlaenge `s`, and Bogenlaenge `b`:
+Status: resolved by clarification on 2026-06-23. The intended behavior is to show the entered `h`, `s`, and `b` values above the calculated outputs so the exported result table clearly documents the inputs. `b` is not currently intended to drive alternate solve paths.
+
+Original finding: the Kurvenradius UI asked for Segmenthoehe `h`, Segmentlaenge `s`, and Bogenlaenge `b`:
 
 - `pages/sonst.tsx:650-749`
 
-But the calculations only use `h` and `s`:
+The calculations still use `h` and `s`:
 
 - `pages/sonst.tsx:177-207`
 
-`isCurveError()` counts `b` as an input and errors when more than two values are present:
+Current behavior:
 
-- `pages/sonst.tsx:212-218`
+- `pages/sonst.tsx:212-214` no longer errors merely because `b` is present.
+- `pages/sonst.tsx:783-811` shows `h`, `s`, and `b` as input rows in the result table.
+- `pages/sonst.tsx:813-845` shows calculated `R`, central angle, and computed bogenlaenge below those inputs.
 
-In the results table, `b` is only echoed when no computed bogenlaenge exists:
+Impact: the original ambiguity is resolved for the current workflow because the table now separates entered inputs from derived outputs.
 
-- `pages/sonst.tsx:807-819`
-
-Impact: users can enter two values involving `b` and get no solve, even though the UI suggests b participates in the calculator.
-
-Recommendation: either implement all intended two-input combinations involving `b`, or remove/disable `b` as an input and label computed bogenlaenge as derived output only.
+Recommendation: no further action is required unless `b` should become a true solve input. If that requirement changes, implement and test the intended two-input combinations involving `b`.
 
 ### F-05 Medium: Minderwert calculators accept out-of-range monetary and factor inputs
 
@@ -235,10 +245,10 @@ Recommendation: refresh README version claims or remove exact versions from pros
 
 ## Recommended Remediation Order
 
-1. Fix formula-domain validation and remove `Math.abs` radicand masking.
+1. Finish remaining formula-domain validation from F-01, especially zero denominators, impossible non-root relationships, stop-page non-finite outputs, and negative times/distances.
 2. Add formula-helper unit tests before broad UI refactors.
 3. Tighten Minderwert date and factor validation.
-4. Complete or simplify Kurvenradius `b` behavior.
+4. Decide whether Kurvenradius should remain `h`/`s`-driven with `b` as a documented comparison input, or expand it into a full solver for combinations involving `b`.
 5. Apply safe dependency patch updates and rerun the checks.
 6. Wrap calculator tables for mobile overflow.
 7. Clean up screenshot export selectors, duplicate IDs, Docker image shape, docs drift, and tooltip accessibility.
