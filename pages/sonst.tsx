@@ -19,7 +19,7 @@ function Sonst() {
   // Curve speed calculation states
   const [R, Rset] = useState<number>(NaN) // Kurvenradius
   const [muR, muRset] = useState<number>(NaN) // Reibwert
-  const [ue, ueset] = useState<number>(NaN) // Überhoehung
+  const [ue, ueset] = useState<number>(NaN) // Überhöhung
 
   const defaultAusscherKsn = 2.67
 
@@ -187,7 +187,7 @@ function Sonst() {
     const radius = calculateRadius();
     if (radius && !isNaN(h) && !isNaN(s) && h > 0 && s > 0) {
       const R = parseFloat(radius.toString().replace(",", ".").replace(" m", ""));
-      // Calculate central angle: θ = 2 * arcsin(s/(2*R))
+      // Calculate central angle: α = 2 * arcsin(s/(2*R))
       const thetaRadians = 2 * Math.asin(s / (2 * R));
       // Convert to degrees
       const thetaDegrees = thetaRadians * (180 / Math.PI);
@@ -200,9 +200,9 @@ function Sonst() {
     const radius = calculateRadius();
     if (radius && !isNaN(h) && !isNaN(s) && h > 0 && s > 0) {
       const R = parseFloat(radius.toString().replace(",", ".").replace(" m", ""));
-      // Calculate central angle: θ = 2 * arcsin(s/(2*R))
+      // Calculate central angle: α = 2 * arcsin(s/(2*R))
       const theta = 2 * Math.asin(s / (2 * R));
-      // Arc length: b = R * θ
+      // Arc length: b = R * α
       const arcLength = R * theta;
       return arcLength.toFixed(2).replace(".", ",") + " m";
     }
@@ -216,8 +216,8 @@ function Sonst() {
   // Curve speed calculation functions
   const calculateCurveSpeed = (): string | boolean => {
     if (!isNaN(R) && !isNaN(muR) && R > 0 && muR > 0) {
-      // Excel formula: v = 3.6*SQRT((9.81*R*(μR+(e/100)))/(1-μR*(e/100)))
-      // where e is the banking percentage (ue)
+      // Displayed formula: v = 3,6*sqrt((9,81*R*(μR+(β/100)))/(1-μR*(β/100)))
+      // where β is the banking percentage (ue)
       const bankingDecimal = !isNaN(ue) && ue >= 0 ? ue / 100 : 0;
       const numerator = 9.81 * R * (muR + bankingDecimal);
       const denominator = 1 - (muR * bankingDecimal);
@@ -428,7 +428,7 @@ function Sonst() {
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausschergeschwindigkeit</td>
-                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">v</span></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.v} alt="v" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -454,7 +454,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselbreite</td>
-                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">B</span></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">B</td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -480,7 +480,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselfaktor</td>
-                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">K<sub>sn</sub></span></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">K<sub>sn</sub></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -506,7 +506,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung normal</td>
-                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">a<sub>qn</sub></span></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">a<sub>qn</sub></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -532,7 +532,7 @@ function Sonst() {
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung scharf</td>
-                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">a<sub>qs</sub></span></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">a<sub>qs</sub></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -597,7 +597,7 @@ function Sonst() {
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer normal</td>
-                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">t<sub>n</sub></span></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">t<sub>n</sub></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {ausscherDurationNormalValue !== null
                       ? <p className="text-primary-700">{ausscherDurationNormalValue.toFixed(2).replace(".", ",")} s</p>
@@ -607,7 +607,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer scharf</td>
-                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">t<sub>s</sub></span></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">t<sub>s</sub></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {ausscherDurationSharpValue !== null
                       ? <p className="text-primary-700">{ausscherDurationSharpValue.toFixed(2).replace(".", ",")} s</p>
@@ -617,7 +617,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke normal</td>
-                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">s<sub>n</sub></span></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">s<sub>n</sub></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {ausscherDistanceNormalValue !== null
                       ? <p className="text-primary-700">{ausscherDistanceNormalValue.toFixed(2).replace(".", ",")} m</p>
@@ -627,7 +627,7 @@ function Sonst() {
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke scharf</td>
-                  <td className="py-2 px-2 text-center"><span className="text-primary-700 font-semibold">s<sub>s</sub></span></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">s<sub>s</sub></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {ausscherDistanceSharpValue !== null
                       ? <p className="text-primary-700">{ausscherDistanceSharpValue.toFixed(2).replace(".", ",")} m</p>
@@ -812,7 +812,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.R} alt="R" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {isCurveError()
                       ? <p className="text-red-500">ERROR</p>
@@ -822,13 +822,13 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Zentriwinkel</td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">θ</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold">
                     {isCurveError()
                       ? <p className="text-red-500">ERROR</p>
                       : (zentriwinkelResult ? <p className="text-primary-700">{zentriwinkelResult}</p> : <p className="text-primary-700">-</p>)}
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.thetaF} alt="thetaF" className="inline-block h-auto w-auto max-w-full"></Image></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.alphaF} alt="alphaF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Errechnete Bogenlänge</td>
@@ -874,7 +874,7 @@ function Sonst() {
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.R} alt="R" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -900,7 +900,7 @@ function Sonst() {
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">μ<sub>R</sub></td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.muR} alt="muR" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -925,8 +925,8 @@ function Sonst() {
                   <td className="py-2 px-2 text-center font-medium text-gray-700">-</td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
-                  <td className="py-2 px-2 font-medium text-gray-700">Überhoehung</td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">ü</td>
+                  <td className="py-2 px-2 font-medium text-gray-700">Überhöhung</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.beta} alt="beta" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
                     <div className="flex justify-center">
                       <StepperInput
@@ -942,7 +942,7 @@ function Sonst() {
                         step={0.1}
                         min={0}
                         max={15}
-                        placeholder="ü in %"
+                        placeholder="β in %"
                         onWheel={e => e.currentTarget.blur()}
                         className="w-28"
                       />
@@ -992,7 +992,7 @@ function Sonst() {
                 <tbody>
                   <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                     <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
-                    <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.R} alt="R" className="inline-block h-auto w-auto max-w-full"></Image></td>
                     <td className="py-2 px-2 text-center font-semibold">
                       {!isNaN(R) && R >= 0
                         ? <p className="text-black">{R.toFixed(2).replace(".", ",")} m</p>
@@ -1002,7 +1002,7 @@ function Sonst() {
                   </tr>
                   <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                     <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
-                    <td className="py-2 px-2 text-center font-medium text-gray-700">μ<sub>R</sub></td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.muR} alt="muR" className="inline-block h-auto w-auto max-w-full"></Image></td>
                     <td className="py-2 px-2 text-center font-semibold">
                       {!isNaN(muR) && muR >= 0
                         ? <p className="text-black">{muR.toFixed(2).replace(".", ",")}</p>
@@ -1011,8 +1011,8 @@ function Sonst() {
                     <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
                   </tr>
                   <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
-                    <td className="py-2 px-2 font-medium text-gray-700">Überhoehung</td>
-                    <td className="py-2 px-2 text-center font-medium text-gray-700">ü</td>
+                    <td className="py-2 px-2 font-medium text-gray-700">Überhöhung</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.beta} alt="beta" className="inline-block h-auto w-auto max-w-full"></Image></td>
                     <td className="py-2 px-2 text-center font-semibold">
                       {!isNaN(ue) && ue >= 0
                         ? <p className="text-black">{ue.toFixed(1).replace(".", ",")} %</p>
@@ -1022,7 +1022,7 @@ function Sonst() {
                   </tr>
                   <tr className="hover:bg-blue-50 transition-colors">
                     <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
-                    <td className="py-2 px-2 text-center font-medium text-gray-700">v</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.v} alt="v" className="inline-block h-auto w-auto max-w-full"></Image></td>
                     <td className="py-2 px-2 text-center font-semibold">
                       {isSpeedError()
                         ? <p className="text-red-500">ERROR</p>

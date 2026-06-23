@@ -11,6 +11,9 @@ import alpha from './images/alpha.svg'
 import degree from './images/degree.svg'
 import percent from './images/percent.svg'
 import p from './images/p.svg'
+import R from './images/R.svg'
+import muR from './images/muR.svg'
+import beta from './images/beta.svg'
 import alphaToP from './images/alpha_to_p.svg'
 import pToAlpha from './images/p_to_alpha.svg'
 import asteig from './images/asteig.svg'
@@ -42,6 +45,7 @@ import vVF from './images/vVF.svg'
 import sBF from './images/sBF.svg'
 import tBF from './images/tBF.svg'
 import RF from './images/RF.svg'
+import alphaF from './images/alphaF.svg'
 import thetaF from './images/thetaF.svg'
 import bF from './images/bF.svg'
 import sgesF from './images/sgesF.svg'
@@ -119,6 +123,9 @@ interface svgInterface {
     degree: string,
     percent: string,
     p: string,
+    R: string,
+    muR: string,
+    beta: string,
     alphaToP: string,
     pToAlpha: string,
     asteig: string,
@@ -150,6 +157,7 @@ interface svgInterface {
     sBF: string,
     tBF: string,
     RF: string,
+    alphaF: string,
     thetaF: string,
     bF: string,
     sgesF: string,
@@ -227,6 +235,9 @@ const SVG: svgInterface = {
     degree: degree,
     percent: percent,
     p: p,
+    R: R,
+    muR: muR,
+    beta: beta,
     alphaToP: alphaToP,
     pToAlpha: pToAlpha,
     asteig: asteig,
@@ -258,6 +269,7 @@ const SVG: svgInterface = {
     sBF: sBF,
     tBF: tBF,
     RF: RF,
+    alphaF: alphaF,
     thetaF: thetaF,
     bF: bF,
     sgesF: sgesF,
