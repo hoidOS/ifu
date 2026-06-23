@@ -1,3 +1,14 @@
+const formatRootResult = (radicand: number, valueFromRoot: (root: number) => number, unit: string): string => {
+    if (radicand < 0) {
+        return 'ERROR'
+    }
+
+    const value = valueFromRoot(Math.sqrt(radicand))
+    return Number.isFinite(value)
+        ? value.toFixed(2).replace(".", ",") + ` ${unit}`
+        : 'ERROR'
+}
+
 // Calculate speed from distance and time (converts to km/h)
 export function getSpeed(s: number, t: number): string {
     return ((s / t) * 3.6).toFixed(2).replace(".", ",") + ' km/h'
@@ -15,9 +26,8 @@ export function getTime(s: number, v: number): string {
 
 // Calculate initial velocity from end velocity, acceleration and distance (deceleration case)
 export function getdVA1(vE: number, a: number, s: number): string {
-    return (
-        (3.6 * Math.sqrt((2 * a * s) + (Math.pow(vE / 3.6, 2)))).toFixed(2).replace(".", ",") + ' km/h'
-    )
+    const radicand = (2 * a * s) + (Math.pow(vE / 3.6, 2))
+    return formatRootResult(radicand, root => 3.6 * root, 'km/h')
 }
 
 // Calculate initial velocity from end velocity, acceleration and time (deceleration case)
@@ -43,9 +53,8 @@ export function getdVA4(a: number, s: number, t: number): string {
 
 // Calculate end velocity from initial velocity, acceleration and distance (deceleration case)
 export function getdVE1(vA: number, a: number, s: number): string {
-    return (
-        ((Math.sqrt((Math.pow((vA / 3.6), 2) - 2 * a * s))) * 3.6).toFixed(2).replace(".", ",") + ' km/h'
-    )
+    const radicand = Math.pow((vA / 3.6), 2) - 2 * a * s
+    return formatRootResult(radicand, root => root * 3.6, 'km/h')
 }
 
 // Calculate end velocity from initial velocity, acceleration and time (deceleration case)
@@ -150,28 +159,21 @@ export function getBT2(vA: number, vE: number, s: number): string {
 
 // Calculate braking time from initial velocity, acceleration and distance
 export function getBT3(vA: number, a: number, s: number): string {
-    return (
-        (
-            ((vA / 3.6) / a) - (Math.sqrt((Math.pow((vA / 3.6), 2) / Math.pow(a, 2)) - (2 * s / a)))
-        )
-    ).toFixed(2).replace(".", ",") + ' s'
+    const radicand = (Math.pow((vA / 3.6), 2) / Math.pow(a, 2)) - (2 * s / a)
+    return formatRootResult(radicand, root => ((vA / 3.6) / a) - root, 's')
 }
 
 // Calculate braking time from end velocity, acceleration and distance
 export function getBT4(vE: number, a: number, s: number): string {
-    return (
-        (
-            (-(vE / 3.6) / a) + (Math.sqrt((Math.pow((vE / 3.6), 2) / Math.pow(a, 2)) + (2 * s / a)))
-        )
-    ).toFixed(2).replace(".", ",") + ' s'
+    const radicand = (Math.pow((vE / 3.6), 2) / Math.pow(a, 2)) + (2 * s / a)
+    return formatRootResult(radicand, root => (-(vE / 3.6) / a) + root, 's')
 }
 
 
 // Calculate initial velocity from end velocity, acceleration and distance (acceleration case)
 export function getaVA1(vE: number, a: number, s: number): string {
-    return (
-        (3.6 * Math.sqrt(Math.abs(Math.pow((vE / 3.6), 2) - 2 * a * s))).toFixed(2).replace(".", ",") + ' km/h'
-    )
+    const radicand = Math.pow((vE / 3.6), 2) - 2 * a * s
+    return formatRootResult(radicand, root => 3.6 * root, 'km/h')
 }
 
 // Calculate initial velocity from end velocity, acceleration and time (acceleration case)
@@ -197,9 +199,8 @@ export function getaVA4(a: number, s: number, t: number): string {
 
 // Calculate end velocity from initial velocity, acceleration and distance (acceleration case)
 export function getaVE1(vA: number, a: number, s: number): string {
-    return (
-        ((Math.sqrt(Math.abs(Math.pow((vA / 3.6), 2) + 2 * a * s))) * 3.6).toFixed(2).replace(".", ",") + ' km/h'
-    )
+    const radicand = Math.pow((vA / 3.6), 2) + 2 * a * s
+    return formatRootResult(radicand, root => root * 3.6, 'km/h')
 }
 
 // Calculate end velocity from initial velocity, acceleration and time (acceleration case)
@@ -304,18 +305,12 @@ export function getAT2(vA: number, vE: number, s: number): string {
 
 // Calculate acceleration time from initial velocity, acceleration and distance
 export function getAT3(vA: number, a: number, s: number): string {
-    return (
-        (
-            (-(vA / 3.6) / a) + (Math.sqrt((Math.pow((vA / 3.6), 2) / Math.pow(a, 2)) + (2 * s / a)))
-        )
-    ).toFixed(2).replace(".", ",") + ' s'
+    const radicand = (Math.pow((vA / 3.6), 2) / Math.pow(a, 2)) + (2 * s / a)
+    return formatRootResult(radicand, root => (-(vA / 3.6) / a) + root, 's')
 }
 
 // Calculate acceleration time from end velocity, acceleration and distance
 export function getAT4(vE: number, a: number, s: number): string {
-    return (
-        (
-            ((vE / 3.6) / a) - (Math.sqrt((Math.pow((vE / 3.6), 2) / Math.pow(a, 2)) - (2 * s / a)))
-        )
-    ).toFixed(2).replace(".", ",") + ' s'
+    const radicand = (Math.pow((vE / 3.6), 2) / Math.pow(a, 2)) - (2 * s / a)
+    return formatRootResult(radicand, root => ((vE / 3.6) / a) - root, 's')
 }
