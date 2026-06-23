@@ -451,11 +451,11 @@ function Minderwert() {
 
         {/* BVSK Calculator */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-4 py-2 card-header flex justify-between items-center">
-            <h2 className="text-base font-semibold">BVSK</h2>
+          <div className="calculator-card-header">
+            <h2 className="text-lg font-semibold">BVSK</h2>
             <button
               onClick={handleResetBVSK}
-              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="calculator-header-button"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
@@ -601,11 +601,11 @@ function Minderwert() {
 
         {/* MFM Calculator */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-4 py-2 card-header flex justify-between items-center">
-            <h2 className="text-base font-semibold">MFM</h2>
+          <div className="calculator-card-header">
+            <h2 className="text-lg font-semibold">MFM</h2>
             <button
               onClick={handleResetMFM}
-              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="calculator-header-button"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
@@ -942,14 +942,14 @@ function Minderwert() {
             style={{ background: "linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #eff6ff 100%)" }}
           ></div>
           
-          <div className="relative bg-gradient-to-r from-primary-700 to-primary-800 text-white px-4 py-3 card-header flex justify-between items-center">
+          <div className="relative calculator-card-header">
             <h2 className="text-lg font-semibold">Minderwert Berechnungen</h2>
             <div className="flex gap-2">
               <button 
                 id="clipboard-button"
                 onClick={() => handleClipboard('results-table')}
                 disabled={isProcessing}
-                className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -958,7 +958,7 @@ function Minderwert() {
                 id="screenshot-button"
                 onClick={() => handleScreenshot('results-table', 'minderwert-berechnungen.png')}
                 disabled={isProcessing}
-                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
                 {isProcessing ? 'Lade...' : 'Download'}
@@ -1104,14 +1104,14 @@ function Minderwert() {
             style={{ background: "linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #f0fdf4 100%)" }}
           ></div>
           
-          <div className="relative bg-gradient-to-r from-primary-700 to-primary-800 text-white px-4 py-3 card-header flex justify-between items-center">
+          <div className="relative calculator-card-header">
             <h2 className="text-lg font-semibold">Minderwert Vergleich</h2>
             <div className="flex gap-2">
               <button 
                 id="clipboard-button"
                 onClick={() => handleClipboard('comparison-chart')}
                 disabled={isProcessing}
-                className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -1120,7 +1120,7 @@ function Minderwert() {
                 id="screenshot-button"
                 onClick={() => handleScreenshot('comparison-chart', 'minderwert-vergleich.png')}
                 disabled={isProcessing}
-                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
                 {isProcessing ? 'Lade...' : 'Download'}
@@ -1231,13 +1231,13 @@ function Minderwert() {
         </div>
 
         <div id="bvsk-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-4 py-3 card-header flex justify-between items-center">
-            <h3 className="text-lg font-semibold">BVSK System – Bewertungsmaßstäbe</h3>
+          <div className="calculator-card-header">
+            <h3 className="text-lg font-semibold whitespace-nowrap">BVSK System – Bewertungsmaßstäbe</h3>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('bvsk-system-table')}
                 disabled={isProcessing}
-                className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -1245,7 +1245,7 @@ function Minderwert() {
               <button
                 onClick={() => handleScreenshot('bvsk-system-table', 'bvsk-system.png')}
                 disabled={isProcessing}
-                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
                 {isProcessing ? 'Lade...' : 'Download'}
@@ -1298,13 +1298,13 @@ function Minderwert() {
         </div>
 
         <div id="mfm-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
-          <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-4 py-3 card-header flex justify-between items-center">
-            <h3 className="text-lg font-semibold">MFM System – Bewertungsmaßstäbe</h3>
+          <div className="mfm-system-card-header">
+            <h3 className="text-lg font-semibold whitespace-nowrap">MFM System – Bewertungsmaßstäbe</h3>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('mfm-system-table')}
                 disabled={isProcessing}
-                className="bg-white-10 backdrop-blur-sm text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-white-20 hover:shadow-sm transition-all duration-200 border border-white-30 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mfm-system-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -1312,7 +1312,7 @@ function Minderwert() {
               <button
                 onClick={() => handleScreenshot('mfm-system-table', 'mfm-system.png')}
                 disabled={isProcessing}
-                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="mfm-system-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
                 {isProcessing ? 'Lade...' : 'Download'}

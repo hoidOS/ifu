@@ -197,6 +197,18 @@
     @apply bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-primary-800 hover:shadow-sm transition-all duration-200 border border-white;
   }
 
+  .mfm-system-card-header {
+    @apply bg-orange-700 text-white px-6 py-3 flex flex-wrap items-center gap-3 justify-between sm:flex-nowrap border-b border-orange-800;
+  }
+
+  .mfm-system-header-button {
+    @apply bg-white text-orange-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-orange-50 hover:shadow-sm transition-all duration-200 border border-white;
+  }
+
+  .mfm-system-header-button-outline {
+    @apply bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-orange-800 hover:shadow-sm transition-all duration-200 border border-white;
+  }
+
   .calculator-table {
     @apply w-full text-sm border border-slate-200 rounded-lg overflow-hidden;
   }
