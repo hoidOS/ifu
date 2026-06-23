@@ -230,8 +230,8 @@ function Bremsweg() {
         </div>
 
         <div id="results-print" className="calculator-card">
-          <div className="calculator-card-header-compact">
-            <h2 className="text-base font-semibold">Anhaltevorgang</h2>
+          <div className="calculator-card-header">
+            <h2 className="text-lg font-semibold">Anhaltevorgang</h2>
             <div className="flex gap-2">
               <button
                 id="clipboard-button"

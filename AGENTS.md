@@ -24,6 +24,8 @@
 - Linting runs through `eslint .` with `eslint-config-next/core-web-vitals`; run `npm run lint` before committing.
 - Next.js 16 uses the React automatic runtime; keep `tsconfig.json` aligned with `jsx: "react-jsx"`.
 - Tailwind defaults use OKLCH colors that break `html2canvas`; extend palettes with hex values in `tailwind.config.ts` and mirror them in `styles/globals.css` whenever you introduce new UI colors.
+- Use the shared calculator classes in `styles/globals.css` (`calculator-card`, `calculator-card-header`, `calculator-header-button`, `calculator-table`, `calculator-row`, `calculator-result-table`) for standard calculator screens. Keep header heights consistent with `calculator-card-header`; use `calculator-card-header-compact` only for deliberately compact special cases.
+- `minderwert` intentionally uses system colors: BVSK stays on the Steinacker primary blue, while MFM uses the darker orange accent (`orange-700`/`orange-800`) across its headers, table borders, focus rings, result values, and comparison markers.
 - The flat ESLint config intentionally disables `react-hooks/set-state-in-effect` to preserve the current sessionStorage restore pattern used across calculators; avoid re-enabling it without refactoring those pages.
 - Some legacy result tables lack horizontal scroll on mobile; match the BVSK system implementation by wrapping future tables in `<div class="overflow-x-auto">` to preserve usability on narrow screens.
 - Layout-related components (`Layout`, `Navbar`, `Footer`) live in `components/`; keep `/pages` reserved for actual routes to avoid accidental public endpoints.

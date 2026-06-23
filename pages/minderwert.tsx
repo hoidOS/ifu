@@ -462,7 +462,7 @@ function Minderwert() {
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(191,219,254,0.5)] border-b-2 border-r-2">
+            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(0,89,169,0.16)] border-b-2 border-r-2">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Parameter</th>
@@ -471,7 +471,7 @@ function Minderwert() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-primary-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Wiederbeschaffungswert (WBW)</span>
@@ -501,7 +501,7 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600">€</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-primary-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>K-Faktor</span>
@@ -532,7 +532,7 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600">-</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-primary-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>%-Wert</span>
@@ -563,7 +563,7 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600">%</td>
                 </tr>
-                <tr className="hover:bg-blue-50 transition-colors">
+                <tr className="hover:bg-primary-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>M-Wert</span>
@@ -601,27 +601,27 @@ function Minderwert() {
 
         {/* MFM Calculator */}
         <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
-          <div className="calculator-card-header">
+          <div className="mfm-system-card-header">
             <h2 className="text-lg font-semibold">MFM</h2>
             <button
               onClick={handleResetMFM}
-              className="calculator-header-button"
+              className="mfm-system-header-button"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(191,219,254,0.5)] border-b-2 border-r-2">
+            <table className="w-full text-sm border border-orange-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(194,65,12,0.16)] border-b-2 border-r-2">
               <thead>
-                <tr className="border-b-2 border-primary-700">
-                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Parameter</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Eingabe</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Bereich</th>
+                <tr className="border-b-2 border-orange-700">
+                  <th className="text-orange-700 font-semibold text-left py-3 px-2">Parameter</th>
+                  <th className="text-orange-700 font-semibold text-center py-3 px-2">Eingabe</th>
+                  <th className="text-orange-700 font-semibold text-center py-3 px-2">Bereich</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Veräußerungswert (VW)</span>
@@ -646,12 +646,12 @@ function Minderwert() {
                           sessionStorage.removeItem('minderwert_mfm_vw');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent text-center"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent text-center"
                     />
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">€ (inkl. MwSt.)</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Neupreis (NP)</span>
@@ -676,12 +676,12 @@ function Minderwert() {
                           sessionStorage.removeItem('minderwert_mfm_np');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent text-center"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent text-center"
                     />
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">€ (inkl. MwSt.)</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Reparaturkosten (RK)</span>
@@ -706,12 +706,12 @@ function Minderwert() {
                           sessionStorage.removeItem('minderwert_mfm_rk');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent text-center"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent text-center"
                     />
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">€ (inkl. MwSt.)</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Schadensumfang (SU)</span>
@@ -737,12 +737,12 @@ function Minderwert() {
                           sessionStorage.removeItem('minderwert_mfm_su');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent text-center"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent text-center"
                     />
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">0.2-1.0</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <span>Erstzulassung</span>
                   </td>
@@ -777,12 +777,12 @@ function Minderwert() {
                           sessionStorage.removeItem('minderwert_mfm_ak');
                         }
                       }}
-                      className="w-full min-w-[170px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent text-center"
+                      className="w-full min-w-[170px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent text-center"
                     />
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">TT.MM.JJJJ</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <span>Bewertungsdatum</span>
                   </td>
@@ -817,12 +817,12 @@ function Minderwert() {
                           sessionStorage.removeItem('minderwert_mfm_ak');
                         }
                       }}
-                      className="w-full min-w-[170px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent text-center"
+                      className="w-full min-w-[170px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent text-center"
                     />
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">TT.MM.JJJJ</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Fahrzeugalter</span>
@@ -846,7 +846,7 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">0-120 Monate</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Alterskorrektur (AK)</span>
@@ -867,7 +867,7 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">Berechnet</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Faktor Marktgängigkeit (FM)</span>
@@ -893,12 +893,12 @@ function Minderwert() {
                           sessionStorage.removeItem('minderwert_mfm_fm');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent text-center"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent text-center"
                     />
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">0.6-1.4</td>
                 </tr>
-                <tr className="hover:bg-blue-50 transition-colors">
+                <tr className="hover:bg-orange-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Faktor Vorschaden (FV)</span>
@@ -924,7 +924,7 @@ function Minderwert() {
                           sessionStorage.removeItem('minderwert_mfm_fv');
                         }
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent text-center"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-700 focus:border-transparent text-center"
                     />
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">0.2-1.0</td>
@@ -939,7 +939,7 @@ function Minderwert() {
           {/* Background Gradient */}
           <div
             className="absolute inset-0 opacity-50"
-            style={{ background: "linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #eff6ff 100%)" }}
+            style={{ background: "linear-gradient(135deg, #eef6fd 0%, #ffffff 50%, #eef6fd 100%)" }}
           ></div>
           
           <div className="relative calculator-card-header">
@@ -970,14 +970,14 @@ function Minderwert() {
             <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-gradient-to-r from-primary-700 to-primary-800 text-white">
+                  <tr className="bg-primary-700 text-white">
                     <th className="font-semibold text-left py-4 px-4">Modell</th>
                     <th className="font-semibold text-center py-4 px-4">Formel</th>
                     <th className="font-semibold text-center py-4 px-4">Ergebnis</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-gray-100 transition-colors hover:bg-[rgba(219,234,254,0.5)]">
+                  <tr className="border-b border-gray-100 transition-colors hover:bg-primary-50">
                     <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2 border-0">
                       <div className="w-3 h-3 rounded-full bg-primary-700"></div>
                       BVSK
@@ -989,12 +989,12 @@ function Minderwert() {
                   </tr>
                   <tr className="transition-colors hover:bg-[rgba(255,237,213,0.5)]">
                     <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2 border-0">
-                      <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                      <div className="w-3 h-3 rounded-full bg-orange-700"></div>
                       MFM
                     </td>
                     <td className="py-4 px-4 text-center text-xs text-gray-600 font-mono border-0">MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV</td>
                     <td className="py-4 px-4 text-center border-0">
-                      <span className="font-bold text-lg text-orange-600">{mfmResult.toFixed(2).replace(".", ",")} €</span>
+                      <span className="font-bold text-lg text-orange-700">{mfmResult.toFixed(2).replace(".", ",")} €</span>
                     </td>
                   </tr>
                 </tbody>
@@ -1005,8 +1005,8 @@ function Minderwert() {
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* BVSK Breakdown */}
               <div
-                className="rounded-xl p-4 border border-blue-200"
-                style={{ background: "linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)" }}
+                className="rounded-xl p-4 border border-primary-200"
+                style={{ background: "linear-gradient(135deg, #eef6fd 0%, #d9eafb 100%)" }}
               >
                 <div className="flex items-center gap-2 mb-3">
                   <div className="w-3 h-3 rounded-full bg-primary-700"></div>
@@ -1032,7 +1032,7 @@ function Minderwert() {
                     <span className="text-gray-600">M-Wert:</span>
                     <span className="font-medium">{bvskInput.mWert.toFixed(1).replace(".", ",")}%</span>
                   </div>
-                  <div className="border-t border-blue-300 pt-2 mt-2">
+                  <div className="border-t border-primary-300 pt-2 mt-2">
                     <div className="flex justify-between font-semibold">
                       <span className="text-gray-700">Ergebnis:</span>
                       <span className="text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</span>
@@ -1047,7 +1047,7 @@ function Minderwert() {
                 style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)" }}
               >
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                  <div className="w-3 h-3 rounded-full bg-orange-700"></div>
                   <h3 className="font-semibold text-gray-800">MFM Berechnung</h3>
                 </div>
                 <div className="space-y-2 text-sm">
@@ -1086,7 +1086,7 @@ function Minderwert() {
                   <div className="border-t border-orange-300 pt-2 mt-2">
                     <div className="flex justify-between font-semibold">
                       <span className="text-gray-700">Ergebnis:</span>
-                      <span className="text-orange-600">{mfmResult.toFixed(2).replace(".", ",")} €</span>
+                      <span className="text-orange-700">{mfmResult.toFixed(2).replace(".", ",")} €</span>
                     </div>
                   </div>
                 </div>
@@ -1132,8 +1132,8 @@ function Minderwert() {
             {/* Enhanced Value Cards */}
             <div className="grid grid-cols-3 gap-4 mb-8">
               <div
-                className="text-center rounded-xl p-4 border border-blue-200 shadow-sm"
-                style={{ background: "linear-gradient(180deg, #eff6ff 0%, #dbeafe 100%)" }}
+                className="text-center rounded-xl p-4 border border-primary-200 shadow-sm"
+                style={{ background: "linear-gradient(180deg, #eef6fd 0%, #d9eafb 100%)" }}
               >
                 <div className="flex flex-col items-center gap-2">
                   <div className="circle-badge w-16 h-16 bg-primary-700 shadow-lg text-xl font-bold text-white">
@@ -1162,11 +1162,11 @@ function Minderwert() {
                 style={{ background: "linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%)" }}
               >
                 <div className="flex flex-col items-center gap-2">
-                  <div className="circle-badge w-16 h-16 bg-orange-500 shadow-lg text-xl font-bold text-white">
+                  <div className="circle-badge w-16 h-16 bg-orange-700 shadow-lg text-xl font-bold text-white">
                     M
                   </div>
                   <h4 className="font-bold text-gray-700 text-sm leading-tight">MFM</h4>
-                  <p className="text-xl font-bold text-orange-600 leading-none">{mfmResult.toFixed(2).replace(".", ",")} €</p>
+                  <p className="text-xl font-bold text-orange-700 leading-none">{mfmResult.toFixed(2).replace(".", ",")} €</p>
                 </div>
               </div>
             </div>
@@ -1196,7 +1196,7 @@ function Minderwert() {
                 
                 <div className="flex items-center gap-4">
                   <div className="w-16 text-sm font-bold text-gray-700 flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-orange-500"></div>
+                    <div className="w-3 h-3 rounded-full bg-orange-700"></div>
                     MFM
                   </div>
                   <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
@@ -1204,7 +1204,7 @@ function Minderwert() {
                       className="h-full rounded-full transition-all duration-1000 shadow-sm"
                       style={{
                         width: `${Math.max(10, (mfmResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%`,
-                        background: "linear-gradient(90deg, #f97316 0%, #fb923c 100%)"
+                        background: "linear-gradient(90deg, #c2410c 0%, #f97316 100%)"
                       }}
                     ></div>
                   </div>
@@ -1255,10 +1255,10 @@ function Minderwert() {
           <div className="p-6 overflow-x-auto">
             <table
               id="bvsk-system-table"
-              className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(191,219,254,0.35)] border-b-2 border-r-2"
+              className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(0,89,169,0.16)] border-b-2 border-r-2"
             >
               <thead>
-                <tr className="text-primary-700 border-b border-primary-200" style={{ backgroundColor: "#e8f3ff" }}>
+                <tr className="text-primary-700 border-b border-primary-200" style={{ backgroundColor: "#eef6fd" }}>
                   <th className="text-left py-3 px-3 font-semibold">Parameter</th>
                   <th className="text-center py-3 px-3 font-semibold">Wertebereich</th>
                   <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
@@ -1267,11 +1267,11 @@ function Minderwert() {
               <tbody>
                 {bvskTable.map(section => (
                   <Fragment key={section.parameter}>
-                    <tr className="border-t border-primary-200" style={{ backgroundColor: "#f1f8ff" }}>
-                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#ebf4ff" }}>
+                    <tr className="border-t border-primary-200" style={{ backgroundColor: "#eef6fd" }}>
+                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#d9eafb" }}>
                         {section.parameter}
                       </td>
-                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2} style={{ backgroundColor: "#f1f8ff" }}>
+                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2} style={{ backgroundColor: "#eef6fd" }}>
                         {section.explanation}
                       </td>
                     </tr>
@@ -1284,7 +1284,7 @@ function Minderwert() {
                     ) : (
                       section.rows.map((row, index) => (
                         <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
-                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#f6fbff" }}></td>
+                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#f8fbfe" }}></td>
                           <td className="py-3 px-3 font-medium text-gray-700 text-center">{row.range}</td>
                           <td className="py-3 px-3 text-gray-600">{row.description}</td>
                         </tr>
@@ -1322,10 +1322,10 @@ function Minderwert() {
           <div className="p-6 overflow-x-auto">
             <table
               id="mfm-system-table"
-              className="w-full text-sm border border-orange-600 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(253,186,116,0.35)] border-b-2 border-r-2"
+              className="w-full text-sm border border-orange-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(194,65,12,0.16)] border-b-2 border-r-2"
             >
               <thead>
-                <tr className="text-orange-600 border-b border-orange-200" style={{ backgroundColor: "#fff4e6" }}>
+                <tr className="text-orange-700 border-b border-orange-300" style={{ backgroundColor: "#fff7ed" }}>
                   <th className="text-left py-3 px-3 font-semibold">Parameter</th>
                   <th className="text-center py-3 px-3 font-semibold">Wertebereich</th>
                   <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
@@ -1335,7 +1335,7 @@ function Minderwert() {
                 {mfmTable.map(section => (
                   <Fragment key={section.parameter}>
                     <tr className="border-t border-orange-200" style={{ backgroundColor: "#fff7ed" }}>
-                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#fff1e0" }}>
+                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#ffedd5" }}>
                         {section.parameter}
                       </td>
                       <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2} style={{ backgroundColor: "#fff7ed" }}>
@@ -1351,7 +1351,7 @@ function Minderwert() {
                     ) : (
                       section.rows.map((row, index) => (
                         <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
-                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#fffaf4" }}></td>
+                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#fff7ed" }}></td>
                           <td className="py-3 px-3 font-medium text-gray-700 text-center">{row.range}</td>
                           <td className="py-3 px-3 text-gray-600">{row.description}</td>
                         </tr>

@@ -27,10 +27,10 @@ export const useScreenshot = (): UseScreenshotReturn => {
     foreignObjectRendering: false,
     imageTimeout: 15000,
     removeContainer: true,
-    scale: 4
+    scale: 2
   };
 
-  // Hide UI elements (buttons, borders) before taking screenshot
+  // Hide UI controls and export-only shadows before taking screenshot
   const hideElements = (elementId: string) => {
     const buttons = document.querySelectorAll(`#${elementId} .screenshot-buttons, #${elementId} #screenshot-button, #${elementId} #clipboard-button`);
     const tables = document.querySelectorAll(`#${elementId} table`);
@@ -41,7 +41,6 @@ export const useScreenshot = (): UseScreenshotReturn => {
     });
 
     tables.forEach(table => {
-      (table as HTMLElement).style.border = 'none';
       (table as HTMLElement).style.boxShadow = 'none';
     });
 
@@ -61,7 +60,6 @@ export const useScreenshot = (): UseScreenshotReturn => {
     });
 
     tables.forEach(table => {
-      (table as HTMLElement).style.border = '';
       (table as HTMLElement).style.boxShadow = '';
     });
 
