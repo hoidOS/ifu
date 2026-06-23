@@ -209,19 +209,19 @@ function ConstAccel() {
 
   return (
     <>
-      <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-        <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+      <div className="calculator-card">
+        <div className="calculator-card-header">
           <h2 className="text-lg font-semibold">konstante Beschleunigung</h2>
           <button
             onClick={handleReset}
-            className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+            className="calculator-header-button"
             title="Alle Eingaben zurücksetzen"
           >
             Reset
           </button>
         </div>
         <div className="p-4">
-          <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+          <table className="calculator-table">
             <thead>
               <tr className="border-b-2 border-primary-700">
                 <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
@@ -231,7 +231,7 @@ function ConstAccel() {
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row">
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
@@ -257,7 +257,7 @@ function ConstAccel() {
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
-              <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
@@ -283,7 +283,7 @@ function ConstAccel() {
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
-              <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigung</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
@@ -309,7 +309,7 @@ function ConstAccel() {
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
-              <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsstrecke</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
@@ -335,7 +335,7 @@ function ConstAccel() {
                 </td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
-              <tr className="hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row-last">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsdauer</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2">
@@ -366,14 +366,14 @@ function ConstAccel() {
         </div>
       </div>
 
-      <div id="berechnungen-accel" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-        <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+      <div id="berechnungen-accel" className="calculator-card">
+        <div className="calculator-card-header">
           <h2 className="text-lg font-semibold">konstante Beschleunigung</h2>
           <div className="screenshot-buttons flex gap-2">
             <button
               onClick={() => handleClipboard('berechnungen-accel')}
               disabled={isProcessing}
-              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
               title="In Zwischenablage kopieren"
             >
               {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -381,7 +381,7 @@ function ConstAccel() {
             <button
               onClick={() => handleScreenshot('berechnungen-accel', 'berechnungen-beschleunigung.png')}
               disabled={isProcessing}
-              className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+              className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
               title="Als PNG herunterladen"
             >
               {isProcessing ? 'Lade...' : 'Download'}
@@ -389,41 +389,41 @@ function ConstAccel() {
           </div>
         </div>
         <div className="p-4">
-          <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+          <table className="calculator-table calculator-result-table">
             <thead>
               <tr className="border-b-2 border-primary-700">
                 <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
                 <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
-                <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-slate-900">Ein</span><span className="text-slate-400"> / </span><span className="text-primary-700">Ausgabe</span></th>
                 <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row">
                 <td className="py-2 px-2 font-medium text-gray-700">Anfangsgeschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vA} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveVA() ? <p className={resultTextClass(solveVA())}>{solveVA()}</p> : (vA >= 0 ? <p className="text-black">{vA.toFixed(2).replace(".", ",")} km/h</p> : <p className="text-primary-700">-</p>))}</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={formVA()} alt="vA" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
-              <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row">
                 <td className="py-2 px-2 font-medium text-gray-700">Endgeschwindigkeit</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.vE} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveVE() ? <p className={resultTextClass(solveVE())}>{solveVE()}</p> : (vE >= 0 ? <p className="text-black">{vE.toFixed(2).replace(".", ",")} km/h</p> : <p className="text-primary-700">-</p>))}</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={formVE()} alt="vE" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
-              <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigung</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveA() ? <p className={resultTextClass(solveA())}>{solveA()}</p> : (a >= 0 ? <p className="text-black">{a.toFixed(2).replace(".", ",")} m/s²</p> : <p className="text-primary-700">-</p>))}</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={formA()} alt="a" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
-              <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsstrecke</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.s} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveS() ? <p className={resultTextClass(solveS())}>{solveS()}</p> : (s >= 0 ? <p className="text-black">{s.toFixed(2).replace(".", ",")} m</p> : <p className="text-primary-700">-</p>))}</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={formS()} alt="s" className="inline-block h-auto w-auto max-w-full"></Image></td>
               </tr>
-              <tr className="hover:bg-blue-50 transition-colors">
+              <tr className="calculator-row-last">
                 <td className="py-2 px-2 font-medium text-gray-700">Beschleunigungsdauer</td>
                 <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.t} alt="t" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (solveT() ? <p className={resultTextClass(solveT())}>{solveT()}</p> : (t >= 0 ? <p className="text-black">{t.toFixed(2).replace(".", ",")} s</p> : <p className="text-primary-700">-</p>))}</td>

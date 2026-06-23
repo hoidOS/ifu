@@ -268,19 +268,19 @@ function Sonstige() {
         <meta name="viewport" content="width=device-width" />
       </Head>
       <>
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+        <div className="calculator-card">
+          <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Steigungsverzögerung</h2>
             <button
               onClick={handleReset}
-              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="calculator-header-button"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="calculator-table">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
@@ -290,7 +290,7 @@ function Sonstige() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.p} alt="p" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
@@ -316,7 +316,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.percent} alt="%" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row-last">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungswinkel</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
@@ -347,14 +347,14 @@ function Sonstige() {
           </div>
         </div>
 
-        <div id="berechnungen-sonst" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+        <div id="berechnungen-sonst" className="calculator-card">
+          <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Steigungsverzögerung Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-sonst')}
                 disabled={isProcessing}
-                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -362,7 +362,7 @@ function Sonstige() {
               <button
                 onClick={() => handleScreenshot('berechnungen-sonst', 'berechnungen-steigungsverzoegerung.png')}
                 disabled={isProcessing}
-                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
                 {isProcessing ? 'Lade...' : 'Download'}
@@ -370,29 +370,29 @@ function Sonstige() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="calculator-table calculator-result-table">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
                   <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
-                <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-slate-900">Ein</span><span className="text-slate-400"> / </span><span className="text-primary-700">Ausgabe</span></th>
                   <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.p} alt="p" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (percentFromAlpha ? <p className="text-primary-700">{percentFromAlpha}</p> : (!isNaN(p) && p >= 0 ? <p className="text-black">{p.toFixed(2).replace(".", ",")} %</p> : <p className="text-primary-700">-</p>))}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alphaToP} alt="alphaToP" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungswinkel</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (angleFromPercent ? <p className="text-primary-700">{angleFromPercent}</p> : (!isNaN(alpha) && alpha >= 0 ? <p className="text-black">{alpha.toFixed(2).replace(".", ",")} °</p> : <p className="text-primary-700">-</p>))}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.pToAlpha} alt="pToAlpha" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row-last">
                   <td className="py-2 px-2 font-medium text-gray-700">Steigungsverzögerung</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.a} alt="a" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 <td className="py-2 px-2 text-center font-semibold">{isError() ? <p className="text-red-500">ERROR</p> : (accelValue ? <p className="text-primary-700">{accelValue}</p> : <p className="text-primary-700">-</p>)}</td>
@@ -404,19 +404,19 @@ function Sonstige() {
       </div>
 
         {/* Lane Change Input Section */}
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+        <div className="calculator-card">
+          <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Ausschervorgänge</h2>
             <button
               onClick={handleResetAusscher}
-              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="calculator-header-button"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="calculator-table">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
@@ -426,7 +426,7 @@ function Sonstige() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausschergeschwindigkeit</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.v} alt="v" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
@@ -452,7 +452,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.kmh} alt="kmh" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselbreite</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">B</td>
                   <td className="py-2 px-2">
@@ -478,7 +478,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Spurwechselfaktor</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">K<sub>sn</sub></td>
                   <td className="py-2 px-2">
@@ -504,7 +504,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center">-</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung normal</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">a<sub>qn</sub></td>
                   <td className="py-2 px-2">
@@ -530,7 +530,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ms2} alt="ms2" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row-last">
                   <td className="py-2 px-2 font-medium text-gray-700">Querbeschleunigung scharf</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">a<sub>qs</sub></td>
                   <td className="py-2 px-2">
@@ -562,14 +562,14 @@ function Sonstige() {
         </div>
 
         {/* Lane Change Results Section */}
-        <div id="berechnungen-ausscher" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+        <div id="berechnungen-ausscher" className="calculator-card">
+          <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Ausschervorgänge Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-ausscher')}
                 disabled={isProcessing}
-                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -577,7 +577,7 @@ function Sonstige() {
               <button
                 onClick={() => handleScreenshot('berechnungen-ausscher', 'berechnungen-ausschervorgaenge.png')}
                 disabled={isProcessing}
-                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
                 {isProcessing ? 'Lade...' : 'Download'}
@@ -585,17 +585,17 @@ function Sonstige() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="calculator-table calculator-result-table">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
                   <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-slate-900">Ein</span><span className="text-slate-400"> / </span><span className="text-primary-700">Ausgabe</span></th>
                   <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer normal</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">t<sub>n</sub></td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -605,7 +605,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tn} alt="Formel t_n" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherdauer scharf</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">t<sub>s</sub></td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -615,7 +615,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.ts} alt="Formel t_s" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke normal</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">s<sub>n</sub></td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -625,7 +625,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sn} alt="Formel s_n" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row-last">
                   <td className="py-2 px-2 font-medium text-gray-700">Ausscherstrecke scharf</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">s<sub>s</sub></td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -641,19 +641,19 @@ function Sonstige() {
         </div>
 
         {/* Curve Radius Input Section */}
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+        <div className="calculator-card">
+          <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Kurvenradius</h2>
             <button
               onClick={handleResetCurve}
-              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="calculator-header-button"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="calculator-table">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
@@ -663,7 +663,7 @@ function Sonstige() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Segmenthöhe</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">h</td>
                   <td className="py-2 px-2">
@@ -689,7 +689,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Segmentlänge</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">s</td>
                   <td className="py-2 px-2">
@@ -715,7 +715,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row-last">
                   <td className="py-2 px-2 font-medium text-gray-700">Bogenlänge</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">b</td>
                   <td className="py-2 px-2">
@@ -747,14 +747,14 @@ function Sonstige() {
         </div>
 
         {/* Curve Radius Results Section */}
-        <div id="berechnungen-kurve" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+        <div id="berechnungen-kurve" className="calculator-card">
+          <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Kurvenradius Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-kurve')}
                 disabled={isProcessing}
-                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -762,7 +762,7 @@ function Sonstige() {
               <button
                 onClick={() => handleScreenshot('berechnungen-kurve', 'berechnungen-kurvenradius.png')}
                 disabled={isProcessing}
-                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
                 {isProcessing ? 'Lade...' : 'Download'}
@@ -770,17 +770,17 @@ function Sonstige() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="calculator-table calculator-result-table">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
                   <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                  <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-slate-900">Ein</span><span className="text-slate-400"> / </span><span className="text-primary-700">Ausgabe</span></th>
                   <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Segmenthöhe</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">h</td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -790,7 +790,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Segmentlänge</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">s</td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -800,7 +800,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Bogenlänge</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">b</td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -810,7 +810,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.R} alt="R" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -820,7 +820,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.RF} alt="RF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Zentriwinkel</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.alpha} alt="alpha" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -830,7 +830,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.alphaF} alt="alphaF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row-last">
                   <td className="py-2 px-2 font-medium text-gray-700">Errechnete Bogenlänge</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">b<sub>err</sub></td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -850,19 +850,19 @@ function Sonstige() {
         </div>
 
         {/* Curve Speed Input Section */}
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+        <div className="calculator-card">
+          <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Kurvengrenzgeschwindigkeit</h2>
             <button
               onClick={handleResetSpeed}
-              className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white"
+              className="calculator-header-button"
               title="Alle Eingaben zurücksetzen"
             >
               Reset
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+            <table className="calculator-table">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
@@ -872,7 +872,7 @@ function Sonstige() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.R} alt="R" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
@@ -898,7 +898,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.m} alt="m" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row">
                   <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.muR} alt="muR" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
@@ -924,7 +924,7 @@ function Sonstige() {
                   </td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">-</td>
                 </tr>
-                <tr className="hover:bg-blue-50 transition-colors">
+                <tr className="calculator-row-last">
                   <td className="py-2 px-2 font-medium text-gray-700">Überhöhung</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.beta} alt="beta" className="inline-block h-auto w-auto max-w-full"></Image></td>
                   <td className="py-2 px-2">
@@ -956,14 +956,14 @@ function Sonstige() {
         </div>
 
         {/* Curve Speed Results Section */}
-        <div id="berechnungen-geschwindigkeit" className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white">
-          <div className="bg-gradient-to-r from-primary-700 to-primary-800 text-white px-6 py-3 card-header flex justify-between items-center">
+        <div id="berechnungen-geschwindigkeit" className="calculator-card">
+          <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Kurvengrenzgeschwindigkeit Ergebnisse</h2>
             <div className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-geschwindigkeit')}
                 disabled={isProcessing}
-                className="bg-white text-primary-700 px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-50 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
@@ -971,7 +971,7 @@ function Sonstige() {
               <button
                 onClick={() => handleScreenshot('berechnungen-geschwindigkeit', 'berechnungen-kurvengeschwindigkeit.png')}
                 disabled={isProcessing}
-                className="bg-transparent text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-blue-600 hover:shadow-sm transition-all duration-200 border border-white disabled:opacity-50 disabled:cursor-not-allowed"
+                className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
               >
                 {isProcessing ? 'Lade...' : 'Download'}
@@ -980,17 +980,17 @@ function Sonstige() {
           </div>
           <div className="p-4">
             <div className="overflow-x-auto">
-              <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+              <table className="calculator-table calculator-result-table">
                 <thead>
                   <tr className="border-b-2 border-primary-700">
                     <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
                     <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
-                    <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                    <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-slate-900">Ein</span><span className="text-slate-400"> / </span><span className="text-primary-700">Ausgabe</span></th>
                     <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <tr className="calculator-row">
                     <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
                     <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.R} alt="R" className="inline-block h-auto w-auto max-w-full"></Image></td>
                     <td className="py-2 px-2 text-center font-semibold">
@@ -1000,7 +1000,7 @@ function Sonstige() {
                     </td>
                     <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
                   </tr>
-                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <tr className="calculator-row">
                     <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
                     <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.muR} alt="muR" className="inline-block h-auto w-auto max-w-full"></Image></td>
                     <td className="py-2 px-2 text-center font-semibold">
@@ -1010,7 +1010,7 @@ function Sonstige() {
                     </td>
                     <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
                   </tr>
-                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <tr className="calculator-row">
                     <td className="py-2 px-2 font-medium text-gray-700">Überhöhung</td>
                     <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.beta} alt="beta" className="inline-block h-auto w-auto max-w-full"></Image></td>
                     <td className="py-2 px-2 text-center font-semibold">
@@ -1020,7 +1020,7 @@ function Sonstige() {
                     </td>
                     <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
                   </tr>
-                  <tr className="hover:bg-blue-50 transition-colors">
+                  <tr className="calculator-row-last">
                     <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
                     <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.v} alt="v" className="inline-block h-auto w-auto max-w-full"></Image></td>
                     <td className="py-2 px-2 text-center font-semibold">
