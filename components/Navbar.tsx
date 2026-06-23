@@ -118,9 +118,9 @@ function Navbar() {
         return () => window.removeEventListener('scroll', handleScroll)
     }, [])
 
-    const isStopActive = router.pathname === '/stop'
-    const isConstActive = router.pathname.startsWith('/const')
-    const isSonstActive = router.pathname === '/sonst'
+    const isBremswegActive = router.pathname === '/bremsweg'
+    const isKonstantfahrtActive = router.pathname === '/konstantfahrt'
+    const isSonstActive = router.pathname === '/sonstige'
     const isVmtActive = router.pathname === '/vmt'
     const isMinderwertActive = router.pathname === '/minderwert'
 
@@ -159,12 +159,12 @@ function Navbar() {
                         <ul className="flex items-center gap-1 text-slate-600">
                             <li>
                                 <Link
-                                    href="/stop"
-                                    className={desktopLinkClasses(isStopActive, 'font-semibold text-red-700 after:bg-red-500 after:opacity-100', 'hover:bg-white/70 hover:text-red-600')}
-                                    aria-current={isStopActive ? 'page' : undefined}
+                                    href="/bremsweg"
+                                    className={desktopLinkClasses(isBremswegActive, 'font-semibold text-red-700 after:bg-red-500 after:opacity-100', 'hover:bg-white/70 hover:text-red-600')}
+                                    aria-current={isBremswegActive ? 'page' : undefined}
                                 >
                                     <FaCarCrash
-                                        className={`${isStopActive ? 'text-red-600' : 'text-red-400 group-hover:text-red-500'}`}
+                                        className={`${isBremswegActive ? 'text-red-600' : 'text-red-400 group-hover:text-red-500'}`}
                                         size={18}
                                         aria-hidden="true"
                                     />
@@ -173,12 +173,12 @@ function Navbar() {
                             </li>
                             <li>
                                 <Link
-                                    href="/const"
-                                    className={desktopLinkClasses(isConstActive, 'font-semibold text-blue-700 after:bg-blue-500 after:opacity-100', 'hover:bg-white/70 hover:text-blue-600')}
-                                    aria-current={isConstActive ? 'page' : undefined}
+                                    href="/konstantfahrt"
+                                    className={desktopLinkClasses(isKonstantfahrtActive, 'font-semibold text-blue-700 after:bg-blue-500 after:opacity-100', 'hover:bg-white/70 hover:text-blue-600')}
+                                    aria-current={isKonstantfahrtActive ? 'page' : undefined}
                                 >
                                     <FaCar
-                                        className={`${isConstActive ? 'text-blue-600' : 'text-blue-400 group-hover:text-blue-500'}`}
+                                        className={`${isKonstantfahrtActive ? 'text-blue-600' : 'text-blue-400 group-hover:text-blue-500'}`}
                                         size={18}
                                         aria-hidden="true"
                                     />
@@ -187,7 +187,7 @@ function Navbar() {
                             </li>
                             <li>
                                 <Link
-                                    href="/sonst"
+                                    href="/sonstige"
                                     className={desktopLinkClasses(isSonstActive, 'font-semibold text-purple-700 after:bg-purple-500 after:opacity-100', 'hover:bg-white/70 hover:text-purple-600')}
                                     aria-current={isSonstActive ? 'page' : undefined}
                                 >
@@ -306,33 +306,33 @@ function Navbar() {
                         <ul className="space-y-2">
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-100" : "opacity-0 transform translate-x-4"}>
                                 <Link
-                                    href="/stop"
+                                    href="/bremsweg"
                                     onClick={closeNav}
-                                    className={mobileLinkClasses(isStopActive, 'bg-red-50 text-red-700')}
-                                    aria-current={isStopActive ? 'page' : undefined}
+                                    className={mobileLinkClasses(isBremswegActive, 'bg-red-50 text-red-700')}
+                                    aria-current={isBremswegActive ? 'page' : undefined}
                                 >
-                                    <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isStopActive ? 'bg-red-100 text-red-700' : 'bg-red-100 text-red-600 group-hover:bg-red-200'}`}>
+                                    <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isBremswegActive ? 'bg-red-100 text-red-700' : 'bg-red-100 text-red-600 group-hover:bg-red-200'}`}>
                                         <FaCarCrash size={20} aria-hidden="true" />
                                     </span>
-                                    <span className={`font-semibold ${isStopActive ? 'text-red-700' : 'text-slate-900 group-hover:text-red-600'}`}>Anhaltevorgang</span>
+                                    <span className={`font-semibold ${isBremswegActive ? 'text-red-700' : 'text-slate-900 group-hover:text-red-600'}`}>Anhaltevorgang</span>
                                 </Link>
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-200" : "opacity-0 transform translate-x-4"}>
                                 <Link
-                                    href="/const"
+                                    href="/konstantfahrt"
                                     onClick={closeNav}
-                                    className={mobileLinkClasses(isConstActive, 'bg-blue-50 text-blue-700')}
-                                    aria-current={isConstActive ? 'page' : undefined}
+                                    className={mobileLinkClasses(isKonstantfahrtActive, 'bg-blue-50 text-blue-700')}
+                                    aria-current={isKonstantfahrtActive ? 'page' : undefined}
                                 >
-                                    <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isConstActive ? 'bg-blue-100 text-blue-700' : 'bg-blue-100 text-blue-600 group-hover:bg-blue-200'}`}>
+                                    <span className={`flex h-11 w-11 items-center justify-center rounded-lg transition-colors ${isKonstantfahrtActive ? 'bg-blue-100 text-blue-700' : 'bg-blue-100 text-blue-600 group-hover:bg-blue-200'}`}>
                                         <FaCar size={20} aria-hidden="true" />
                                     </span>
-                                    <span className={`font-semibold ${isConstActive ? 'text-blue-700' : 'text-slate-900 group-hover:text-blue-600'}`}>Konstantfahrt</span>
+                                    <span className={`font-semibold ${isKonstantfahrtActive ? 'text-blue-700' : 'text-slate-900 group-hover:text-blue-600'}`}>Konstantfahrt</span>
                                 </Link>
                             </li>
                             <li className={nav ? "opacity-100 transform translate-x-0 transition-all duration-500 delay-300" : "opacity-0 transform translate-x-4"}>
                                 <Link
-                                    href="/sonst"
+                                    href="/sonstige"
                                     onClick={closeNav}
                                     className={mobileLinkClasses(isSonstActive, 'bg-purple-50 text-purple-700')}
                                     aria-current={isSonstActive ? 'page' : undefined}

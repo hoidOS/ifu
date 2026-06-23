@@ -22,7 +22,7 @@ const data: InputInterface = {
   am: 7.5,
 }
 
-function Stop() {
+function Bremsweg() {
 
   const [input, setInput] = useState<InputInterface>(data)
   const { isProcessing, handleScreenshot, handleClipboard } = useScreenshot();
@@ -47,10 +47,10 @@ function Stop() {
 
 
   const reaction: string = util.getReaction(input.vA, input.tR)
-  const breakDelay: string = util.getBreakDelay(input.vA, input.tS, input.am)
+  const brakeDelay: string = util.getBrakeDelay(input.vA, input.tS, input.am)
   const fullSend: string = util.getFullSend(input.vA, input.am, input.tS)
-  const breakDistance: string = util.getBreakDistance(input.vA, input.tS, input.vE, input.am)
-  const breakDuration: string = util.getBreakDuration(input.vA, input.tS, input.am, input.vE)
+  const brakeDistance: string = util.getBrakeDistance(input.vA, input.tS, input.vE, input.am)
+  const brakeDuration: string = util.getBrakeDuration(input.vA, input.tS, input.am, input.vE)
   const fullDistance: string = util.getFullDistance(input.vA, input.vE, input.tR, input.tS, input.am)
   const fullTime: string = util.getFullTime(input.vA, input.vE, input.tR, input.tS, input.am)
 
@@ -309,7 +309,7 @@ function Stop() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Schwellstrecke</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sS} alt="sS" className="inline-block h-auto w-auto max-w-full"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{breakDelay}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{brakeDelay}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sSF} alt="sSF" loading="eager" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
@@ -321,13 +321,13 @@ function Stop() {
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsstrecke</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sB} alt="sB" className="inline-block h-auto w-auto max-w-full"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{breakDistance}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{brakeDistance}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.sBF} alt="sBF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Bremsdauer</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tB} alt="tB" className="inline-block h-auto w-auto max-w-full"></Image></td>
-                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{breakDuration}</td>
+                  <td className="py-2 px-2 text-center font-semibold text-primary-700">{brakeDuration}</td>
                   <td className="py-2 px-2 text-center"><Image unoptimized src={SVG.tBF} alt="tBF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
@@ -353,4 +353,4 @@ function Stop() {
   );
 }
 
-export default Stop;
+export default Bremsweg;

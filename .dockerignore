@@ -5,6 +5,10 @@
 /.pnp
 .pnp.js
 
+# source control
+.git
+.gitignore
+
 # testing
 /coverage
 

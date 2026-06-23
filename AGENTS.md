@@ -1,7 +1,7 @@
 # Repository Guidelines
 
 ## Project Structure & Module Organization
-- `pages/` contains Next.js routes for analysis tools (`stop`, `const`, `vmt`, `sonst`, `minderwert`).
+- `pages/` contains Next.js routes for analysis tools (`bremsweg`, `konstantfahrt`, `vmt`, `sonstige`, `minderwert`).
 - `components/` hosts shared UI (layout, navbar, footer) and calculators (e.g., `StepperInput`, `util*`).
 - `hooks/` includes utilities such as `useScreenshot` for exports.
 - `assets/` stores SVG formula renderings; `public/` holds static files.
@@ -15,6 +15,7 @@
 - `npm run build` produces the optimized production bundle with Next.js 16's default Turbopack build pipeline.
 - `npm start` serves the production build.
 - `npm run lint` executes ESLint through the flat config in `eslint.config.mjs`.
+- `npm test` runs the Vitest formula-helper test suite.
 
 ## Coding Style & Naming Conventions
 - TypeScript throughout; prefer explicit types for props and exports.
@@ -28,8 +29,8 @@
 - Layout-related components (`Layout`, `Navbar`, `Footer`) live in `components/`; keep `/pages` reserved for actual routes to avoid accidental public endpoints.
 
 ## Testing Guidelines
-- Automated tests are not yet defined; validate calculators manually via sample inputs.
-- When adding tests, colocate files next to the module (`*.test.tsx`) and integrate with Jest/React Testing Library.
+- Formula-helper tests use Vitest and should be colocated next to the module under test (`*.test.ts` or `*.test.tsx`).
+- Prefer direct helper tests for formula edge cases before broad UI tests; manually validate calculator screens and exports for visual workflows.
 
 ## Commit & Pull Request Guidelines
 - Commit messages use imperative mood (e.g., "Add Ausschervorgänge calculator").
@@ -42,4 +43,4 @@
 - For Docker workflows, sync `Dockerfile` and `docker-compose.yml` updates with dependency changes.
 
 ## Upcoming Work
-- None currently scheduled; track new feature requests via issues.
+- Track planned follow-up in issues and `AUDIT_REPORT.md`; keep this section current when work becomes scheduled.

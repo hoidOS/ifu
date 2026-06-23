@@ -6,7 +6,7 @@ import SVG from '../assets/svg'
 import { useScreenshot } from '../hooks/useScreenshot'
 import StepperInput from '../components/StepperInput'
 
-function Sonst() {
+function Sonstige() {
 
   const [p, pset] = useState<number>(NaN)
   const [alpha, alphaset] = useState<number>(NaN)
@@ -1043,4 +1043,4 @@ function Sonst() {
   )
 }
 
-export default Sonst
+export default Sonstige
