@@ -10,9 +10,9 @@ Original audit constraint followed: no repository files were changed except this
 
 The project is in good baseline shape for tooling: ESLint passes, TypeScript passes, and a production build succeeds when run from a temporary copy outside the repository. The main risk is not build health. The main risk is calculation correctness: several calculators accept zero, contradictory, or physically impossible inputs and then render `Infinity`, `-Infinity`, `NaN`, negative distances/times, or plausible-looking values for impossible scenarios.
 
-The formula layer is also not covered by automated tests. For a forensic automotive calculator, this is the largest quality gap.
+The formula layer is still only lightly covered by automated tests. For a forensic automotive calculator, this remains the largest quality gap after the first Vitest slice.
 
-Post-audit implementation work has resolved F-02, added an initial F-03 test slice, clarified the F-04 Kurvenradius behavior for the current UI requirement, and applied the stable F-08 dependency updates. F-01 remains open as the broader formula-domain validation issue.
+Post-audit implementation work has resolved F-02, clarified the F-04 Kurvenradius behavior for the current UI requirement, resolved F-12, and resolved the F-13 documentation/config drift. F-03 and F-08 are partially addressed. F-01 remains open as the broader formula-domain validation issue.
 
 ## Verification Performed
 
@@ -31,6 +31,8 @@ The first sandboxed temp-copy build failed because Turbopack tried to spawn/bind
 - 2026-06-23: F-03 is partially addressed. `vitest` is installed, `npm test` runs the test suite, and `components/utilConst.test.ts` covers the known valid braking example plus the negative-root acceleration cases from F-02. Broader formula-helper coverage is still needed.
 - 2026-06-23: F-04 is resolved for the clarified UI requirement. `Kurvenradius Ergebnisse` now shows the three entered values above the calculated outputs, and `isCurveError()` no longer rejects the table merely because `b` is present. The block remains an `h`/`s`-driven calculation; implementing all two-value solve combinations involving `b` would be a separate feature.
 - 2026-06-23: F-08 is partially addressed. Stable direct updates were applied for Next, React, React DOM, Tailwind, `eslint-config-next`, and React/Node type packages. `npm audit fix` removed the transitive `@babel/core` and `js-yaml` advisories. The remaining audit result is the Next-bundled PostCSS advisory, where npm still suggests the unsafe `next@9.3.3` downgrade.
+- 2026-06-23: F-12 is resolved. The Docker image now builds through separate dependency, builder, and runtime stages, and the runtime image contains production dependencies plus the built Next.js output.
+- 2026-06-23: F-13 is resolved. README and repository guidelines now reflect the renamed routes, Vitest setup, current Docker shape, and dependency-version policy. The legacy `.eslintrc.json` file was removed because `eslint.config.mjs` is the canonical lint configuration.
 - Verification after the F-02/F-03/F-08 implementation: `npm test`, `npm run lint`, `./node_modules/.bin/tsc --noEmit --incremental false`, and `npm run build` passed. The production build required elevated execution because Turbopack's internal process/bind step is blocked by the sandbox.
 
 ## Findings
@@ -42,14 +44,14 @@ The UI accepts zero as a valid value in many places, and the solve logic uses `>
 Evidence:
 
 - `components/utilConst.tsx:2-13` divides by `t` and `v` in constant-drive formulas.
-- `pages/const/const-drive.tsx:41-47` treats `v`, `s`, and `t` as set when they are `>= 0`.
-- `pages/const/const-drive.tsx:89-142` permits `v=0`, `s=0`, and `t=0`.
+- `components/const/ConstDrive.tsx:40-47` treats `v`, `s`, and `t` as set when they are `>= 0`.
+- `components/const/ConstDrive.tsx:88-142` permits `v=0`, `s=0`, and `t=0`.
 - `components/utilConst.tsx:73-166` and `components/utilConst.tsx:227-320` contain multiple divisions by `s`, `t`, and `a`.
-- `pages/const/const-decel.tsx:49-205` and `pages/const/const-accel.tsx:49-205` use `>= 0` as the domain gate.
+- `components/const/ConstDecel.tsx:49-205` and `components/const/ConstAccel.tsx:49-205` use `>= 0` as the domain gate.
 - `components/utilStop.tsx:17-52` divides by `am`.
-- `pages/stop.tsx:48-55` calculates all stop outputs unconditionally.
-- `pages/stop.tsx:132-144` permits an end speed greater than the initial speed.
-- `pages/stop.tsx:207-219` permits `am=0`.
+- `pages/bremsweg.tsx:48-55` calculates all stop outputs unconditionally.
+- `pages/bremsweg.tsx:132-144` permits an end speed greater than the initial speed.
+- `pages/bremsweg.tsx:207-219` permits `am=0`.
 
 Original observed representative output:
 
@@ -95,17 +97,17 @@ Status: resolved by clarification on 2026-06-23. The intended behavior is to sho
 
 Original finding: the Kurvenradius UI asked for Segmenthoehe `h`, Segmentlaenge `s`, and Bogenlaenge `b`:
 
-- `pages/sonst.tsx:650-749`
+- `pages/sonstige.tsx:650-749`
 
 The calculations still use `h` and `s`:
 
-- `pages/sonst.tsx:177-207`
+- `pages/sonstige.tsx:177-207`
 
 Current behavior:
 
-- `pages/sonst.tsx:212-214` no longer errors merely because `b` is present.
-- `pages/sonst.tsx:783-811` shows `h`, `s`, and `b` as input rows in the result table.
-- `pages/sonst.tsx:813-845` shows calculated `R`, central angle, and computed bogenlaenge below those inputs.
+- `pages/sonstige.tsx:212-214` no longer errors merely because `b` is present.
+- `pages/sonstige.tsx:783-811` shows `h`, `s`, and `b` as input rows in the result table.
+- `pages/sonstige.tsx:813-845` shows calculated `R`, central angle, and computed bogenlaenge below those inputs.
 
 Impact: the original ambiguity is resolved for the current workflow because the table now separates entered inputs from derived outputs.
 
@@ -148,11 +150,11 @@ The README already documents this risk:
 
 Most current calculator tables are direct children of `.p-4` wrappers, for example:
 
-- `pages/stop.tsx:91-92`
-- `pages/const/const-drive.tsx:62-63`
-- `pages/const/const-decel.tsx:220-221`
-- `pages/const/const-accel.tsx:220-221`
-- `pages/sonst.tsx:660-777`
+- `pages/bremsweg.tsx:91-92`
+- `components/const/ConstDrive.tsx:61-62`
+- `components/const/ConstDecel.tsx:223-224`
+- `components/const/ConstAccel.tsx:223-224`
+- `pages/sonstige.tsx:660-777`
 - `pages/vmt.tsx:85-255`
 
 Only the BVSK/MFM system tables consistently use `overflow-x-auto` wrappers:
@@ -208,7 +210,7 @@ Recommendation: use `CSS.escape(elementId)`, store previous inline style values 
 
 Examples:
 
-- `pages/stop.tsx:237-246`
+- `pages/bremsweg.tsx:237-246`
 - `pages/minderwert.tsx:949-958`
 - `pages/minderwert.tsx:1111-1120`
 
@@ -226,27 +228,31 @@ Impact: keyboard and touch users cannot reliably access the explanatory content.
 
 Recommendation: add focus/blur support, ARIA linkage, Escape dismissal, and a tap/click path for touch devices.
 
-### F-12 Low: Docker image is single-stage and keeps build-time dependencies
+### F-12 Low: Production Docker image includes only runtime artifacts - resolved
 
-The Dockerfile installs all dependencies, copies the full source, builds, and runs in the same image:
+Status: resolved on 2026-06-23. The Dockerfile now uses `deps`, `builder`, and `runner` stages. The runner installs only production dependencies with `npm ci --omit=dev`, sets `NEXT_TELEMETRY_DISABLED=1` and `NODE_ENV=production`, runs as the non-root `app` user, and copies only `.next`, `public`, `next.config.js`, and package metadata from the build context/build output.
+
+Original finding: the Dockerfile installed all dependencies, copied the full source, built, and ran in the same image:
 
 - `Dockerfile:1-27`
 
-Impact: production images include dev dependencies and source files, increasing image size and attack surface.
+Impact: resolved for the production image. Build-time dependencies and source files remain only in intermediate build stages.
 
-Recommendation: use a multi-stage build. Build with dev dependencies in a builder stage, then copy `.next`, public assets, package metadata, and production dependencies into a smaller runtime stage. Consider `COPY --chown=app:app` for copied files and set `NEXT_TELEMETRY_DISABLED=1` in build/runtime.
+Recommendation: keep Docker and dependency changes synchronized. If the app later moves to Next standalone output, simplify the runner further by copying `.next/standalone` and `.next/static`.
 
-### F-13 Low: Documentation and config have small drift
+### F-13 Low: Documentation and config have small drift - resolved
 
-Examples:
+Status: resolved on 2026-06-23. README and repository guidelines now describe the current route names, Vitest test command, Docker image shape, and dependency-version policy. The legacy `.eslintrc.json` was removed because `eslint.config.mjs` is the active flat ESLint configuration.
 
-- `README.md:137-149` lists package versions that no longer match `package.json:11-27`.
-- `README.md:162` says Tailwind was upgraded to `4.2.2`, while `package.json:18` and `package.json:26` use `4.3.0`.
-- `.eslintrc.json:1-3` remains tracked even though the active lint path is `eslint.config.mjs:1-12`.
+Original examples:
 
-Impact: low operational risk, but it creates friction during upgrades and onboarding.
+- README duplicated exact package versions outside `package.json` and `package-lock.json`.
+- README carried an outdated Tailwind version note.
+- The legacy `.eslintrc.json` remained tracked even though `eslint.config.mjs` is the active lint path.
 
-Recommendation: refresh README version claims or remove exact versions from prose, and remove the legacy `.eslintrc.json` if the flat config is canonical.
+Impact: resolved for the known stale docs/config entries.
+
+Recommendation: keep exact dependency versions in `package.json` and `package-lock.json` instead of duplicating them in prose.
 
 ## Positive Observations
 
@@ -255,7 +261,7 @@ Recommendation: refresh README version claims or remove exact versions from pros
 - `eslint-config-next/core-web-vitals` is active through flat config.
 - Main layout components live under `components/`, keeping `/pages` reserved for routes.
 - Hex Tailwind palettes are mirrored in `tailwind.config.ts` and `styles/globals.css`, matching the html2canvas compatibility note.
-- The production build succeeds with Next.js 16.2.6 and React 19.2.6.
+- The production build succeeds with the current Next.js 16.2.9 and React 19.2.7 package set.
 
 ## Recommended Remediation Order
 
@@ -265,7 +271,7 @@ Recommendation: refresh README version claims or remove exact versions from pros
 4. Decide whether Kurvenradius should remain `h`/`s`-driven with `b` as a documented comparison input, or expand it into a full solver for combinations involving `b`.
 5. Monitor Next for a stable PostCSS advisory fix; do not use npm's forced `next@9.3.3` downgrade.
 6. Wrap calculator tables for mobile overflow.
-7. Clean up screenshot export selectors, duplicate IDs, Docker image shape, docs drift, and tooltip accessibility.
+7. Clean up screenshot export selectors, duplicate IDs, and tooltip accessibility.
 
 ## Residual Risk
 

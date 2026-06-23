@@ -1,9 +1,9 @@
-import * as util from '../../components/utilConst'
+import * as util from '../utilConst'
 import { useState, useEffect } from "react";
 import Image from 'next/image'
 import SVG from '../../assets/svg'
 import { useScreenshot } from '../../hooks/useScreenshot'
-import StepperInput from '../../components/StepperInput'
+import StepperInput from '../StepperInput'
 
 function ConstAccel() {
   const [vA, vAset] = useState<number>(NaN)

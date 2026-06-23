@@ -9,7 +9,7 @@ A comprehensive Next.js web application for automotive forensic analysis and acc
 - **Constant Speed Analysis (Konstantfahrt)** - Acceleration, deceleration, and constant velocity calculations
 - **Video Measurement Tools (VMT)** - ESO and Riegl laser measurement beam divergence calculations
 - **Value Assessment (Minderwert)** - Vehicle damage value assessment tools
-- **Additional Calculations (Sonst)** - Curve radius calculations, percentage/angle conversions, and other utilities
+- **Additional Calculations (Sonstige)** - Curve radius calculations, percentage/angle conversions, and other utilities
 
 ### Additional Features
 - **Screenshot & Export** - Generate high-quality PNG exports and copy results to clipboard
@@ -25,6 +25,7 @@ A comprehensive Next.js web application for automotive forensic analysis and acc
 - **Framework**: Next.js 16 with React 19 and TypeScript
 - **Styling**: Tailwind CSS 4
 - **Linting**: ESLint flat config via `eslint-config-next/core-web-vitals`
+- **Testing**: Vitest for formula-helper unit tests
 - **Screenshot**: `html2canvas` for PNG exports with clipboard-to-download fallback
 - **State Management**: React `useState` with sessionStorage persistence
 
@@ -53,6 +54,7 @@ npm start        # Start production server
 ### Code Quality
 ```bash
 npm run lint     # Run ESLint
+npm test         # Run Vitest tests
 ```
 
 ## Project Structure
@@ -67,6 +69,10 @@ nextjs-ppcavs-ifu/
 │   ├── Layout.tsx          # Page wrapper
 │   ├── Navbar.tsx          # Global navigation
 │   ├── StepperInput.tsx    # Custom numeric input with +/- controls
+│   ├── const/              # Konstantfahrt calculator sections
+│   │   ├── ConstAccel.tsx
+│   │   ├── ConstDecel.tsx
+│   │   └── ConstDrive.tsx
 │   ├── util.tsx            # DOM helpers
 │   ├── utilConst.tsx       # Konstantfahrt calculation helpers
 │   └── utilStop.tsx        # Braking distance calculations
@@ -75,23 +81,16 @@ nextjs-ppcavs-ifu/
 ├── pages/
 │   ├── _app.tsx            # Global layout wrapper
 │   ├── _document.tsx       # Root document attributes for Next.js/browser behavior
-│   ├── const/              # Konstantfahrt sub-pages
-│   │   ├── const-accel.tsx
-│   │   ├── const-decel.tsx
-│   │   └── const-drive.tsx
-│   ├── const/index.tsx
 │   ├── index.tsx
+│   ├── bremsweg.tsx
+│   ├── konstantfahrt.tsx
 │   ├── minderwert.tsx
-│   ├── sonst.tsx
-│   ├── stop.tsx
+│   ├── sonstige.tsx
 │   └── vmt.tsx
 ├── public/
-│   ├── favicon.ico
-│   ├── vA.svg
-│   └── vercel.svg
+│   └── favicon.ico
 ├── styles/
-│   ├── globals.css         # Tailwind layer + global styles
-│   └── old.css             # Legacy styling (reference)
+│   └── globals.css         # Tailwind layer + global styles
 ├── docker-compose.yml
 ├── Dockerfile
 ├── eslint.config.mjs       # Flat ESLint configuration
@@ -106,10 +105,10 @@ nextjs-ppcavs-ifu/
 
 ### Braking Analysis (utilStop.tsx)
 - `getReaction()` - Reaction distance calculation
-- `getBreakDelay()` - Brake delay distance
+- `getBrakeDelay()` - Brake delay distance
 - `getFullSend()` - Velocity at full braking start
-- `getBreakDistance()` - Actual braking distance
-- `getBreakDuration()` - Braking time duration
+- `getBrakeDistance()` - Actual braking distance
+- `getBrakeDuration()` - Braking time duration
 - `getFullDistance()` - Total stopping distance
 - `getFullTime()` - Total stopping time
 
@@ -128,7 +127,7 @@ nextjs-ppcavs-ifu/
 ## Usage
 
 1. **Start the development server**: `npm run dev`
-2. **Navigate to analysis tool**: Choose from Braking, Constant Speed, VMT, or Value Assessment
+2. **Navigate to analysis tool**: Choose from Bremsweg, Konstantfahrt, VMT, Minderwert, or Sonstige
 3. **Enter parameters**: Input vehicle data (speeds, times, distances, acceleration values)
 4. **View results**: Calculations update in real-time
 5. **Export results**: Use screenshot or clipboard buttons to save results
@@ -136,18 +135,18 @@ nextjs-ppcavs-ifu/
 ## Key Dependencies
 
 ### Core Dependencies
-- `next`: 16.2.6 - React framework
-- `react`: 19.2.6 - UI library
-- `react-dom`: 19.2.6 - React DOM rendering
-- `html2canvas`: 1.4.1 - Screenshot generation
+- `next` - React framework
+- `react` / `react-dom` - UI rendering
+- `html2canvas` - Screenshot generation
 
 ### Development Dependencies
-- `typescript`: 5.9.3 - Type safety
-- `tailwindcss`: 4.3.0 - Styling framework
-- `eslint`: 9.39.4 - Code linting
-- `eslint-config-next`: 16.2.6 - Next.js flat-config preset
-- `@tailwindcss/postcss`: 4.3.0 - Tailwind-integrated PostCSS preset
-- `@types/node`: 24.12.4 - Node.js 24 type definitions
+- `typescript` - Type safety
+- `tailwindcss` / `@tailwindcss/postcss` - Styling pipeline
+- `eslint` / `eslint-config-next` - Code linting
+- `vitest` - Formula-helper unit tests
+- `@types/node`, `@types/react`, `@types/react-dom` - Type definitions
+
+Exact package versions are maintained in `package.json` and `package-lock.json`.
 
 ## Notes
 
@@ -160,7 +159,7 @@ nextjs-ppcavs-ifu/
 - Production builds use Next.js 16's default Turbopack pipeline.
 - ESLint is configured through `eslint.config.mjs` using `eslint-config-next/core-web-vitals`.
 - The flat ESLint config includes a targeted `react-hooks/set-state-in-effect` override to preserve the existing sessionStorage restore pattern used by calculators.
-- Tailwind CSS upgraded to v4.3.0 with configuration managed in `tailwind.config.ts`.
+- Tailwind CSS v4 is configured through `tailwind.config.ts`.
 - Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new palette entries with hex values in both `tailwind.config.ts` and `styles/globals.css` to keep exports working.
 - The screenshot/export flow still depends on `html2canvas@1.4.1`; runtime alignment changes should not replace it without manual browser verification.
 - `pages/_document.tsx` sets `data-scroll-behavior="smooth"` on `<Html>` to acknowledge intentional global smooth scrolling in Next.js 16.
@@ -190,7 +189,7 @@ docker build -t nextjs-ifu .
 docker run -p 3000:3000 nextjs-ifu
 ```
 
-The Docker image now targets Node 24 LTS via `node:24-alpine`.
+The Docker image targets Node 24 LTS via `node:24-alpine` and uses a multi-stage build so the runtime image keeps only production dependencies and built Next.js output.
 
 ### Vercel Deployment
 For Vercel deployment, connect your GitHub repository to Vercel for automatic deployments.

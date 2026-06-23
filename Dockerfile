@@ -1,26 +1,35 @@
-FROM node:24-alpine
+FROM node:24-alpine AS base
 
-RUN addgroup app && adduser -S -G app app
-
-USER app
+ENV NEXT_TELEMETRY_DISABLED=1
 
 WORKDIR /app
 
-# Copy lockfile and package.json for efficient layer caching
+FROM base AS deps
+
 COPY package*.json ./
-
-USER root
-RUN chown -R app:app .
-USER app
-
-# Install dependencies with npm
 RUN npm ci
 
-# Copy the rest of the source
-COPY . .
+FROM deps AS builder
 
-# Build the Next.js application
+COPY . .
 RUN npm run build
+
+FROM base AS runner
+
+ENV NODE_ENV=production
+
+RUN addgroup -S app && adduser -S -G app app
+
+COPY package*.json ./
+RUN npm ci --omit=dev && npm cache clean --force
+
+COPY --from=builder --chown=app:app /app/.next ./.next
+COPY --from=builder --chown=app:app /app/public ./public
+COPY --from=builder --chown=app:app /app/next.config.js ./next.config.js
+
+RUN chown -R app:app /app
+
+USER app
 
 EXPOSE 3000
 
