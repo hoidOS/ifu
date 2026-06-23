@@ -41,6 +41,9 @@ import sSF from './images/sSF.svg'
 import vVF from './images/vVF.svg'
 import sBF from './images/sBF.svg'
 import tBF from './images/tBF.svg'
+import RF from './images/RF.svg'
+import thetaF from './images/thetaF.svg'
+import bF from './images/bF.svg'
 import sgesF from './images/sgesF.svg'
 import tgesF from './images/tgesF.svg'
 
@@ -146,6 +149,9 @@ interface svgInterface {
     vVF: string,
     sBF: string,
     tBF: string,
+    RF: string,
+    thetaF: string,
+    bF: string,
     sgesF: string,
     tgesF: string,
 
@@ -251,6 +257,9 @@ const SVG: svgInterface = {
     vVF: vVF,
     sBF: sBF,
     tBF: tBF,
+    RF: RF,
+    thetaF: thetaF,
+    bF: bF,
     sgesF: sgesF,
     tgesF: tgesF,
 
