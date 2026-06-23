@@ -210,11 +210,7 @@ function Sonst() {
   }
 
   const isCurveError = (): boolean => {
-    let inputCount = 0;
-    if (!isNaN(h) && h > 0) inputCount++;
-    if (!isNaN(s) && s > 0) inputCount++;
-    if (!isNaN(b) && b > 0) inputCount++;
-    return inputCount > 2; // Error if more than 2 inputs are provided
+    return false;
   }
 
   // Curve speed calculation functions
@@ -785,6 +781,36 @@ function Sonst() {
               </thead>
               <tbody>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Segmenthöhe</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">h</td>
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {!isNaN(h) && h >= 0
+                      ? <p className="text-black">{h.toFixed(2).replace(".", ",")} m</p>
+                      : <p className="text-primary-700">-</p>}
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Segmentlänge</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">s</td>
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {!isNaN(s) && s >= 0
+                      ? <p className="text-black">{s.toFixed(2).replace(".", ",")} m</p>
+                      : <p className="text-primary-700">-</p>}
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                  <td className="py-2 px-2 font-medium text-gray-700">Bogenlänge</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700">b</td>
+                  <td className="py-2 px-2 text-center font-semibold">
+                    {!isNaN(b) && b >= 0
+                      ? <p className="text-black">{b.toFixed(2).replace(".", ",")} m</p>
+                      : <p className="text-primary-700">-</p>}
+                  </td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
+                </tr>
+                <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
                   <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
                   <td className="py-2 px-2 text-center font-semibold">
@@ -792,7 +818,7 @@ function Sonst() {
                       ? <p className="text-red-500">ERROR</p>
                       : (radiusResult ? <p className="text-primary-700">{radiusResult}</p> : <p className="text-primary-700">-</p>)}
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">R = s²/8h + h/2</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.RF} alt="RF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Zentriwinkel</td>
@@ -802,7 +828,7 @@ function Sonst() {
                       ? <p className="text-red-500">ERROR</p>
                       : (zentriwinkelResult ? <p className="text-primary-700">{zentriwinkelResult}</p> : <p className="text-primary-700">-</p>)}
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">θ = 2×arcsin(s/2R)</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.thetaF} alt="thetaF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
                 <tr className="hover:bg-blue-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">Errechnete Bogenlänge</td>
@@ -816,7 +842,7 @@ function Sonst() {
                           ? <p className="text-black">{b.toFixed(2).replace(".", ",")} m</p>
                           : <p className="text-primary-700">-</p>))}
                   </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">b = R × θ</td>
+                  <td className="py-2 px-2 text-center font-medium text-gray-700"><Image unoptimized src={SVG.bF} alt="bF" className="inline-block h-auto w-auto max-w-full"></Image></td>
                 </tr>
               </tbody>
             </table>
@@ -953,28 +979,62 @@ function Sonst() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
-              <thead>
-                <tr className="border-b-2 border-primary-700">
-                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="hover:bg-blue-50 transition-colors">
-                  <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">v</td>
-                  <td className="py-2 px-2 text-center font-semibold">
-                    {isSpeedError()
-                      ? <p className="text-red-500">ERROR</p>
-                      : (curveSpeedResult ? <p className="text-primary-700">{curveSpeedResult}</p> : <p className="text-primary-700">-</p>)}
-                  </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">v = 3.6×√((g×R×(μ<sub>R</sub>+e))/(1-μ<sub>R</sub>×e))</td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+                <thead>
+                  <tr className="border-b-2 border-primary-700">
+                    <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                    <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                    <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                    <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                    <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
+                    <td className="py-2 px-2 text-center font-semibold">
+                      {!isNaN(R) && R >= 0
+                        ? <p className="text-black">{R.toFixed(2).replace(".", ",")} m</p>
+                        : <p className="text-primary-700">-</p>}
+                    </td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
+                  </tr>
+                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                    <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">μ<sub>R</sub></td>
+                    <td className="py-2 px-2 text-center font-semibold">
+                      {!isNaN(muR) && muR >= 0
+                        ? <p className="text-black">{muR.toFixed(2).replace(".", ",")}</p>
+                        : <p className="text-primary-700">-</p>}
+                    </td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
+                  </tr>
+                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                    <td className="py-2 px-2 font-medium text-gray-700">Überhoehung</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">ü</td>
+                    <td className="py-2 px-2 text-center font-semibold">
+                      {!isNaN(ue) && ue >= 0
+                        ? <p className="text-black">{ue.toFixed(1).replace(".", ",")} %</p>
+                        : <p className="text-primary-700">-</p>}
+                    </td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
+                  </tr>
+                  <tr className="hover:bg-blue-50 transition-colors">
+                    <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">v</td>
+                    <td className="py-2 px-2 text-center font-semibold">
+                      {isSpeedError()
+                        ? <p className="text-red-500">ERROR</p>
+                        : (curveSpeedResult ? <p className="text-primary-700">{curveSpeedResult}</p> : <p className="text-primary-700">-</p>)}
+                    </td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">
+                      <Image unoptimized src={SVG.vKF} alt="vKF" className="inline-block h-auto w-auto max-w-full"></Image>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
