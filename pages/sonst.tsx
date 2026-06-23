@@ -953,28 +953,62 @@ function Sonst() {
             </div>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
-              <thead>
-                <tr className="border-b-2 border-primary-700">
-                  <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
-                  <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="hover:bg-blue-50 transition-colors">
-                  <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">v</td>
-                  <td className="py-2 px-2 text-center font-semibold">
-                    {isSpeedError()
-                      ? <p className="text-red-500">ERROR</p>
-                      : (curveSpeedResult ? <p className="text-primary-700">{curveSpeedResult}</p> : <p className="text-primary-700">-</p>)}
-                  </td>
-                  <td className="py-2 px-2 text-center font-medium text-gray-700">v = 3.6×√((g×R×(μ<sub>R</sub>+e))/(1-μ<sub>R</sub>×e))</td>
-                </tr>
-              </tbody>
-            </table>
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-blue-200/50 border-b-2 border-r-2">
+                <thead>
+                  <tr className="border-b-2 border-primary-700">
+                    <th className="text-primary-700 font-semibold text-left py-3 px-2">Art</th>
+                    <th className="text-primary-700 font-semibold text-center py-3 px-2">Var</th>
+                    <th className="text-primary-700 font-semibold text-center py-3 px-2"><span className="text-black">Ein</span> / Ausgabe</th>
+                    <th className="text-primary-700 font-semibold text-center py-3 px-2">Formel</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                    <td className="py-2 px-2 font-medium text-gray-700">Kurvenradius</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">R</td>
+                    <td className="py-2 px-2 text-center font-semibold">
+                      {!isNaN(R) && R >= 0
+                        ? <p className="text-black">{R.toFixed(2).replace(".", ",")} m</p>
+                        : <p className="text-primary-700">-</p>}
+                    </td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
+                  </tr>
+                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                    <td className="py-2 px-2 font-medium text-gray-700">Reibwert</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">μ<sub>R</sub></td>
+                    <td className="py-2 px-2 text-center font-semibold">
+                      {!isNaN(muR) && muR >= 0
+                        ? <p className="text-black">{muR.toFixed(2).replace(".", ",")}</p>
+                        : <p className="text-primary-700">-</p>}
+                    </td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
+                  </tr>
+                  <tr className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                    <td className="py-2 px-2 font-medium text-gray-700">Überhoehung</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">ü</td>
+                    <td className="py-2 px-2 text-center font-semibold">
+                      {!isNaN(ue) && ue >= 0
+                        ? <p className="text-black">{ue.toFixed(1).replace(".", ",")} %</p>
+                        : <p className="text-primary-700">-</p>}
+                    </td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700"></td>
+                  </tr>
+                  <tr className="hover:bg-blue-50 transition-colors">
+                    <td className="py-2 px-2 font-medium text-gray-700">Geschwindigkeit</td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">v</td>
+                    <td className="py-2 px-2 text-center font-semibold">
+                      {isSpeedError()
+                        ? <p className="text-red-500">ERROR</p>
+                        : (curveSpeedResult ? <p className="text-primary-700">{curveSpeedResult}</p> : <p className="text-primary-700">-</p>)}
+                    </td>
+                    <td className="py-2 px-2 text-center font-medium text-gray-700">
+                      <Image unoptimized src={SVG.vKF} alt="vKF" className="inline-block h-auto w-auto max-w-full"></Image>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
 
