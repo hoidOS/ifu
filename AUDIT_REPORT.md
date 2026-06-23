@@ -12,7 +12,7 @@ The project is in good baseline shape for tooling: ESLint passes, TypeScript pas
 
 The formula layer is also not covered by automated tests. For a forensic automotive calculator, this is the largest quality gap.
 
-Post-audit implementation work has resolved F-02 and clarified the F-04 Kurvenradius behavior for the current UI requirement. F-01 remains open as the broader formula-domain validation issue.
+Post-audit implementation work has resolved F-02, added an initial F-03 test slice, clarified the F-04 Kurvenradius behavior for the current UI requirement, and applied the stable F-08 dependency updates. F-01 remains open as the broader formula-domain validation issue.
 
 ## Verification Performed
 
@@ -28,8 +28,10 @@ The first sandboxed temp-copy build failed because Turbopack tried to spawn/bind
 ## Post-Audit Updates
 
 - 2026-06-23: F-02 is resolved in the current worktree. `components/utilConst.tsx:1-10` now formats square-root helper results through a shared guard that returns `ERROR` for negative radicands and non-finite outputs, and `components/utilConst.tsx:173-176` no longer masks the acceleration `vA` radicand with `Math.abs`. The const result tables render helper-level `ERROR` in red.
+- 2026-06-23: F-03 is partially addressed. `vitest` is installed, `npm test` runs the test suite, and `components/utilConst.test.ts` covers the known valid braking example plus the negative-root acceleration cases from F-02. Broader formula-helper coverage is still needed.
 - 2026-06-23: F-04 is resolved for the clarified UI requirement. `Kurvenradius Ergebnisse` now shows the three entered values above the calculated outputs, and `isCurveError()` no longer rejects the table merely because `b` is present. The block remains an `h`/`s`-driven calculation; implementing all two-value solve combinations involving `b` would be a separate feature.
-- Verification after the F-02 implementation: `npm run lint` passed and `./node_modules/.bin/tsc --noEmit --incremental false` passed.
+- 2026-06-23: F-08 is partially addressed. Stable direct updates were applied for Next, React, React DOM, Tailwind, `eslint-config-next`, and React/Node type packages. `npm audit fix` removed the transitive `@babel/core` and `js-yaml` advisories. The remaining audit result is the Next-bundled PostCSS advisory, where npm still suggests the unsafe `next@9.3.3` downgrade.
+- Verification after the F-02/F-03/F-08 implementation: `npm test`, `npm run lint`, `./node_modules/.bin/tsc --noEmit --incremental false`, and `npm run build` passed. The production build required elevated execution because Turbopack's internal process/bind step is blocked by the sandbox.
 
 ## Findings
 
@@ -74,16 +76,18 @@ Impact: impossible inputs are converted into plausible results instead of being 
 
 Recommendation: complete for the identified `Math.abs` masking. Keep this behavior covered when automated formula tests are added under F-03.
 
-### F-03 High: No automated tests cover the formula layer
+### F-03 High: Formula-layer test coverage is still too narrow - partially addressed
 
-Evidence:
+Status: partially addressed on 2026-06-23. `vitest` is now available through `npm test`, and `components/utilConst.test.ts` covers the first three `utilConst` examples.
+
+Original evidence:
 
 - `package.json:5-10` has no `test` script.
 - Formula helpers in `components/utilConst.tsx` and `components/utilStop.tsx` are pure enough to test directly.
 
-Impact: formula regressions, unit mistakes, and edge-case behavior are currently only caught by manual validation.
+Remaining impact: most formula regressions, unit mistakes, and edge-case behavior are still only caught by manual validation.
 
-Recommendation: add focused unit tests for every helper and for representative UI solve paths. Include edge cases for zero denominators, impossible radicands, equal speeds, end speed greater than initial speed, negative monetary factors, and expected valid examples from known forensic reference calculations.
+Recommendation: continue adding focused unit tests for every helper and representative UI solve paths. Include edge cases for zero denominators, impossible radicands, equal speeds, end speed greater than initial speed, negative monetary factors, and expected valid examples from known forensic reference calculations.
 
 ### F-04 Medium: Kurvenradius `b` behavior was ambiguous - resolved for current UI requirement
 
@@ -160,9 +164,19 @@ Impact: narrow screens can clip inputs, formulas, and result cells, which is esp
 
 Recommendation: wrap all fixed-width or multi-column calculator tables in `overflow-x-auto`, matching the BVSK system-table pattern.
 
-### F-08 Medium: Dependency advisories are present
+### F-08 Medium: Dependency advisories are present - partially addressed
 
-`npm audit --json` reported:
+Status: partially addressed on 2026-06-23. Stable direct dependency updates were applied:
+
+- `next` and `eslint-config-next`: `16.2.6` to `16.2.9`
+- `react` and `react-dom`: `19.2.6` to `19.2.7`
+- `tailwindcss` and `@tailwindcss/postcss`: `4.3.0` to `4.3.1`
+- `@types/react`: `19.2.15` to `19.2.17`
+- `@types/node`: `24.12.4` to `24.13.2`
+
+`npm audit fix` also updated compatible transitive packages and removed the previous `@babel/core` and `js-yaml` advisories. The current audit result is 2 moderate advisories tied to Next's bundled `postcss <8.5.10`. npm still proposes `next@9.3.3` via `npm audit fix --force`, which is a breaking downgrade and should not be used.
+
+Original `npm audit --json` reported:
 
 - `@babel/core <=7.29.0`: low, arbitrary file read via sourceMappingURL comment, GHSA-4x5r-pxfx-6jf8.
 - `js-yaml <=4.1.1`: moderate, quadratic-complexity DoS in merge-key handling, GHSA-h67p-54hq-rp68.
@@ -171,9 +185,9 @@ Recommendation: wrap all fixed-width or multi-column calculator tables in `overf
 
 `npm outdated --json` showed patch updates available for `next` and `eslint-config-next` from `16.2.6` to `16.2.9`, React from `19.2.6` to `19.2.7`, Tailwind packages from `4.3.0` to `4.3.1`, and type packages. It also showed major updates for ESLint 10 and TypeScript 6.
 
-Impact: no critical/high advisories were reported, but the app is not advisory-clean.
+Impact: no critical/high advisories are reported, but the app is still not advisory-clean because of the remaining Next/PostCSS audit path.
 
-Recommendation: try the patch updates first, especially `next`/`eslint-config-next`, then rerun `npm audit`, lint, typecheck, build, and manual screenshot export checks. Do not blindly follow npm's reported `next@9.3.3` fix suggestion; that appears to be an advisory-resolution artifact and would be a major downgrade.
+Recommendation: keep the current stable updates, avoid `npm audit fix --force`, and update Next again when a stable release resolves the bundled PostCSS advisory. Continue running `npm audit`, lint, typecheck, tests, build, and manual screenshot export checks after dependency changes.
 
 ### F-09 Low: Screenshot export mutates inline styles without preserving prior values
 
@@ -246,10 +260,10 @@ Recommendation: refresh README version claims or remove exact versions from pros
 ## Recommended Remediation Order
 
 1. Finish remaining formula-domain validation from F-01, especially zero denominators, impossible non-root relationships, stop-page non-finite outputs, and negative times/distances.
-2. Add formula-helper unit tests before broad UI refactors.
+2. Expand formula-helper unit tests before broad UI refactors.
 3. Tighten Minderwert date and factor validation.
 4. Decide whether Kurvenradius should remain `h`/`s`-driven with `b` as a documented comparison input, or expand it into a full solver for combinations involving `b`.
-5. Apply safe dependency patch updates and rerun the checks.
+5. Monitor Next for a stable PostCSS advisory fix; do not use npm's forced `next@9.3.3` downgrade.
 6. Wrap calculator tables for mobile overflow.
 7. Clean up screenshot export selectors, duplicate IDs, Docker image shape, docs drift, and tooltip accessibility.
 
