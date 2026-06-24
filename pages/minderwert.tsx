@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { useState, useEffect, Fragment } from 'react'
-import { FaBalanceScale } from 'react-icons/fa'
 import { useScreenshot } from '../hooks/useScreenshot'
 
 interface TooltipProps {
@@ -1170,17 +1169,14 @@ function Minderwert() {
             </div>
             
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <h5 className="text-base font-semibold text-gray-700 mb-6 flex items-center gap-2">
-                <FaBalanceScale className="w-5 h-5" />
-                Proportionaler Vergleich
-              </h5>
-              <div className="space-y-5">
-                <div className="grid grid-cols-[12px_5rem_minmax(0,1fr)] items-center gap-x-3">
-                  <span className="h-3 w-3 rounded-full bg-primary-700"></span>
-                  <span className="text-sm font-bold text-gray-700">BVSK</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
+              <h5 className="text-lg font-semibold text-gray-700 mb-6">Proportionaler Vergleich</h5>
+              <div className="space-y-4">
+                <div className="grid grid-cols-[9rem_8rem_minmax(0,1fr)] items-center gap-x-5">
+                  <span className="text-base font-bold text-gray-700">BVSK</span>
+                  <span className="text-base font-bold tabular-nums text-primary-700 text-right">{bvskResult.toFixed(2).replace(".", ",")} €</span>
+                  <div className="bg-gray-200 rounded-full h-4 relative overflow-hidden">
                     <div 
-                      className="h-full rounded-full transition-all duration-1000 shadow-sm"
+                      className="h-full rounded-full transition-all duration-1000"
                       style={{
                         width: getComparisonWidth(bvskResult),
                         background: "linear-gradient(90deg, #0059a9 0%, #3b82f6 100%)"
@@ -1189,29 +1185,29 @@ function Minderwert() {
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-[12px_5rem_minmax(0,1fr)] items-center gap-x-3">
-                  <span className="h-3 w-3 rounded-full bg-orange-700"></span>
-                  <span className="text-sm font-bold text-gray-700">MFM</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
+                <div className="grid grid-cols-[9rem_8rem_minmax(0,1fr)] items-center gap-x-5">
+                  <span className="text-base font-bold text-gray-700">Durchschnitt</span>
+                  <span className="text-base font-bold tabular-nums text-green-600 text-right">{roundedAverage.toFixed(2).replace(".", ",")} €</span>
+                  <div className="bg-gray-200 rounded-full h-4 relative overflow-hidden">
                     <div 
-                      className="h-full rounded-full transition-all duration-1000 shadow-sm"
+                      className="h-full rounded-full transition-all duration-1000"
                       style={{
-                        width: getComparisonWidth(mfmResult),
-                        background: "linear-gradient(90deg, #c2410c 0%, #f97316 100%)"
+                        width: getComparisonWidth(roundedAverage),
+                        background: "linear-gradient(90deg, #16a34a 0%, #4ade80 100%)"
                       }}
                     ></div>
                   </div>
                 </div>
                 
-                <div className="grid grid-cols-[12px_5rem_minmax(0,1fr)] items-center gap-x-3">
-                  <span className="h-3 w-3 rounded-full bg-green-500"></span>
-                  <span className="text-sm font-bold text-gray-700">Ø</span>
-                  <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
+                <div className="grid grid-cols-[9rem_8rem_minmax(0,1fr)] items-center gap-x-5">
+                  <span className="text-base font-bold text-gray-700">MFM</span>
+                  <span className="text-base font-bold tabular-nums text-orange-700 text-right">{mfmResult.toFixed(2).replace(".", ",")} €</span>
+                  <div className="bg-gray-200 rounded-full h-4 relative overflow-hidden">
                     <div 
-                      className="h-full rounded-full transition-all duration-1000 shadow-sm"
+                      className="h-full rounded-full transition-all duration-1000"
                       style={{
-                        width: getComparisonWidth(roundedAverage),
-                        background: "linear-gradient(90deg, #16a34a 0%, #4ade80 100%)"
+                        width: getComparisonWidth(mfmResult),
+                        background: "linear-gradient(90deg, #c2410c 0%, #f97316 100%)"
                       }}
                     ></div>
                   </div>
