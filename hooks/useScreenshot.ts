@@ -36,6 +36,14 @@ export const useScreenshot = (): UseScreenshotReturn => {
       clonedDocument.querySelectorAll<HTMLElement>(screenshotIgnoreSelector).forEach(element => {
         element.style.visibility = 'hidden';
       });
+
+      clonedDocument.querySelectorAll<HTMLElement>('.calculator-table th.text-center').forEach(element => {
+        element.style.textAlign = 'center';
+      });
+
+      clonedDocument.querySelectorAll<HTMLElement>('.calculator-table th.text-left').forEach(element => {
+        element.style.textAlign = 'left';
+      });
     }
   };
 
