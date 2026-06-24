@@ -53,3 +53,35 @@
   For example, v_0 = 50 km/h -> s_s ~ 2.73 m; v_0 = 100 km/h -> s_s ~ 5.51 m.
 
 - Action items: update `getBrakeDelay`/`getFullDistance` in `components/utilStop.tsx` to use the linear ramp term (`-a*t_s^2/6` instead of `-a*t_s^2/4`), refresh the rendered formulas in `assets/`, and re-check the Bremsweg outputs against the handbook examples.
+
+## Export/Screenshot Cleanup
+
+- Current state: all calculator export buttons go through `hooks/useScreenshot.ts`.
+- Current export scale is `2`, not `4`, so clipboard/download images are smaller and easier to paste into documents.
+- The export hook still mutates the live DOM before calling `html2canvas`:
+  - hides `.screenshot-buttons`, `#clipboard-button`, and `#screenshot-button`
+  - removes table `boxShadow`
+  - makes `.p-4` containers transparent
+  - restores those styles afterwards
+- This works, but it is brittle. A cleaner refactor is to capture an offscreen clone:
+  1. Find the target element.
+  2. Clone it with `cloneNode(true)`.
+  3. Put the clone in an offscreen fixed container.
+  4. Remove export controls from the clone only.
+  5. Add an `export-capture` class to the clone for any export-only CSS.
+  6. Run `html2canvas(clone)`.
+  7. Remove the clone.
+- Benefits: no visible flicker, no risk of failing to restore inline styles, no live DOM mutation, and export-only table fixes can be scoped to the clone.
+- Keep `html2canvas` limitations in mind: collapsed table borders and rounded clipping can create small edge artifacts, especially around blue divider lines at table corners. Prefer preserving the visible table border/radius and avoid stripping table borders during export.
+
+## Minderwert Styling Continuation
+
+- Current design direction: BVSK uses Steinacker primary blue; MFM uses the darker orange accent (`orange-700`/`orange-800`) across headers, table borders, focus rings, result values, comparison markers, and system tables.
+- The MFM input card header should stay orange like `MFM System`, not blue, so the two valuation systems remain easy to distinguish.
+- Minderwert is visually aligned now, but it is still structurally more bespoke than the standard calculator pages. A future cleanup could extract shared Minderwert table/card helpers instead of leaving all table colors inline.
+- Native `<input type="date">` cannot reliably force German `TT.MM.JJJJ` display; browsers render it by locale. To force `TT.MM.JJJJ`, replace the two MFM date fields with text inputs, parse `DD.MM.YYYY`, store ISO `YYYY-MM-DD`, and show validation for invalid/reversed dates.
+
+## Bremsweg Styling Continuation
+
+- The Bremsweg input and result card headers now both use `calculator-card-header`; avoid reintroducing `calculator-card-header-compact` there unless a deliberately compact export view is added.
+- The copied/downloaded Anhaltevorgang result table still has awkward inline SVG placement in the labels `Gesamtstrecke von vA bis vE` and `Gesamtdauer von vA bis vE`. Consider replacing those inline SVGs with plain text-style notation or constraining them to a smaller fixed height for export/readability.
