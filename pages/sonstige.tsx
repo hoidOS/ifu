@@ -350,7 +350,7 @@ function Sonstige() {
         <div id="berechnungen-sonst" className="calculator-card">
           <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Steigungsverzögerung Ergebnisse</h2>
-            <div className="screenshot-buttons flex gap-2">
+            <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-sonst')}
                 disabled={isProcessing}
@@ -565,7 +565,7 @@ function Sonstige() {
         <div id="berechnungen-ausscher" className="calculator-card">
           <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Ausschervorgänge Ergebnisse</h2>
-            <div className="screenshot-buttons flex gap-2">
+            <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-ausscher')}
                 disabled={isProcessing}
@@ -750,7 +750,7 @@ function Sonstige() {
         <div id="berechnungen-kurve" className="calculator-card">
           <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Kurvenradius Ergebnisse</h2>
-            <div className="screenshot-buttons flex gap-2">
+            <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-kurve')}
                 disabled={isProcessing}
@@ -959,7 +959,7 @@ function Sonstige() {
         <div id="berechnungen-geschwindigkeit" className="calculator-card">
           <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Kurvengrenzgeschwindigkeit Ergebnisse</h2>
-            <div className="screenshot-buttons flex gap-2">
+            <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
               <button
                 onClick={() => handleClipboard('berechnungen-geschwindigkeit')}
                 disabled={isProcessing}

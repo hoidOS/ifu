@@ -155,7 +155,7 @@ function ConstDrive() {
       <div id="berechnungen-drive" className="calculator-card">
         <div className="calculator-card-header">
           <h2 className="text-lg font-semibold">Konstantfahrt</h2>
-          <div className="screenshot-buttons flex gap-2">
+          <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
             <button
               onClick={() => handleClipboard('berechnungen-drive')}
               disabled={isProcessing}

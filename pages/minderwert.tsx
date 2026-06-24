@@ -944,9 +944,8 @@ function Minderwert() {
           
           <div className="relative calculator-card-header">
             <h2 className="text-lg font-semibold">Minderwert Berechnungen</h2>
-            <div className="flex gap-2">
+            <div data-screenshot-ignore="true" className="flex gap-2">
               <button 
-                id="clipboard-button"
                 onClick={() => handleClipboard('results-table')}
                 disabled={isProcessing}
                 className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
@@ -955,7 +954,6 @@ function Minderwert() {
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button 
-                id="screenshot-button"
                 onClick={() => handleScreenshot('results-table', 'minderwert-berechnungen.png')}
                 disabled={isProcessing}
                 className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1106,9 +1104,8 @@ function Minderwert() {
           
           <div className="relative calculator-card-header">
             <h2 className="text-lg font-semibold">Minderwert Vergleich</h2>
-            <div className="flex gap-2">
+            <div data-screenshot-ignore="true" className="flex gap-2">
               <button 
-                id="clipboard-button"
                 onClick={() => handleClipboard('comparison-chart')}
                 disabled={isProcessing}
                 className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1117,7 +1114,6 @@ function Minderwert() {
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button 
-                id="screenshot-button"
                 onClick={() => handleScreenshot('comparison-chart', 'minderwert-vergleich.png')}
                 disabled={isProcessing}
                 className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1233,9 +1229,9 @@ function Minderwert() {
         <div id="bvsk-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
           <div className="calculator-card-header">
             <h3 className="text-lg font-semibold whitespace-nowrap">BVSK System – Bewertungsmaßstäbe</h3>
-            <div className="screenshot-buttons flex gap-2">
+            <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
               <button
-                onClick={() => handleClipboard('bvsk-system-table')}
+                onClick={() => handleClipboard('bvsk-system-card')}
                 disabled={isProcessing}
                 className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
@@ -1243,7 +1239,7 @@ function Minderwert() {
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button
-                onClick={() => handleScreenshot('bvsk-system-table', 'bvsk-system.png')}
+                onClick={() => handleScreenshot('bvsk-system-card', 'bvsk-system.png')}
                 disabled={isProcessing}
                 className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"
@@ -1300,9 +1296,9 @@ function Minderwert() {
         <div id="mfm-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
           <div className="mfm-system-card-header">
             <h3 className="text-lg font-semibold whitespace-nowrap">MFM System – Bewertungsmaßstäbe</h3>
-            <div className="screenshot-buttons flex gap-2">
+            <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
               <button
-                onClick={() => handleClipboard('mfm-system-table')}
+                onClick={() => handleClipboard('mfm-system-card')}
                 disabled={isProcessing}
                 className="mfm-system-header-button disabled:opacity-50 disabled:cursor-not-allowed"
                 title="In Zwischenablage kopieren"
@@ -1310,7 +1306,7 @@ function Minderwert() {
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button
-                onClick={() => handleScreenshot('mfm-system-table', 'mfm-system.png')}
+                onClick={() => handleScreenshot('mfm-system-card', 'mfm-system.png')}
                 disabled={isProcessing}
                 className="mfm-system-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Als PNG herunterladen"

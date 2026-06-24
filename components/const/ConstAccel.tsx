@@ -369,7 +369,7 @@ function ConstAccel() {
       <div id="berechnungen-accel" className="calculator-card">
         <div className="calculator-card-header">
           <h2 className="text-lg font-semibold">konstante Beschleunigung</h2>
-          <div className="screenshot-buttons flex gap-2">
+          <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
             <button
               onClick={() => handleClipboard('berechnungen-accel')}
               disabled={isProcessing}

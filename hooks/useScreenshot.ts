@@ -21,7 +21,7 @@ interface UseScreenshotReturn {
 
 export const useScreenshot = (): UseScreenshotReturn => {
   const [isProcessing, setIsProcessing] = useState(false);
-  const screenshotIgnoreSelector = '[data-screenshot-ignore="true"], .screenshot-buttons, #screenshot-button, #clipboard-button';
+  const screenshotIgnoreSelector = '[data-screenshot-ignore="true"]';
 
   const html2canvasOptions: Html2CanvasOptions = {
     useCORS: true,

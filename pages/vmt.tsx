@@ -124,7 +124,7 @@ function VMT() {
             <div id="eso-ergebnisse" className="calculator-card">
                 <div className="calculator-card-header">
                     <h2 className="text-lg font-semibold">ESO Ergebnisse</h2>
-                    <div className="screenshot-buttons flex gap-2">
+                    <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
                         <button 
                             onClick={() => handleClipboard('eso-ergebnisse')}
                             disabled={isProcessing}
@@ -232,7 +232,7 @@ function VMT() {
             <div id="riegl-ergebnisse" className="calculator-card">
                 <div className="calculator-card-header">
                     <h2 className="text-lg font-semibold">Riegl Ergebnisse</h2>
-                    <div className="screenshot-buttons flex gap-2">
+                    <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
                         <button 
                             onClick={() => handleClipboard('riegl-ergebnisse')}
                             disabled={isProcessing}
