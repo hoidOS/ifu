@@ -9,6 +9,8 @@ interface Html2CanvasOptions {
   imageTimeout: number;
   removeContainer: boolean;
   scale: number;
+  backgroundColor: string;
+  onclone: (clonedDocument: Document) => void;
 }
 
 interface UseScreenshotReturn {
@@ -19,6 +21,7 @@ interface UseScreenshotReturn {
 
 export const useScreenshot = (): UseScreenshotReturn => {
   const [isProcessing, setIsProcessing] = useState(false);
+  const screenshotIgnoreSelector = '[data-screenshot-ignore="true"], .screenshot-buttons, #screenshot-button, #clipboard-button';
 
   const html2canvasOptions: Html2CanvasOptions = {
     useCORS: true,
@@ -27,45 +30,13 @@ export const useScreenshot = (): UseScreenshotReturn => {
     foreignObjectRendering: false,
     imageTimeout: 15000,
     removeContainer: true,
-    scale: 2
-  };
-
-  // Hide UI controls and export-only shadows before taking screenshot
-  const hideElements = (elementId: string) => {
-    const buttons = document.querySelectorAll(`#${elementId} .screenshot-buttons, #${elementId} #screenshot-button, #${elementId} #clipboard-button`);
-    const tables = document.querySelectorAll(`#${elementId} table`);
-    const containers = document.querySelectorAll(`#${elementId} .p-4`);
-
-    buttons.forEach(button => {
-      (button as HTMLElement).style.display = 'none';
-    });
-
-    tables.forEach(table => {
-      (table as HTMLElement).style.boxShadow = 'none';
-    });
-
-    containers.forEach(container => {
-      (container as HTMLElement).style.backgroundColor = 'transparent';
-    });
-  };
-
-  // Restore UI elements to original state after screenshot
-  const restoreElements = (elementId: string) => {
-    const buttons = document.querySelectorAll(`#${elementId} .screenshot-buttons, #${elementId} #screenshot-button, #${elementId} #clipboard-button`);
-    const tables = document.querySelectorAll(`#${elementId} table`);
-    const containers = document.querySelectorAll(`#${elementId} .p-4`);
-
-    buttons.forEach(button => {
-      (button as HTMLElement).style.display = '';
-    });
-
-    tables.forEach(table => {
-      (table as HTMLElement).style.boxShadow = '';
-    });
-
-    containers.forEach(container => {
-      (container as HTMLElement).style.backgroundColor = '';
-    });
+    scale: 2,
+    backgroundColor: '#ffffff',
+    onclone: (clonedDocument: Document) => {
+      clonedDocument.querySelectorAll<HTMLElement>(screenshotIgnoreSelector).forEach(element => {
+        element.style.visibility = 'hidden';
+      });
+    }
   };
 
   // Capture screenshot of specified element and download as PNG file
@@ -75,8 +46,6 @@ export const useScreenshot = (): UseScreenshotReturn => {
     setIsProcessing(true);
     
     try {
-      hideElements(elementId);
-
       const element = document.getElementById(elementId);
       if (!element) {
         throw new Error(`Element with id "${elementId}" not found`);
@@ -93,7 +62,6 @@ export const useScreenshot = (): UseScreenshotReturn => {
       console.error('Screenshot failed:', error);
       // Could add toast notification here
     } finally {
-      restoreElements(elementId);
       setIsProcessing(false);
     }
   };
@@ -105,8 +73,6 @@ export const useScreenshot = (): UseScreenshotReturn => {
     setIsProcessing(true);
     
     try {
-      hideElements(elementId);
-
       const element = document.getElementById(elementId);
       if (!element) {
         throw new Error(`Element with id "${elementId}" not found`);
@@ -202,7 +168,6 @@ export const useScreenshot = (): UseScreenshotReturn => {
       console.error('Screenshot failed:', error);
       // Could add toast notification here
     } finally {
-      restoreElements(elementId);
       setIsProcessing(false);
     }
   };

@@ -232,9 +232,8 @@ function Bremsweg() {
         <div id="results-print" className="calculator-card">
           <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">Anhaltevorgang</h2>
-            <div className="flex gap-2">
+            <div data-screenshot-ignore="true" className="flex gap-2">
               <button
-                id="clipboard-button"
                 onClick={() => handleClipboard('results-print')}
                 disabled={isProcessing}
                 className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
@@ -243,7 +242,6 @@ function Bremsweg() {
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
               <button
-                id="screenshot-button"
                 onClick={() => handleScreenshot('results-print', 'ergebnisse-anhaltevorgang.png')}
                 disabled={isProcessing}
                 className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
