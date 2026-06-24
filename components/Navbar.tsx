@@ -131,15 +131,15 @@ function Navbar() {
         }`
 
     const desktopLinkClasses = (isActive: boolean) =>
-        `relative inline-flex items-center px-3 py-2 text-[0.95rem] font-medium tracking-normal transition-colors duration-200 after:absolute after:bottom-0 after:left-3 after:right-3 after:h-0.5 after:rounded-full after:bg-primary-700 after:transition-opacity after:duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 ${isActive
+        `relative inline-flex items-center rounded-md px-3 py-2 text-base font-semibold leading-snug tracking-normal transition-colors duration-200 after:absolute after:bottom-0 after:left-3 after:right-3 after:h-1 after:rounded-full after:bg-primary-700 after:transition-opacity after:duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-300 focus-visible:ring-offset-2 ${isActive
             ? 'text-primary-800 after:opacity-100'
-            : 'text-slate-600 after:opacity-0 hover:text-primary-800'
+            : 'text-slate-600 after:opacity-0 hover:bg-slate-100/70 hover:text-primary-800'
         }`
 
     return (
         <>
             <nav
-                className={`sticky top-0 z-20 w-full border-b backdrop-blur transition-all duration-300 ${isScrolled ? 'bg-white/80 shadow-md border-slate-200/80' : 'bg-white/60 shadow-sm border-slate-200/40'}`}
+                className={`sticky top-0 z-20 w-full border-b transition-all duration-300 ${isScrolled ? 'border-slate-200 bg-white shadow-sm' : 'border-slate-200/80 bg-white/95 shadow-none'}`}
                 aria-label="Hauptnavigation"
             >
                 <div className="mx-auto max-w-7xl px-4 py-3 flex items-center justify-between gap-6">

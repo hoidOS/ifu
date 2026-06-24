@@ -64,6 +64,11 @@ const RESOURCE_SECTIONS: ResourceSection[] = [
         description: 'Drohnen Karte',
         href: 'https://maptool-dipul.dfs.de/?language=de&zoom=11.0',
       },
+      {
+        title: 'Mapillary',
+        description: 'Access street-level imagery',
+        href: 'https://www.mapillary.com/app/',
+      },
     ],
   },
   {
@@ -85,11 +90,6 @@ const RESOURCE_SECTIONS: ResourceSection[] = [
         title: 'carsized',
         description: 'Pkw Perspektive',
         href: 'https://www.carsized.com/de/',
-      },
-      {
-        title: 'ADAC',
-        description: 'Verkehrszeichen',
-        href: 'https://www.adac.de/verkehr/recht/verkehrszeichen/',
       },
       {
         title: 'cardetektiv',
@@ -136,14 +136,14 @@ const RESOURCE_SECTIONS: ResourceSection[] = [
         href: 'https://www.nwsib-online.nrw.de/',
       },
       {
-        title: 'Mapillary',
-        description: 'Access street-level imagery',
-        href: 'https://www.mapillary.com/app/',
-      },
-      {
         title: 'Autobahnatlas',
         description: 'Webseite über das deutsche Autobahnnetz',
         href: 'http://www.autobahnatlas-online.de/',
+      },
+      {
+        title: 'ADAC',
+        description: 'Verkehrszeichen',
+        href: 'https://www.adac.de/verkehr/recht/verkehrszeichen/',
       },
     ],
   },
@@ -166,7 +166,7 @@ const Home: NextPage = () => {
         {RESOURCE_SECTIONS.map((section) => (
           <section key={section.id} className="mb-10 last:mb-0 md:mb-12">
             <h2 className="mb-5 flex items-center gap-3 text-xl font-bold leading-snug text-slate-900 md:mb-6 md:text-2xl">
-              <div className={`w-3 h-8 rounded-full ${ACCENT_BAR_CLASSES[section.accent]}`}></div>
+              <div className={`h-6 w-1 rounded-sm ${ACCENT_BAR_CLASSES[section.accent]}`}></div>
               {section.title}
             </h2>
             <div className="grid auto-rows-fr grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
@@ -180,9 +180,6 @@ const Home: NextPage = () => {
                 >
                   <h3 className="flex items-center gap-2 py-1 text-lg font-semibold leading-snug text-slate-900">
                     {link.title}
-                    <span className="transition-transform translate-x-0 group-hover:translate-x-0.5" aria-hidden="true">
-                      →
-                    </span>
                   </h3>
                   <p className="leading-normal text-slate-600">{link.description}</p>
                 </a>
