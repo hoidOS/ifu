@@ -967,32 +967,48 @@ function Minderwert() {
           </div>
           
           <div className="relative p-6">
-            <div className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
-                  <tr className="bg-primary-700 text-white">
-                    <th className="font-semibold text-left py-4 px-4">Modell</th>
-                    <th className="font-semibold text-center py-4 px-4">Formel</th>
-                    <th className="font-semibold text-center py-4 px-4">Ergebnis</th>
+                  <tr>
+                    <th
+                      className="font-semibold py-4 px-4"
+                      style={{ backgroundColor: "#b8d8f5", color: "#003d7a", textAlign: "left", border: 0, borderBottom: "2px solid #0059a9" }}
+                    >
+                      Modell
+                    </th>
+                    <th
+                      className="font-semibold py-4 px-4"
+                      style={{ backgroundColor: "#b8d8f5", color: "#003d7a", textAlign: "center", border: 0, borderBottom: "2px solid #0059a9" }}
+                    >
+                      Formel
+                    </th>
+                    <th
+                      className="font-semibold py-4 px-4"
+                      style={{ backgroundColor: "#b8d8f5", color: "#003d7a", textAlign: "center", border: 0, borderBottom: "2px solid #0059a9" }}
+                    >
+                      Ergebnis
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-gray-100 transition-colors hover:bg-primary-50">
-                    <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2 border-0">
-                      <div className="w-3 h-3 rounded-full bg-primary-700"></div>
-                      BVSK
+                  <tr
+                    className="border-b border-primary-100"
+                    style={{ background: "linear-gradient(135deg, #eef6fd 0%, #d9eafb 100%)" }}
+                  >
+                    <td className="py-4 px-4 border-0">
+                      <span className="font-bold text-primary-700">BVSK</span>
                     </td>
-                    <td className="py-4 px-4 text-center text-xs text-gray-600 font-mono border-0">MW = WBW × K-Faktor × (%-Wert + M-Wert) / 100</td>
+                    <td className="py-4 px-4 text-center text-xs text-gray-700 font-mono border-0">MW = WBW × K-Faktor × (%-Wert + M-Wert) / 100</td>
                     <td className="py-4 px-4 text-center border-0">
                       <span className="font-bold text-lg text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</span>
                     </td>
                   </tr>
-                  <tr className="transition-colors hover:bg-[rgba(255,237,213,0.5)]">
-                    <td className="py-4 px-4 font-bold text-gray-800 flex items-center gap-2 border-0">
-                      <div className="w-3 h-3 rounded-full bg-orange-700"></div>
-                      MFM
+                  <tr style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)" }}>
+                    <td className="py-4 px-4 border-0">
+                      <span className="font-bold text-orange-700">MFM</span>
                     </td>
-                    <td className="py-4 px-4 text-center text-xs text-gray-600 font-mono border-0">MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV</td>
+                    <td className="py-4 px-4 text-center text-xs text-gray-700 font-mono border-0">MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV</td>
                     <td className="py-4 px-4 text-center border-0">
                       <span className="font-bold text-lg text-orange-700">{mfmResult.toFixed(2).replace(".", ",")} €</span>
                     </td>
@@ -1008,9 +1024,8 @@ function Minderwert() {
                 className="rounded-xl p-4 border border-primary-200"
                 style={{ background: "linear-gradient(135deg, #eef6fd 0%, #d9eafb 100%)" }}
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-3 h-3 rounded-full bg-primary-700"></div>
-                  <h3 className="font-semibold text-gray-800">BVSK Berechnung</h3>
+                <div className="mb-3">
+                  <h3 className="font-semibold text-primary-700">BVSK Berechnung</h3>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="text-gray-600">
@@ -1046,9 +1061,8 @@ function Minderwert() {
                 className="rounded-xl p-4 border border-orange-200"
                 style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)" }}
               >
-                <div className="flex items-center gap-2 mb-3">
-                  <div className="w-3 h-3 rounded-full bg-orange-700"></div>
-                  <h3 className="font-semibold text-gray-800">MFM Berechnung</h3>
+                <div className="mb-3">
+                  <h3 className="font-semibold text-orange-700">MFM Berechnung</h3>
                 </div>
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
