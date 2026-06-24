@@ -121,8 +121,8 @@ nextjs-ppcavs-ifu/
 ### Screenshot Hook (useScreenshot.ts)
 - `handleScreenshot()` - Download element as PNG
 - `handleClipboard()` - Copy element to clipboard with automatic download fallback
-- `hideElements()` - Clean UI for screenshots
-- `restoreElements()` - Restore UI after screenshot
+- Export controls are hidden clone-side through `[data-screenshot-ignore="true"]`
+- Exports use `html2canvas` scale `2` with an explicit white background
 
 ## Usage
 
@@ -162,7 +162,7 @@ Exact package versions are maintained in `package.json` and `package-lock.json`.
 - Tailwind CSS v4 is configured through `tailwind.config.ts`.
 - Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new palette entries with hex values in both `tailwind.config.ts` and `styles/globals.css` to keep exports working.
 - Shared calculator card/table styling lives in `styles/globals.css` through classes such as `calculator-card`, `calculator-card-header`, `calculator-table`, `calculator-row`, and `calculator-result-table`; prefer these for standard calculator screens to keep headers, table borders, and row states consistent.
-- The Minderwert page intentionally color-codes the two valuation systems: BVSK uses the Steinacker primary blue, while MFM uses the darker orange header/table accent (`orange-700`/`orange-800`) so inputs, result values, comparison markers, and system tables remain visually linked.
+- The Minderwert page intentionally color-codes the two valuation systems: BVSK uses the Steinacker primary blue, while MFM uses the darker orange accent (`orange-700`/`orange-800`) for headers, focus rings, result values, comparison markers, and system/reference tables. Input table shells stay neutral so editable fields remain the focus.
 - The screenshot/export flow still depends on `html2canvas@1.4.1`; runtime alignment changes should not replace it without manual browser verification.
 - `pages/_document.tsx` sets `data-scroll-behavior="smooth"` on `<Html>` to acknowledge intentional global smooth scrolling in Next.js 16.
 - Formula SVGs rendered through `next/image` should keep both dimensions automatic (`h-auto w-auto`) when constrained with `max-w-full` to avoid browser aspect-ratio warnings.

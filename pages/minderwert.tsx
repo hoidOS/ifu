@@ -84,6 +84,12 @@ const mfmDefaults: MFMInput = {
   fv: 1.0
 }
 
+const formatEuro = (value: number): string =>
+  `${new Intl.NumberFormat('de-DE', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(value)} €`
+
 const bvskTooltips = {
   wbw: "Wiederbeschaffungswert (WBW)\n\nDer Wiederbeschaffungswert des Fahrzeugs zum Unfallzeitpunkt, inklusive Mehrwertsteuer.\n\nDAT Händlerverkaufswert",
   kFaktor: "K-Faktor (Vorschadenfaktor)\n\nKorrekturfaktor für vorherige Fahrzeugschäden:\n• 0.5-0.8: Reparierte Vorschäden\n• 0.8: Leichte Nutzfahrzeuge\n• 1.0: Keine Vorschäden",
@@ -464,7 +470,7 @@ function Minderwert() {
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(0,89,169,0.16)] border-b-2 border-r-2">
+            <table className="w-full text-sm border border-slate-200 rounded-lg overflow-hidden shadow-sm">
               <thead>
                 <tr className="border-b-2 border-primary-700">
                   <th className="text-primary-700 font-semibold text-left py-3 px-2">Parameter</th>
@@ -473,12 +479,12 @@ function Minderwert() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-primary-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Wiederbeschaffungswert (WBW)</span>
                       <Tooltip content={bvskTooltips.wbw}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-primary-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -501,14 +507,14 @@ function Minderwert() {
                       className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-700 focus:border-transparent text-center"
                     />
                   </td>
-                  <td className="py-2 px-2 text-center text-gray-600">€</td>
+                  <td className="py-2 px-2 text-center text-gray-600 text-xs">€ (inkl. MwSt.)</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-primary-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>K-Faktor</span>
                       <Tooltip content={bvskTooltips.kFaktor}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-primary-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -534,12 +540,12 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600">-</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-primary-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>%-Wert</span>
                       <Tooltip content={bvskTooltips.prozentWert}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-primary-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -565,12 +571,12 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600">%</td>
                 </tr>
-                <tr className="hover:bg-primary-50 transition-colors">
+                <tr className="hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>M-Wert</span>
                       <Tooltip content={bvskTooltips.mWert}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-primary-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -614,7 +620,7 @@ function Minderwert() {
             </button>
           </div>
           <div className="p-4">
-            <table className="w-full text-sm border border-orange-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(194,65,12,0.16)] border-b-2 border-r-2">
+            <table className="w-full text-sm border border-slate-200 rounded-lg overflow-hidden shadow-sm">
               <thead>
                 <tr className="border-b-2 border-orange-700">
                   <th className="text-orange-700 font-semibold text-left py-3 px-2">Parameter</th>
@@ -623,12 +629,12 @@ function Minderwert() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Veräußerungswert (VW)</span>
                       <Tooltip content={mfmTooltips.vw}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-orange-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -653,12 +659,12 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">€ (inkl. MwSt.)</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Neupreis (NP)</span>
                       <Tooltip content={mfmTooltips.np}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-orange-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -683,12 +689,12 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">€ (inkl. MwSt.)</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Reparaturkosten (RK)</span>
                       <Tooltip content={mfmTooltips.rk}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-orange-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -713,12 +719,12 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">€ (inkl. MwSt.)</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Schadensumfang (SU)</span>
                       <Tooltip content={mfmTooltips.su}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-orange-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -744,7 +750,7 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">0.2-1.0</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <span>Erstzulassung</span>
                   </td>
@@ -784,7 +790,7 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">TT.MM.JJJJ</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <span>Bewertungsdatum</span>
                   </td>
@@ -824,12 +830,12 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">TT.MM.JJJJ</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Fahrzeugalter</span>
                       <Tooltip content={mfmTooltips.ageMonths}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-orange-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -848,12 +854,12 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">0-120 Monate</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Alterskorrektur (AK)</span>
                       <Tooltip content="Automatisch berechnet basierend auf dem Fahrzeugalter">
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-orange-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -869,12 +875,12 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">Berechnet</td>
                 </tr>
-                <tr className="border-b border-gray-100 hover:bg-orange-50 transition-colors">
+                <tr className="border-b border-gray-100 hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Faktor Marktgängigkeit (FM)</span>
                       <Tooltip content={mfmTooltips.fm}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-orange-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -900,12 +906,12 @@ function Minderwert() {
                   </td>
                   <td className="py-2 px-2 text-center text-gray-600 text-xs">0.6-1.4</td>
                 </tr>
-                <tr className="hover:bg-orange-50 transition-colors">
+                <tr className="hover:bg-slate-50 transition-colors">
                   <td className="py-2 px-2 font-medium text-gray-700">
                     <div className="flex items-center gap-2">
                       <span>Faktor Vorschaden (FV)</span>
                       <Tooltip content={mfmTooltips.fv}>
-                        <svg className="w-4 h-4 text-gray-400 hover:text-gray-600" fill="currentColor" viewBox="0 0 20 20">
+                        <svg className="w-4 h-4 text-gray-400 hover:text-orange-700 transition-colors" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
                         </svg>
                       </Tooltip>
@@ -968,24 +974,59 @@ function Minderwert() {
           
           <div className="relative p-6">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              <table className="w-full text-sm">
+              <table className="w-full text-base" style={{ tableLayout: "fixed" }}>
+                <colgroup>
+                  <col style={{ width: "14%" }} />
+                  <col style={{ width: "68%" }} />
+                  <col style={{ width: "18%" }} />
+                </colgroup>
                 <thead>
-                  <tr>
+                  <tr style={{ height: "40px" }}>
                     <th
-                      className="font-semibold py-4 px-4"
-                      style={{ backgroundColor: "#b8d8f5", color: "#003d7a", textAlign: "left", border: 0, borderBottom: "2px solid #0059a9" }}
+                      className="text-base font-semibold"
+                      style={{
+                        backgroundColor: "#cbd5e1",
+                        border: 0,
+                        borderBottom: "2px solid #64748b",
+                        color: "#0f172a",
+                        height: "40px",
+                        lineHeight: "20px",
+                        padding: "0 8px 0 16px",
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                      }}
                     >
                       Modell
                     </th>
                     <th
-                      className="font-semibold py-4 px-4"
-                      style={{ backgroundColor: "#b8d8f5", color: "#003d7a", textAlign: "center", border: 0, borderBottom: "2px solid #0059a9" }}
+                      className="text-base font-semibold"
+                      style={{
+                        backgroundColor: "#cbd5e1",
+                        border: 0,
+                        borderBottom: "2px solid #64748b",
+                        color: "#0f172a",
+                        height: "40px",
+                        lineHeight: "20px",
+                        padding: "0 8px 0 16px",
+                        textAlign: "left",
+                        verticalAlign: "middle",
+                      }}
                     >
                       Formel
                     </th>
                     <th
-                      className="font-semibold py-4 px-4"
-                      style={{ backgroundColor: "#b8d8f5", color: "#003d7a", textAlign: "center", border: 0, borderBottom: "2px solid #0059a9" }}
+                      className="text-base font-semibold"
+                      style={{
+                        backgroundColor: "#cbd5e1",
+                        border: 0,
+                        borderBottom: "2px solid #64748b",
+                        color: "#0f172a",
+                        height: "40px",
+                        lineHeight: "20px",
+                        padding: "0 8px",
+                        textAlign: "right",
+                        verticalAlign: "middle",
+                      }}
                     >
                       Ergebnis
                     </th>
@@ -996,21 +1037,47 @@ function Minderwert() {
                     className="border-b border-primary-100"
                     style={{ background: "linear-gradient(135deg, #eef6fd 0%, #d9eafb 100%)" }}
                   >
-                    <td className="py-4 px-4 border-0">
-                      <span className="font-bold text-primary-700">BVSK</span>
+                    <td className="py-4 pr-2 border-0" style={{ border: 0, paddingLeft: "16px", textAlign: "left" }}>
+                      <span className="text-base font-bold text-primary-700">BVSK</span>
                     </td>
-                    <td className="py-4 px-4 text-center text-xs text-gray-700 font-mono border-0">MW = WBW × K-Faktor × (%-Wert + M-Wert) / 100</td>
-                    <td className="py-4 px-4 text-center border-0">
-                      <span className="font-bold text-lg text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</span>
+                    <td
+                      className="py-4 pr-2 text-gray-700 font-mono border-0"
+                      style={{
+                        border: 0,
+                        color: "#374151",
+                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                        fontSize: "13px",
+                        paddingLeft: "16px",
+                        textAlign: "left",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      MW = WBW × K-Faktor × (%-Wert + M-Wert) / 100
+                    </td>
+                    <td className="py-4 px-2 border-0" style={{ border: 0, textAlign: "right" }}>
+                      <span className="text-base font-bold text-primary-700">{formatEuro(bvskResult)}</span>
                     </td>
                   </tr>
                   <tr style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)" }}>
-                    <td className="py-4 px-4 border-0">
-                      <span className="font-bold text-orange-700">MFM</span>
+                    <td className="py-4 pr-2 border-0" style={{ border: 0, paddingLeft: "16px", textAlign: "left" }}>
+                      <span className="text-base font-bold text-orange-700">MFM</span>
                     </td>
-                    <td className="py-4 px-4 text-center text-xs text-gray-700 font-mono border-0">MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV</td>
-                    <td className="py-4 px-4 text-center border-0">
-                      <span className="font-bold text-lg text-orange-700">{mfmResult.toFixed(2).replace(".", ",")} €</span>
+                    <td
+                      className="py-4 pr-2 text-gray-700 font-mono border-0"
+                      style={{
+                        border: 0,
+                        color: "#374151",
+                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+                        fontSize: "13px",
+                        paddingLeft: "16px",
+                        textAlign: "left",
+                        whiteSpace: "nowrap",
+                      }}
+                    >
+                      MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV
+                    </td>
+                    <td className="py-4 px-2 border-0" style={{ border: 0, textAlign: "right" }}>
+                      <span className="text-base font-bold text-orange-700">{formatEuro(mfmResult)}</span>
                     </td>
                   </tr>
                 </tbody>
@@ -1021,7 +1088,7 @@ function Minderwert() {
             <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
               {/* BVSK Breakdown */}
               <div
-                className="rounded-xl p-4 border border-primary-200"
+                className="rounded-xl p-4 border border-primary-200 border-t-4 border-t-primary-700"
                 style={{ background: "linear-gradient(135deg, #eef6fd 0%, #d9eafb 100%)" }}
               >
                 <div className="mb-3">
@@ -1032,7 +1099,7 @@ function Minderwert() {
                     <span className="block">Wiederbeschaffungswert</span>
                     <div className="mt-1 flex items-baseline justify-between">
                       <span>(WBW):</span>
-                      <span className="font-medium text-gray-800 whitespace-nowrap">{bvskInput.wbw.toFixed(2).replace(".", ",")} €</span>
+                      <span className="font-medium text-gray-800 whitespace-nowrap">{formatEuro(bvskInput.wbw)}</span>
                     </div>
                   </div>
                   <div className="flex justify-between">
@@ -1050,7 +1117,7 @@ function Minderwert() {
                   <div className="border-t border-primary-300 pt-2 mt-2">
                     <div className="flex justify-between font-semibold">
                       <span className="text-gray-700">Ergebnis:</span>
-                      <span className="text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</span>
+                      <span className="text-primary-700">{formatEuro(bvskResult)}</span>
                     </div>
                   </div>
                 </div>
@@ -1058,7 +1125,7 @@ function Minderwert() {
 
               {/* MFM Breakdown */}
               <div
-                className="rounded-xl p-4 border border-orange-200"
+                className="rounded-xl p-4 border border-orange-200 border-t-4 border-t-orange-700"
                 style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)" }}
               >
                 <div className="mb-3">
@@ -1067,11 +1134,11 @@ function Minderwert() {
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between">
                     <span className="text-gray-600">Veräußerungswert (VW):</span>
-                    <span className="font-medium">{mfmInput.vw.toFixed(2).replace(".", ",")} €</span>
+                    <span className="font-medium">{formatEuro(mfmInput.vw)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Neupreis (NP):</span>
-                    <span className="font-medium">{mfmInput.np.toFixed(2).replace(".", ",")} €</span>
+                    <span className="font-medium">{formatEuro(mfmInput.np)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Fahrzeugalter:</span>
@@ -1083,7 +1150,7 @@ function Minderwert() {
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Reparaturkosten (RK):</span>
-                    <span className="font-medium">{mfmInput.rk.toFixed(2).replace(".", ",")} €</span>
+                    <span className="font-medium">{formatEuro(mfmInput.rk)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">Schadenumfang (SU):</span>
@@ -1100,7 +1167,7 @@ function Minderwert() {
                   <div className="border-t border-orange-300 pt-2 mt-2">
                     <div className="flex justify-between font-semibold">
                       <span className="text-gray-700">Ergebnis:</span>
-                      <span className="text-orange-700">{mfmResult.toFixed(2).replace(".", ",")} €</span>
+                      <span className="text-orange-700">{formatEuro(mfmResult)}</span>
                     </div>
                   </div>
                 </div>
@@ -1152,7 +1219,7 @@ function Minderwert() {
                     <p className="mt-1 text-xs font-semibold text-primary-700">Berechnung</p>
                   </div>
                 </div>
-                <p className="mt-6 text-2xl font-bold tabular-nums text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</p>
+                <p className="mt-6 text-2xl font-bold tabular-nums text-primary-700">{formatEuro(bvskResult)}</p>
               </div>
               
               <div
@@ -1165,7 +1232,7 @@ function Minderwert() {
                     <p className="mt-1 text-xs font-semibold text-green-600">Gerundet</p>
                   </div>
                 </div>
-                <p className="mt-6 text-2xl font-bold tabular-nums text-green-600">{roundedAverage.toFixed(2).replace(".", ",")} €</p>
+                <p className="mt-6 text-2xl font-bold tabular-nums text-green-600">{formatEuro(roundedAverage)}</p>
               </div>
               
               <div
@@ -1178,7 +1245,7 @@ function Minderwert() {
                     <p className="mt-1 text-xs font-semibold text-orange-700">Berechnung</p>
                   </div>
                 </div>
-                <p className="mt-6 text-2xl font-bold tabular-nums text-orange-700">{mfmResult.toFixed(2).replace(".", ",")} €</p>
+                <p className="mt-6 text-2xl font-bold tabular-nums text-orange-700">{formatEuro(mfmResult)}</p>
               </div>
             </div>
             
@@ -1186,8 +1253,8 @@ function Minderwert() {
               <h5 className="text-lg font-semibold text-gray-700 mb-6">Proportionaler Vergleich</h5>
               <div className="space-y-4">
                 <div className="grid grid-cols-[9rem_8rem_minmax(0,1fr)] items-center gap-x-5">
-                  <span className="text-base font-bold text-gray-700">BVSK</span>
-                  <span className="text-base font-bold tabular-nums text-primary-700 text-right">{bvskResult.toFixed(2).replace(".", ",")} €</span>
+                  <span className="text-base font-bold text-primary-700">BVSK</span>
+                  <span className="text-base font-bold tabular-nums text-primary-700 text-right">{formatEuro(bvskResult)}</span>
                   <div className="bg-gray-200 rounded-full h-4 relative overflow-hidden">
                     <div 
                       className="h-full rounded-full transition-all duration-1000"
@@ -1200,8 +1267,8 @@ function Minderwert() {
                 </div>
                 
                 <div className="grid grid-cols-[9rem_8rem_minmax(0,1fr)] items-center gap-x-5">
-                  <span className="text-base font-bold text-gray-700">Durchschnitt</span>
-                  <span className="text-base font-bold tabular-nums text-green-600 text-right">{roundedAverage.toFixed(2).replace(".", ",")} €</span>
+                  <span className="text-base font-bold text-green-600">Durchschnitt</span>
+                  <span className="text-base font-bold tabular-nums text-green-600 text-right">{formatEuro(roundedAverage)}</span>
                   <div className="bg-gray-200 rounded-full h-4 relative overflow-hidden">
                     <div 
                       className="h-full rounded-full transition-all duration-1000"
@@ -1214,8 +1281,8 @@ function Minderwert() {
                 </div>
                 
                 <div className="grid grid-cols-[9rem_8rem_minmax(0,1fr)] items-center gap-x-5">
-                  <span className="text-base font-bold text-gray-700">MFM</span>
-                  <span className="text-base font-bold tabular-nums text-orange-700 text-right">{mfmResult.toFixed(2).replace(".", ",")} €</span>
+                  <span className="text-base font-bold text-orange-700">MFM</span>
+                  <span className="text-base font-bold tabular-nums text-orange-700 text-right">{formatEuro(mfmResult)}</span>
                   <div className="bg-gray-200 rounded-full h-4 relative overflow-hidden">
                     <div 
                       className="h-full rounded-full transition-all duration-1000"
@@ -1352,7 +1419,7 @@ function Minderwert() {
                     ) : (
                       section.rows.map((row, index) => (
                         <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
-                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#fff7ed" }}></td>
+                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#fffbf5" }}></td>
                           <td className="py-3 px-3 font-medium text-gray-700 text-center">{row.range}</td>
                           <td className="py-3 px-3 text-gray-600">{row.description}</td>
                         </tr>

@@ -12,7 +12,7 @@ The project is in good baseline shape for tooling: ESLint passes, TypeScript pas
 
 The formula layer is still only lightly covered by automated tests. For a forensic automotive calculator, this remains the largest quality gap after the first Vitest slice.
 
-Post-audit implementation work has resolved F-02, clarified the F-04 Kurvenradius behavior for the current UI requirement, resolved F-12, and resolved the F-13 documentation/config drift. F-03 and F-08 are partially addressed. F-01 remains open as the broader formula-domain validation issue.
+Post-audit implementation work has resolved F-02, clarified the F-04 Kurvenradius behavior for the current UI requirement, resolved F-09, resolved F-10, resolved F-12, and resolved the F-13 documentation/config drift. F-03 and F-08 are partially addressed. F-01 remains open as the broader formula-domain validation issue.
 
 ## Verification Performed
 
@@ -33,7 +33,10 @@ The first sandboxed temp-copy build failed because Turbopack tried to spawn/bind
 - 2026-06-23: F-08 is partially addressed. Stable direct updates were applied for Next, React, React DOM, Tailwind, `eslint-config-next`, and React/Node type packages. `npm audit fix` removed the transitive `@babel/core` and `js-yaml` advisories. The remaining audit result is the Next-bundled PostCSS advisory, where npm still suggests the unsafe `next@9.3.3` downgrade.
 - 2026-06-23: F-12 is resolved. The Docker image now builds through separate dependency, builder, and runtime stages, and the runtime image contains production dependencies plus the built Next.js output.
 - 2026-06-23: F-13 is resolved. README and repository guidelines now reflect the renamed routes, Vitest setup, current Docker shape, and dependency-version policy. The legacy `.eslintrc.json` file was removed because `eslint.config.mjs` is the canonical lint configuration.
-- 2026-06-23: The calculator card/table styling was normalized across the active pages. Standard calculator screens now use the shared flat `calculator-card-header` treatment, the Bremsweg result card no longer uses the compact header variant, and Minderwert uses a deliberate BVSK primary-blue / MFM darker-orange color system across headers, input tables, result accents, and system tables. This was a visual consistency pass; it does not close the remaining formula validation findings.
+- 2026-06-23: The calculator card/table styling was normalized across the active pages. Standard calculator screens now use the shared flat `calculator-card-header` treatment, the Bremsweg result card no longer uses the compact header variant, and Minderwert uses a deliberate BVSK primary-blue / MFM darker-orange color system across headers, focus rings, result accents, and system/reference tables while keeping editable input table shells neutral. This was a visual consistency pass; it does not close the remaining formula validation findings.
+- 2026-06-24: F-09 is resolved. `hooks/useScreenshot.ts` no longer mutates/restores the live DOM for exports; export controls are hidden in the cloned document via `[data-screenshot-ignore="true"]`, and PNG captures use an explicit white background.
+- 2026-06-24: F-10 is resolved. Repeated export-control IDs were removed in favor of the shared `data-screenshot-ignore="true"` marker.
+- 2026-06-24: The Minderwert page received a visual/export polish pass. Input table shells now stay neutral, output summary values use German euro formatting, the BVSK/MFM output areas avoid small marker geometry that rendered poorly in screenshots, and the `Minderwert Berechnungen` summary table uses a compact neutral header with left-aligned formulas and right-aligned results.
 - Verification after the F-02/F-03/F-08 implementation: `npm test`, `npm run lint`, `./node_modules/.bin/tsc --noEmit --incremental false`, and `npm run build` passed. The production build required elevated execution because Turbopack's internal process/bind step is blocked by the sandbox.
 
 ## Findings
@@ -192,9 +195,11 @@ Impact: no critical/high advisories are reported, but the app is still not advis
 
 Recommendation: keep the current stable updates, avoid `npm audit fix --force`, and update Next again when a stable release resolves the bundled PostCSS advisory. Continue running `npm audit`, lint, typecheck, tests, build, and manual screenshot export checks after dependency changes.
 
-### F-09 Low: Screenshot export mutates inline styles without preserving prior values
+### F-09 Low: Screenshot export mutates inline styles without preserving prior values - resolved
 
-`useScreenshot` hides buttons and changes table/container inline styles, then restores them by assigning empty strings:
+Status: resolved on 2026-06-24. `useScreenshot` now relies on `html2canvas` clone handling and hides only `[data-screenshot-ignore="true"]` elements in the cloned document. The live DOM is not edited before capture.
+
+Original finding: `useScreenshot` hid buttons and changed table/container inline styles, then restored them by assigning empty strings:
 
 - `hooks/useScreenshot.ts:33-70`
 
@@ -203,21 +208,23 @@ The selector also interpolates `elementId` directly into CSS selectors:
 - `hooks/useScreenshot.ts:35-37`
 - `hooks/useScreenshot.ts:55-57`
 
-Impact: current IDs are safe, but future IDs with CSS-special characters would break selectors. Future inline styles on target elements would be lost after export.
+Impact: resolved for the live-DOM mutation path. Export controls now use an attribute marker instead of selector interpolation.
 
-Recommendation: use `CSS.escape(elementId)`, store previous inline style values before mutation, or toggle a scoped export class instead of editing inline styles.
+Recommendation: keep using `data-screenshot-ignore="true"` for controls that should be hidden during export, and prefer clone-scoped export styling if new screenshot-only adjustments are needed.
 
-### F-10 Low: Duplicate button IDs appear in repeated export controls
+### F-10 Low: Duplicate button IDs appear in repeated export controls - resolved
 
-Examples:
+Status: resolved on 2026-06-24. Repeated export-control IDs were removed and the export hook now uses the shared `data-screenshot-ignore="true"` marker.
+
+Original examples:
 
 - `pages/bremsweg.tsx:237-246`
 - `pages/minderwert.tsx:949-958`
 - `pages/minderwert.tsx:1111-1120`
 
-Impact: duplicate IDs violate HTML uniqueness and can confuse tests, accessibility tooling, and future DOM queries. The current screenshot selector scopes under the target container, so this is not currently breaking export.
+Impact: resolved for the known duplicate export button IDs.
 
-Recommendation: replace repeated IDs with classes or data attributes, or generate unique IDs per export section.
+Recommendation: continue using data attributes or classes for repeated export controls rather than IDs.
 
 ### F-11 Low: Tooltip behavior is mouse-only and not accessible to keyboard/touch users
 
@@ -272,7 +279,7 @@ Recommendation: keep exact dependency versions in `package.json` and `package-lo
 4. Decide whether Kurvenradius should remain `h`/`s`-driven with `b` as a documented comparison input, or expand it into a full solver for combinations involving `b`.
 5. Monitor Next for a stable PostCSS advisory fix; do not use npm's forced `next@9.3.3` downgrade.
 6. Wrap calculator tables for mobile overflow.
-7. Clean up screenshot export selectors, duplicate IDs, and tooltip accessibility.
+7. Improve tooltip accessibility.
 
 ## Residual Risk
 
