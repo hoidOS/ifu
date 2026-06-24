@@ -18,7 +18,7 @@ A comprehensive Next.js web application for automotive forensic analysis and acc
 - **Mobile Navigation** - Swipe-to-close drawer, keyboard shortcuts, and scroll locking for the menu overlay
 - **Resource Links** - Quick access to maps, automotive databases, and crash test resources
 - **Stepper Inputs** - Enhanced number inputs with increment/decrement buttons for precise value adjustment
-- **Docker Support** - Containerized deployment with Docker and docker-compose
+- **Docker Support** - Containerized deployment with Docker and Docker Compose
 
 ## Technology Stack
 
@@ -61,8 +61,9 @@ npm test         # Run Vitest tests
 
 ```
 nextjs-ppcavs-ifu/
-├── assets/                 # SVG mathematical symbols and wrapper
+├── assets/                 # Formula, logo, and image assets
 │   ├── images/             # Formula renderings exported as SVG
+│   ├── logo/               # Brand assets used by navigation
 │   └── svg.tsx             # Import map for formula assets
 ├── components/
 │   ├── Footer.tsx          # Shared site footer
@@ -159,8 +160,8 @@ Exact package versions are maintained in `package.json` and `package-lock.json`.
 - Production builds use Next.js 16's default Turbopack pipeline.
 - ESLint is configured through `eslint.config.mjs` using `eslint-config-next/core-web-vitals`.
 - The flat ESLint config includes a targeted `react-hooks/set-state-in-effect` override to preserve the existing sessionStorage restore pattern used by calculators.
-- Tailwind CSS v4 is configured through `tailwind.config.ts`.
-- Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new palette entries with hex values in both `tailwind.config.ts` and `styles/globals.css` to keep exports working.
+- Tailwind CSS v4 uses CSS-first theme tokens in `styles/globals.css`; keep `tailwind.config.ts` as the mirrored palette/config companion for tooling and legacy config consumers.
+- Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new UI palette entries as hex values in `styles/globals.css` and mirror them in `tailwind.config.ts` to keep exports working.
 - Shared calculator card/table styling lives in `styles/globals.css` through classes such as `calculator-card`, `calculator-card-header`, `calculator-table`, `calculator-row`, and `calculator-result-table`; prefer these for standard calculator screens to keep headers, table borders, and row states consistent.
 - The Minderwert page intentionally color-codes the two valuation systems: BVSK uses the Steinacker primary blue, while MFM uses the darker orange accent (`orange-700`/`orange-800`) for headers, focus rings, result values, comparison markers, and system/reference tables. Input table shells stay neutral so editable fields remain the focus.
 - The screenshot/export flow still depends on `html2canvas@1.4.1`; runtime alignment changes should not replace it without manual browser verification.
@@ -183,15 +184,15 @@ npm start
 The project includes Docker support for containerized deployment:
 
 ```bash
-# Build and run with docker-compose
-docker-compose up --build
+# Build and run with Docker Compose
+docker compose up --build
 
 # Or build manually
 docker build -t nextjs-ifu .
 docker run -p 3000:3000 nextjs-ifu
 ```
 
-The Docker image targets Node 24 LTS via `node:24-alpine` and uses a multi-stage build so the runtime image keeps only production dependencies and built Next.js output.
+The Docker image targets Node 24 LTS via `node:24-alpine` and uses a multi-stage build so the runtime image keeps only production dependencies and built Next.js output. The Compose service maps the app to `http://localhost:3050`.
 
 ### Vercel Deployment
 For Vercel deployment, connect your GitHub repository to Vercel for automatic deployments.
