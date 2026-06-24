@@ -438,6 +438,9 @@ function Minderwert() {
 
   const bvskResult = calculateBVSK()
   const mfmResult = calculateMFM()
+  const roundedAverage = Math.round(((bvskResult + mfmResult) / 2) / 50) * 50
+  const comparisonMax = Math.max(bvskResult, mfmResult, roundedAverage, 1)
+  const getComparisonWidth = (value: number) => `${Math.max(10, (value / comparisonMax) * 100)}%`
 
   return (
     <div>
@@ -1125,97 +1128,89 @@ function Minderwert() {
           </div>
           
           <div className="relative p-6">
-            {/* Enhanced Value Cards */}
             <div className="grid grid-cols-3 gap-4 mb-8">
               <div
-                className="text-center rounded-xl p-4 border border-primary-200 shadow-sm"
+                className="rounded-lg p-5 border border-primary-200 border-t-4 border-t-primary-700 shadow-sm"
                 style={{ background: "linear-gradient(180deg, #eef6fd 0%, #d9eafb 100%)" }}
               >
-                <div className="flex flex-col items-center gap-2">
-                  <div className="circle-badge w-16 h-16 bg-primary-700 shadow-lg text-xl font-bold text-white">
-                    B
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 className="text-base font-bold uppercase text-gray-700">BVSK</h4>
+                    <p className="mt-1 text-xs font-semibold text-primary-700">Berechnung</p>
                   </div>
-                  <h4 className="font-bold text-gray-700 text-sm leading-tight">BVSK</h4>
-                  <p className="text-xl font-bold text-primary-700 leading-none">{bvskResult.toFixed(2).replace(".", ",")} €</p>
                 </div>
+                <p className="mt-6 text-2xl font-bold tabular-nums text-primary-700">{bvskResult.toFixed(2).replace(".", ",")} €</p>
               </div>
               
               <div
-                className="text-center rounded-xl p-4 border border-green-200 shadow-sm"
+                className="rounded-lg p-5 border border-green-200 border-t-4 border-t-green-600 shadow-sm"
                 style={{ background: "linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%)" }}
               >
-                <div className="flex flex-col items-center gap-2">
-                  <div className="circle-badge w-16 h-16 bg-green-600 shadow-lg text-xl font-bold text-white">
-                    Ø
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 className="text-base font-bold uppercase text-gray-700">Durchschnitt</h4>
+                    <p className="mt-1 text-xs font-semibold text-green-600">Gerundet</p>
                   </div>
-                  <h4 className="font-bold text-gray-700 text-sm leading-tight">Gerundeter Durchschnitt</h4>
-                  <p className="text-xl font-bold text-green-600 leading-none">{(Math.round(((bvskResult + mfmResult) / 2) / 50) * 50).toFixed(2).replace(".", ",")} €</p>
                 </div>
+                <p className="mt-6 text-2xl font-bold tabular-nums text-green-600">{roundedAverage.toFixed(2).replace(".", ",")} €</p>
               </div>
               
               <div
-                className="text-center rounded-xl p-4 border border-orange-200 shadow-sm"
+                className="rounded-lg p-5 border border-orange-200 border-t-4 border-t-orange-700 shadow-sm"
                 style={{ background: "linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%)" }}
               >
-                <div className="flex flex-col items-center gap-2">
-                  <div className="circle-badge w-16 h-16 bg-orange-700 shadow-lg text-xl font-bold text-white">
-                    M
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <h4 className="text-base font-bold uppercase text-gray-700">MFM</h4>
+                    <p className="mt-1 text-xs font-semibold text-orange-700">Berechnung</p>
                   </div>
-                  <h4 className="font-bold text-gray-700 text-sm leading-tight">MFM</h4>
-                  <p className="text-xl font-bold text-orange-700 leading-none">{mfmResult.toFixed(2).replace(".", ",")} €</p>
                 </div>
+                <p className="mt-6 text-2xl font-bold tabular-nums text-orange-700">{mfmResult.toFixed(2).replace(".", ",")} €</p>
               </div>
             </div>
             
-            {/* Enhanced Progress Bars */}
             <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
               <h5 className="text-base font-semibold text-gray-700 mb-6 flex items-center gap-2">
                 <FaBalanceScale className="w-5 h-5" />
                 Proportionaler Vergleich
               </h5>
               <div className="space-y-5">
-                <div className="flex items-center gap-4">
-                  <div className="w-16 text-sm font-bold text-gray-700 flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-primary-700"></div>
-                    BVSK
-                  </div>
+                <div className="grid grid-cols-[12px_5rem_minmax(0,1fr)] items-center gap-x-3">
+                  <span className="h-3 w-3 rounded-full bg-primary-700"></span>
+                  <span className="text-sm font-bold text-gray-700">BVSK</span>
                   <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
                     <div 
                       className="h-full rounded-full transition-all duration-1000 shadow-sm"
                       style={{
-                        width: `${Math.max(10, (bvskResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%`,
+                        width: getComparisonWidth(bvskResult),
                         background: "linear-gradient(90deg, #0059a9 0%, #3b82f6 100%)"
                       }}
                     ></div>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4">
-                  <div className="w-16 text-sm font-bold text-gray-700 flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-orange-700"></div>
-                    MFM
-                  </div>
+                <div className="grid grid-cols-[12px_5rem_minmax(0,1fr)] items-center gap-x-3">
+                  <span className="h-3 w-3 rounded-full bg-orange-700"></span>
+                  <span className="text-sm font-bold text-gray-700">MFM</span>
                   <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
                     <div 
                       className="h-full rounded-full transition-all duration-1000 shadow-sm"
                       style={{
-                        width: `${Math.max(10, (mfmResult / Math.max(bvskResult, mfmResult, 1)) * 100)}%`,
+                        width: getComparisonWidth(mfmResult),
                         background: "linear-gradient(90deg, #c2410c 0%, #f97316 100%)"
                       }}
                     ></div>
                   </div>
                 </div>
                 
-                <div className="flex items-center gap-4">
-                  <div className="w-16 text-sm font-bold text-gray-700 flex items-center gap-2">
-                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                    Ø
-                  </div>
+                <div className="grid grid-cols-[12px_5rem_minmax(0,1fr)] items-center gap-x-3">
+                  <span className="h-3 w-3 rounded-full bg-green-500"></span>
+                  <span className="text-sm font-bold text-gray-700">Ø</span>
                   <div className="flex-1 bg-gray-200 rounded-full h-8 relative overflow-hidden shadow-inner">
                     <div 
                       className="h-full rounded-full transition-all duration-1000 shadow-sm"
                       style={{
-                        width: `${Math.max(10, ((Math.round(((bvskResult + mfmResult) / 2) / 50) * 50) / Math.max(bvskResult, mfmResult, 1)) * 100)}%`,
+                        width: getComparisonWidth(roundedAverage),
                         background: "linear-gradient(90deg, #16a34a 0%, #4ade80 100%)"
                       }}
                     ></div>
