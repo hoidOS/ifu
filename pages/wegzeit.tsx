@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { type MouseEvent as ReactMouseEvent, useMemo, useState } from 'react'
 import Head from 'next/head'
 import Image from 'next/image'
 import SVG from '../assets/svg'
@@ -40,18 +40,15 @@ interface DiagramPoint {
   t: number
   s: number
   label?: string
-  oppositeLabel?: string
 }
 
 interface SpeedTick extends DiagramPoint {
   major: boolean
 }
 
-interface DiagramCurveLabel {
-  startT: number
-  endT: number
+interface MovementDetailRow {
   label: string
-  offsetY: number
+  value: string
 }
 
 interface ValidMovementResult {
@@ -64,9 +61,9 @@ interface ValidMovementResult {
   distance: number
   initialSpeedKmh: number
   finalSpeedKmh: number
+  detailRows: MovementDetailRow[]
   markers: DiagramPoint[]
   speedTicks: SpeedTick[]
-  labels: DiagramCurveLabel[]
   points: DiagramPoint[]
   distanceAtTime: (elapsedTime: number) => number
 }
@@ -83,6 +80,7 @@ interface MovementScenario {
   title: string
   colorClass: string
   stroke: string
+  side: ApproachSide
   input: MovementInput
   setInput: (input: MovementInput) => void
 }
@@ -99,12 +97,31 @@ type ValidDiagramSeries = DiagramSeries & {
   result: ValidMovementResult
 }
 
-interface TimeReferenceGuide {
-  reference: ValidDiagramSeries
-  comparison: ValidDiagramSeries
-  referencePosition: number
-  comparisonPosition: number
+interface SelectedGuide {
+  id: string
+  seriesId: string
+  elapsedTime: number
+}
+
+interface GuidePoint {
+  x: number
+  y: number
+  position: number
+  elapsedTime: number
   relativeTime: number
+}
+
+interface GuideRenderData {
+  guide: SelectedGuide
+  selectedSeries: ValidDiagramSeries
+  selectedPoint: GuidePoint
+  comparisonSeries?: ValidDiagramSeries
+  comparisonPoint?: GuidePoint
+  readoutItems: Array<{
+    title: string
+    stroke: string
+    position: number
+  }>
 }
 
 interface NumericField<T extends string> {
@@ -134,12 +151,56 @@ const EMPTY_STOP_INPUT: StopInput = {
   am: NaN,
 }
 
+const DEFAULT_FIRST_STOP_INPUT: StopInput = {
+  vA: 50,
+  vE: 10,
+  tR: 0.8,
+  tS: 0.2,
+  am: 7.5,
+}
+
+const DEFAULT_SECOND_STOP_INPUT: StopInput = {
+  vA: 45,
+  vE: 5,
+  tR: 0.8,
+  tS: 0.2,
+  am: 5,
+}
+
+const DEFAULT_FIRST_DECEL_INPUT: DecelInput = {
+  vA: 50,
+  vE: 10,
+  a: 7.5,
+  s: 12.35,
+  t: 1.48,
+}
+
+const DEFAULT_SECOND_DECEL_INPUT: DecelInput = {
+  vA: 45,
+  vE: 5,
+  a: 5,
+  s: 15.43,
+  t: 2.22,
+}
+
 const EMPTY_DECEL_INPUT: DecelInput = {
   vA: NaN,
   vE: NaN,
   a: NaN,
   s: NaN,
   t: NaN,
+}
+
+const DEFAULT_FIRST_DRIVE_INPUT: DriveInput = {
+  v: 50,
+  s: 25,
+  t: 1.8,
+}
+
+const DEFAULT_SECOND_DRIVE_INPUT: DriveInput = {
+  v: 45,
+  s: 25,
+  t: 2,
 }
 
 const EMPTY_DRIVE_INPUT: DriveInput = {
@@ -153,6 +214,21 @@ const createEmptyMovementInput = (mode: MovementMode = 'decel'): MovementInput =
   stop: { ...EMPTY_STOP_INPUT },
   decel: { ...EMPTY_DECEL_INPUT },
   drive: { ...EMPTY_DRIVE_INPUT },
+})
+
+const createDefaultMovementInput = ({
+  stop,
+  decel,
+  drive,
+}: {
+  stop: StopInput
+  decel: DecelInput
+  drive: DriveInput
+}): MovementInput => ({
+  mode: 'stop',
+  stop: { ...stop },
+  decel: { ...decel },
+  drive: { ...drive },
 })
 
 const MODE_LABELS: Record<MovementMode, string> = {
@@ -360,14 +436,16 @@ const makeSpeedTicks = ({
   startTime,
   acceleration,
   distanceAtTime,
+  maxSpeedKmh = Number.POSITIVE_INFINITY,
 }: {
   startSpeedKmh: number
   endSpeedKmh: number
   startTime: number
   acceleration: number
   distanceAtTime: (elapsedTime: number) => number
+  maxSpeedKmh?: number
 }): SpeedTick[] => {
-  const highestTick = Math.min(20, Math.floor(startSpeedKmh - 0.001))
+  const highestTick = Math.min(maxSpeedKmh, Math.floor(startSpeedKmh + 0.001))
   const lowestTick = Math.max(0, Math.ceil(endSpeedKmh + 0.001))
 
   if (highestTick < lowestTick || acceleration <= 0) {
@@ -379,6 +457,50 @@ const makeSpeedTicks = ({
     .map(speed => {
       const elapsedInDecel = (toMs(startSpeedKmh) - toMs(speed)) / acceleration
       const t = startTime + elapsedInDecel
+
+      return {
+        t,
+        s: distanceAtTime(t),
+        label: speed % 10 === 0 ? formatNumber(speed, 0) : undefined,
+        major: speed % 5 === 0,
+      }
+    })
+}
+
+const makeRampSpeedTicks = ({
+  startSpeedKmh,
+  endSpeedKmh,
+  startTime,
+  rampDuration,
+  acceleration,
+  distanceAtTime,
+}: {
+  startSpeedKmh: number
+  endSpeedKmh: number
+  startTime: number
+  rampDuration: number
+  acceleration: number
+  distanceAtTime: (elapsedTime: number) => number
+}): SpeedTick[] => {
+  if (rampDuration <= 0 || acceleration <= 0 || startSpeedKmh <= endSpeedKmh) {
+    return []
+  }
+
+  const highestTick = Math.floor(startSpeedKmh + 0.001)
+  const lowestTick = Math.ceil(endSpeedKmh + 0.001)
+
+  if (highestTick < lowestTick) {
+    return []
+  }
+
+  return Array.from({ length: highestTick - lowestTick + 1 }, (_, index) => highestTick - index)
+    .filter(speed => speed >= endSpeedKmh - 0.001 && speed <= startSpeedKmh + 0.001)
+    .map(speed => {
+      const speedDrop = toMs(startSpeedKmh) - toMs(speed)
+      const rampTime = speedDrop <= 0
+        ? 0
+        : Math.sqrt((2 * rampDuration * speedDrop) / acceleration)
+      const t = startTime + clamp(rampTime, 0, rampDuration)
 
       return {
         t,
@@ -449,9 +571,9 @@ const makeValidResult = ({
   distance,
   initialSpeedKmh,
   finalSpeedKmh,
+  detailRows = [],
   markers = [],
   speedTicks = [],
-  labels = [],
   distanceAtTime,
 }: {
   mode: MovementMode
@@ -461,9 +583,9 @@ const makeValidResult = ({
   distance: number
   initialSpeedKmh: number
   finalSpeedKmh: number
+  detailRows?: MovementDetailRow[]
   markers?: DiagramPoint[]
   speedTicks?: SpeedTick[]
-  labels?: DiagramCurveLabel[]
   distanceAtTime: (elapsedTime: number) => number
 }): MovementResult => {
   if (!Number.isFinite(duration) || !Number.isFinite(endDuration) || !Number.isFinite(distance) || duration <= 0 || endDuration < duration || distance <= 0) {
@@ -483,9 +605,27 @@ const makeValidResult = ({
     distance,
     initialSpeedKmh,
     finalSpeedKmh,
+    detailRows: [
+      {
+        label: 'Zeit bis Kollision',
+        value: `${formatNumber(duration)} s`,
+      },
+      {
+        label: distanceLabel,
+        value: `${formatNumber(distance)} m`,
+      },
+      {
+        label: 'Startgeschwindigkeit',
+        value: `${formatNumber(initialSpeedKmh, 0)} km/h`,
+      },
+      {
+        label: 'Geschwindigkeit bei Kollision',
+        value: `${formatNumber(finalSpeedKmh, 0)} km/h`,
+      },
+      ...detailRows,
+    ],
     markers,
     speedTicks,
-    labels,
     distanceAtTime,
     points: samplePoints(endDuration, distanceAtTime),
   }
@@ -577,32 +717,56 @@ const calculateStop = (input: StopInput): MovementResult => {
     distance,
     initialSpeedKmh: input.vA,
     finalSpeedKmh: input.vE,
+    detailRows: [
+      {
+        label: 'Reaktionsdauer tR',
+        value: `${formatNumber(input.tR)} s`,
+      },
+      {
+        label: 'Schwellzeit tS',
+        value: `${formatNumber(input.tS)} s`,
+      },
+      {
+        label: 'mittlere Verzögerung',
+        value: `-${formatNumber(input.am, 1)} m/s²`,
+      },
+      ...(endDuration > duration + 0.001 ? [
+        {
+          label: 'bis Stillstand nach Kollision',
+          value: `${formatNumber(endDuration - duration)} s`,
+        },
+      ] : []),
+    ],
     markers: [
       {
         t: 0,
         s: 0,
         label: 'tR',
-        oppositeLabel: `${formatNumber(input.vA, 0)} km/h`,
       },
       {
         t: input.tR,
         s: reactionDistance,
         label: 'tS',
       },
-      {
-        t: input.tR + input.tS,
-        s: reactionDistance + rampDistance,
-        label: `-${formatNumber(input.am, 1)} m/s²`,
-      },
     ].filter(marker => marker.t >= 0 && marker.t < duration),
-    speedTicks: makeSpeedTicks({
-      startSpeedKmh: toKmh(fullBrakeStartSpeed),
-      endSpeedKmh: 0,
-      startTime: input.tR + input.tS,
-      acceleration: input.am,
-      distanceAtTime,
-    }),
-    labels: [],
+    speedTicks: [
+      ...makeRampSpeedTicks({
+        startSpeedKmh: input.vA,
+        endSpeedKmh: toKmh(fullBrakeStartSpeed),
+        startTime: input.tR,
+        rampDuration: input.tS,
+        acceleration: input.am,
+        distanceAtTime,
+      }),
+      ...makeSpeedTicks({
+        startSpeedKmh: toKmh(fullBrakeStartSpeed),
+        endSpeedKmh: 0,
+        startTime: input.tR + input.tS,
+        acceleration: input.am,
+        distanceAtTime,
+        maxSpeedKmh: toKmh(fullBrakeStartSpeed),
+      }),
+    ],
     distanceAtTime,
   })
 }
@@ -768,21 +932,26 @@ const calculateDecel = (input: DecelInput): MovementResult => {
     distance: candidate.s,
     initialSpeedKmh: candidate.vA,
     finalSpeedKmh: candidate.vE,
+    detailRows: [
+      {
+        label: 'Verzögerung',
+        value: `-${formatNumber(candidate.a, 1)} m/s²`,
+      },
+      ...(endDuration > candidate.t + 0.001 ? [
+        {
+          label: 'bis Stillstand nach Kollision',
+          value: `${formatNumber(endDuration - candidate.t)} s`,
+        },
+      ] : []),
+    ],
     speedTicks: makeSpeedTicks({
       startSpeedKmh: candidate.vA,
       endSpeedKmh: 0,
       startTime: 0,
       acceleration: candidate.a,
       distanceAtTime,
+      maxSpeedKmh: candidate.vA,
     }),
-    labels: [
-      {
-        label: `a = -${formatNumber(candidate.a, 1)} m/s²`,
-        startT: candidate.t * 0.18,
-        endT: candidate.t * 0.72,
-        offsetY: 28,
-      },
-    ],
     distanceAtTime,
   })
 }
@@ -874,6 +1043,14 @@ const calculateDrive = (input: DriveInput): MovementResult => {
     distance: candidate.s,
     initialSpeedKmh: candidate.v,
     finalSpeedKmh: candidate.v,
+    speedTicks: [
+      {
+        t: 0,
+        s: 0,
+        label: `${formatNumber(candidate.v, 0)}`,
+        major: true,
+      },
+    ],
     distanceAtTime,
   })
 }
@@ -892,6 +1069,15 @@ const calculateMovement = (input: MovementInput): MovementResult => {
 
 function MovementInputCard({ scenario }: { scenario: MovementScenario }) {
   const result = calculateMovement(scenario.input)
+  const resultRows = result.status === 'valid'
+    ? [
+      {
+        label: `Startposition (${sideLabel(scenario.side)})`,
+        value: `${formatNumber(scenario.side === 'left' ? -result.distance : result.distance)} m`,
+      },
+      ...result.detailRows,
+    ]
+    : []
 
   const setMode = (mode: MovementMode) => {
     scenario.setInput({
@@ -909,7 +1095,10 @@ function MovementInputCard({ scenario }: { scenario: MovementScenario }) {
       <div className="calculator-card-header">
         <div className="flex items-center gap-3">
           <span className={`h-3 w-3 rounded-full ${scenario.colorClass}`} aria-hidden="true" />
-          <h2 className="text-lg font-semibold">{scenario.title}</h2>
+          <div>
+            <h2 className="text-lg font-semibold leading-tight">{scenario.title}</h2>
+            <p className="text-xs font-medium text-white/80">{`von ${sideLabel(scenario.side)}`}</p>
+          </div>
         </div>
         <button
           onClick={reset}
@@ -987,25 +1176,16 @@ function MovementInputCard({ scenario }: { scenario: MovementScenario }) {
 
         <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-3 text-sm">
           {result.status === 'valid' ? (
-            <div className="grid gap-2 text-slate-700 sm:grid-cols-2">
-              <p>
-                Zeit bis Kollision:{' '}
-                <span className="font-semibold text-primary-700">
-                  {formatNumber(result.duration)} s
-                </span>
-              </p>
-              <p>
-                {result.distanceLabel}:{' '}
-                <span className="font-semibold text-primary-700">
-                  {formatNumber(result.distance)} m
-                </span>
-              </p>
-              <p>
-                Geschwindigkeit bei Kollision:{' '}
-                <span className="font-semibold text-primary-700">
-                  {formatNumber(result.finalSpeedKmh)} km/h
-                </span>
-              </p>
+            <div>
+              <p className="mb-2 font-semibold text-slate-800">Diagrammwerte</p>
+              <dl className="grid gap-x-4 gap-y-2 text-slate-700 sm:grid-cols-2">
+                {resultRows.map(row => (
+                  <div key={row.label} className="flex items-baseline justify-between gap-3 border-b border-slate-200 pb-1 last:border-b-0">
+                    <dt>{row.label}</dt>
+                    <dd className="whitespace-nowrap font-semibold text-primary-700">{row.value}</dd>
+                  </div>
+                ))}
+              </dl>
             </div>
           ) : (
             <p className={result.status === 'invalid' ? 'font-medium text-red-600' : 'text-slate-500'}>
@@ -1027,6 +1207,8 @@ function WegZeitDiagram({
   firstSide: ApproachSide
   onFirstSideChange: (side: ApproachSide) => void
 }) {
+  const [selectedGuides, setSelectedGuides] = useState<SelectedGuide[]>([])
+  const [hoveredSeriesId, setHoveredSeriesId] = useState<string | null>(null)
   const validSeries = series.filter((item): item is ValidDiagramSeries => item.result.status === 'valid')
   const hasSeries = validSeries.length > 0
   const maxDuration = Math.max(0, ...validSeries.map(item => item.result.duration))
@@ -1070,40 +1252,6 @@ function WegZeitDiagram({
   const signedStartDistance = (item: ValidDiagramSeries): number =>
     item.side === 'left' ? -item.result.distance : item.result.distance
 
-  const getTimeReferenceGuide = (): TimeReferenceGuide | null => {
-    if (validSeries.length < 2) {
-      return null
-    }
-
-    const first = validSeries[0]
-    const second = validSeries[1]
-
-    if (!first || !second) {
-      return null
-    }
-
-    if (Math.abs(first.result.duration - second.result.duration) < 0.01) {
-      return null
-    }
-
-    const reference = first.result.duration < second.result.duration ? first : second
-    const comparison = reference.id === first.id ? second : first
-    const comparisonElapsedTime = comparison.result.duration - reference.result.duration
-    const comparisonTravel = comparison.result.distanceAtTime(comparisonElapsedTime)
-    const comparisonStart = signedStartDistance(comparison)
-    const comparisonPosition = comparison.side === 'left'
-      ? comparisonStart + comparisonTravel
-      : comparisonStart - comparisonTravel
-
-    return {
-      reference,
-      comparison,
-      referencePosition: signedStartDistance(reference),
-      comparisonPosition,
-      relativeTime: -reference.result.duration,
-    }
-  }
-
   const pointToPath = (item: ValidDiagramSeries): string => {
     const startDistance = signedStartDistance(item)
 
@@ -1144,6 +1292,98 @@ function WegZeitDiagram({
     s: item.result.distanceAtTime(elapsedTime),
   })
 
+  const elapsedToGuidePoint = (item: ValidDiagramSeries, elapsedTime: number): GuidePoint => {
+    const elapsed = clamp(elapsedTime, 0, item.result.endDuration)
+    const startDistance = signedStartDistance(item)
+    const traveled = item.result.distanceAtTime(elapsed)
+    const position = item.side === 'left'
+      ? startDistance + traveled
+      : startDistance - traveled
+    const relativeTime = elapsed - item.result.duration
+
+    return {
+      x: xScale(position),
+      y: yScale(relativeTime),
+      position,
+      elapsedTime: elapsed,
+      relativeTime,
+    }
+  }
+
+  const relativeTimeExistsOnSeries = (item: ValidDiagramSeries, relativeTime: number): boolean =>
+    relativeTime >= -item.result.duration - 0.001
+      && relativeTime <= item.result.endDuration - item.result.duration + 0.001
+
+  const findNearestElapsedTime = (
+    item: ValidDiagramSeries,
+    target: { x: number; y: number },
+  ): number => {
+    const steps = 180
+    let nearestElapsedTime = 0
+    let nearestDistance = Number.POSITIVE_INFINITY
+
+    for (let index = 0; index <= steps; index += 1) {
+      const elapsedTime = (item.result.endDuration * index) / steps
+      const point = elapsedToGuidePoint(item, elapsedTime)
+      const distance = Math.hypot(point.x - target.x, point.y - target.y)
+
+      if (distance < nearestDistance) {
+        nearestDistance = distance
+        nearestElapsedTime = elapsedTime
+      }
+    }
+
+    return nearestElapsedTime
+  }
+
+  const svgPointFromEvent = (event: ReactMouseEvent<SVGPathElement>): {
+    x: number
+    y: number
+  } | null => {
+    const svg = event.currentTarget.ownerSVGElement
+    const transform = svg?.getScreenCTM()
+
+    if (!svg || !transform) {
+      return null
+    }
+
+    const point = svg.createSVGPoint()
+    point.x = event.clientX
+    point.y = event.clientY
+
+    return point.matrixTransform(transform.inverse())
+  }
+
+  const selectGuidePoint = (item: ValidDiagramSeries, event: ReactMouseEvent<SVGPathElement>) => {
+    event.stopPropagation()
+
+    const svgPoint = svgPointFromEvent(event)
+    if (!svgPoint) {
+      return
+    }
+
+    const elapsedTime = findNearestElapsedTime(item, svgPoint)
+
+    setSelectedGuides(current => {
+      const duplicate = current.some(guide =>
+        guide.seriesId === item.id && Math.abs(guide.elapsedTime - elapsedTime) < 0.02,
+      )
+
+      if (duplicate) {
+        return current
+      }
+
+      return [
+        ...current,
+        {
+          id: `${item.id}-${elapsedTime.toFixed(3)}-${current.length}`,
+          seriesId: item.id,
+          elapsedTime,
+        },
+      ]
+    })
+  }
+
   const markerLabelPosition = (
     item: ValidDiagramSeries,
     marker: DiagramPoint,
@@ -1170,7 +1410,7 @@ function WegZeitDiagram({
       normalY *= -1
     }
 
-    const offset = 18
+    const offset = 12
     const x = clamp(markerPosition.x + normalX * offset * side, CHART_PADDING.left + 8, CHART_WIDTH - CHART_PADDING.right - 8)
     const y = clamp(markerPosition.y + normalY * offset * side + 4, CHART_PADDING.top + 12, CHART_PADDING.top + plotHeight - 8)
 
@@ -1208,45 +1448,89 @@ function WegZeitDiagram({
     }
   }
 
-  const labelPath = (item: ValidDiagramSeries, label: DiagramCurveLabel): string => {
-    const steps = 18
-    const points = Array.from({ length: steps + 1 }, (_, index) => {
-      const elapsed = label.startT + ((label.endT - label.startT) * index) / steps
-      const traveled = item.result.distanceAtTime(elapsed)
-      const position = item.side === 'left'
-        ? signedStartDistance(item) + traveled
-        : signedStartDistance(item) - traveled
-      const relativeTime = elapsed - item.result.duration
-
-      return {
-        x: xScale(position),
-        y: clamp(yScale(relativeTime) + label.offsetY, CHART_PADDING.top + 14, CHART_PADDING.top + plotHeight - 14),
-      }
-    })
-
-    const firstPoint = points[0]
-    const lastPoint = points[points.length - 1]
-    const readablePoints = firstPoint && lastPoint && firstPoint.x > lastPoint.x
-      ? [...points].reverse()
-      : points
-
-    return readablePoints
-      .map((point, index) => {
-        const command = index === 0 ? 'M' : 'L'
-        return `${command} ${point.x.toFixed(2)} ${point.y.toFixed(2)}`
-      })
-      .join(' ')
-  }
-
   const originX = xScale(0)
   const originY = yScale(0)
-  const timeReferenceGuide = getTimeReferenceGuide()
+  const guideRenderData: GuideRenderData[] = selectedGuides
+    .map<GuideRenderData | null>(guide => {
+      const selectedSeries = validSeries.find(item => item.id === guide.seriesId)
+
+      if (!selectedSeries) {
+        return null
+      }
+
+      const selectedPoint = elapsedToGuidePoint(selectedSeries, guide.elapsedTime)
+      const comparisonSeries = validSeries.find(item =>
+        item.id !== selectedSeries.id && relativeTimeExistsOnSeries(item, selectedPoint.relativeTime),
+      )
+      const comparisonPoint = comparisonSeries
+        ? elapsedToGuidePoint(comparisonSeries, comparisonSeries.result.duration + selectedPoint.relativeTime)
+        : undefined
+
+      return {
+        guide,
+        selectedSeries,
+        selectedPoint,
+        comparisonSeries,
+        comparisonPoint,
+        readoutItems: [
+          {
+            title: selectedSeries.title,
+            stroke: selectedSeries.stroke,
+            position: selectedPoint.position,
+          },
+          ...(comparisonPoint && comparisonSeries ? [
+            {
+              title: comparisonSeries.title,
+              stroke: comparisonSeries.stroke,
+              position: comparisonPoint.position,
+            },
+          ] : []),
+        ],
+      }
+    })
+    .filter((guide): guide is GuideRenderData => guide !== null)
 
   return (
     <div className="calculator-card xl:col-span-2">
       <div className="calculator-card-header">
         <h2 className="text-lg font-semibold">Weg-Zeit-Diagramm</h2>
-        <div className="flex rounded-md border border-white bg-white/10 p-1 text-sm" aria-label="Anfahrtsseite Bewegung 1">
+        {guideRenderData.length > 0 && (
+          <div className="order-last flex w-full flex-wrap items-center gap-2 text-sm text-white xl:order-none xl:w-auto">
+            {guideRenderData.map(data => (
+              <div
+                key={data.guide.id}
+                className="flex flex-wrap items-center gap-x-3 gap-y-1 rounded-md border border-white/30 bg-white/10 px-3 py-1.5"
+              >
+                <span className="font-semibold">
+                  {`t = ${formatNumber(-data.selectedPoint.relativeTime)} s`}
+                </span>
+                {data.readoutItems.map(item => (
+                  <span key={item.title} className="flex items-center gap-2">
+                    <span
+                      className="h-1.5 w-6 rounded-full ring-1 ring-white/70"
+                      style={{ backgroundColor: item.stroke }}
+                      aria-hidden="true"
+                    />
+                    <span>
+                      <span className="font-semibold">{item.title}</span>
+                      {`: ${formatNumber(item.position)} m`}
+                    </span>
+                  </span>
+                ))}
+                <button
+                  type="button"
+                  onClick={() => setSelectedGuides(current => current.filter(guide => guide.id !== data.guide.id))}
+                  className="ml-1 flex h-5 w-5 items-center justify-center rounded border border-white/40 text-xs font-semibold leading-none text-white hover:bg-white hover:text-primary-700"
+                  aria-label="Hilfslinie entfernen"
+                  title="Hilfslinie entfernen"
+                >
+                  x
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+        <div className="flex rounded-md border border-white bg-white/10 p-1 text-sm" aria-label="Anfahrtsseite KL">
           {(['left', 'right'] as ApproachSide[]).map(side => (
             <button
               key={side}
@@ -1258,7 +1542,7 @@ function WegZeitDiagram({
                   : 'text-white hover:bg-primary-800'
               }`}
             >
-              {`1 von ${sideLabel(side)}`}
+              {`KL von ${sideLabel(side)}`}
             </button>
           ))}
         </div>
@@ -1271,36 +1555,24 @@ function WegZeitDiagram({
         ) : (
           <>
             <div className="mb-4 grid gap-3 text-sm text-slate-700 md:grid-cols-2">
-              {validSeries.map(item => {
-                const startDistance = signedStartDistance(item)
-
-                return (
-                  <div key={item.id} className="flex flex-wrap items-center gap-x-3 gap-y-1">
-                    <span
-                      className="h-1.5 w-8 rounded-full"
-                      style={{ backgroundColor: item.stroke }}
-                      aria-hidden="true"
-                    />
-                    <span className="font-semibold text-slate-800">{`${item.title} (${item.result.modeLabel}) von ${sideLabel(item.side)}`}</span>
-                    <span>{`Start: ${formatNumber(startDistance)} m`}</span>
-                    <span>{`Zeit bis Kollision: ${formatNumber(item.result.duration)} s`}</span>
-                    <span>{`${item.result.distanceLabel}: ${formatNumber(item.result.distance)} m`}</span>
-                  </div>
-                )
-              })}
+              {validSeries.map(item => (
+                <div key={item.id} className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <span
+                    className="h-1.5 w-8 rounded-full"
+                    style={{ backgroundColor: item.stroke }}
+                    aria-hidden="true"
+                  />
+                  <span className="font-semibold text-slate-800">{`${item.title} (${item.result.modeLabel}) von ${sideLabel(item.side)}`}</span>
+                </div>
+              ))}
             </div>
-            {timeReferenceGuide && (
-              <div className="mb-4 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700">
-                <span className="font-semibold text-slate-800">Zeitvergleich: </span>
-                {`Bei Start ${timeReferenceGuide.reference.title} war ${timeReferenceGuide.comparison.title} bei ${formatNumber(timeReferenceGuide.comparisonPosition)} m.`}
-              </div>
-            )}
             <div className="overflow-x-auto">
               <svg
                 role="img"
                 aria-label="Weg-Zeit-Diagramm mit Kollisionspunkt im Ursprung"
                 viewBox={`0 0 ${CHART_WIDTH} ${CHART_HEIGHT}`}
                 className="min-w-[720px] w-full rounded-lg border border-slate-200 bg-white"
+                onClick={() => setSelectedGuides([])}
               >
                 <rect
                   x={CHART_PADDING.left}
@@ -1309,15 +1581,6 @@ function WegZeitDiagram({
                   height={plotHeight}
                   fill="#ffffff"
                 />
-                <defs>
-                  {validSeries.flatMap(item => item.result.labels.map((label, index) => (
-                    <path
-                      key={`${item.id}-curve-label-path-${index}`}
-                      id={`${item.id}-curve-label-path-${index}`}
-                      d={labelPath(item, label)}
-                    />
-                  )))}
-                </defs>
 
                 {yTicks.map(tick => (
                   <g key={`y-${tick}`}>
@@ -1326,8 +1589,8 @@ function WegZeitDiagram({
                       y1={yScale(tick)}
                       x2={CHART_WIDTH - CHART_PADDING.right}
                       y2={yScale(tick)}
-                      stroke="#94a3b8"
-                      strokeWidth="0.8"
+                      stroke="#cbd5e1"
+                      strokeWidth="0.7"
                     />
                     <text
                       x={CHART_PADDING.left - 12}
@@ -1355,8 +1618,8 @@ function WegZeitDiagram({
                       y1={CHART_PADDING.top}
                       x2={xScale(tick)}
                       y2={CHART_PADDING.top + plotHeight}
-                      stroke="#94a3b8"
-                      strokeWidth="0.8"
+                      stroke="#cbd5e1"
+                      strokeWidth="0.7"
                     />
                     <text
                       x={xScale(tick)}
@@ -1437,67 +1700,85 @@ function WegZeitDiagram({
                     />
                   )
                 })}
-                {timeReferenceGuide && (
-                  <g>
+
+                {guideRenderData.map(data => (
+                  <g key={`${data.guide.id}-lines`} pointerEvents="none">
+                    {data.comparisonPoint && (
+                      <line
+                        x1={data.selectedPoint.x}
+                        y1={data.selectedPoint.y}
+                        x2={data.comparisonPoint.x}
+                        y2={data.comparisonPoint.y}
+                        stroke="#94a3b8"
+                        strokeWidth="1.4"
+                        strokeDasharray="7 7"
+                      />
+                    )}
                     <line
-                      x1={xScale(timeReferenceGuide.referencePosition)}
-                      y1={yScale(timeReferenceGuide.relativeTime)}
-                      x2={xScale(timeReferenceGuide.comparisonPosition)}
-                      y2={yScale(timeReferenceGuide.relativeTime)}
-                      stroke="#64748b"
-                      strokeWidth="2"
-                      strokeDasharray="7 7"
-                    />
-                    <line
-                      x1={xScale(timeReferenceGuide.referencePosition)}
-                      y1={yScale(timeReferenceGuide.relativeTime)}
-                      x2={xScale(timeReferenceGuide.referencePosition)}
+                      x1={data.selectedPoint.x}
+                      y1={data.selectedPoint.y}
+                      x2={data.selectedPoint.x}
                       y2={originY}
-                      stroke="#64748b"
-                      strokeWidth="2"
+                      stroke="#94a3b8"
+                      strokeWidth="1.4"
                       strokeDasharray="7 7"
                     />
-                    <line
-                      x1={xScale(timeReferenceGuide.comparisonPosition)}
-                      y1={yScale(timeReferenceGuide.relativeTime)}
-                      x2={xScale(timeReferenceGuide.comparisonPosition)}
-                      y2={originY}
-                      stroke="#64748b"
-                      strokeWidth="2"
-                      strokeDasharray="7 7"
-                    />
+                    {data.comparisonPoint && (
+                      <line
+                        x1={data.comparisonPoint.x}
+                        y1={data.comparisonPoint.y}
+                        x2={data.comparisonPoint.x}
+                        y2={originY}
+                        stroke="#94a3b8"
+                        strokeWidth="1.4"
+                        strokeDasharray="7 7"
+                      />
+                    )}
                   </g>
-                )}
+                ))}
 
                 {validSeries.map(item => {
                   const startDistance = signedStartDistance(item)
                   const startX = xScale(startDistance)
                   const startY = yScale(-item.result.duration)
-                  const speedLabelX = startX + (item.side === 'left' ? 10 : -10)
-                  const speedLabelY = Math.max(startY - 10, CHART_PADDING.top + 16)
-                  const speedTextAnchor = item.side === 'left' ? 'start' : 'end'
 
                   return (
                     <g key={item.id}>
+                      {hoveredSeriesId === item.id && (
+                        <path
+                          d={pointToPath(item)}
+                          fill="none"
+                          stroke={item.stroke}
+                          strokeWidth="8"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          opacity="0.14"
+                          pointerEvents="none"
+                        />
+                      )}
                       <path
                         d={pointToPath(item)}
                         fill="none"
                         stroke={item.stroke}
-                        strokeWidth="4"
+                        strokeWidth="3"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
+                      <path
+                        d={pointToPath(item)}
+                        fill="none"
+                        stroke="#ffffff"
+                        strokeWidth="18"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        opacity="0"
+                        pointerEvents="stroke"
+                        className="cursor-crosshair"
+                        onMouseEnter={() => setHoveredSeriesId(item.id)}
+                        onMouseLeave={() => setHoveredSeriesId(current => current === item.id ? null : current)}
+                        onClick={event => selectGuidePoint(item, event)}
+                      />
                       <circle cx={startX} cy={startY} r="5" fill={item.stroke} />
-                      {item.result.mode !== 'stop' && (
-                        <text
-                          x={speedLabelX}
-                          y={speedLabelY}
-                          textAnchor={speedTextAnchor}
-                          className="fill-slate-700 text-[12px] font-semibold"
-                        >
-                          {`v = ${formatNumber(item.result.initialSpeedKmh, 0)} km/h`}
-                        </text>
-                      )}
                       {item.result.speedTicks.map((tick, index) => {
                         const tickPosition = pointToSignedPosition(item, tick)
                         const { normalX, normalY } = tangentNormalAtTime(item, tick.t)
@@ -1509,6 +1790,9 @@ function WegZeitDiagram({
                         const y2 = tickPosition.y + normalY * tickLength
                         const labelX = tickPosition.x + normalX * labelOffset
                         const labelY = tickPosition.y + normalY * labelOffset + 4
+                        const showTickLabel = Boolean(tick.label)
+                          && Math.abs(labelX - originX) > 18
+                          && Math.abs(labelY - originY) > 18
 
                         return (
                           <g key={`${item.id}-speed-tick-${index}`}>
@@ -1520,12 +1804,12 @@ function WegZeitDiagram({
                               stroke={item.stroke}
                               strokeWidth={tick.major ? '1.4' : '0.8'}
                             />
-                            {tick.label && (
+                            {showTickLabel && (
                               <text
                                 x={labelX}
                                 y={labelY}
                                 textAnchor="middle"
-                                className="fill-slate-700 text-[12px] font-semibold"
+                                className="fill-slate-600 text-[11px] font-medium"
                               >
                                 {tick.label}
                               </text>
@@ -1536,7 +1820,6 @@ function WegZeitDiagram({
                       {item.result.markers.map((marker, index) => {
                         const markerPosition = pointToSignedPosition(item, marker)
                         const labelPosition = markerLabelPosition(item, marker, 1)
-                        const oppositeLabelPosition = markerLabelPosition(item, marker, -1)
 
                         return (
                           <g key={`${item.id}-marker-${index}`}>
@@ -1558,45 +1841,35 @@ function WegZeitDiagram({
                                 {marker.label}
                               </text>
                             )}
-                            {marker.oppositeLabel && (
-                              <text
-                                x={oppositeLabelPosition.x}
-                                y={oppositeLabelPosition.y}
-                                textAnchor={oppositeLabelPosition.textAnchor}
-                                className="fill-slate-700 text-[12px] font-semibold"
-                              >
-                                {marker.oppositeLabel}
-                              </text>
-                            )}
                           </g>
-                        )
-                      })}
-                      {item.result.labels.map((label, index) => {
-                        return (
-                          <text
-                            key={`${item.id}-label-${index}`}
-                            className="fill-slate-700 text-[12px] font-semibold"
-                          >
-                            <textPath href={`#${item.id}-curve-label-path-${index}`} startOffset="50%" textAnchor="middle">
-                              {label.label}
-                            </textPath>
-                          </text>
                         )
                       })}
                     </g>
                   )
                 })}
 
-                {timeReferenceGuide && (
-                  <circle
-                    cx={xScale(timeReferenceGuide.comparisonPosition)}
-                    cy={yScale(timeReferenceGuide.relativeTime)}
-                    r="6"
-                    fill="#ffffff"
-                    stroke={timeReferenceGuide.comparison.stroke}
-                    strokeWidth="3"
-                  />
-                )}
+                {guideRenderData.map(data => (
+                  <g key={`${data.guide.id}-points`} pointerEvents="none">
+                    <circle
+                      cx={data.selectedPoint.x}
+                      cy={data.selectedPoint.y}
+                      r="4"
+                      fill="#ffffff"
+                      stroke={data.selectedSeries.stroke}
+                      strokeWidth="1.8"
+                    />
+                    {data.comparisonPoint && data.comparisonSeries && (
+                      <circle
+                        cx={data.comparisonPoint.x}
+                        cy={data.comparisonPoint.y}
+                        r="4"
+                        fill="#ffffff"
+                        stroke={data.comparisonSeries.stroke}
+                        strokeWidth="1.8"
+                      />
+                    )}
+                  </g>
+                ))}
 
                 <text
                   x={CHART_PADDING.left + plotWidth / 2}
@@ -1623,8 +1896,16 @@ function WegZeitDiagram({
 }
 
 function Wegzeit() {
-  const [firstInput, setFirstInput] = useState<MovementInput>(createEmptyMovementInput('decel'))
-  const [secondInput, setSecondInput] = useState<MovementInput>(createEmptyMovementInput('decel'))
+  const [firstInput, setFirstInput] = useState<MovementInput>(() => createDefaultMovementInput({
+    stop: DEFAULT_FIRST_STOP_INPUT,
+    decel: DEFAULT_FIRST_DECEL_INPUT,
+    drive: DEFAULT_FIRST_DRIVE_INPUT,
+  }))
+  const [secondInput, setSecondInput] = useState<MovementInput>(() => createDefaultMovementInput({
+    stop: DEFAULT_SECOND_STOP_INPUT,
+    decel: DEFAULT_SECOND_DECEL_INPUT,
+    drive: DEFAULT_SECOND_DRIVE_INPUT,
+  }))
   const [firstSide, setFirstSide] = useState<ApproachSide>('left')
 
   const firstResult = useMemo(() => calculateMovement(firstInput), [firstInput])
@@ -1633,17 +1914,19 @@ function Wegzeit() {
   const scenarios: MovementScenario[] = [
     {
       id: 'movement-1',
-      title: 'Bewegung 1',
+      title: 'KL',
       colorClass: 'bg-primary-700',
       stroke: '#0059a9',
+      side: firstSide,
       input: firstInput,
       setInput: setFirstInput,
     },
     {
       id: 'movement-2',
-      title: 'Bewegung 2',
+      title: 'BK',
       colorClass: 'bg-orange-700',
       stroke: '#c2410c',
+      side: oppositeSide(firstSide),
       input: secondInput,
       setInput: setSecondInput,
     },
@@ -1668,14 +1951,14 @@ function Wegzeit() {
           series={[
             {
               id: 'movement-1',
-              title: 'Bewegung 1',
+              title: 'KL',
               stroke: '#0059a9',
               side: firstSide,
               result: firstResult,
             },
             {
               id: 'movement-2',
-              title: 'Bewegung 2',
+              title: 'BK',
               stroke: '#c2410c',
               side: oppositeSide(firstSide),
               result: secondResult,
