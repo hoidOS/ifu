@@ -5,7 +5,7 @@
 - `components/` hosts shared UI (layout, navbar, footer) and calculators (e.g., `StepperInput`, `util*`).
 - `hooks/` includes utilities such as `useScreenshot` for exports.
 - `assets/` stores SVG formula renderings; `public/` holds static files.
-- `styles/`, `tailwind.config.ts`, and `postcss.config.js` define styling.
+- `styles/globals.css` contains the Tailwind v4 CSS-first theme tokens and shared classes; `tailwind.config.ts` mirrors palette/config values for tooling and legacy consumers; `postcss.config.js` wires Tailwind into PostCSS.
 
 ## Build, Test, and Development Commands
 - Target runtime: Node.js 24 LTS.
@@ -23,7 +23,7 @@
 - Follow Tailwind utility classes for layout; avoid inline styles unless necessary.
 - Linting runs through `eslint .` with `eslint-config-next/core-web-vitals`; run `npm run lint` before committing.
 - Next.js 16 uses the React automatic runtime; keep `tsconfig.json` aligned with `jsx: "react-jsx"`.
-- Tailwind defaults use OKLCH colors that break `html2canvas`; extend palettes with hex values in `tailwind.config.ts` and mirror them in `styles/globals.css` whenever you introduce new UI colors.
+- Tailwind defaults use OKLCH colors that break `html2canvas`; add new UI colors as hex tokens in `styles/globals.css` and mirror them in `tailwind.config.ts` whenever you introduce new palette values.
 - Use the shared calculator classes in `styles/globals.css` (`calculator-card`, `calculator-card-header`, `calculator-header-button`, `calculator-table`, `calculator-row`, `calculator-result-table`) for standard calculator screens. Keep header heights consistent with `calculator-card-header`; use `calculator-card-header-compact` only for deliberately compact special cases.
 - `minderwert` intentionally uses system colors: BVSK stays on the Steinacker primary blue, while MFM uses the darker orange accent (`orange-700`/`orange-800`) across headers, focus rings, result values, comparison markers, and system/reference tables. Keep editable input table shells neutral so the fields remain the focus.
 - Export controls should use `data-screenshot-ignore="true"` so `useScreenshot` can hide them in the cloned `html2canvas` document without mutating the live DOM.

@@ -1,6 +1,7 @@
 # Repository Audit Report
 
-Date: 2026-06-23
+Created: 2026-06-23
+Last updated: 2026-06-24
 
 Scope: Next.js Pages Router application, shared components, calculation helpers, screenshot/export hook, styling, package metadata, Docker setup, local build/lint/type checks, npm advisory check, and dependency freshness check.
 
@@ -14,7 +15,7 @@ The formula layer is still only lightly covered by automated tests. For a forens
 
 Post-audit implementation work has resolved F-02, clarified the F-04 Kurvenradius behavior for the current UI requirement, resolved F-09, resolved F-10, resolved F-12, and resolved the F-13 documentation/config drift. F-03 and F-08 are partially addressed. F-01 remains open as the broader formula-domain validation issue.
 
-## Verification Performed
+## Initial Verification Performed
 
 - `git status --short`: clean before report creation.
 - `npm run lint`: passed.
@@ -136,11 +137,11 @@ Recommendation: apply `min`, `max`, and validation state to every bounded parame
 
 `calculateVehicleAgeMonths()` returns `0` when either date is missing, invalid, or when the end date is before the start date:
 
-- `pages/minderwert.tsx:306-318`
+- `pages/minderwert.tsx:311-323`
 
 That then maps to the maximum AK factor through `calculateAKFactor()`:
 
-- `pages/minderwert.tsx:330-337`
+- `pages/minderwert.tsx:336-342`
 
 Impact: a reversed or invalid date pair can produce the same AK behavior as a zero-month-old vehicle rather than showing an error.
 
@@ -163,8 +164,8 @@ Most current calculator tables are direct children of `.p-4` wrappers, for examp
 
 Only the BVSK/MFM system tables consistently use `overflow-x-auto` wrappers:
 
-- `pages/minderwert.tsx:1255`
-- `pages/minderwert.tsx:1322`
+- `pages/minderwert.tsx:1323`
+- `pages/minderwert.tsx:1390`
 
 Impact: narrow screens can clip inputs, formulas, and result cells, which is especially risky for calculator output review.
 
@@ -230,7 +231,7 @@ Recommendation: continue using data attributes or classes for repeated export co
 
 The `Tooltip` component shows content only on mouse enter/leave and positions it with mouse-derived coordinates:
 
-- `pages/minderwert.tsx:20-43`
+- `pages/minderwert.tsx:10-43`
 
 Impact: keyboard and touch users cannot reliably access the explanatory content.
 
