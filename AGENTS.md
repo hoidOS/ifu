@@ -32,7 +32,7 @@
 - Export controls should use `data-screenshot-ignore="true"` so `useScreenshot` can hide them in the cloned `html2canvas` document without mutating the live DOM.
 - `useScreenshot` keeps html2canvas's hidden baseline-probe `img` inline while a capture runs; Tailwind's preflight `img { display: block }` otherwise shifts all exported text toward the bottom of table cells.
 - The flat ESLint config intentionally disables `react-hooks/set-state-in-effect` to preserve the current sessionStorage restore pattern used across calculators; avoid re-enabling it without refactoring those pages.
-- Some legacy result tables lack horizontal scroll on mobile; match the BVSK system implementation by wrapping future tables in `<div class="overflow-x-auto">` to preserve usability on narrow screens.
+- The tools are used on desktop only; phone layouts are not a target. Keep narrow windows from breaking by wrapping wide tables in `<div class="overflow-x-auto">`, but don't spend effort optimising for phones.
 - Layout-related components (`Layout`, `Navbar`, `Footer`) live in `components/`; keep `/pages` reserved for actual routes to avoid accidental public endpoints.
 
 ## Testing Guidelines
