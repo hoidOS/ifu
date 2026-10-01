@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState, useEffect, Fragment, type ReactNode } from 'react'
+import { useState, useEffect, Fragment } from 'react'
 import SVG from '../assets/svg'
 import { useScreenshot } from '../hooks/useScreenshot'
 
@@ -101,160 +101,68 @@ const formatEuro = (value: number): string => `${formatDecimal(value, 2)}${NBSP}
 
 const formatPercent = (value: number, digits = 1): string => `${formatDecimal(value, digits)}${NBSP}%`
 
-const formatSignedPercent = (value: number): string => {
-  if (Number(value.toFixed(1)) === 0) {
-    return formatPercent(0)
-  }
-
-  return `${value > 0 ? '+' : MINUS}${formatPercent(Math.abs(value))}`
-}
-
-const formatDate = (isoDate: string): string => {
-  const date = new Date(isoDate)
-
-  return Number.isNaN(date.getTime())
-    ? ''
-    : date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric', timeZone: 'UTC' })
-}
-
 const formatOrDash = (value: number, format: (value: number) => string): string =>
   Number.isFinite(value) ? format(value) : '–'
 
 const BVSK_COLOR = '#0059a9'
 const MFM_COLOR = '#c2410c'
-const AVERAGE_COLOR = '#64748b'
+const AVERAGE_COLOR = '#475569'
 
-// Descriptions for the discrete factor steps listed in the input tooltips.
-const describeStep = (value: number, steps: Array<[number, string]>): string =>
-  steps.find(([step]) => Math.abs(step - value) < 0.0001)?.[1] ?? ''
+type ValuationSystem = 'bvsk' | 'mfm'
 
-const K_FACTOR_STEPS: Array<[number, string]> = [[1, 'keine Vorschäden']]
+// Flat system tints; Tailwind opacity modifiers would compile to color-mix(), which html2canvas cannot draw.
+const SYSTEM_STYLES: Record<ValuationSystem, { box: string; title: string; divider: string; rule: string; value: string }> = {
+  bvsk: {
+    box: 'border-primary-200 bg-primary-50',
+    title: 'text-primary-700',
+    divider: 'divide-primary-100',
+    rule: 'border-primary-700',
+    value: 'text-primary-700',
+  },
+  mfm: {
+    box: 'border-orange-200 bg-orange-50',
+    title: 'text-orange-700',
+    divider: 'divide-orange-100',
+    rule: 'border-orange-700',
+    value: 'text-orange-700',
+  },
+}
 
-const M_VALUE_STEPS: Array<[number, string]> = [
-  [-0.5, 'gute Marktnachfrage'],
-  [0, 'durchschnittliche Marktnachfrage'],
-  [1, 'schlechte Marktnachfrage'],
-  [2, 'sehr lange Standzeiten'],
-]
-
-const SU_STEPS: Array<[number, string]> = [
-  [0.2, 'anbaubare Teile'],
-  [0.4, 'geschraubte Karosserieteile'],
-  [0.6, 'geringe Reparatur tragender Teile'],
-  [0.8, 'erhebliche Reparatur tragender Teile'],
-  [1, 'Ersatz tragender Karosserieteile'],
-]
-
-const FM_STEPS: Array<[number, string]> = [
-  [0.6, 'sehr gut'],
-  [0.8, 'gut'],
-  [1, 'normal'],
-  [1.2, 'schlecht'],
-  [1.4, 'sehr schlecht'],
-]
-
-const FV_STEPS: Array<[number, string]> = [
-  [0.2, 'erhebliche Vorschäden'],
-  [0.4, 'hohe Vorschäden'],
-  [0.6, 'mittlere Vorschäden'],
-  [0.8, 'geringe Vorschäden'],
-  [1, 'keine Vorschäden'],
-]
-
-interface ReportRow {
+interface BreakdownRow {
   label: string
-  symbol: ReactNode
   value: string
-  note?: string
+  subtotal?: boolean
 }
 
-const REPORT_COLUMNS = ['32%', '12%', '20%', '36%']
-
-function ReportTableHead() {
-  return (
-    <>
-      <colgroup>
-        {REPORT_COLUMNS.map((width, index) => (
-          <col key={index} style={{ width }} />
-        ))}
-      </colgroup>
-      <thead>
-        <tr className="border-b-2 border-primary-700">
-          <th className="text-primary-700 font-semibold py-3 px-2" style={{ textAlign: 'left' }}>Art</th>
-          <th className="text-primary-700 font-semibold py-3 px-2" style={{ textAlign: 'center' }}>Var</th>
-          <th className="text-primary-700 font-semibold py-3 px-2" style={{ textAlign: 'right' }}>Wert</th>
-          <th className="text-primary-700 font-semibold py-3 px-2" style={{ textAlign: 'left' }}>Bemerkung</th>
-        </tr>
-      </thead>
-    </>
-  )
-}
-
-function CalculationSection({
+function BreakdownBox({
   title,
-  color,
+  system,
   rows,
-  formula,
-  formulaAlt,
-  workings,
-  resultSymbol,
   result,
 }: {
   title: string
-  color: string
-  rows: ReportRow[]
-  formula: string
-  formulaAlt: string
-  workings: string[] | null
-  resultSymbol: ReactNode
+  system: ValuationSystem
+  rows: BreakdownRow[]
   result: number
 }) {
+  const style = SYSTEM_STYLES[system]
+
   return (
-    <tbody>
-      <tr>
-        <th
-          colSpan={4}
-          scope="rowgroup"
-          className="bg-slate-50 py-2 px-2 font-semibold"
-          style={{ borderLeft: `3px solid ${color}`, color, textAlign: 'left' }}
-        >
-          {title}
-        </th>
-      </tr>
-      {rows.map(row => (
-        <tr key={row.label} className="calculator-row">
-          <td className="py-2 px-2 text-gray-700">{row.label}</td>
-          <td className="py-2 px-2 text-center text-gray-700">{row.symbol}</td>
-          <td className="py-2 px-2 text-right font-medium text-gray-900 whitespace-nowrap">{row.value}</td>
-          <td className="py-2 px-2 text-sm text-gray-500">{row.note}</td>
-        </tr>
-      ))}
-      <tr className="border-b border-slate-200">
-        <td colSpan={4} className="px-2 py-3 text-center">
-          <Image unoptimized src={formula} alt={formulaAlt} className="inline-block h-auto w-auto max-w-full" />
-          {workings ? (
-            <p className="mt-1 text-sm leading-6 text-gray-600">
-              {workings.map((line, index) => (
-                <Fragment key={line}>
-                  {index > 0 && <br />}
-                  {line}
-                </Fragment>
-              ))}
-            </p>
-          ) : (
-            <p className="mt-1 text-sm italic text-gray-400">Eingaben unvollständig</p>
-          )}
-        </td>
-      </tr>
-      <tr>
-        <td className="py-2 px-2 font-semibold text-gray-900" style={{ borderTop: `2px solid ${color}` }}>Minderwert</td>
-        <td className="py-2 px-2 text-center text-gray-700" style={{ borderTop: `2px solid ${color}` }}>{resultSymbol}</td>
-        <td className="py-2 px-2 text-right font-bold whitespace-nowrap" style={{ borderTop: `2px solid ${color}`, color }}>
-          {formatEuro(result)}
-        </td>
-        <td className="py-2 px-2" style={{ borderTop: `2px solid ${color}` }} />
-      </tr>
-    </tbody>
+    <div className={`rounded-lg border px-4 py-3 ${style.box}`}>
+      <h3 className={`font-semibold ${style.title}`}>{title}</h3>
+      <dl className={`mt-2 divide-y text-sm ${style.divider}`}>
+        {rows.map(row => (
+          <div key={row.label} className="flex items-baseline justify-between gap-4 py-1.5">
+            <dt className={`min-w-0 ${row.subtotal ? 'italic text-gray-500' : 'text-gray-600'}`}>{row.label}</dt>
+            <dd className="whitespace-nowrap tabular-nums text-gray-900">{row.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className={`mt-1 flex items-baseline justify-between gap-4 border-t-2 pt-2 font-semibold ${style.rule}`}>
+        <span className="text-gray-800">Minderwert</span>
+        <span className={`whitespace-nowrap tabular-nums ${style.value}`}>{formatEuro(result)}</span>
+      </div>
+    </div>
   )
 }
 
@@ -615,95 +523,52 @@ function Minderwert() {
   const mfmResult = calculateMFM()
   const average = (bvskResult + mfmResult) / 2
   const roundedAverage = Math.round(average / 50) * 50
-  const comparisonMax = Math.max(bvskResult, mfmResult, average)
+  const comparisonMax = Math.max(bvskResult, mfmResult, roundedAverage)
   const shareOfMax = (value: number): number => comparisonMax > 0 ? (value / comparisonMax) * 100 : 0
-  const deviationFromAverage = (value: number): string =>
-    average > 0 ? formatSignedPercent(((value - average) / average) * 100) : '–'
 
-  const bvskInputsComplete = bvskInput.wbw > 0
-    && [bvskInput.kFaktor, bvskInput.prozentWert, bvskInput.mWert].every(Number.isFinite)
-  const mfmInputsComplete = mfmInput.vw > 0
-    && mfmInput.np > 0
-    && [mfmInput.rk, mfmInput.su, mfmInput.ak, mfmInput.fm, mfmInput.fv].every(Number.isFinite)
+  const formatFactor = (value: number): string => formatOrDash(value, factor => formatDecimal(factor, 2))
+  const mfmInputsComplete = mfmInput.vw > 0 && mfmInput.np > 0
 
-  const bvskRows: ReportRow[] = [
-    { label: 'Wiederbeschaffungswert', symbol: 'WBW', value: formatOrDash(bvskInput.wbw, formatEuro), note: 'inkl. MwSt.' },
+  const bvskRows: BreakdownRow[] = [
+    { label: 'Wiederbeschaffungswert (WBW)', value: formatOrDash(bvskInput.wbw, formatEuro) },
+    { label: 'K-Faktor', value: formatFactor(bvskInput.kFaktor) },
+    { label: '%-Wert', value: formatOrDash(bvskInput.prozentWert, value => formatPercent(value)) },
+    { label: 'M-Wert', value: formatOrDash(bvskInput.mWert, value => formatPercent(value)) },
     {
-      label: 'Vorschadenfaktor',
-      symbol: 'K',
-      value: formatOrDash(bvskInput.kFaktor, value => formatDecimal(value, 2)),
-      note: describeStep(bvskInput.kFaktor, K_FACTOR_STEPS),
-    },
-    { label: 'Schadensintensität', symbol: '%-Wert', value: formatOrDash(bvskInput.prozentWert, value => formatPercent(value)) },
-    {
-      label: 'Marktgängigkeit',
-      symbol: 'M-Wert',
-      value: formatOrDash(bvskInput.mWert, value => formatPercent(value)),
-      note: describeStep(bvskInput.mWert, M_VALUE_STEPS),
+      label: '%-Wert + M-Wert',
+      value: formatOrDash(bvskInput.prozentWert + bvskInput.mWert, value => formatPercent(value)),
+      subtotal: true,
     },
   ]
 
-  const ageDates = mfmInput.startDate && mfmInput.endDate
-    ? `${formatDate(mfmInput.startDate)} bis ${formatDate(mfmInput.endDate)}`
-    : ''
-
-  const mfmRows: ReportRow[] = [
-    { label: 'Veräußerungswert', symbol: 'VW', value: formatOrDash(mfmInput.vw, formatEuro), note: 'inkl. MwSt.' },
-    { label: 'Neupreis', symbol: 'NP', value: formatOrDash(mfmInput.np, formatEuro), note: 'inkl. MwSt.' },
-    { label: 'Reparaturkosten', symbol: 'RK', value: formatOrDash(mfmInput.rk, formatEuro), note: 'inkl. MwSt.' },
+  // Both bracket terms are listed so the MFM result can be checked by hand.
+  const mfmRows: BreakdownRow[] = [
+    { label: 'Veräußerungswert (VW)', value: formatOrDash(mfmInput.vw, formatEuro) },
+    { label: 'Neupreis (NP)', value: formatOrDash(mfmInput.np, formatEuro) },
+    { label: 'Fahrzeugalter', value: formatOrDash(mfmInput.ageMonths, value => `${formatDecimal(value, 0)}${NBSP}Monate`) },
+    { label: 'Alterskorrektur (AK)', value: formatOrDash(mfmInput.ak, value => formatDecimal(value, 4)) },
+    { label: 'Reparaturkosten (RK)', value: formatOrDash(mfmInput.rk, formatEuro) },
+    { label: 'Schadensumfang (SU)', value: formatFactor(mfmInput.su) },
+    { label: 'Marktgängigkeit (FM)', value: formatFactor(mfmInput.fm) },
+    { label: 'Vorschaden (FV)', value: formatFactor(mfmInput.fv) },
     {
-      label: 'Schadensumfang',
-      symbol: 'SU',
-      value: formatOrDash(mfmInput.su, value => formatDecimal(value, 2)),
-      note: describeStep(mfmInput.su, SU_STEPS),
+      label: 'VW / 100',
+      value: mfmInputsComplete ? formatEuro(mfmInput.vw / 100) : '–',
+      subtotal: true,
     },
     {
-      label: 'Fahrzeugalter',
-      symbol: '',
-      value: formatOrDash(mfmInput.ageMonths, value => `${formatDecimal(value, 0)}${NBSP}Monate`),
-      note: ageDates,
-    },
-    {
-      label: 'Alterskorrektur',
-      symbol: 'AK',
-      value: formatOrDash(mfmInput.ak, value => formatDecimal(value, 4)),
-      note: 'aus Fahrzeugalter',
-    },
-    {
-      label: 'Marktgängigkeit',
-      symbol: 'FM',
-      value: formatOrDash(mfmInput.fm, value => formatDecimal(value, 2)),
-      note: describeStep(mfmInput.fm, FM_STEPS),
-    },
-    {
-      label: 'Vorschaden',
-      symbol: 'FV',
-      value: formatOrDash(mfmInput.fv, value => formatDecimal(value, 2)),
-      note: describeStep(mfmInput.fv, FV_STEPS),
+      label: 'VW / NP · RK · SU · AK',
+      value: mfmInputsComplete
+        ? formatOrDash((mfmInput.vw / mfmInput.np) * mfmInput.rk * mfmInput.su * mfmInput.ak, formatEuro)
+        : '–',
+      subtotal: true,
     },
   ]
 
-  const bvskWorkings = bvskInputsComplete
-    ? [
-      `${formatEuro(bvskInput.wbw)} · ${formatDecimal(bvskInput.kFaktor, 2)} · (${formatPercent(bvskInput.prozentWert)} ${bvskInput.mWert < 0 ? MINUS : '+'} ${formatPercent(Math.abs(bvskInput.mWert))}) = ${formatEuro(bvskResult)}`,
-    ]
-    : null
-
-  // The MFM workings show both bracket terms so each step can be checked by hand.
-  const mfmBaseTerm = mfmInput.vw / 100
-  const mfmDamageTerm = (mfmInput.vw / mfmInput.np) * mfmInput.rk * mfmInput.su * mfmInput.ak
-  const mfmWorkings = mfmInputsComplete
-    ? [
-      `${formatEuro(mfmInput.vw)} / 100 = ${formatEuro(mfmBaseTerm)}`,
-      `${formatEuro(mfmInput.vw)} / ${formatEuro(mfmInput.np)} · ${formatEuro(mfmInput.rk)} · ${formatDecimal(mfmInput.su, 2)} · ${formatDecimal(mfmInput.ak, 4)} = ${formatEuro(mfmDamageTerm)}`,
-      `[${formatEuro(mfmBaseTerm)} + ${formatEuro(mfmDamageTerm)}] · ${formatDecimal(mfmInput.fm, 2)} · ${formatDecimal(mfmInput.fv, 2)} = ${formatEuro(mfmResult)}`,
-    ]
-    : null
-
-  const comparisonRows = [
-    { label: 'Minderwert BVSK', symbol: <>MW<sub>BVSK</sub></>, value: bvskResult, color: BVSK_COLOR, note: deviationFromAverage(bvskResult) },
-    { label: 'Minderwert MFM', symbol: <>MW<sub>MFM</sub></>, value: mfmResult, color: MFM_COLOR, note: deviationFromAverage(mfmResult) },
-    { label: 'Mittelwert', symbol: <span className="overline">MW</span>, value: average, color: AVERAGE_COLOR, note: 'Bezugswert' },
+  const comparisonBars = [
+    { label: 'BVSK', value: bvskResult, color: BVSK_COLOR, text: 'text-primary-700' },
+    { label: 'Mittelwert', value: roundedAverage, color: AVERAGE_COLOR, text: 'text-slate-700' },
+    { label: 'MFM', value: mfmResult, color: MFM_COLOR, text: 'text-orange-700' },
   ]
 
   return (
@@ -1226,29 +1091,41 @@ function Minderwert() {
           </div>
           <div className="p-4">
             <div className="overflow-x-auto">
-              <table className="calculator-table min-w-[600px] tabular-nums" style={{ tableLayout: 'fixed' }}>
-                <ReportTableHead />
-                <CalculationSection
-                  title="BVSK"
-                  color={BVSK_COLOR}
-                  rows={bvskRows}
-                  formula={SVG.mwBvskF}
-                  formulaAlt="MW_BVSK = WBW · K · (%-Wert + M-Wert) / 100"
-                  workings={bvskWorkings}
-                  resultSymbol={<>MW<sub>BVSK</sub></>}
-                  result={bvskResult}
-                />
-                <CalculationSection
-                  title="MFM"
-                  color={MFM_COLOR}
-                  rows={mfmRows}
-                  formula={SVG.mwMfmF}
-                  formulaAlt="MW_MFM = [VW / 100 + VW / NP · RK · SU · AK] · FM · FV"
-                  workings={mfmWorkings}
-                  resultSymbol={<>MW<sub>MFM</sub></>}
-                  result={mfmResult}
-                />
+              <table className="calculator-table min-w-[520px]" style={{ tableLayout: 'fixed' }}>
+                <colgroup>
+                  <col style={{ width: '16%' }} />
+                  <col style={{ width: '62%' }} />
+                  <col style={{ width: '22%' }} />
+                </colgroup>
+                <thead>
+                  <tr className="border-b-2 border-primary-700">
+                    <th className="text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'left' }}>Modell</th>
+                    <th className="text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'center' }}>Formel</th>
+                    <th className="text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'right' }}>Ergebnis</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b border-primary-100 bg-primary-50">
+                    <td className="py-3 px-3 font-bold text-primary-700" style={{ borderLeft: `4px solid ${BVSK_COLOR}` }}>BVSK</td>
+                    <td className="py-3 px-3 text-center">
+                      <Image unoptimized src={SVG.mwBvskF} alt="MW = WBW · K · (%-Wert + M-Wert) / 100" className="inline-block h-auto w-auto max-w-full" />
+                    </td>
+                    <td className="py-3 px-3 text-right text-base font-bold tabular-nums whitespace-nowrap text-primary-700">{formatEuro(bvskResult)}</td>
+                  </tr>
+                  <tr className="bg-orange-50">
+                    <td className="py-3 px-3 font-bold text-orange-700" style={{ borderLeft: `4px solid ${MFM_COLOR}` }}>MFM</td>
+                    <td className="py-3 px-3 text-center">
+                      <Image unoptimized src={SVG.mwMfmF} alt="MW = [VW / 100 + VW / NP · RK · SU · AK] · FM · FV" className="inline-block h-auto w-auto max-w-full" />
+                    </td>
+                    <td className="py-3 px-3 text-right text-base font-bold tabular-nums whitespace-nowrap text-orange-700">{formatEuro(mfmResult)}</td>
+                  </tr>
+                </tbody>
               </table>
+            </div>
+
+            <div className="mt-4 grid items-start gap-4 sm:grid-cols-2">
+              <BreakdownBox title="BVSK Berechnung" system="bvsk" rows={bvskRows} result={bvskResult} />
+              <BreakdownBox title="MFM Berechnung" system="mfm" rows={mfmRows} result={mfmResult} />
             </div>
           </div>
         </div>
@@ -1277,39 +1154,44 @@ function Minderwert() {
             </div>
           </div>
           <div className="p-4">
-            <div className="overflow-x-auto">
-              <table className="calculator-table min-w-[600px] tabular-nums" style={{ tableLayout: 'fixed' }}>
-                <ReportTableHead />
-                <tbody>
-                  {comparisonRows.map(row => (
-                    <tr key={row.label} className="calculator-row">
-                      <td className="py-2 px-2 text-gray-700">{row.label}</td>
-                      <td className="py-2 px-2 text-center text-gray-700">{row.symbol}</td>
-                      <td className="py-2 px-2 text-right font-medium text-gray-900 whitespace-nowrap">{formatEuro(row.value)}</td>
-                      <td className="py-2 px-2">
-                        <div className="flex items-center gap-3">
-                          <div className="h-2 flex-1">
-                            <div className="h-2" style={{ width: `${shareOfMax(row.value)}%`, backgroundColor: row.color }} />
-                          </div>
-                          <span className="w-24 shrink-0 text-right text-sm text-gray-500 whitespace-nowrap">{row.note}</span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                  <tr className="border-y-2">
-                    <td className="py-3 px-2 font-semibold text-gray-900">Minderwert</td>
-                    <td className="py-3 px-2 text-center text-gray-700">MW</td>
-                    <td className="py-3 px-2 text-right font-bold text-gray-900 whitespace-nowrap">{formatEuro(roundedAverage)}</td>
-                    <td className="py-3 px-2 text-sm text-gray-500">gerundet auf volle 50 €</td>
-                  </tr>
-                  <tr>
-                    <td colSpan={4} className="px-2 py-3 text-center">
-                      <Image unoptimized src={SVG.mwMeanF} alt="Mittelwert = (MW_BVSK + MW_MFM) / 2" className="inline-block h-auto w-auto max-w-full" />
-                      <p className="mt-1 text-sm text-gray-600">Balken maßstäblich ab 0 €; Abweichungen bezogen auf den Mittelwert.</p>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className={`flex flex-col rounded-lg border px-4 py-3 ${SYSTEM_STYLES.bvsk.box}`}>
+                <p className="font-semibold text-primary-700">BVSK</p>
+                <p className="text-xs text-gray-500">Minderwert</p>
+                <p className="mt-auto pt-3 text-xl font-bold tabular-nums whitespace-nowrap text-primary-700">{formatEuro(bvskResult)}</p>
+              </div>
+              <div className="flex flex-col rounded-lg border-2 border-slate-600 bg-white px-4 py-3">
+                <p className="font-semibold text-slate-700">Mittelwert</p>
+                <p className="text-xs text-gray-500">gerundet auf volle 50 €</p>
+                <p className="text-xs tabular-nums text-gray-500">{`ungerundet ${formatEuro(average)}`}</p>
+                <p className="mt-auto pt-3 text-xl font-bold tabular-nums whitespace-nowrap text-slate-900">{formatEuro(roundedAverage)}</p>
+              </div>
+              <div className={`flex flex-col rounded-lg border px-4 py-3 ${SYSTEM_STYLES.mfm.box}`}>
+                <p className="font-semibold text-orange-700">MFM</p>
+                <p className="text-xs text-gray-500">Minderwert</p>
+                <p className="mt-auto pt-3 text-xl font-bold tabular-nums whitespace-nowrap text-orange-700">{formatEuro(mfmResult)}</p>
+              </div>
+            </div>
+
+            <div className="mt-5">
+              <div className="flex items-baseline justify-between gap-4 border-b border-slate-200 pb-2">
+                <h3 className="text-sm font-semibold text-gray-700">Proportionaler Vergleich</h3>
+                <span className="text-xs text-gray-500">Balken ab 0 €</span>
+              </div>
+              <div className="mt-3 space-y-3">
+                {comparisonBars.map(bar => (
+                  <div
+                    key={bar.label}
+                    className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 sm:grid-cols-[7rem_7rem_minmax(0,1fr)]"
+                  >
+                    <span className={`text-sm font-semibold ${bar.text}`}>{bar.label}</span>
+                    <span className="text-right text-sm font-semibold tabular-nums whitespace-nowrap text-gray-900">{formatEuro(bar.value)}</span>
+                    <div className="col-span-2 h-3 rounded-sm bg-slate-100 sm:col-span-1">
+                      <div className="h-3 rounded-sm" style={{ width: `${shareOfMax(bar.value)}%`, backgroundColor: bar.color }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
