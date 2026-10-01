@@ -2,6 +2,7 @@ import Head from 'next/head'
 import Image from 'next/image'
 import { useState, useEffect, Fragment } from 'react'
 import SVG from '../assets/svg'
+import { roundMinderwert } from '../components/utilMinderwert'
 import { useScreenshot } from '../hooks/useScreenshot'
 
 interface TooltipProps {
@@ -521,7 +522,7 @@ function Minderwert() {
   const bvskResult = calculateBVSK()
   const mfmResult = calculateMFM()
   const average = (bvskResult + mfmResult) / 2
-  const roundedAverage = Math.round(average / 50) * 50
+  const roundedAverage = roundMinderwert(average)
   const comparisonMax = Math.max(bvskResult, mfmResult, roundedAverage)
   const shareOfMax = (value: number): number => comparisonMax > 0 ? (value / comparisonMax) * 100 : 0
 
