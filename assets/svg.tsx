@@ -56,6 +56,10 @@ import dsF from './images/dsF.svg'
 import dtF from './images/dtF.svg'
 import vKF from './images/vKF.svg'
 
+import mwBvskF from './images/mwBvskF.svg'
+import mwMfmF from './images/mwMfmF.svg'
+import mwMeanF from './images/mwMeanF.svg'
+
 import dVA1 from './images/dVA1.svg'
 import dVA2 from './images/dVA2.svg'
 import dVA3 from './images/dVA3.svg'
@@ -168,6 +172,10 @@ interface svgInterface {
     dtF: string,
     vKF: string,
 
+    mwBvskF: string,
+    mwMfmF: string,
+    mwMeanF: string,
+
     dVA1: string,
     dVA2: string,
     dVA3: string,
@@ -279,6 +287,10 @@ const SVG: svgInterface = {
     dsF: dsF,
     dtF: dtF,
     vKF: vKF,
+
+    mwBvskF: mwBvskF,
+    mwMfmF: mwMfmF,
+    mwMeanF: mwMeanF,
 
     dVA1: dVA1,
     dVA2: dVA2,
