@@ -1,11 +1,14 @@
 import { describe, expect, it } from 'vitest'
 
 import {
+  DISTANCE_GRID_STEPS,
   type MovementResult,
+  TIME_GRID_STEPS,
   type ValidMovementResult,
   calculateDecel,
   calculateDrive,
   calculateStop,
+  layoutAxis,
   toMs,
 } from './utilWegzeit'
 
@@ -136,5 +139,37 @@ describe('Konstantfahrt movement', () => {
 
     expect(result.status).toBe('invalid')
     expect(result.status !== 'valid' && result.message).toContain('überzähliges Feld leeren')
+  })
+})
+
+describe('diagram axis layout', () => {
+  it('gives each side its own bound and keeps 1 m ruler ticks for short scenes', () => {
+    const axis = layoutAxis({ below: 28.6, above: 30.7, length: 770, gridSteps: DISTANCE_GRID_STEPS, minLabelSpacing: 80 })
+
+    expect(axis).toEqual({ min: -30, max: 40, gridStep: 10, rulerStep: 1, rulerMajorEvery: 5 })
+  })
+
+  it('widens the grid step so long approaches keep readable labels', () => {
+    const axis = layoutAxis({ below: 287.5, above: 17.3, length: 770, gridSteps: DISTANCE_GRID_STEPS, minLabelSpacing: 80 })
+
+    expect(axis.min).toBe(-300)
+    expect(axis.max).toBe(50)
+    expect(axis.gridStep).toBe(50)
+    expect((770 * axis.gridStep) / (axis.max - axis.min)).toBeGreaterThanOrEqual(80)
+    expect(axis.rulerStep).toBe(5)
+  })
+
+  it('keeps one grid step on an empty side', () => {
+    const axis = layoutAxis({ below: 3.5, above: 0, length: 410, gridSteps: TIME_GRID_STEPS, minLabelSpacing: 24 })
+
+    expect(axis).toEqual({ min: -4, max: 1, gridStep: 1, rulerStep: 0.1, rulerMajorEvery: 5 })
+  })
+
+  it('switches to coarser time steps for long movements', () => {
+    const axis = layoutAxis({ below: 32.3, above: 3.1, length: 410, gridSteps: TIME_GRID_STEPS, minLabelSpacing: 24 })
+
+    expect(axis.gridStep).toBe(5)
+    expect(axis.min).toBe(-35)
+    expect(axis.max).toBe(5)
   })
 })

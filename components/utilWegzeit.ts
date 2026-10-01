@@ -109,6 +109,58 @@ export const makeStepTicks = (min: number, max: number, step: number): number[] 
 }
 
 
+export interface AxisLayout {
+  min: number
+  max: number
+  gridStep: number
+  rulerStep: number
+  rulerMajorEvery: number
+}
+
+export const DISTANCE_GRID_STEPS = [5, 10, 20, 50, 100, 200, 500, 1000]
+
+export const TIME_GRID_STEPS = [1, 2, 5, 10, 20, 30, 60]
+
+const RULER_SUBDIVISIONS = [10, 5, 2, 1]
+
+const MIN_RULER_TICK_SPACING = 4
+
+// Picks the finest grid step whose labels stay at least minLabelSpacing apart. Both sides get
+// their own bound, rounded up to the grid step, so a short approach does not waste half the plot.
+export const layoutAxis = ({
+  below,
+  above,
+  length,
+  gridSteps,
+  minLabelSpacing,
+}: {
+  below: number
+  above: number
+  length: number
+  gridSteps: number[]
+  minLabelSpacing: number
+}): AxisLayout => {
+  const bounds = (step: number) => ({
+    min: -Math.max(step, roundUpToStep(below, step)),
+    max: Math.max(step, roundUpToStep(above, step)),
+  })
+  const gridStep = gridSteps.find(step => {
+    const { min, max } = bounds(step)
+    return (length * step) / (max - min) >= minLabelSpacing
+  }) ?? Math.max(...gridSteps)
+  const { min, max } = bounds(gridStep)
+  const gridSpacing = (length * gridStep) / (max - min)
+  const subdivisions = RULER_SUBDIVISIONS.find(count => gridSpacing / count >= MIN_RULER_TICK_SPACING) ?? 1
+
+  return {
+    min,
+    max,
+    gridStep,
+    rulerStep: gridStep / subdivisions,
+    rulerMajorEvery: subdivisions === 10 ? 5 : subdivisions,
+  }
+}
+
 const samplePoints = (
   startTime: number,
   endTime: number,

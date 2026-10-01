@@ -130,11 +130,11 @@ The diagram is CAD-inspired:
 
 - white plot area
 - light technical grid and thin plot border
-- rounded meter and second bounds
+- every axis side gets its own bound (distance left/right of the collision, time before/after it), rounded up to the grid step, so a short approach does not waste half the plot
+- grid steps adapt to the scene (`layoutAxis` in `components/utilWegzeit.ts`): the finest step from `5, 10, 20, 50, ...` m and `1, 2, 5, 10, ...` s that keeps distance labels at least 80 px and time labels at least 24 px apart
 - distance labels on top and bottom axes
 - time labels mirrored on left and right
-- central `0 s` axis has 1 m ruler ticks, longer every 5 m
-- central `0 m` axis has 0.1 s ruler ticks, longer every 0.5 s
+- central `0 s` and `0 m` axes carry ruler ticks that subdivide the grid step: tenths with a longer tick every half step while they stay at least 4 px apart (1 m / 5 m and 0.1 s / 0.5 s at the demo values), coarser subdivisions otherwise
 - the theoretical continuation after collision is drawn dashed and faded, including its speed ticks, so it cannot be mistaken for measured movement; the legend explains the dashed line
 
 Internal time is relative to collision:

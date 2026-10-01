@@ -15,8 +15,10 @@ import {
   calculateMovement,
   clamp,
   formatNumber,
+  DISTANCE_GRID_STEPS,
+  TIME_GRID_STEPS,
+  layoutAxis,
   makeStepTicks,
-  roundUpToStep,
 } from '../components/utilWegzeit'
 
 type ApproachSide = 'left' | 'right'
@@ -86,10 +88,13 @@ const AFTER_COLLISION_OPACITY = 0.5
 
 const CHART_PADDING = {
   top: 28,
-  right: 34,
+  right: 54,
   bottom: 62,
   left: 76,
 }
+
+const MIN_DISTANCE_LABEL_SPACING = 80
+const MIN_TIME_LABEL_SPACING = 24
 
 const EMPTY_STOP_INPUT: StopInput = {
   vA: NaN,
@@ -537,27 +542,40 @@ function WegZeitDiagram({
   const hasSeries = validSeries.length > 0
   const maxDuration = Math.max(0, ...validSeries.map(item => item.result.duration))
   const maxAfterDuration = Math.max(0, ...validSeries.map(item => item.result.endDuration - item.result.duration))
-  const maxDistance = Math.max(
-    0,
-    ...validSeries.flatMap(item => item.result.afterPoints.map(point => Math.abs(point.s - item.result.distance))),
-    ...validSeries.map(item => item.result.distance),
-  )
-  const rawDistanceLimit = maxDistance > 0 ? maxDistance * 1.15 : 10
-  const distanceRoundStep = rawDistanceLimit > 30 ? 10 : 5
-  const distanceLimit = Math.max(10, roundUpToStep(rawDistanceLimit, distanceRoundStep))
-  const distanceGridStep = distanceLimit > 30 ? 20 : 10
-  const timeBeforeLimit = Math.max(1, roundUpToStep(maxDuration > 0 ? maxDuration * 1.12 : 1, 1))
-  const timeAfterLimit = Math.max(1, roundUpToStep(maxAfterDuration > 0 ? maxAfterDuration * 1.12 : timeBeforeLimit * 0.2, 1))
-  const xMin = -distanceLimit
-  const xMax = distanceLimit
-  const yMin = -timeBeforeLimit
-  const yMax = timeAfterLimit
   const plotWidth = CHART_WIDTH - CHART_PADDING.left - CHART_PADDING.right
   const plotHeight = CHART_HEIGHT - CHART_PADDING.top - CHART_PADDING.bottom
-  const xTicks = makeStepTicks(xMin, xMax, distanceGridStep)
-  const yTicks = makeStepTicks(yMin, yMax, 1)
-  const xRulerTicks = makeStepTicks(xMin, xMax, 1)
-  const yRulerTicks = makeStepTicks(yMin, yMax, 0.1)
+
+  const signedPosition = (item: ValidDiagramSeries, traveled: number): number =>
+    item.side === 'left'
+      ? -item.result.distance + traveled
+      : item.result.distance - traveled
+
+  const positions = validSeries.flatMap(item =>
+    [...item.result.points, ...item.result.afterPoints].map(point => signedPosition(item, point.s)),
+  )
+  const xAxis = layoutAxis({
+    below: Math.max(0, -Math.min(0, ...positions)) * 1.15,
+    above: Math.max(0, ...positions) * 1.15,
+    length: plotWidth,
+    gridSteps: DISTANCE_GRID_STEPS,
+    minLabelSpacing: MIN_DISTANCE_LABEL_SPACING,
+  })
+  const timeBefore = maxDuration * 1.12
+  const yAxis = layoutAxis({
+    below: timeBefore,
+    above: maxAfterDuration > 0 ? maxAfterDuration * 1.12 : timeBefore * 0.2,
+    length: plotHeight,
+    gridSteps: TIME_GRID_STEPS,
+    minLabelSpacing: MIN_TIME_LABEL_SPACING,
+  })
+  const xMin = xAxis.min
+  const xMax = xAxis.max
+  const yMin = yAxis.min
+  const yMax = yAxis.max
+  const xTicks = makeStepTicks(xMin, xMax, xAxis.gridStep)
+  const yTicks = makeStepTicks(yMin, yMax, yAxis.gridStep)
+  const xRulerTicks = makeStepTicks(xMin, xMax, xAxis.rulerStep)
+  const yRulerTicks = makeStepTicks(yMin, yMax, yAxis.rulerStep)
 
   const xScale = (value: number): number =>
     CHART_PADDING.left + ((value - xMin) / (xMax - xMin)) * plotWidth
@@ -573,33 +591,22 @@ function WegZeitDiagram({
     return `${formatNumber(displayedValue, 0)} s`
   }
 
-  const signedStartDistance = (item: ValidDiagramSeries): number =>
-    item.side === 'left' ? -item.result.distance : item.result.distance
-
-  const pointToPath = (item: ValidDiagramSeries, points: DiagramPoint[]): string => {
-    const startDistance = signedStartDistance(item)
-
-    return points
+  const pointToPath = (item: ValidDiagramSeries, points: DiagramPoint[]): string =>
+    points
       .map((point, index) => {
         const command = index === 0 ? 'M' : 'L'
-        const position = item.side === 'left'
-          ? startDistance + point.s
-          : startDistance - point.s
+        const position = signedPosition(item, point.s)
         const time = point.t - item.result.duration
 
         return `${command} ${xScale(position).toFixed(2)} ${yScale(time).toFixed(2)}`
       })
       .join(' ')
-  }
 
   const pointToSignedPosition = (item: ValidDiagramSeries, point: DiagramPoint): {
     x: number
     y: number
   } => {
-    const startDistance = signedStartDistance(item)
-    const position = item.side === 'left'
-      ? startDistance + point.s
-      : startDistance - point.s
+    const position = signedPosition(item, point.s)
     const time = point.t - item.result.duration
 
     return {
@@ -618,11 +625,7 @@ function WegZeitDiagram({
 
   const elapsedToGuidePoint = (item: ValidDiagramSeries, elapsedTime: number): GuidePoint => {
     const elapsed = clamp(elapsedTime, 0, item.result.endDuration)
-    const startDistance = signedStartDistance(item)
-    const traveled = item.result.distanceAtTime(elapsed)
-    const position = item.side === 'left'
-      ? startDistance + traveled
-      : startDistance - traveled
+    const position = signedPosition(item, item.result.distanceAtTime(elapsed))
     const relativeTime = elapsed - item.result.duration
 
     return {
@@ -999,8 +1002,7 @@ function WegZeitDiagram({
                   strokeWidth="1.5"
                 />
                 {xRulerTicks.map(tick => {
-                  const roundedTick = Math.round(tick)
-                  const isMajor = roundedTick % 5 === 0
+                  const isMajor = Math.round(tick / xAxis.rulerStep) % xAxis.rulerMajorEvery === 0
                   const tickLength = isMajor ? 14 : 8
 
                   return (
@@ -1016,8 +1018,7 @@ function WegZeitDiagram({
                   )
                 })}
                 {yRulerTicks.map(tick => {
-                  const roundedTick = Math.round(tick * 10)
-                  const isMajor = roundedTick % 5 === 0
+                  const isMajor = Math.round(tick / yAxis.rulerStep) % yAxis.rulerMajorEvery === 0
                   const tickLength = isMajor ? 12 : 7
 
                   return (
@@ -1070,8 +1071,7 @@ function WegZeitDiagram({
                 ))}
 
                 {validSeries.map(item => {
-                  const startDistance = signedStartDistance(item)
-                  const startX = xScale(startDistance)
+                  const startX = xScale(signedPosition(item, 0))
                   const startY = yScale(-item.result.duration)
                   const fullPath = pointToPath(item, [...item.result.points, ...item.result.afterPoints.slice(1)])
 
