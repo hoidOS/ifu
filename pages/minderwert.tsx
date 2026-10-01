@@ -107,9 +107,11 @@ const formatOrDash = (value: number, format: (value: number) => string): string 
 
 const BVSK_COLOR = '#0059a9'
 const MFM_COLOR = '#c2410c'
-const AVERAGE_COLOR = '#475569'
 
 type ValuationSystem = 'bvsk' | 'mfm'
+
+// Shared by the comparison bars and the result row so the amounts line up in one column.
+const COMPARISON_ROW = 'grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 sm:grid-cols-[7rem_8rem_minmax(0,1fr)]'
 
 // Flat system tints; Tailwind opacity modifiers would compile to color-mix(), which html2canvas cannot draw.
 const SYSTEM_STYLES: Record<ValuationSystem, { box: string; title: string; divider: string; rule: string; value: string }> = {
@@ -523,7 +525,7 @@ function Minderwert() {
   const mfmResult = calculateMFM()
   const average = (bvskResult + mfmResult) / 2
   const roundedAverage = roundMinderwert(average)
-  const comparisonMax = Math.max(bvskResult, mfmResult, roundedAverage)
+  const comparisonMax = Math.max(bvskResult, mfmResult)
   const shareOfMax = (value: number): number => comparisonMax > 0 ? (value / comparisonMax) * 100 : 0
 
   const formatFactor = (value: number): string => formatOrDash(value, factor => formatDecimal(factor, 2))
@@ -548,7 +550,6 @@ function Minderwert() {
 
   const comparisonBars = [
     { label: 'BVSK', value: bvskResult, color: BVSK_COLOR, text: 'text-primary-700' },
-    { label: 'Mittelwert', value: roundedAverage, color: AVERAGE_COLOR, text: 'text-slate-700' },
     { label: 'MFM', value: mfmResult, color: MFM_COLOR, text: 'text-orange-700' },
   ]
 
@@ -1147,31 +1148,43 @@ function Minderwert() {
             </div>
 
             <div className="mt-5">
-              <h3 className="border-b border-slate-200 pb-2 text-sm font-semibold text-gray-700">Proportionaler Vergleich</h3>
+              <div className="flex items-baseline justify-between gap-4 border-b border-slate-200 pb-2">
+                <h3 className="text-sm font-semibold text-gray-700">Proportionaler Vergleich</h3>
+                <span className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <span className="inline-block h-3 w-0.5 bg-slate-700" aria-hidden="true" />
+                  Mittelwert
+                </span>
+              </div>
               <div className="mt-3 space-y-3">
                 {comparisonBars.map(bar => (
-                  <div
-                    key={bar.label}
-                    className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 sm:grid-cols-[7rem_7rem_minmax(0,1fr)]"
-                  >
+                  <div key={bar.label} className={COMPARISON_ROW}>
                     <span className={`text-sm font-semibold ${bar.text}`}>{bar.label}</span>
                     <span className="text-right text-sm font-semibold tabular-nums whitespace-nowrap text-gray-900">{formatEuro(bar.value)}</span>
-                    <div className="col-span-2 h-3 rounded-sm bg-slate-100 sm:col-span-1">
+                    <div className="relative col-span-2 h-3 rounded-sm bg-slate-100 sm:col-span-1">
                       <div className="h-3 rounded-sm" style={{ width: `${shareOfMax(bar.value)}%`, backgroundColor: bar.color }} />
+                      {average > 0 && (
+                        <div
+                          className="absolute -top-1 h-5 w-0.5 bg-slate-700"
+                          style={{ left: `calc(${shareOfMax(average)}% - 1px)` }}
+                          aria-hidden="true"
+                        />
+                      )}
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="mt-5 flex items-end justify-between gap-4 border-t-2 border-slate-600 pt-3">
-              <div>
-                <p className="font-semibold text-slate-900">Minderwert</p>
-                <p className="text-xs tabular-nums text-gray-500">
-                  {`Mittelwert aus BVSK und MFM (${formatEuro(average)}), gerundet auf volle 50 €`}
-                </p>
-              </div>
-              <p className="text-2xl font-bold tabular-nums whitespace-nowrap text-slate-900">{formatEuro(roundedAverage)}</p>
+            <div className={`${COMPARISON_ROW} -mx-2 mt-4 border-t-2 border-slate-600 bg-slate-50 px-2 py-3`}>
+              <span className="font-semibold text-slate-900">Minderwert</span>
+              <span className="justify-self-end border-b-4 border-double border-slate-700 text-lg font-bold tabular-nums whitespace-nowrap text-slate-900">
+                {formatEuro(roundedAverage)}
+              </span>
+              <p className="col-span-2 text-xs tabular-nums text-gray-500 sm:col-span-1">
+                {`(${formatEuro(bvskResult)} + ${formatEuro(mfmResult)}) / 2 = ${formatEuro(average)}`}
+                <br />
+                gerundet auf volle 50 €
+              </p>
             </div>
           </div>
         </div>
