@@ -8,6 +8,7 @@ import {
   calculateDecel,
   calculateDrive,
   calculateStop,
+  formatNumber,
   layoutAxis,
   toMs,
 } from './utilWegzeit'
@@ -171,5 +172,17 @@ describe('diagram axis layout', () => {
     expect(axis.gridStep).toBe(5)
     expect(axis.min).toBe(-35)
     expect(axis.max).toBe(5)
+  })
+})
+
+describe('formatNumber', () => {
+  it('uses a decimal comma', () => {
+    expect(formatNumber(12.345)).toBe('12,35')
+  })
+
+  it('never prints a negative zero', () => {
+    expect(formatNumber(-0.001)).toBe('0,00')
+    expect(formatNumber(-0.4, 0)).toBe('0')
+    expect(formatNumber(-0.006)).toBe('-0,01')
   })
 })

@@ -176,6 +176,8 @@ When the user clicks a curve, the diagram snaps to the nearest sampled point on 
 - a vertical dotted line from the matching point to the `0 s` axis
 - a compact readout chip in the blue diagram header with displayed time, signed KL/BK positions, and an `x` button to remove that guide
 
+Guides store their time relative to the collision. When inputs change, a guide keeps its displayed `t` and its positions follow the new curves; a guide whose time no longer lies on its own curve is hidden until it does again.
+
 Clicking empty SVG space clears all guides.
 
 ## Current Scope Boundaries

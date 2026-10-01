@@ -48,7 +48,7 @@ type ValidDiagramSeries = DiagramSeries & {
 interface SelectedGuide {
   id: string
   seriesId: string
-  elapsedTime: number
+  relativeTime: number
 }
 
 interface GuidePoint {
@@ -586,10 +586,7 @@ function WegZeitDiagram({
   const formatDistanceTick = (value: number): string =>
     `${formatNumber(value, 0)} m`
 
-  const formatTimeTick = (value: number): string => {
-    const displayedValue = Math.abs(value) < 0.001 ? 0 : -value
-    return `${formatNumber(displayedValue, 0)} s`
-  }
+  const formatTimeTick = (value: number): string => `${formatNumber(-value, 0)} s`
 
   const pointToPath = (item: ValidDiagramSeries, points: DiagramPoint[]): string =>
     points
@@ -689,11 +686,12 @@ function WegZeitDiagram({
       return
     }
 
-    const elapsedTime = findNearestElapsedTime(item, svgPoint)
+    // Guides keep their time relative to the collision, so they stay put while inputs change.
+    const relativeTime = findNearestElapsedTime(item, svgPoint) - item.result.duration
 
     setSelectedGuides(current => {
       const duplicate = current.some(guide =>
-        guide.seriesId === item.id && Math.abs(guide.elapsedTime - elapsedTime) < 0.02,
+        guide.seriesId === item.id && Math.abs(guide.relativeTime - relativeTime) < 0.02,
       )
 
       if (duplicate) {
@@ -703,9 +701,9 @@ function WegZeitDiagram({
       return [
         ...current,
         {
-          id: `${item.id}-${elapsedTime.toFixed(3)}-${current.length}`,
+          id: `${item.id}-${relativeTime.toFixed(3)}-${current.length}`,
           seriesId: item.id,
-          elapsedTime,
+          relativeTime,
         },
       ]
     })
@@ -781,11 +779,11 @@ function WegZeitDiagram({
     .map<GuideRenderData | null>(guide => {
       const selectedSeries = validSeries.find(item => item.id === guide.seriesId)
 
-      if (!selectedSeries) {
+      if (!selectedSeries || !relativeTimeExistsOnSeries(selectedSeries, guide.relativeTime)) {
         return null
       }
 
-      const selectedPoint = elapsedToGuidePoint(selectedSeries, guide.elapsedTime)
+      const selectedPoint = elapsedToGuidePoint(selectedSeries, selectedSeries.result.duration + guide.relativeTime)
       const comparisonSeries = validSeries.find(item =>
         item.id !== selectedSeries.id && relativeTimeExistsOnSeries(item, selectedPoint.relativeTime),
       )

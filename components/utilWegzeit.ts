@@ -86,8 +86,12 @@ export const toMs = (kmh: number): number => kmh / 3.6
 
 export const toKmh = (ms: number): number => ms * 3.6
 
-export const formatNumber = (value: number, digits = 2): string =>
-  value.toFixed(digits).replace('.', ',')
+export const formatNumber = (value: number, digits = 2): string => {
+  const text = value.toFixed(digits)
+
+  // Tiny negative values would otherwise print as "-0,00".
+  return (Number(text) === 0 ? (0).toFixed(digits) : text).replace('.', ',')
+}
 
 export const clamp = (value: number, min: number, max: number): number =>
   Math.min(Math.max(value, min), max)
