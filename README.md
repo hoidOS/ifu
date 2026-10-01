@@ -45,6 +45,12 @@ npm run dev
 # Starts development server at http://localhost:3000
 ```
 
+To open the dev server from another device on your network, list its host in `.env.local` (comma-separated for several):
+
+```bash
+ALLOWED_DEV_ORIGINS=192.168.1.158
+```
+
 ### Build & Production
 ```bash
 npm run build    # Build for production (Next.js 16 / Turbopack)

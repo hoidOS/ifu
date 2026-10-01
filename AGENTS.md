@@ -43,6 +43,7 @@
 
 ## Security & Configuration Tips
 - Environment variables belong in `.env.local`; never commit secrets.
+- Dev-server LAN access is configured per machine through `ALLOWED_DEV_ORIGINS` in `.env.local` (read by `next.config.js`); do not hard-code local IPs in the config.
 - For Docker workflows, sync `Dockerfile` and `docker-compose.yml` updates with dependency changes.
 
 ## Upcoming Work
