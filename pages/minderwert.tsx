@@ -131,7 +131,6 @@ const SYSTEM_STYLES: Record<ValuationSystem, { box: string; title: string; divid
 interface BreakdownRow {
   label: string
   value: string
-  subtotal?: boolean
 }
 
 function BreakdownBox({
@@ -153,7 +152,7 @@ function BreakdownBox({
       <dl className={`mt-2 divide-y text-sm ${style.divider}`}>
         {rows.map(row => (
           <div key={row.label} className="flex items-baseline justify-between gap-4 py-1.5">
-            <dt className={`min-w-0 ${row.subtotal ? 'italic text-gray-500' : 'text-gray-600'}`}>{row.label}</dt>
+            <dt className="min-w-0 text-gray-600">{row.label}</dt>
             <dd className="whitespace-nowrap tabular-nums text-gray-900">{row.value}</dd>
           </div>
         ))}
@@ -527,21 +526,14 @@ function Minderwert() {
   const shareOfMax = (value: number): number => comparisonMax > 0 ? (value / comparisonMax) * 100 : 0
 
   const formatFactor = (value: number): string => formatOrDash(value, factor => formatDecimal(factor, 2))
-  const mfmInputsComplete = mfmInput.vw > 0 && mfmInput.np > 0
 
   const bvskRows: BreakdownRow[] = [
     { label: 'Wiederbeschaffungswert (WBW)', value: formatOrDash(bvskInput.wbw, formatEuro) },
     { label: 'K-Faktor', value: formatFactor(bvskInput.kFaktor) },
     { label: '%-Wert', value: formatOrDash(bvskInput.prozentWert, value => formatPercent(value)) },
     { label: 'M-Wert', value: formatOrDash(bvskInput.mWert, value => formatPercent(value)) },
-    {
-      label: '%-Wert + M-Wert',
-      value: formatOrDash(bvskInput.prozentWert + bvskInput.mWert, value => formatPercent(value)),
-      subtotal: true,
-    },
   ]
 
-  // Both bracket terms are listed so the MFM result can be checked by hand.
   const mfmRows: BreakdownRow[] = [
     { label: 'Veräußerungswert (VW)', value: formatOrDash(mfmInput.vw, formatEuro) },
     { label: 'Neupreis (NP)', value: formatOrDash(mfmInput.np, formatEuro) },
@@ -551,18 +543,6 @@ function Minderwert() {
     { label: 'Schadensumfang (SU)', value: formatFactor(mfmInput.su) },
     { label: 'Marktgängigkeit (FM)', value: formatFactor(mfmInput.fm) },
     { label: 'Vorschaden (FV)', value: formatFactor(mfmInput.fv) },
-    {
-      label: 'VW / 100',
-      value: mfmInputsComplete ? formatEuro(mfmInput.vw / 100) : '–',
-      subtotal: true,
-    },
-    {
-      label: 'VW / NP · RK · SU · AK',
-      value: mfmInputsComplete
-        ? formatOrDash((mfmInput.vw / mfmInput.np) * mfmInput.rk * mfmInput.su * mfmInput.ak, formatEuro)
-        : '–',
-      subtotal: true,
-    },
   ]
 
   const comparisonBars = [
@@ -1099,25 +1079,25 @@ function Minderwert() {
                 </colgroup>
                 <thead>
                   <tr className="border-b-2 border-primary-700">
-                    <th className="text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'left' }}>Modell</th>
-                    <th className="text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'center' }}>Formel</th>
-                    <th className="text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'right' }}>Ergebnis</th>
+                    <th className="border-x-0 text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'left' }}>Modell</th>
+                    <th className="border-x-0 text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'center' }}>Formel</th>
+                    <th className="border-x-0 text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'right' }}>Ergebnis</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr className="border-b border-primary-100 bg-primary-50">
-                    <td className="py-3 px-3 font-bold text-primary-700" style={{ borderLeft: `4px solid ${BVSK_COLOR}` }}>BVSK</td>
-                    <td className="py-3 px-3 text-center">
+                    <td className="border-x-0 py-3 px-3 font-bold text-primary-700">BVSK</td>
+                    <td className="border-x-0 py-3 px-3 text-center">
                       <Image unoptimized src={SVG.mwBvskF} alt="MW = WBW · K · (%-Wert + M-Wert) / 100" className="inline-block h-auto w-auto max-w-full" />
                     </td>
-                    <td className="py-3 px-3 text-right text-base font-bold tabular-nums whitespace-nowrap text-primary-700">{formatEuro(bvskResult)}</td>
+                    <td className="border-x-0 py-3 px-3 text-right text-base font-bold tabular-nums whitespace-nowrap text-primary-700">{formatEuro(bvskResult)}</td>
                   </tr>
                   <tr className="bg-orange-50">
-                    <td className="py-3 px-3 font-bold text-orange-700" style={{ borderLeft: `4px solid ${MFM_COLOR}` }}>MFM</td>
-                    <td className="py-3 px-3 text-center">
+                    <td className="border-x-0 py-3 px-3 font-bold text-orange-700">MFM</td>
+                    <td className="border-x-0 py-3 px-3 text-center">
                       <Image unoptimized src={SVG.mwMfmF} alt="MW = [VW / 100 + VW / NP · RK · SU · AK] · FM · FV" className="inline-block h-auto w-auto max-w-full" />
                     </td>
-                    <td className="py-3 px-3 text-right text-base font-bold tabular-nums whitespace-nowrap text-orange-700">{formatEuro(mfmResult)}</td>
+                    <td className="border-x-0 py-3 px-3 text-right text-base font-bold tabular-nums whitespace-nowrap text-orange-700">{formatEuro(mfmResult)}</td>
                   </tr>
                 </tbody>
               </table>
