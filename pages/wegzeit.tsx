@@ -82,6 +82,8 @@ interface NumericField<T extends string> {
 
 const CHART_WIDTH = 900
 const CHART_HEIGHT = 500
+const AFTER_COLLISION_OPACITY = 0.5
+
 const CHART_PADDING = {
   top: 28,
   right: 34,
@@ -537,7 +539,7 @@ function WegZeitDiagram({
   const maxAfterDuration = Math.max(0, ...validSeries.map(item => item.result.endDuration - item.result.duration))
   const maxDistance = Math.max(
     0,
-    ...validSeries.flatMap(item => item.result.points.map(point => Math.abs(point.s - item.result.distance))),
+    ...validSeries.flatMap(item => item.result.afterPoints.map(point => Math.abs(point.s - item.result.distance))),
     ...validSeries.map(item => item.result.distance),
   )
   const rawDistanceLimit = maxDistance > 0 ? maxDistance * 1.15 : 10
@@ -574,10 +576,10 @@ function WegZeitDiagram({
   const signedStartDistance = (item: ValidDiagramSeries): number =>
     item.side === 'left' ? -item.result.distance : item.result.distance
 
-  const pointToPath = (item: ValidDiagramSeries): string => {
+  const pointToPath = (item: ValidDiagramSeries, points: DiagramPoint[]): string => {
     const startDistance = signedStartDistance(item)
 
-    return item.result.points
+    return points
       .map((point, index) => {
         const command = index === 0 ? 'M' : 'L'
         const position = item.side === 'left'
@@ -887,6 +889,14 @@ function WegZeitDiagram({
                   <span className="font-semibold text-slate-800">{`${item.title} (${item.result.modeLabel}) von ${sideLabel(item.side)}`}</span>
                 </div>
               ))}
+              {validSeries.some(item => item.result.afterPoints.length > 0) && (
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-slate-500 md:col-span-2">
+                  <svg className="h-1.5 w-8" viewBox="0 0 32 6" aria-hidden="true">
+                    <line x1="0" y1="3" x2="32" y2="3" stroke="#64748b" strokeWidth="2" strokeDasharray="5 5" />
+                  </svg>
+                  <span>nach Kollision: theoretischer Verlauf bis Stillstand</span>
+                </div>
+              )}
             </div>
             <div className="overflow-x-auto">
               <svg
@@ -1063,12 +1073,13 @@ function WegZeitDiagram({
                   const startDistance = signedStartDistance(item)
                   const startX = xScale(startDistance)
                   const startY = yScale(-item.result.duration)
+                  const fullPath = pointToPath(item, [...item.result.points, ...item.result.afterPoints.slice(1)])
 
                   return (
                     <g key={item.id}>
                       {hoveredSeriesId === item.id && (
                         <path
-                          d={pointToPath(item)}
+                          d={fullPath}
                           fill="none"
                           stroke={item.stroke}
                           strokeWidth="8"
@@ -1079,15 +1090,26 @@ function WegZeitDiagram({
                         />
                       )}
                       <path
-                        d={pointToPath(item)}
+                        d={pointToPath(item, item.result.points)}
                         fill="none"
                         stroke={item.stroke}
                         strokeWidth="3"
                         strokeLinecap="round"
                         strokeLinejoin="round"
                       />
+                      {item.result.afterPoints.length > 0 && (
+                        <path
+                          d={pointToPath(item, item.result.afterPoints)}
+                          fill="none"
+                          stroke={item.stroke}
+                          strokeWidth="2"
+                          strokeDasharray="5 5"
+                          strokeLinejoin="round"
+                          opacity={AFTER_COLLISION_OPACITY}
+                        />
+                      )}
                       <path
-                        d={pointToPath(item)}
+                        d={fullPath}
                         fill="none"
                         stroke="#ffffff"
                         strokeWidth="18"
@@ -1115,9 +1137,13 @@ function WegZeitDiagram({
                         const showTickLabel = Boolean(tick.label)
                           && Math.abs(labelX - originX) > 18
                           && Math.abs(labelY - originY) > 18
+                        const isAfterCollision = tick.t > item.result.duration + 0.0005
 
                         return (
-                          <g key={`${item.id}-speed-tick-${index}`}>
+                          <g
+                            key={`${item.id}-speed-tick-${index}`}
+                            opacity={isAfterCollision ? AFTER_COLLISION_OPACITY : undefined}
+                          >
                             <line
                               x1={x1}
                               y1={y1}

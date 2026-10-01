@@ -59,6 +59,7 @@ export interface ValidMovementResult {
   markers: DiagramPoint[]
   speedTicks: SpeedTick[]
   points: DiagramPoint[]
+  afterPoints: DiagramPoint[]
   distanceAtTime: (elapsedTime: number) => number
 }
 
@@ -108,11 +109,18 @@ export const makeStepTicks = (min: number, max: number, step: number): number[] 
 }
 
 
-const samplePoints = (duration: number, distanceAtTime: (elapsedTime: number) => number): DiagramPoint[] => {
-  const steps = duration <= 0 ? 1 : 48
+const samplePoints = (
+  startTime: number,
+  endTime: number,
+  steps: number,
+  distanceAtTime: (elapsedTime: number) => number,
+): DiagramPoint[] => {
+  if (endTime <= startTime) {
+    return []
+  }
 
   return Array.from({ length: steps + 1 }, (_, index) => {
-    const t = duration <= 0 ? 0 : (duration * index) / steps
+    const t = startTime + ((endTime - startTime) * index) / steps
     return {
       t,
       s: distanceAtTime(t),
@@ -270,7 +278,8 @@ const makeValidResult = ({
     markers,
     speedTicks,
     distanceAtTime,
-    points: samplePoints(endDuration, distanceAtTime),
+    points: samplePoints(0, duration, 48, distanceAtTime),
+    afterPoints: samplePoints(duration, endDuration, 16, distanceAtTime),
   }
 }
 

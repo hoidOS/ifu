@@ -118,7 +118,8 @@ Important fields:
 - `initialSpeedKmh`
 - `finalSpeedKmh`
 - `detailRows`: formatted card-only values that keep numeric annotations out of the SVG graph
-- `points`: sampled visible curve points
+- `points`: sampled curve points from movement start to collision
+- `afterPoints`: sampled theoretical continuation from collision to standstill (empty for Konstantfahrt or when `vE = 0`)
 - `distanceAtTime(elapsedTime)`: exact distance function used for markers/ticks
 - `markers`: point labels such as `tR` and `tS`
 - `speedTicks`: km/h ticks along deceleration phases
@@ -134,6 +135,7 @@ The diagram is CAD-inspired:
 - time labels mirrored on left and right
 - central `0 s` axis has 1 m ruler ticks, longer every 5 m
 - central `0 m` axis has 0.1 s ruler ticks, longer every 0.5 s
+- the theoretical continuation after collision is drawn dashed and faded, including its speed ticks, so it cannot be mistaken for measured movement; the legend explains the dashed line
 
 Internal time is relative to collision:
 
