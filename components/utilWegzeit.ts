@@ -442,7 +442,7 @@ export const calculateStop = (input: StopInput): MovementResult => {
       }
     }
 
-    duration = input.t
+    duration = Math.min(input.t, endDuration)
     finalSpeedKmh = toKmh(speedAtTime(duration))
 
     if (hasEndSpeed && !isClose(finalSpeedKmh, input.vE)) {

@@ -77,6 +77,14 @@ describe('Anhalt movement', () => {
     expect(calculateStop({ ...input, vE: 10, t: 1.5 }).status).toBe('invalid')
   })
 
+  it('accepts tges that matches standstill within rounding', () => {
+    const standstill = expectValid(calculateStop({ ...input, vE: 0 }))
+    const result = expectValid(calculateStop({ ...input, vE: NaN, t: standstill.duration + 0.0005 }))
+
+    expect(result.duration).toBeCloseTo(standstill.duration, 6)
+    expect(result.finalSpeedKmh).toBe(0)
+  })
+
   it('rejects tges beyond standstill', () => {
     expect(calculateStop({ ...input, vE: NaN, t: 5 }).status).toBe('invalid')
   })
