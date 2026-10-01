@@ -1134,30 +1134,19 @@ function Minderwert() {
             </div>
           </div>
           <div className="p-4">
-            <div className="grid gap-3 sm:grid-cols-3">
-              <div className={`flex flex-col rounded-lg border px-4 py-3 ${SYSTEM_STYLES.bvsk.box}`}>
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className={`rounded-lg border px-4 py-3 ${SYSTEM_STYLES.bvsk.box}`}>
                 <p className="font-semibold text-primary-700">BVSK</p>
-                <p className="text-xs text-gray-500">Minderwert</p>
-                <p className="mt-auto pt-3 text-xl font-bold tabular-nums whitespace-nowrap text-primary-700">{formatEuro(bvskResult)}</p>
+                <p className="mt-2 text-xl font-bold tabular-nums whitespace-nowrap text-primary-700">{formatEuro(bvskResult)}</p>
               </div>
-              <div className="flex flex-col rounded-lg border-2 border-slate-600 bg-white px-4 py-3">
-                <p className="font-semibold text-slate-700">Mittelwert</p>
-                <p className="text-xs text-gray-500">gerundet auf volle 50 €</p>
-                <p className="text-xs tabular-nums text-gray-500">{`ungerundet ${formatEuro(average)}`}</p>
-                <p className="mt-auto pt-3 text-xl font-bold tabular-nums whitespace-nowrap text-slate-900">{formatEuro(roundedAverage)}</p>
-              </div>
-              <div className={`flex flex-col rounded-lg border px-4 py-3 ${SYSTEM_STYLES.mfm.box}`}>
+              <div className={`rounded-lg border px-4 py-3 ${SYSTEM_STYLES.mfm.box}`}>
                 <p className="font-semibold text-orange-700">MFM</p>
-                <p className="text-xs text-gray-500">Minderwert</p>
-                <p className="mt-auto pt-3 text-xl font-bold tabular-nums whitespace-nowrap text-orange-700">{formatEuro(mfmResult)}</p>
+                <p className="mt-2 text-xl font-bold tabular-nums whitespace-nowrap text-orange-700">{formatEuro(mfmResult)}</p>
               </div>
             </div>
 
             <div className="mt-5">
-              <div className="flex items-baseline justify-between gap-4 border-b border-slate-200 pb-2">
-                <h3 className="text-sm font-semibold text-gray-700">Proportionaler Vergleich</h3>
-                <span className="text-xs text-gray-500">Balken ab 0 €</span>
-              </div>
+              <h3 className="border-b border-slate-200 pb-2 text-sm font-semibold text-gray-700">Proportionaler Vergleich</h3>
               <div className="mt-3 space-y-3">
                 {comparisonBars.map(bar => (
                   <div
@@ -1172,6 +1161,16 @@ function Minderwert() {
                   </div>
                 ))}
               </div>
+            </div>
+
+            <div className="mt-5 flex items-end justify-between gap-4 border-t-2 border-slate-600 pt-3">
+              <div>
+                <p className="font-semibold text-slate-900">Minderwert</p>
+                <p className="text-xs tabular-nums text-gray-500">
+                  {`Mittelwert aus BVSK und MFM (${formatEuro(average)}), gerundet auf volle 50 €`}
+                </p>
+              </div>
+              <p className="text-2xl font-bold tabular-nums whitespace-nowrap text-slate-900">{formatEuro(roundedAverage)}</p>
             </div>
           </div>
         </div>
