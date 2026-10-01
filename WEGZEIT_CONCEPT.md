@@ -23,14 +23,14 @@ Each card is a generic `KL` / `BK` input card with a segmented mode selector:
 - `konst. Verz.`
 - `Konstantfahrt`
 
-The concept currently loads with demo defaults for every mode so the diagram renders immediately after a page reload and after switching modes:
+The concept currently loads with demo defaults for every mode so the diagram renders immediately after a page reload and after switching modes. The defaults fill in only the minimum set each solver needs, so editing any one value still resolves; the card shows the derived values:
 
 - Anhalt KL: `vA = 50 km/h`, `vE = 10 km/h`, `tR = 0,8 s`, `tS = 0,2 s`, `am = 7,5 m/s²`
 - Anhalt BK: `vA = 45 km/h`, `vE = 5 km/h`, `tR = 0,8 s`, `tS = 0,2 s`, `am = 5,0 m/s²`
-- konst. Verz. KL: `vA = 50 km/h`, `vE = 10 km/h`, `a = 7,5 m/s²`, `s = 12,35 m`, `t = 1,48 s`
-- konst. Verz. BK: `vA = 45 km/h`, `vE = 5 km/h`, `a = 5,0 m/s²`, `s = 15,43 m`, `t = 2,22 s`
-- Konstantfahrt KL: `v = 50 km/h`, `s = 25 m`, `t = 1,8 s`
-- Konstantfahrt BK: `v = 45 km/h`, `s = 25 m`, `t = 2,0 s`
+- konst. Verz. KL: `vA = 50 km/h`, `vE = 10 km/h`, `a = 7,5 m/s²`
+- konst. Verz. BK: `vA = 45 km/h`, `vE = 5 km/h`, `a = 5,0 m/s²`
+- Konstantfahrt KL: `v = 50 km/h`, `s = 25 m`
+- Konstantfahrt BK: `v = 45 km/h`, `s = 25 m`
 
 ### Anhalt
 
@@ -83,7 +83,7 @@ Inputs:
 - `s`
 - `t`
 
-The solver accepts any consistent set of three or more values and resolves the complete tuple. Invalid or inconsistent combinations return a validation message instead of plotting.
+The solver accepts any consistent set of three or more values and resolves the complete tuple. Invalid or inconsistent combinations return a validation message instead of plotting; when more than three values contradict each other, the message asks to clear the extra fields.
 
 The curve reaches collision at the resolved `vE`. If `vE > 0`, the visible curve continues after collision until theoretical standstill (`0 km/h`).
 
@@ -100,7 +100,7 @@ Inputs:
 - `s`
 - `t`
 
-The solver accepts any two consistent values. The curve is linear and ends at collision. It is not extended after collision because no braking model exists in this mode.
+The solver accepts any two consistent values; when all three contradict each other, the message asks to clear the extra field. The curve is linear and ends at collision. It is not extended after collision because no braking model exists in this mode.
 
 Current annotation:
 

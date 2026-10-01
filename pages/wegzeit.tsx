@@ -120,16 +120,16 @@ const DEFAULT_FIRST_DECEL_INPUT: DecelInput = {
   vA: 50,
   vE: 10,
   a: 7.5,
-  s: 12.35,
-  t: 1.48,
+  s: NaN,
+  t: NaN,
 }
 
 const DEFAULT_SECOND_DECEL_INPUT: DecelInput = {
   vA: 45,
   vE: 5,
   a: 5,
-  s: 15.43,
-  t: 2.22,
+  s: NaN,
+  t: NaN,
 }
 
 const EMPTY_DECEL_INPUT: DecelInput = {
@@ -143,13 +143,13 @@ const EMPTY_DECEL_INPUT: DecelInput = {
 const DEFAULT_FIRST_DRIVE_INPUT: DriveInput = {
   v: 50,
   s: 25,
-  t: 1.8,
+  t: NaN,
 }
 
 const DEFAULT_SECOND_DRIVE_INPUT: DriveInput = {
   v: 45,
   s: 25,
-  t: 2,
+  t: NaN,
 }
 
 const EMPTY_DRIVE_INPUT: DriveInput = {

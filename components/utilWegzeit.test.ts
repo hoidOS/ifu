@@ -108,8 +108,11 @@ describe('konstante Verzögerung movement', () => {
     expect(result.finalSpeedKmh).toBeCloseTo(5, 0)
   })
 
-  it('rejects inconsistent value sets', () => {
-    expect(calculateDecel({ vA: 60, vE: 10, a: 7.5, s: 12.35, t: 1.48 }).status).toBe('invalid')
+  it('rejects inconsistent value sets and asks to clear extra fields', () => {
+    const result = calculateDecel({ vA: 60, vE: 10, a: 7.5, s: 12.35, t: 1.48 })
+
+    expect(result.status).toBe('invalid')
+    expect(result.status !== 'valid' && result.message).toContain('überzählige Felder leeren')
   })
 
   it('places one speed tick per km/h above standstill', () => {
@@ -128,7 +131,10 @@ describe('Konstantfahrt movement', () => {
     expect(result.endDuration).toBe(result.duration)
   })
 
-  it('rejects inconsistent value sets', () => {
-    expect(calculateDrive({ v: 60, s: 25, t: 1.8 }).status).toBe('invalid')
+  it('rejects inconsistent value sets and asks to clear the extra field', () => {
+    const result = calculateDrive({ v: 60, s: 25, t: 1.8 })
+
+    expect(result.status).toBe('invalid')
+    expect(result.status !== 'valid' && result.message).toContain('überzähliges Feld leeren')
   })
 })

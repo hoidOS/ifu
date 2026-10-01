@@ -613,7 +613,9 @@ export const calculateDecel = (input: DecelInput): MovementResult => {
   if (!candidate) {
     return {
       status: 'invalid',
-      message: 'Die eingegebenen Werte sind nicht konsistent oder physikalisch nicht möglich.',
+      message: enteredCount > 3
+        ? 'Die Werte widersprechen sich. Drei Werte genügen; überzählige Felder leeren.'
+        : 'Die eingegebenen Werte sind physikalisch nicht möglich.',
     }
   }
 
@@ -728,7 +730,9 @@ export const calculateDrive = (input: DriveInput): MovementResult => {
   if (!candidate) {
     return {
       status: 'invalid',
-      message: 'Die eingegebenen Werte sind nicht konsistent oder unvollständig.',
+      message: enteredCount > 2
+        ? 'Die Werte widersprechen sich. Zwei Werte genügen; überzähliges Feld leeren.'
+        : 'Geschwindigkeit, Strecke und Dauer müssen größer als 0 sein.',
     }
   }
 
