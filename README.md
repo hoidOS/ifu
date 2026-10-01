@@ -130,6 +130,7 @@ nextjs-ppcavs-ifu/
 - `handleClipboard()` - Copy element to clipboard with automatic download fallback
 - Export controls are hidden clone-side through `[data-screenshot-ignore="true"]`
 - Exports use `html2canvas` scale `2` with an explicit white background
+- During a capture the hook keeps html2canvas's baseline-probe image inline, because Tailwind's `img { display: block }` reset otherwise shifts exported text down
 
 ## Usage
 
@@ -169,7 +170,9 @@ Exact package versions are maintained in `package.json` and `package-lock.json`.
 - Tailwind CSS v4 uses CSS-first theme tokens in `styles/globals.css`; keep `tailwind.config.ts` as the mirrored palette/config companion for tooling and legacy config consumers.
 - Tailwind's default OKLCH color tokens break `html2canvas` screenshots; define new UI palette entries as hex values in `styles/globals.css` and mirror them in `tailwind.config.ts` to keep exports working.
 - Shared calculator card/table styling lives in `styles/globals.css` through classes such as `calculator-card`, `calculator-card-header`, `calculator-table`, `calculator-row`, and `calculator-result-table`; prefer these for standard calculator screens to keep headers, table borders, and row states consistent.
-- The Minderwert page intentionally color-codes the two valuation systems: BVSK uses the Steinacker primary blue, while MFM uses the darker orange accent (`orange-700`/`orange-800`) for headers, focus rings, result values, comparison markers, and system/reference tables. Input table shells stay neutral so editable fields remain the focus.
+- The Minderwert page intentionally color-codes the two valuation systems: BVSK uses the Steinacker primary blue, while MFM uses the darker orange accent (`orange-700`/`orange-800`) for headers, focus rings, section markers, result values, comparison bars, and system/reference tables. Input table shells stay neutral so editable fields remain the focus.
+- The Minderwertberechnung and Minderwertvergleich export cards keep their summary table, breakdown boxes, value tiles, bars with a Mittelwert marker, and a closing Minderwert result row in flat system tints, with typeset formulas (`mwBvskF`, `mwMfmF`); the mean stays neutral.
+- PNG exports from the dev server pick up the Next.js dev overlay's styles; check export output against a production build.
 - The screenshot/export flow still depends on `html2canvas@1.4.1`; runtime alignment changes should not replace it without manual browser verification.
 - `pages/_document.tsx` sets `data-scroll-behavior="smooth"` on `<Html>` to acknowledge intentional global smooth scrolling in Next.js 16.
 - Formula SVGs rendered through `next/image` should keep both dimensions automatic (`h-auto w-auto`) when constrained with `max-w-full` to avoid browser aspect-ratio warnings.

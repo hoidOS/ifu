@@ -1,5 +1,8 @@
 import Head from 'next/head'
-import { useState, useEffect, Fragment } from 'react'
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
+import SVG from '../assets/svg'
+import { roundMinderwert } from '../components/utilMinderwert'
 import { useScreenshot } from '../hooks/useScreenshot'
 
 interface TooltipProps {
@@ -84,11 +87,155 @@ const mfmDefaults: MFMInput = {
   fv: 1.0
 }
 
-const formatEuro = (value: number): string =>
-  `${new Intl.NumberFormat('de-DE', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }).format(value)} €`
+const NBSP = '\u00a0'
+const MINUS = '\u2212'
+
+// German number format with a typographic minus sign.
+const formatDecimal = (value: number, digits: number): string =>
+  new Intl.NumberFormat('de-DE', {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits,
+  }).format(value).replace('-', MINUS)
+
+// The no-break space keeps the unit on the same line as the number.
+const formatEuro = (value: number): string => `${formatDecimal(value, 2)}${NBSP}€`
+
+const formatPercent = (value: number, digits = 1): string => `${formatDecimal(value, digits)}${NBSP}%`
+
+const formatOrDash = (value: number, format: (value: number) => string): string =>
+  Number.isFinite(value) ? format(value) : '–'
+
+const BVSK_COLOR = '#0059a9'
+const MFM_COLOR = '#c2410c'
+
+type ValuationSystem = 'bvsk' | 'mfm'
+
+// Shared by the comparison bars and the result row so the amounts line up in one column.
+const COMPARISON_ROW = 'grid grid-cols-[minmax(0,1fr)_auto] items-center gap-x-4 gap-y-1 sm:grid-cols-[7rem_8rem_minmax(0,1fr)]'
+
+// Flat system tints; Tailwind opacity modifiers would compile to color-mix(), which html2canvas cannot draw.
+const SYSTEM_STYLES: Record<ValuationSystem, { box: string; title: string; divider: string; rule: string; value: string }> = {
+  bvsk: {
+    box: 'border-primary-200 bg-primary-50',
+    title: 'text-primary-700',
+    divider: 'divide-primary-100',
+    rule: 'border-primary-700',
+    value: 'text-primary-700',
+  },
+  mfm: {
+    box: 'border-orange-200 bg-orange-50',
+    title: 'text-orange-700',
+    divider: 'divide-orange-100',
+    rule: 'border-orange-700',
+    value: 'text-orange-700',
+  },
+}
+
+interface BreakdownRow {
+  label: string
+  value: string
+}
+
+function BreakdownBox({
+  title,
+  system,
+  rows,
+  result,
+}: {
+  title: string
+  system: ValuationSystem
+  rows: BreakdownRow[]
+  result: number
+}) {
+  const style = SYSTEM_STYLES[system]
+
+  return (
+    <div className={`rounded-lg border px-4 py-3 ${style.box}`}>
+      <h3 className={`font-semibold ${style.title}`}>{title}</h3>
+      <dl className={`mt-2 divide-y text-sm ${style.divider}`}>
+        {rows.map(row => (
+          <div key={row.label} className="flex items-baseline justify-between gap-4 py-1.5">
+            <dt className="min-w-0 text-gray-600">{row.label}</dt>
+            <dd className="whitespace-nowrap tabular-nums text-gray-900">{row.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <div className={`mt-1 flex items-baseline justify-between gap-4 border-t-2 pt-2 font-semibold ${style.rule}`}>
+        <span className="text-gray-800">Minderwert</span>
+        <span className={`whitespace-nowrap tabular-nums ${style.value}`}>{formatEuro(result)}</span>
+      </div>
+    </div>
+  )
+}
+
+interface ReferenceSection {
+  parameter: string
+  explanation: string
+  rows: Array<{ range: string; description: string }>
+}
+
+const REFERENCE_STYLES: Record<ValuationSystem, { rule: string; heading: string; groupBackground: string }> = {
+  bvsk: { rule: BVSK_COLOR, heading: 'text-primary-700', groupBackground: '#eef6fd' },
+  mfm: { rule: MFM_COLOR, heading: 'text-orange-700', groupBackground: '#fff7ed' },
+}
+
+// Each parameter gets a full-width heading row, so the value rows only need Wertebereich and Beschreibung.
+function ReferenceTable({
+  id,
+  system,
+  sections,
+  emptyText,
+}: {
+  id: string
+  system: ValuationSystem
+  sections: ReferenceSection[]
+  emptyText: string
+}) {
+  const style = REFERENCE_STYLES[system]
+  const headingStyle = { borderBottom: `2px solid ${style.rule}` }
+
+  return (
+    <table id={id} className="calculator-table" style={{ tableLayout: 'fixed' }}>
+      <colgroup>
+        <col style={{ width: '24%' }} />
+        <col />
+      </colgroup>
+      <thead>
+        <tr>
+          <th className={`border-x-0 py-3 px-3 font-semibold ${style.heading}`} style={{ ...headingStyle, textAlign: 'center' }}>Wertebereich</th>
+          <th className={`border-x-0 py-3 px-3 font-semibold ${style.heading}`} style={{ ...headingStyle, textAlign: 'left' }}>Beschreibung</th>
+        </tr>
+      </thead>
+      {sections.map(section => (
+        <tbody key={section.parameter}>
+          <tr>
+            <th
+              colSpan={2}
+              scope="rowgroup"
+              className="border-x-0 py-2.5 px-3 font-semibold text-gray-800"
+              style={{ backgroundColor: style.groupBackground, textAlign: 'left' }}
+            >
+              {section.parameter}
+              <span className="ml-2 text-xs font-normal italic text-gray-500">{section.explanation}</span>
+            </th>
+          </tr>
+          {section.rows.length === 0 ? (
+            <tr>
+              <td colSpan={2} className="border-x-0 py-2.5 px-3 italic text-gray-500">{emptyText}</td>
+            </tr>
+          ) : (
+            section.rows.map((row, index) => (
+              <tr key={`${row.range}-${index}`}>
+                <td className="border-x-0 py-2.5 px-3 text-center font-medium tabular-nums whitespace-nowrap text-gray-700">{row.range}</td>
+                <td className="border-x-0 py-2.5 px-3 text-gray-600">{row.description}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      ))}
+    </table>
+  )
+}
 
 const bvskTooltips = {
   wbw: "Wiederbeschaffungswert (WBW)\n\nDer Wiederbeschaffungswert des Fahrzeugs zum Unfallzeitpunkt, inklusive Mehrwertsteuer.\n\nDAT Händlerverkaufswert",
@@ -232,7 +379,7 @@ const akFactorsByMonth: number[] = [
   0.0000
 ];
 
-const bvskTable = [
+const bvskTable: ReferenceSection[] = [
   {
     parameter: 'K-Faktor (Vorschadenfaktor)',
     explanation: 'Korrekturfaktor für vorherige Fahrzeugschäden',
@@ -267,7 +414,7 @@ const bvskTable = [
   }
 ];
 
-const mfmTable = [
+const mfmTable: ReferenceSection[] = [
   {
     parameter: 'SU-Faktor (Schadenumfang)',
     explanation: 'Bewertung des Schadensumfangs',
@@ -405,16 +552,18 @@ function Minderwert() {
 
   // Calculate BVSK: MW = WBW * K-Faktor * (%-Wert + M-Wert) / 100
   const calculateBVSK = (): number => {
-    if (bvskInput.wbw <= 0) return 0
-    return bvskInput.wbw * bvskInput.kFaktor * (bvskInput.prozentWert + bvskInput.mWert) / 100
+    if (!(bvskInput.wbw > 0)) return 0
+    const result = bvskInput.wbw * bvskInput.kFaktor * (bvskInput.prozentWert + bvskInput.mWert) / 100
+    return Number.isFinite(result) ? result : 0
   }
 
   // Calculate MFM: MW = [(VW / 100) + (VW / NP * RK * SU * AK)] * FM * FV
   const calculateMFM = (): number => {
-    if (mfmInput.vw <= 0 || mfmInput.np <= 0) return 0
+    if (!(mfmInput.vw > 0) || !(mfmInput.np > 0)) return 0
     const part1 = mfmInput.vw / 100
     const part2 = (mfmInput.vw / mfmInput.np) * mfmInput.rk * mfmInput.su * mfmInput.ak
-    return (part1 + part2) * mfmInput.fm * mfmInput.fv
+    const result = (part1 + part2) * mfmInput.fm * mfmInput.fv
+    return Number.isFinite(result) ? result : 0
   }
 
 
@@ -443,9 +592,35 @@ function Minderwert() {
 
   const bvskResult = calculateBVSK()
   const mfmResult = calculateMFM()
-  const roundedAverage = Math.round(((bvskResult + mfmResult) / 2) / 50) * 50
-  const comparisonMax = Math.max(bvskResult, mfmResult, roundedAverage, 1)
-  const getComparisonWidth = (value: number) => `${Math.max(10, (value / comparisonMax) * 100)}%`
+  const average = (bvskResult + mfmResult) / 2
+  const roundedAverage = roundMinderwert(average)
+  const comparisonMax = Math.max(bvskResult, mfmResult)
+  const shareOfMax = (value: number): number => comparisonMax > 0 ? (value / comparisonMax) * 100 : 0
+
+  const formatFactor = (value: number): string => formatOrDash(value, factor => formatDecimal(factor, 2))
+
+  const bvskRows: BreakdownRow[] = [
+    { label: 'Wiederbeschaffungswert (WBW)', value: formatOrDash(bvskInput.wbw, formatEuro) },
+    { label: 'K-Faktor', value: formatFactor(bvskInput.kFaktor) },
+    { label: '%-Wert', value: formatOrDash(bvskInput.prozentWert, value => formatPercent(value)) },
+    { label: 'M-Wert', value: formatOrDash(bvskInput.mWert, value => formatPercent(value)) },
+  ]
+
+  const mfmRows: BreakdownRow[] = [
+    { label: 'Veräußerungswert (VW)', value: formatOrDash(mfmInput.vw, formatEuro) },
+    { label: 'Neupreis (NP)', value: formatOrDash(mfmInput.np, formatEuro) },
+    { label: 'Fahrzeugalter', value: formatOrDash(mfmInput.ageMonths, value => `${formatDecimal(value, 0)}${NBSP}Monate`) },
+    { label: 'Alterskorrektur (AK)', value: formatOrDash(mfmInput.ak, value => formatDecimal(value, 4)) },
+    { label: 'Reparaturkosten (RK)', value: formatOrDash(mfmInput.rk, formatEuro) },
+    { label: 'Schadensumfang (SU)', value: formatFactor(mfmInput.su) },
+    { label: 'Marktgängigkeit (FM)', value: formatFactor(mfmInput.fm) },
+    { label: 'Vorschaden (FV)', value: formatFactor(mfmInput.fv) },
+  ]
+
+  const comparisonBars = [
+    { label: 'BVSK', value: bvskResult, color: BVSK_COLOR, text: 'text-primary-700' },
+    { label: 'MFM', value: mfmResult, color: MFM_COLOR, text: 'text-orange-700' },
+  ]
 
   return (
     <div>
@@ -458,7 +633,7 @@ function Minderwert() {
       <div className="grid gap-6 mx-auto max-w-screen-2xl px-4 py-6 md:grid-cols-2">
 
         {/* BVSK Calculator */}
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
+        <div className="calculator-card self-start no-print">
           <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">BVSK</h2>
             <button
@@ -608,7 +783,7 @@ function Minderwert() {
         </div>
 
         {/* MFM Calculator */}
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
+        <div className="calculator-card self-start no-print">
           <div className="mfm-system-card-header">
             <h2 className="text-lg font-semibold">MFM</h2>
             <button
@@ -942,18 +1117,12 @@ function Minderwert() {
           </div>
         </div>
 
-        {/* Results Table */}
-        <div id="results-table" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white relative">
-          {/* Background Gradient */}
-          <div
-            className="absolute inset-0 opacity-50"
-            style={{ background: "linear-gradient(135deg, #eef6fd 0%, #ffffff 50%, #eef6fd 100%)" }}
-          ></div>
-          
-          <div className="relative calculator-card-header">
-            <h2 className="text-lg font-semibold">Minderwert Berechnungen</h2>
+        {/* Minderwertberechnung */}
+        <div id="results-table" className="calculator-card self-start">
+          <div className="calculator-card-header">
+            <h2 className="text-lg font-semibold">Minderwertberechnung</h2>
             <div data-screenshot-ignore="true" className="flex gap-2">
-              <button 
+              <button
                 onClick={() => handleClipboard('results-table')}
                 disabled={isProcessing}
                 className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
@@ -961,7 +1130,7 @@ function Minderwert() {
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
-              <button 
+              <button
                 onClick={() => handleScreenshot('results-table', 'minderwert-berechnungen.png')}
                 disabled={isProcessing}
                 className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
@@ -971,224 +1140,53 @@ function Minderwert() {
               </button>
             </div>
           </div>
-          
-          <div className="relative p-6">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-              <table className="w-full text-base" style={{ tableLayout: "fixed" }}>
+          <div className="p-4">
+            <div className="overflow-x-auto">
+              <table className="calculator-table min-w-[520px]" style={{ tableLayout: 'fixed' }}>
                 <colgroup>
-                  <col style={{ width: "14%" }} />
-                  <col style={{ width: "68%" }} />
-                  <col style={{ width: "18%" }} />
+                  <col style={{ width: '16%' }} />
+                  <col style={{ width: '62%' }} />
+                  <col style={{ width: '22%' }} />
                 </colgroup>
                 <thead>
-                  <tr style={{ height: "40px" }}>
-                    <th
-                      className="text-base font-semibold"
-                      style={{
-                        backgroundColor: "#cbd5e1",
-                        border: 0,
-                        borderBottom: "2px solid #64748b",
-                        color: "#0f172a",
-                        height: "40px",
-                        lineHeight: "20px",
-                        padding: "0 8px 0 16px",
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      Modell
-                    </th>
-                    <th
-                      className="text-base font-semibold"
-                      style={{
-                        backgroundColor: "#cbd5e1",
-                        border: 0,
-                        borderBottom: "2px solid #64748b",
-                        color: "#0f172a",
-                        height: "40px",
-                        lineHeight: "20px",
-                        padding: "0 8px 0 16px",
-                        textAlign: "left",
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      Formel
-                    </th>
-                    <th
-                      className="text-base font-semibold"
-                      style={{
-                        backgroundColor: "#cbd5e1",
-                        border: 0,
-                        borderBottom: "2px solid #64748b",
-                        color: "#0f172a",
-                        height: "40px",
-                        lineHeight: "20px",
-                        padding: "0 8px",
-                        textAlign: "right",
-                        verticalAlign: "middle",
-                      }}
-                    >
-                      Ergebnis
-                    </th>
+                  <tr className="border-b-2 border-primary-700">
+                    <th className="border-x-0 text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'left' }}>Modell</th>
+                    <th className="border-x-0 text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'center' }}>Formel</th>
+                    <th className="border-x-0 text-primary-700 font-semibold py-3 px-3" style={{ textAlign: 'right' }}>Ergebnis</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr
-                    className="border-b border-primary-100"
-                    style={{ background: "linear-gradient(135deg, #eef6fd 0%, #d9eafb 100%)" }}
-                  >
-                    <td className="py-4 pr-2 border-0" style={{ border: 0, paddingLeft: "16px", textAlign: "left" }}>
-                      <span className="text-base font-bold text-primary-700">BVSK</span>
+                  <tr className="border-b border-primary-100 bg-primary-50">
+                    <td className="border-x-0 py-3 px-3 font-bold text-primary-700">BVSK</td>
+                    <td className="border-x-0 py-3 px-3 text-center">
+                      <Image unoptimized src={SVG.mwBvskF} alt="MW = WBW · K · (%-Wert + M-Wert) / 100" className="inline-block h-auto w-auto max-w-full" />
                     </td>
-                    <td
-                      className="py-4 pr-2 text-gray-700 font-mono border-0"
-                      style={{
-                        border: 0,
-                        color: "#374151",
-                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-                        fontSize: "13px",
-                        paddingLeft: "16px",
-                        textAlign: "left",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      MW = WBW × K-Faktor × (%-Wert + M-Wert) / 100
-                    </td>
-                    <td className="py-4 px-2 border-0" style={{ border: 0, textAlign: "right" }}>
-                      <span className="text-base font-bold text-primary-700">{formatEuro(bvskResult)}</span>
-                    </td>
+                    <td className="border-x-0 py-3 px-3 text-right text-base font-bold tabular-nums whitespace-nowrap text-primary-700">{formatEuro(bvskResult)}</td>
                   </tr>
-                  <tr style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)" }}>
-                    <td className="py-4 pr-2 border-0" style={{ border: 0, paddingLeft: "16px", textAlign: "left" }}>
-                      <span className="text-base font-bold text-orange-700">MFM</span>
+                  <tr className="bg-orange-50">
+                    <td className="border-x-0 py-3 px-3 font-bold text-orange-700">MFM</td>
+                    <td className="border-x-0 py-3 px-3 text-center">
+                      <Image unoptimized src={SVG.mwMfmF} alt="MW = [VW / 100 + VW / NP · RK · SU · AK] · FM · FV" className="inline-block h-auto w-auto max-w-full" />
                     </td>
-                    <td
-                      className="py-4 pr-2 text-gray-700 font-mono border-0"
-                      style={{
-                        border: 0,
-                        color: "#374151",
-                        fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
-                        fontSize: "13px",
-                        paddingLeft: "16px",
-                        textAlign: "left",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      MW = [(VW/100) + (VW/NP × RK × SU × AK)] × FM × FV
-                    </td>
-                    <td className="py-4 px-2 border-0" style={{ border: 0, textAlign: "right" }}>
-                      <span className="text-base font-bold text-orange-700">{formatEuro(mfmResult)}</span>
-                    </td>
+                    <td className="border-x-0 py-3 px-3 text-right text-base font-bold tabular-nums whitespace-nowrap text-orange-700">{formatEuro(mfmResult)}</td>
                   </tr>
                 </tbody>
               </table>
             </div>
-            
-            {/* Calculation Breakdown Cards */}
-            <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-              {/* BVSK Breakdown */}
-              <div
-                className="rounded-xl p-4 border border-primary-200 border-t-4 border-t-primary-700"
-                style={{ background: "linear-gradient(135deg, #eef6fd 0%, #d9eafb 100%)" }}
-              >
-                <div className="mb-3">
-                  <h3 className="font-semibold text-primary-700">BVSK Berechnung</h3>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="text-gray-600">
-                    <span className="block">Wiederbeschaffungswert</span>
-                    <div className="mt-1 flex items-baseline justify-between">
-                      <span>(WBW):</span>
-                      <span className="font-medium text-gray-800 whitespace-nowrap">{formatEuro(bvskInput.wbw)}</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">K-Faktor:</span>
-                    <span className="font-medium">{bvskInput.kFaktor.toFixed(3).replace(".", ",")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">%-Wert:</span>
-                    <span className="font-medium">{bvskInput.prozentWert.toFixed(1).replace(".", ",")}%</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">M-Wert:</span>
-                    <span className="font-medium">{bvskInput.mWert.toFixed(1).replace(".", ",")}%</span>
-                  </div>
-                  <div className="border-t border-primary-300 pt-2 mt-2">
-                    <div className="flex justify-between font-semibold">
-                      <span className="text-gray-700">Ergebnis:</span>
-                      <span className="text-primary-700">{formatEuro(bvskResult)}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              {/* MFM Breakdown */}
-              <div
-                className="rounded-xl p-4 border border-orange-200 border-t-4 border-t-orange-700"
-                style={{ background: "linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%)" }}
-              >
-                <div className="mb-3">
-                  <h3 className="font-semibold text-orange-700">MFM Berechnung</h3>
-                </div>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Veräußerungswert (VW):</span>
-                    <span className="font-medium">{formatEuro(mfmInput.vw)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Neupreis (NP):</span>
-                    <span className="font-medium">{formatEuro(mfmInput.np)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Fahrzeugalter:</span>
-                    <span className="font-medium">{mfmInput.ageMonths} Monate</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Alterskorrektur (AK):</span>
-                    <span className="font-medium">{mfmInput.ak.toFixed(4).replace(".", ",")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Reparaturkosten (RK):</span>
-                    <span className="font-medium">{formatEuro(mfmInput.rk)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Schadenumfang (SU):</span>
-                    <span className="font-medium">{mfmInput.su.toFixed(2).replace(".", ",")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Marktgängigkeit (FM):</span>
-                    <span className="font-medium">{mfmInput.fm.toFixed(2).replace(".", ",")}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Vorschaden (FV):</span>
-                    <span className="font-medium">{mfmInput.fv.toFixed(2).replace(".", ",")}</span>
-                  </div>
-                  <div className="border-t border-orange-300 pt-2 mt-2">
-                    <div className="flex justify-between font-semibold">
-                      <span className="text-gray-700">Ergebnis:</span>
-                      <span className="text-orange-700">{formatEuro(mfmResult)}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="mt-4 grid items-start gap-4 sm:grid-cols-2">
+              <BreakdownBox title="BVSK Berechnung" system="bvsk" rows={bvskRows} result={bvskResult} />
+              <BreakdownBox title="MFM Berechnung" system="mfm" rows={mfmRows} result={mfmResult} />
             </div>
-
           </div>
         </div>
 
-        {/* Visual Comparison */}
-        <div id="comparison-chart" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white relative">
-          {/* Background Gradient */}
-          <div
-            className="absolute inset-0 opacity-50"
-            style={{ background: "linear-gradient(135deg, #f0fdf4 0%, #ffffff 50%, #f0fdf4 100%)" }}
-          ></div>
-          
-          <div className="relative calculator-card-header">
-            <h2 className="text-lg font-semibold">Minderwert Vergleich</h2>
+        {/* Minderwertvergleich */}
+        <div id="comparison-chart" className="calculator-card self-start">
+          <div className="calculator-card-header">
+            <h2 className="text-lg font-semibold">Minderwertvergleich</h2>
             <div data-screenshot-ignore="true" className="flex gap-2">
-              <button 
+              <button
                 onClick={() => handleClipboard('comparison-chart')}
                 disabled={isProcessing}
                 className="calculator-header-button disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1196,7 +1194,7 @@ function Minderwert() {
               >
                 {isProcessing ? 'Kopiere...' : 'Kopieren'}
               </button>
-              <button 
+              <button
                 onClick={() => handleScreenshot('comparison-chart', 'minderwert-vergleich.png')}
                 disabled={isProcessing}
                 className="calculator-header-button-outline disabled:opacity-50 disabled:cursor-not-allowed"
@@ -1206,99 +1204,61 @@ function Minderwert() {
               </button>
             </div>
           </div>
-          
-          <div className="relative p-6">
-            <div className="grid grid-cols-3 gap-4 mb-8">
-              <div
-                className="rounded-lg p-5 border border-primary-200 border-t-4 border-t-primary-700 shadow-sm"
-                style={{ background: "linear-gradient(180deg, #eef6fd 0%, #d9eafb 100%)" }}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h4 className="text-base font-bold uppercase text-gray-700">BVSK</h4>
-                    <p className="mt-1 text-xs font-semibold text-primary-700">Berechnung</p>
-                  </div>
-                </div>
-                <p className="mt-6 text-2xl font-bold tabular-nums text-primary-700">{formatEuro(bvskResult)}</p>
+          <div className="p-4">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div className={`rounded-lg border px-4 py-3 ${SYSTEM_STYLES.bvsk.box}`}>
+                <p className="font-semibold text-primary-700">BVSK</p>
+                <p className="mt-2 text-xl font-bold tabular-nums whitespace-nowrap text-primary-700">{formatEuro(bvskResult)}</p>
               </div>
-              
-              <div
-                className="rounded-lg p-5 border border-green-200 border-t-4 border-t-green-600 shadow-sm"
-                style={{ background: "linear-gradient(180deg, #f0fdf4 0%, #dcfce7 100%)" }}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h4 className="text-base font-bold uppercase text-gray-700">Durchschnitt</h4>
-                    <p className="mt-1 text-xs font-semibold text-green-600">Gerundet</p>
-                  </div>
-                </div>
-                <p className="mt-6 text-2xl font-bold tabular-nums text-green-600">{formatEuro(roundedAverage)}</p>
-              </div>
-              
-              <div
-                className="rounded-lg p-5 border border-orange-200 border-t-4 border-t-orange-700 shadow-sm"
-                style={{ background: "linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%)" }}
-              >
-                <div className="flex items-start justify-between gap-4">
-                  <div>
-                    <h4 className="text-base font-bold uppercase text-gray-700">MFM</h4>
-                    <p className="mt-1 text-xs font-semibold text-orange-700">Berechnung</p>
-                  </div>
-                </div>
-                <p className="mt-6 text-2xl font-bold tabular-nums text-orange-700">{formatEuro(mfmResult)}</p>
+              <div className={`rounded-lg border px-4 py-3 ${SYSTEM_STYLES.mfm.box}`}>
+                <p className="font-semibold text-orange-700">MFM</p>
+                <p className="mt-2 text-xl font-bold tabular-nums whitespace-nowrap text-orange-700">{formatEuro(mfmResult)}</p>
               </div>
             </div>
-            
-            <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-              <h5 className="text-lg font-semibold text-gray-700 mb-6">Proportionaler Vergleich</h5>
-              <div className="space-y-4">
-                <div className="grid grid-cols-[9rem_8rem_minmax(0,1fr)] items-center gap-x-5">
-                  <span className="text-base font-bold text-primary-700">BVSK</span>
-                  <span className="text-base font-bold tabular-nums text-primary-700 text-right">{formatEuro(bvskResult)}</span>
-                  <div className="bg-gray-200 rounded-full h-4 relative overflow-hidden">
-                    <div 
-                      className="h-full rounded-full transition-all duration-1000"
-                      style={{
-                        width: getComparisonWidth(bvskResult),
-                        background: "linear-gradient(90deg, #0059a9 0%, #3b82f6 100%)"
-                      }}
-                    ></div>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-[9rem_8rem_minmax(0,1fr)] items-center gap-x-5">
-                  <span className="text-base font-bold text-green-600">Durchschnitt</span>
-                  <span className="text-base font-bold tabular-nums text-green-600 text-right">{formatEuro(roundedAverage)}</span>
-                  <div className="bg-gray-200 rounded-full h-4 relative overflow-hidden">
-                    <div 
-                      className="h-full rounded-full transition-all duration-1000"
-                      style={{
-                        width: getComparisonWidth(roundedAverage),
-                        background: "linear-gradient(90deg, #16a34a 0%, #4ade80 100%)"
-                      }}
-                    ></div>
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-[9rem_8rem_minmax(0,1fr)] items-center gap-x-5">
-                  <span className="text-base font-bold text-orange-700">MFM</span>
-                  <span className="text-base font-bold tabular-nums text-orange-700 text-right">{formatEuro(mfmResult)}</span>
-                  <div className="bg-gray-200 rounded-full h-4 relative overflow-hidden">
-                    <div 
-                      className="h-full rounded-full transition-all duration-1000"
-                      style={{
-                        width: getComparisonWidth(mfmResult),
-                        background: "linear-gradient(90deg, #c2410c 0%, #f97316 100%)"
-                      }}
-                    ></div>
-                  </div>
-                </div>
+
+            <div className="mt-5">
+              <div className="flex items-baseline justify-between gap-4 border-b border-slate-200 pb-2">
+                <h3 className="text-sm font-semibold text-gray-700">Proportionaler Vergleich</h3>
+                <span className="flex items-center gap-1.5 text-xs text-gray-500">
+                  <span className="inline-block h-3 w-0.5 bg-slate-700" aria-hidden="true" />
+                  Mittelwert
+                </span>
               </div>
+              <div className="mt-3 space-y-3">
+                {comparisonBars.map(bar => (
+                  <div key={bar.label} className={COMPARISON_ROW}>
+                    <span className={`text-sm font-semibold ${bar.text}`}>{bar.label}</span>
+                    <span className="text-right text-sm font-semibold tabular-nums whitespace-nowrap text-gray-900">{formatEuro(bar.value)}</span>
+                    <div className="relative col-span-2 h-3 rounded-sm bg-slate-100 sm:col-span-1">
+                      <div className="h-3 rounded-sm" style={{ width: `${shareOfMax(bar.value)}%`, backgroundColor: bar.color }} />
+                      {average > 0 && (
+                        <div
+                          className="absolute -top-1 h-5 w-0.5 bg-slate-700"
+                          style={{ left: `calc(${shareOfMax(average)}% - 1px)` }}
+                          aria-hidden="true"
+                        />
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={`${COMPARISON_ROW} -mx-2 mt-4 border-t-2 border-slate-600 bg-slate-50 px-2 py-3`}>
+              <span className="font-semibold text-slate-900">Minderwert</span>
+              <span className="justify-self-end border-b-4 border-double border-slate-700 text-lg font-bold tabular-nums whitespace-nowrap text-slate-900">
+                {formatEuro(roundedAverage)}
+              </span>
+              <p className="col-span-2 text-xs tabular-nums text-gray-500 sm:col-span-1">
+                {`(${formatEuro(bvskResult)} + ${formatEuro(mfmResult)}) / 2 = ${formatEuro(average)}`}
+                <br />
+                gerundet auf volle 50 €
+              </p>
             </div>
           </div>
         </div>
 
-        <div id="bvsk-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
+        <div id="bvsk-system-card" className="calculator-card self-start">
           <div className="calculator-card-header">
             <h3 className="text-lg font-semibold whitespace-nowrap">BVSK System – Bewertungsmaßstäbe</h3>
             <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
@@ -1320,52 +1280,17 @@ function Minderwert() {
               </button>
             </div>
           </div>
-          <div className="p-6 overflow-x-auto">
-            <table
+          <div className="p-4 overflow-x-auto">
+            <ReferenceTable
               id="bvsk-system-table"
-              className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(0,89,169,0.16)] border-b-2 border-r-2"
-            >
-              <thead>
-                <tr className="text-primary-700 border-b border-primary-200" style={{ backgroundColor: "#eef6fd" }}>
-                  <th className="text-left py-3 px-3 font-semibold">Parameter</th>
-                  <th className="text-center py-3 px-3 font-semibold">Wertebereich</th>
-                  <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bvskTable.map(section => (
-                  <Fragment key={section.parameter}>
-                    <tr className="border-t border-primary-200" style={{ backgroundColor: "#eef6fd" }}>
-                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#d9eafb" }}>
-                        {section.parameter}
-                      </td>
-                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2} style={{ backgroundColor: "#eef6fd" }}>
-                        {section.explanation}
-                      </td>
-                    </tr>
-                    {section.rows.length === 0 ? (
-                      <tr className="border-t border-slate-200">
-                        <td className="py-3 px-3 text-gray-500 italic" colSpan={3}>
-                          Keine festen Stufen hinterlegt.
-                        </td>
-                      </tr>
-                    ) : (
-                      section.rows.map((row, index) => (
-                        <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
-                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#f8fbfe" }}></td>
-                          <td className="py-3 px-3 font-medium text-gray-700 text-center">{row.range}</td>
-                          <td className="py-3 px-3 text-gray-600">{row.description}</td>
-                        </tr>
-                      ))
-                    )}
-                  </Fragment>
-                ))}
-              </tbody>
-            </table>
+              system="bvsk"
+              sections={bvskTable}
+              emptyText="Keine festen Stufen hinterlegt."
+            />
           </div>
         </div>
 
-        <div id="mfm-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
+        <div id="mfm-system-card" className="calculator-card self-start">
           <div className="mfm-system-card-header">
             <h3 className="text-lg font-semibold whitespace-nowrap">MFM System – Bewertungsmaßstäbe</h3>
             <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
@@ -1387,48 +1312,13 @@ function Minderwert() {
               </button>
             </div>
           </div>
-          <div className="p-6 overflow-x-auto">
-            <table
+          <div className="p-4 overflow-x-auto">
+            <ReferenceTable
               id="mfm-system-table"
-              className="w-full text-sm border border-orange-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(194,65,12,0.16)] border-b-2 border-r-2"
-            >
-              <thead>
-                <tr className="text-orange-700 border-b border-orange-300" style={{ backgroundColor: "#fff7ed" }}>
-                  <th className="text-left py-3 px-3 font-semibold">Parameter</th>
-                  <th className="text-center py-3 px-3 font-semibold">Wertebereich</th>
-                  <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
-                </tr>
-              </thead>
-              <tbody>
-                {mfmTable.map(section => (
-                  <Fragment key={section.parameter}>
-                    <tr className="border-t border-orange-200" style={{ backgroundColor: "#fff7ed" }}>
-                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#ffedd5" }}>
-                        {section.parameter}
-                      </td>
-                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2} style={{ backgroundColor: "#fff7ed" }}>
-                        {section.explanation}
-                      </td>
-                    </tr>
-                    {section.rows.length === 0 ? (
-                      <tr className="border-t border-slate-200">
-                        <td className="py-3 px-3 text-gray-500 italic" colSpan={3}>
-                          Automatische Ableitung – keine Skalenwerte.
-                        </td>
-                      </tr>
-                    ) : (
-                      section.rows.map((row, index) => (
-                        <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
-                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#fffbf5" }}></td>
-                          <td className="py-3 px-3 font-medium text-gray-700 text-center">{row.range}</td>
-                          <td className="py-3 px-3 text-gray-600">{row.description}</td>
-                        </tr>
-                      ))
-                    )}
-                  </Fragment>
-                ))}
-              </tbody>
-            </table>
+              system="mfm"
+              sections={mfmTable}
+              emptyText="Automatische Ableitung – keine Skalenwerte."
+            />
           </div>
         </div>
 

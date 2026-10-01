@@ -19,6 +19,23 @@ interface UseScreenshotReturn {
   handleClipboard: (elementId: string) => Promise<void>;
 }
 
+// html2canvas measures text baselines with a hidden <img> that it appends to the live document.
+// Tailwind's preflight makes every img display:block, which moves that probe onto its own line and
+// shifts all captured text down, so the probe is kept inline while a capture runs.
+const FONT_METRICS_PROBE_FIX = 'body > div[style*="visibility: hidden"] > img { display: inline !important; }';
+
+const captureElement = async (element: HTMLElement, options: Html2CanvasOptions): Promise<HTMLCanvasElement> => {
+  const style = document.createElement('style');
+  style.textContent = FONT_METRICS_PROBE_FIX;
+  document.head.appendChild(style);
+
+  try {
+    return await html2canvas(element, options);
+  } finally {
+    style.remove();
+  }
+};
+
 export const useScreenshot = (): UseScreenshotReturn => {
   const [isProcessing, setIsProcessing] = useState(false);
   const screenshotIgnoreSelector = '[data-screenshot-ignore="true"]';
@@ -59,7 +76,7 @@ export const useScreenshot = (): UseScreenshotReturn => {
         throw new Error(`Element with id "${elementId}" not found`);
       }
 
-      const canvas = await html2canvas(element, html2canvasOptions);
+      const canvas = await captureElement(element, html2canvasOptions);
       
       const link = document.createElement('a');
       link.download = filename;
@@ -86,7 +103,7 @@ export const useScreenshot = (): UseScreenshotReturn => {
         throw new Error(`Element with id "${elementId}" not found`);
       }
 
-      const canvas = await html2canvas(element, html2canvasOptions);
+      const canvas = await captureElement(element, html2canvasOptions);
 
       await new Promise<void>((resolve, reject) => {
         canvas.toBlob(async (blob) => {
