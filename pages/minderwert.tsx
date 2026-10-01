@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState, useEffect, Fragment } from 'react'
+import { useState, useEffect } from 'react'
 import SVG from '../assets/svg'
 import { roundMinderwert } from '../components/utilMinderwert'
 import { useScreenshot } from '../hooks/useScreenshot'
@@ -168,6 +168,75 @@ function BreakdownBox({
   )
 }
 
+interface ReferenceSection {
+  parameter: string
+  explanation: string
+  rows: Array<{ range: string; description: string }>
+}
+
+const REFERENCE_STYLES: Record<ValuationSystem, { rule: string; heading: string; groupBackground: string }> = {
+  bvsk: { rule: BVSK_COLOR, heading: 'text-primary-700', groupBackground: '#eef6fd' },
+  mfm: { rule: MFM_COLOR, heading: 'text-orange-700', groupBackground: '#fff7ed' },
+}
+
+// Each parameter gets a full-width heading row, so the value rows only need Wertebereich and Beschreibung.
+function ReferenceTable({
+  id,
+  system,
+  sections,
+  emptyText,
+}: {
+  id: string
+  system: ValuationSystem
+  sections: ReferenceSection[]
+  emptyText: string
+}) {
+  const style = REFERENCE_STYLES[system]
+  const headingStyle = { borderBottom: `2px solid ${style.rule}` }
+
+  return (
+    <table id={id} className="calculator-table" style={{ tableLayout: 'fixed' }}>
+      <colgroup>
+        <col style={{ width: '24%' }} />
+        <col />
+      </colgroup>
+      <thead>
+        <tr>
+          <th className={`border-x-0 py-3 px-3 font-semibold ${style.heading}`} style={{ ...headingStyle, textAlign: 'center' }}>Wertebereich</th>
+          <th className={`border-x-0 py-3 px-3 font-semibold ${style.heading}`} style={{ ...headingStyle, textAlign: 'left' }}>Beschreibung</th>
+        </tr>
+      </thead>
+      {sections.map(section => (
+        <tbody key={section.parameter}>
+          <tr>
+            <th
+              colSpan={2}
+              scope="rowgroup"
+              className="border-x-0 py-2.5 px-3 font-semibold text-gray-800"
+              style={{ backgroundColor: style.groupBackground, textAlign: 'left' }}
+            >
+              {section.parameter}
+              <span className="ml-2 text-xs font-normal italic text-gray-500">{section.explanation}</span>
+            </th>
+          </tr>
+          {section.rows.length === 0 ? (
+            <tr>
+              <td colSpan={2} className="border-x-0 py-2.5 px-3 italic text-gray-500">{emptyText}</td>
+            </tr>
+          ) : (
+            section.rows.map((row, index) => (
+              <tr key={`${row.range}-${index}`}>
+                <td className="border-x-0 py-2.5 px-3 text-center font-medium tabular-nums whitespace-nowrap text-gray-700">{row.range}</td>
+                <td className="border-x-0 py-2.5 px-3 text-gray-600">{row.description}</td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      ))}
+    </table>
+  )
+}
+
 const bvskTooltips = {
   wbw: "Wiederbeschaffungswert (WBW)\n\nDer Wiederbeschaffungswert des Fahrzeugs zum Unfallzeitpunkt, inklusive Mehrwertsteuer.\n\nDAT Händlerverkaufswert",
   kFaktor: "K-Faktor (Vorschadenfaktor)\n\nKorrekturfaktor für vorherige Fahrzeugschäden:\n• 0.5-0.8: Reparierte Vorschäden\n• 0.8: Leichte Nutzfahrzeuge\n• 1.0: Keine Vorschäden",
@@ -310,7 +379,7 @@ const akFactorsByMonth: number[] = [
   0.0000
 ];
 
-const bvskTable = [
+const bvskTable: ReferenceSection[] = [
   {
     parameter: 'K-Faktor (Vorschadenfaktor)',
     explanation: 'Korrekturfaktor für vorherige Fahrzeugschäden',
@@ -345,7 +414,7 @@ const bvskTable = [
   }
 ];
 
-const mfmTable = [
+const mfmTable: ReferenceSection[] = [
   {
     parameter: 'SU-Faktor (Schadenumfang)',
     explanation: 'Bewertung des Schadensumfangs',
@@ -564,7 +633,7 @@ function Minderwert() {
       <div className="grid gap-6 mx-auto max-w-screen-2xl px-4 py-6 md:grid-cols-2">
 
         {/* BVSK Calculator */}
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
+        <div className="calculator-card no-print">
           <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">BVSK</h2>
             <button
@@ -714,7 +783,7 @@ function Minderwert() {
         </div>
 
         {/* MFM Calculator */}
-        <div className="rounded-2xl shadow-sm overflow-hidden border border-slate-200 bg-white no-print">
+        <div className="calculator-card no-print">
           <div className="mfm-system-card-header">
             <h2 className="text-lg font-semibold">MFM</h2>
             <button
@@ -1189,7 +1258,7 @@ function Minderwert() {
           </div>
         </div>
 
-        <div id="bvsk-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
+        <div id="bvsk-system-card" className="calculator-card self-start">
           <div className="calculator-card-header">
             <h3 className="text-lg font-semibold whitespace-nowrap">BVSK System – Bewertungsmaßstäbe</h3>
             <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
@@ -1211,52 +1280,17 @@ function Minderwert() {
               </button>
             </div>
           </div>
-          <div className="p-6 overflow-x-auto">
-            <table
+          <div className="p-4 overflow-x-auto">
+            <ReferenceTable
               id="bvsk-system-table"
-              className="w-full text-sm border border-primary-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(0,89,169,0.16)] border-b-2 border-r-2"
-            >
-              <thead>
-                <tr className="text-primary-700 border-b border-primary-200" style={{ backgroundColor: "#eef6fd" }}>
-                  <th className="text-left py-3 px-3 font-semibold">Parameter</th>
-                  <th className="text-center py-3 px-3 font-semibold">Wertebereich</th>
-                  <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
-                </tr>
-              </thead>
-              <tbody>
-                {bvskTable.map(section => (
-                  <Fragment key={section.parameter}>
-                    <tr className="border-t border-primary-200" style={{ backgroundColor: "#eef6fd" }}>
-                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#d9eafb" }}>
-                        {section.parameter}
-                      </td>
-                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2} style={{ backgroundColor: "#eef6fd" }}>
-                        {section.explanation}
-                      </td>
-                    </tr>
-                    {section.rows.length === 0 ? (
-                      <tr className="border-t border-slate-200">
-                        <td className="py-3 px-3 text-gray-500 italic" colSpan={3}>
-                          Keine festen Stufen hinterlegt.
-                        </td>
-                      </tr>
-                    ) : (
-                      section.rows.map((row, index) => (
-                        <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
-                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#f8fbfe" }}></td>
-                          <td className="py-3 px-3 font-medium text-gray-700 text-center">{row.range}</td>
-                          <td className="py-3 px-3 text-gray-600">{row.description}</td>
-                        </tr>
-                      ))
-                    )}
-                  </Fragment>
-                ))}
-              </tbody>
-            </table>
+              system="bvsk"
+              sections={bvskTable}
+              emptyText="Keine festen Stufen hinterlegt."
+            />
           </div>
         </div>
 
-        <div id="mfm-system-card" className="rounded-2xl shadow-lg overflow-hidden border border-slate-200 bg-white md:col-span-1">
+        <div id="mfm-system-card" className="calculator-card self-start">
           <div className="mfm-system-card-header">
             <h3 className="text-lg font-semibold whitespace-nowrap">MFM System – Bewertungsmaßstäbe</h3>
             <div data-screenshot-ignore="true" className="screenshot-buttons flex gap-2">
@@ -1278,48 +1312,13 @@ function Minderwert() {
               </button>
             </div>
           </div>
-          <div className="p-6 overflow-x-auto">
-            <table
+          <div className="p-4 overflow-x-auto">
+            <ReferenceTable
               id="mfm-system-table"
-              className="w-full text-sm border border-orange-700 rounded-lg overflow-hidden shadow-md shadow-[0_12px_24px_rgba(194,65,12,0.16)] border-b-2 border-r-2"
-            >
-              <thead>
-                <tr className="text-orange-700 border-b border-orange-300" style={{ backgroundColor: "#fff7ed" }}>
-                  <th className="text-left py-3 px-3 font-semibold">Parameter</th>
-                  <th className="text-center py-3 px-3 font-semibold">Wertebereich</th>
-                  <th className="text-left py-3 px-3 font-semibold">Beschreibung</th>
-                </tr>
-              </thead>
-              <tbody>
-                {mfmTable.map(section => (
-                  <Fragment key={section.parameter}>
-                    <tr className="border-t border-orange-200" style={{ backgroundColor: "#fff7ed" }}>
-                      <td className="py-3 px-3 align-top font-semibold text-gray-800" style={{ backgroundColor: "#ffedd5" }}>
-                        {section.parameter}
-                      </td>
-                      <td className="py-3 px-3 text-xs text-gray-600 italic" colSpan={2} style={{ backgroundColor: "#fff7ed" }}>
-                        {section.explanation}
-                      </td>
-                    </tr>
-                    {section.rows.length === 0 ? (
-                      <tr className="border-t border-slate-200">
-                        <td className="py-3 px-3 text-gray-500 italic" colSpan={3}>
-                          Automatische Ableitung – keine Skalenwerte.
-                        </td>
-                      </tr>
-                    ) : (
-                      section.rows.map((row, index) => (
-                        <tr key={`${section.parameter}-${row.range}-${index}`} className="border-t border-slate-200">
-                          <td className="py-3 px-3" aria-hidden="true" style={{ backgroundColor: "#fffbf5" }}></td>
-                          <td className="py-3 px-3 font-medium text-gray-700 text-center">{row.range}</td>
-                          <td className="py-3 px-3 text-gray-600">{row.description}</td>
-                        </tr>
-                      ))
-                    )}
-                  </Fragment>
-                ))}
-              </tbody>
-            </table>
+              system="mfm"
+              sections={mfmTable}
+              emptyText="Automatische Ableitung – keine Skalenwerte."
+            />
           </div>
         </div>
 
