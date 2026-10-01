@@ -12,11 +12,11 @@ import {
   type MovementResult,
   type StopInput,
   type ValidMovementResult,
+  DISTANCE_GRID_STEPS,
+  TIME_GRID_STEPS,
   calculateMovement,
   clamp,
   formatNumber,
-  DISTANCE_GRID_STEPS,
-  TIME_GRID_STEPS,
   layoutAxis,
   makeStepTicks,
 } from '../components/utilWegzeit'
@@ -84,8 +84,6 @@ interface NumericField<T extends string> {
 
 const CHART_WIDTH = 900
 const CHART_HEIGHT = 500
-const AFTER_COLLISION_OPACITY = 0.5
-
 const CHART_PADDING = {
   top: 28,
   right: 54,
@@ -95,6 +93,7 @@ const CHART_PADDING = {
 
 const MIN_DISTANCE_LABEL_SPACING = 80
 const MIN_TIME_LABEL_SPACING = 24
+const AFTER_COLLISION_OPACITY = 0.5
 
 const EMPTY_STOP_INPUT: StopInput = {
   vA: NaN,
