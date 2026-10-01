@@ -2,7 +2,7 @@
 
 Status: concept page, unlinked route `/wegzeit/`.
 
-This note captures the current intent and implementation context for the experimental collision-centered Weg-Zeit diagram in `pages/wegzeit.tsx`.
+This note captures the current intent and implementation context for the experimental collision-centered Weg-Zeit diagram in `pages/wegzeit.tsx` and its movement helpers in `components/utilWegzeit.ts`.
 
 ## Goal
 
@@ -172,8 +172,7 @@ Clicking empty SVG space clears all guides.
 - The page is intentionally unlinked from navigation.
 - No screenshot/export controls yet.
 - No sessionStorage persistence yet.
-- No dedicated unit tests for this concept page yet.
-- The concept page uses local formulas instead of changing existing calculator helpers.
+- Movement math lives in `components/utilWegzeit.ts` with Vitest coverage in `components/utilWegzeit.test.ts`; it does not reuse or change the existing calculator helpers.
 - Existing production pages are not modified by this concept.
 
 ## Verification Commands
@@ -195,7 +194,6 @@ http://localhost:3000/wegzeit/
 ## Open Follow-Ups
 
 - Decide whether this concept should become a production route and receive a navbar link.
-- Add focused tests for movement normalization and solver edge cases.
 - Decide whether Anhalt should reuse or eventually replace the existing Bremsweg helper formulas after the Schwellstrecke refactor is settled.
 - Add export controls once the diagram layout stabilizes.
 - Consider presets/demo values so future visual checks can render curves without manual input.
