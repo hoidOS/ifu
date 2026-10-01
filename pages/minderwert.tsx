@@ -633,7 +633,7 @@ function Minderwert() {
       <div className="grid gap-6 mx-auto max-w-screen-2xl px-4 py-6 md:grid-cols-2">
 
         {/* BVSK Calculator */}
-        <div className="calculator-card no-print">
+        <div className="calculator-card self-start no-print">
           <div className="calculator-card-header">
             <h2 className="text-lg font-semibold">BVSK</h2>
             <button
@@ -783,7 +783,7 @@ function Minderwert() {
         </div>
 
         {/* MFM Calculator */}
-        <div className="calculator-card no-print">
+        <div className="calculator-card self-start no-print">
           <div className="mfm-system-card-header">
             <h2 className="text-lg font-semibold">MFM</h2>
             <button
