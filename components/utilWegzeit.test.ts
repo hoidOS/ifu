@@ -18,7 +18,7 @@ const expectValid = (result: MovementResult): ValidMovementResult => {
 }
 
 describe('Anhalt movement', () => {
-  const input = { vA: 50, vE: 10, tR: 0.8, tS: 0.2, am: 7.5 }
+  const input = { vA: 50, vE: 10, tR: 0.8, tS: 0.2, am: 7.5, t: NaN }
 
   it('combines reaction, Schwellphase, and full braking up to the collision speed', () => {
     const result = expectValid(calculateStop(input))
@@ -35,6 +35,61 @@ describe('Anhalt movement', () => {
     expect(result.distanceAtTime(0.8)).toBeCloseTo(vAms * 0.8, 6)
     expect(result.distanceAtTime(1)).toBeCloseTo(vAms * 0.8 + vAms * 0.2 - (7.5 * 0.2 ** 2) / 6, 6)
     expect(result.distanceAtTime(result.duration)).toBeCloseTo(result.distance, 6)
+  })
+
+  it('places the collision inside the Schwellphase when vE is above the full-braking start speed', () => {
+    const result = expectValid(calculateStop({ ...input, vE: 48 }))
+    const rampTime = Math.sqrt((2 * 0.2 * (toMs(50) - toMs(48))) / 7.5)
+
+    expect(result.duration).toBeCloseTo(0.8 + rampTime, 6)
+    expect(result.distance).toBeCloseTo(toMs(50) * (0.8 + rampTime) - (7.5 * rampTime ** 3) / (6 * 0.2), 6)
+    expect(result.detailRows).toContainEqual({ label: 'Kollision in', value: 'Schwellphase' })
+  })
+
+  it('asks for tges when vE equals vA because the collision lies before braking starts', () => {
+    const result = calculateStop({ ...input, vE: 50 })
+
+    expect(result.status).toBe('empty')
+    expect(result.status !== 'valid' && result.message).toContain('tges')
+  })
+
+  it('places the collision inside the reaction time from tges', () => {
+    const result = expectValid(calculateStop({ ...input, vE: 50, t: 0.5 }))
+
+    expect(result.duration).toBe(0.5)
+    expect(result.distance).toBeCloseTo(toMs(50) * 0.5, 6)
+    expect(result.finalSpeedKmh).toBeCloseTo(50, 6)
+    expect(result.markers.map(marker => marker.label)).toEqual(['tR'])
+    expect(result.detailRows).toContainEqual({ label: 'Kollision in', value: 'Reaktionszeit' })
+  })
+
+  it('derives vE from tges alone', () => {
+    const result = expectValid(calculateStop({ ...input, vE: NaN, t: 2.3815 }))
+
+    expect(result.finalSpeedKmh).toBeCloseTo(10, 1)
+  })
+
+  it('rejects vE and tges that do not describe the same moment', () => {
+    expect(calculateStop({ ...input, vE: 10, t: 1.5 }).status).toBe('invalid')
+  })
+
+  it('rejects tges beyond standstill', () => {
+    expect(calculateStop({ ...input, vE: NaN, t: 5 }).status).toBe('invalid')
+  })
+
+  it('lets slow vehicles stop inside the Schwellphase', () => {
+    const result = expectValid(calculateStop({ ...input, vA: 2, vE: 0, tS: 0.5 }))
+    const rampStopTime = Math.sqrt((2 * 0.5 * toMs(2)) / 7.5)
+
+    expect(result.duration).toBeCloseTo(0.8 + rampStopTime, 6)
+    expect(result.endDuration).toBeCloseTo(result.duration, 6)
+    expect(result.distance).toBeCloseTo(toMs(2) * 0.8 + (2 / 3) * toMs(2) * rampStopTime, 6)
+  })
+
+  it('omits the tR marker when there is no reaction time', () => {
+    const result = expectValid(calculateStop({ ...input, tR: 0 }))
+
+    expect(result.markers.map(marker => marker.label)).toEqual(['tS'])
   })
 })
 

@@ -41,11 +41,14 @@ Inputs:
 - `tR`
 - `tS`
 - `am`
+- `tges` (optional): time from reaction start to collision
+
+`vA`, `tR`, `tS`, and `am` are required, plus `vE` or `tges`. If both are entered they must describe the same moment.
 
 The plotted motion is piecewise:
 
 - reaction phase: constant speed
-- Schwellphase: linear buildup of deceleration
+- Schwellphase: linear buildup of deceleration; slow vehicles can reach standstill before the ramp ends
 - full braking phase: constant deceleration
 
 The Schwellphase uses the corrected linear-ramp distance term from `REFACTOR.md`:
@@ -55,11 +58,17 @@ rampDistance = vAms * tS - (am * tS ** 2) / 6
 fullBrakeStartSpeed = vAms - 0.5 * am * tS
 ```
 
-The curve reaches collision at the entered `vE`. If `vE > 0`, the visible curve continues after collision until theoretical standstill (`0 km/h`).
+The collision can fall into any phase, and the card names it (`Kollision in`):
+
+- `vE` below the full-braking start speed (`vA - 0.5 * am * tS`): collision during full braking
+- `vE` between that speed and `vA`: collision during the Schwellphase, at `tR + sqrt(2 * tS * (vA - vE) / am)`
+- `vE = vA`: collision before braking starts; `vE` alone cannot place it, so `tges` is required
+
+If the vehicle is still moving at collision, the visible curve continues after collision until theoretical standstill (`0 km/h`).
 
 Current Anhalt annotations:
 
-- `tR` point label at the start of the reaction segment
+- `tR` point label at the start of the reaction segment (omitted when `tR = 0`)
 - `tS` point label at the start of Schwellzeit
 - km/h tick marks through Schwellphase and full braking, extending back to the `tS` point, with numeric labels every `10 km/h`
 - numeric values such as start speed and `am` are shown in the corresponding Bewegung card, not inside the SVG curve

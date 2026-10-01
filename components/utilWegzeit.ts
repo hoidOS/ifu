@@ -6,6 +6,7 @@ export interface StopInput {
   tR: number
   tS: number
   am: number
+  t: number
 }
 
 export interface DecelInput {
@@ -274,103 +275,159 @@ const makeValidResult = ({
 }
 
 export const calculateStop = (input: StopInput): MovementResult => {
-  const values = [input.vA, input.vE, input.tR, input.tS, input.am]
+  const requiredValues = [input.vA, input.tR, input.tS, input.am]
+  const hasEndSpeed = isEntered(input.vE)
+  const hasCollisionTime = isEntered(input.t)
 
-  if (!values.some(isEntered)) {
+  if (!requiredValues.some(isEntered) && !hasEndSpeed && !hasCollisionTime) {
     return {
       status: 'empty',
       message: 'Bitte Werte eingeben.',
     }
   }
 
-  if (!values.every(isEntered)) {
+  if (!requiredValues.every(isEntered) || (!hasEndSpeed && !hasCollisionTime)) {
     return {
       status: 'empty',
-      message: 'Bitte vA, vE, tR, tS und am vollständig eingeben.',
+      message: 'Bitte vA, tR, tS, am sowie vE oder tges eingeben.',
     }
   }
 
-  if (input.vA < input.vE) {
-    return {
-      status: 'invalid',
-      message: 'vA muss größer oder gleich vE sein.',
-    }
-  }
-
-  if (input.vA < 0 || input.vE < 0 || input.tR < 0 || input.tS < 0 || input.am <= 0) {
+  if (
+    input.vA < 0
+    || input.tR < 0
+    || input.tS < 0
+    || input.am <= 0
+    || (hasEndSpeed && input.vE < 0)
+    || (hasCollisionTime && input.t < 0)
+  ) {
     return {
       status: 'invalid',
       message: 'Geschwindigkeiten und Zeiten dürfen nicht negativ sein; am muss größer als 0 sein.',
     }
   }
 
-  const vAms = toMs(input.vA)
-  const vEms = toMs(input.vE)
-  const rampDrop = 0.5 * input.am * input.tS
-  const fullBrakeStartSpeed = vAms - rampDrop
-
-  if (fullBrakeStartSpeed < vEms) {
+  if (hasEndSpeed && input.vA < input.vE) {
     return {
       status: 'invalid',
-      message: 'Die Schwellphase unterschreitet bereits die Endgeschwindigkeit.',
+      message: 'vA muss größer oder gleich vE sein.',
     }
   }
 
-  const reactionDistance = vAms * input.tR
-  const rampDistance = input.tS === 0
-    ? 0
-    : vAms * input.tS - (input.am * Math.pow(input.tS, 2)) / 6
-  const fullBrakeDuration = (fullBrakeStartSpeed - vEms) / input.am
-  const fullBrakeDistance = (Math.pow(fullBrakeStartSpeed, 2) - Math.pow(vEms, 2)) / (2 * input.am)
-  const duration = input.tR + input.tS + fullBrakeDuration
-  const distance = reactionDistance + rampDistance + fullBrakeDistance
-  const fullStopBrakeDuration = fullBrakeStartSpeed / input.am
-  const endDuration = input.tR + input.tS + fullStopBrakeDuration
-  const fullStopDistance = reactionDistance + rampDistance + Math.pow(fullBrakeStartSpeed, 2) / (2 * input.am)
+  const { tR, tS, am } = input
+  const vAms = toMs(input.vA)
+
+  // The deceleration ramps linearly from 0 to am during tS; slow vehicles can stop before the ramp ends.
+  const rampStopTime = tS > 0 ? Math.sqrt((2 * tS * vAms) / am) : 0
+  const stopsInRamp = tS > 0 && rampStopTime < tS
+  const rampDuration = stopsInRamp ? rampStopTime : tS
+  const fullBrakeStartTime = tR + rampDuration
+  const fullBrakeStartSpeed = stopsInRamp ? 0 : vAms - 0.5 * am * tS
+  const endDuration = fullBrakeStartTime + fullBrakeStartSpeed / am
+  const reactionDistance = vAms * tR
+  const rampDistanceAt = (rampTime: number): number =>
+    tS === 0 ? 0 : vAms * rampTime - (am * Math.pow(rampTime, 3)) / (6 * tS)
+  const rampDistance = rampDistanceAt(rampDuration)
+
+  const speedAtTime = (elapsedTime: number): number => {
+    const elapsed = clamp(elapsedTime, 0, endDuration)
+
+    if (elapsed <= tR) {
+      return vAms
+    }
+
+    if (elapsed <= fullBrakeStartTime) {
+      return Math.max(0, vAms - (am * Math.pow(elapsed - tR, 2)) / (2 * tS))
+    }
+
+    return Math.max(0, fullBrakeStartSpeed - am * (elapsed - fullBrakeStartTime))
+  }
 
   const distanceAtTime = (elapsedTime: number): number => {
     const elapsed = clamp(elapsedTime, 0, endDuration)
 
-    if (elapsed <= input.tR) {
+    if (elapsed <= tR) {
       return vAms * elapsed
     }
 
-    if (elapsed <= input.tR + input.tS) {
-      const rampTime = elapsed - input.tR
-      const rampProgress = input.tS === 0
-        ? 0
-        : vAms * rampTime - (input.am * Math.pow(rampTime, 3)) / (6 * input.tS)
-      return reactionDistance + rampProgress
+    if (elapsed <= fullBrakeStartTime) {
+      return reactionDistance + rampDistanceAt(elapsed - tR)
     }
 
-    const brakeTime = elapsed - input.tR - input.tS
-    return clamp(
-      reactionDistance + rampDistance + fullBrakeStartSpeed * brakeTime - 0.5 * input.am * brakeTime * brakeTime,
-      0,
-      fullStopDistance,
-    )
+    const brakeTime = elapsed - fullBrakeStartTime
+    return reactionDistance + rampDistance + fullBrakeStartSpeed * brakeTime - 0.5 * am * brakeTime * brakeTime
   }
+
+  const elapsedAtSpeed = (speed: number): number => {
+    if (rampDuration > 0 && speed >= fullBrakeStartSpeed) {
+      return tR + Math.sqrt((2 * tS * (vAms - speed)) / am)
+    }
+
+    return fullBrakeStartTime + (fullBrakeStartSpeed - speed) / am
+  }
+
+  let duration: number
+  let finalSpeedKmh: number
+
+  if (hasCollisionTime) {
+    if (input.t > endDuration + 0.001) {
+      return {
+        status: 'invalid',
+        message: `tges ist länger als der Anhaltevorgang (${formatNumber(endDuration)} s).`,
+      }
+    }
+
+    duration = input.t
+    finalSpeedKmh = toKmh(speedAtTime(duration))
+
+    if (hasEndSpeed && !isClose(finalSpeedKmh, input.vE)) {
+      return {
+        status: 'invalid',
+        message: `vE und tges passen nicht zusammen; zu tges gehört vE = ${formatNumber(finalSpeedKmh, 1)} km/h.`,
+      }
+    }
+  } else {
+    if (input.vE >= input.vA) {
+      return {
+        status: 'empty',
+        message: 'Bei vE = vA liegt die Kollision vor Bremsbeginn. Bitte tges vom Reaktionsbeginn bis zur Kollision eingeben.',
+      }
+    }
+
+    duration = elapsedAtSpeed(toMs(input.vE))
+    finalSpeedKmh = input.vE
+  }
+
+  const collisionPhase = duration <= tR + 0.0005
+    ? 'Reaktionszeit'
+    : duration <= fullBrakeStartTime + 0.0005
+      ? 'Schwellphase'
+      : 'Vollverzögerung'
 
   return makeValidResult({
     mode: 'stop',
-    distanceLabel: 'Anhalteweg',
+    distanceLabel: 'Weg bis Kollision',
     duration,
     endDuration,
-    distance,
+    distance: distanceAtTime(duration),
     initialSpeedKmh: input.vA,
-    finalSpeedKmh: input.vE,
+    finalSpeedKmh,
     detailRows: [
       {
+        label: 'Kollision in',
+        value: collisionPhase,
+      },
+      {
         label: 'Reaktionsdauer tR',
-        value: `${formatNumber(input.tR)} s`,
+        value: `${formatNumber(tR)} s`,
       },
       {
         label: 'Schwellzeit tS',
-        value: `${formatNumber(input.tS)} s`,
+        value: `${formatNumber(tS)} s`,
       },
       {
         label: 'mittlere Verzögerung',
-        value: `-${formatNumber(input.am, 1)} m/s²`,
+        value: `-${formatNumber(am, 1)} m/s²`,
       },
       ...(endDuration > duration + 0.001 ? [
         {
@@ -380,31 +437,33 @@ export const calculateStop = (input: StopInput): MovementResult => {
       ] : []),
     ],
     markers: [
+      ...(tR > 0 ? [
+        {
+          t: 0,
+          s: 0,
+          label: 'tR',
+        },
+      ] : []),
       {
-        t: 0,
-        s: 0,
-        label: 'tR',
-      },
-      {
-        t: input.tR,
+        t: tR,
         s: reactionDistance,
         label: 'tS',
       },
-    ].filter(marker => marker.t >= 0 && marker.t < duration),
+    ].filter(marker => marker.t < duration),
     speedTicks: [
       ...makeRampSpeedTicks({
         startSpeedKmh: input.vA,
         endSpeedKmh: toKmh(fullBrakeStartSpeed),
-        startTime: input.tR,
-        rampDuration: input.tS,
-        acceleration: input.am,
+        startTime: tR,
+        rampDuration: tS,
+        acceleration: am,
         distanceAtTime,
       }),
       ...makeSpeedTicks({
         startSpeedKmh: toKmh(fullBrakeStartSpeed),
         endSpeedKmh: 0,
-        startTime: input.tR + input.tS,
-        acceleration: input.am,
+        startTime: fullBrakeStartTime,
+        acceleration: am,
         distanceAtTime,
         maxSpeedKmh: toKmh(fullBrakeStartSpeed),
       }),

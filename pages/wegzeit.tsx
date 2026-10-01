@@ -95,6 +95,7 @@ const EMPTY_STOP_INPUT: StopInput = {
   tR: NaN,
   tS: NaN,
   am: NaN,
+  t: NaN,
 }
 
 const DEFAULT_FIRST_STOP_INPUT: StopInput = {
@@ -103,6 +104,7 @@ const DEFAULT_FIRST_STOP_INPUT: StopInput = {
   tR: 0.8,
   tS: 0.2,
   am: 7.5,
+  t: NaN,
 }
 
 const DEFAULT_SECOND_STOP_INPUT: StopInput = {
@@ -111,6 +113,7 @@ const DEFAULT_SECOND_STOP_INPUT: StopInput = {
   tR: 0.8,
   tS: 0.2,
   am: 5,
+  t: NaN,
 }
 
 const DEFAULT_FIRST_DECEL_INPUT: DecelInput = {
@@ -240,6 +243,15 @@ const STOP_FIELDS: Array<NumericField<keyof StopInput>> = [
     step: 0.5,
     max: 20,
     placeholder: 'a in m/s²',
+  },
+  {
+    key: 't',
+    label: 'Zeit bis Kollision',
+    variable: SVG.tges,
+    unit: SVG.s,
+    step: 0.1,
+    max: 60,
+    placeholder: 't in s',
   },
 ]
 
