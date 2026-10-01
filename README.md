@@ -124,6 +124,7 @@ nextjs-ppcavs-ifu/
 - `handleClipboard()` - Copy element to clipboard with automatic download fallback
 - Export controls are hidden clone-side through `[data-screenshot-ignore="true"]`
 - Exports use `html2canvas` scale `2` with an explicit white background
+- During a capture the hook keeps html2canvas's baseline-probe image inline, because Tailwind's `img { display: block }` reset otherwise shifts exported text down
 
 ## Usage
 
